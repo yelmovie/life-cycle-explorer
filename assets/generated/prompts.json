@@ -1,0 +1,142 @@
+{
+  "tool": "built-in image_gen",
+  "created": "2026-10-14",
+  "purpose": "2D illustrations with stable slots for later 3D replacement",
+  "prompts": [
+    {
+      "code": "M04-01",
+      "heading": "M04-01 빈 관찰 배양통",
+      "filename": "m04-vessel.png",
+      "prompt": "One empty cylindrical seed observation vessel, wide open top, clearly visible hollow interior, thick rounded rim, short flat base. Height approximately 1.3 times its diameter. A simple cream base with a narrow forest-green band and one muted brass trim. Show the vessel walls as opaque pale ivory so the geometry is unambiguous; do not render transparent glass. No lid, handles, soil, seeds, plants or internal accessories.\n\nCreate one isolated asset reference for a stylized 3D elementary-school science game. Warm natural materials, cream ceramic, forest green, light oak and muted brass where appropriate; botanical parts retain natural colors. Simple rounded forms, readable silhouette, restrained surface detail, matte finish. Front three-quarter view, camera slightly above the object, near-orthographic perspective. Entire object centered with generous margin, square composition, genuinely transparent alpha background, soft even studio lighting, no cast shadow. No environment, people, UI, text, letters, numbers, logos, watermark, collage or extra objects."
+    },
+    {
+      "code": "M04-02",
+      "heading": "M04-02 흙 덩어리",
+      "filename": "m04-soil.png",
+      "prompt": "One compact cylindrical plug of warm brown potting soil, flat bottom and nearly flat top, diameter approximately twice its height, sized to fit inside the observation vessel. Cohesive solid volume with very subtle fine-grain surface detail and gently rounded edges. No pot, container, roots, seeds, stones, grass or loose particles. Keep the silhouette a clean cylinder.\n\nCreate one isolated asset reference for a stylized 3D elementary-school science game. Warm natural materials, cream ceramic, forest green, light oak and muted brass where appropriate; botanical parts retain natural colors. Simple rounded forms, readable silhouette, restrained surface detail, matte finish. Front three-quarter view, camera slightly above the object, near-orthographic perspective. Entire object centered with generous margin, square composition, genuinely transparent alpha background, soft even studio lighting, no cast shadow. No environment, people, UI, text, letters, numbers, logos, watermark, collage or extra objects."
+    },
+    {
+      "code": "M04-03",
+      "heading": "M04-03 강낭콩 S0 씨앗",
+      "filename": "m04-bean-s0.png",
+      "prompt": "One single common bean seed, Phaseolus vulgaris, a plump kidney-shaped bean with a warm reddish-brown seed coat and a small pale hilum on its inner curve. Smooth simplified natural surface, no spots or decorative pattern. The bean lies on its side with the hilum visible toward the camera. Ungerminated, with no split, root, stem or leaves. Botanical educational specimen, no face or anthropomorphic features.\n\nCreate one isolated asset reference for a stylized 3D elementary-school science game. Warm natural materials, cream ceramic, forest green, light oak and muted brass where appropriate; botanical parts retain natural colors. Simple rounded forms, readable silhouette, restrained surface detail, matte finish. Front three-quarter view, camera slightly above the object, near-orthographic perspective. Entire object centered with generous margin, square composition, genuinely transparent alpha background, soft even studio lighting, no cast shadow. No environment, people, UI, text, letters, numbers, logos, watermark, collage or extra objects."
+    },
+    {
+      "code": "M04-04",
+      "heading": "M04-04 강낭콩 S1 뿌리 발생",
+      "filename": "m04-bean-s1.png",
+      "prompt": "Use the approved S0 common bean reference. Show the same reddish-brown bean in the same orientation and at the same seed scale, just beginning to germinate. A small split in the seed coat reveals one short ivory primary root curving downward. The seed remains the dominant shape. Keep the root clear and gently tapered, with no hairlike rootlets. No green leaves, flowers, soil, pot or extra seeds. Show the complete specimen.\n\nCreate one isolated asset reference for a stylized 3D elementary-school science game. Warm natural materials, cream ceramic, forest green, light oak and muted brass where appropriate; botanical parts retain natural colors. Simple rounded forms, readable silhouette, restrained surface detail, matte finish. Front three-quarter view, camera slightly above the object, near-orthographic perspective. Entire object centered with generous margin, square composition, genuinely transparent alpha background, soft even studio lighting, no cast shadow. No environment, people, UI, text, letters, numbers, logos, watermark, collage or extra objects."
+    },
+    {
+      "code": "M04-05",
+      "heading": "M04-05 강낭콩 S2 떡잎과 줄기",
+      "filename": "m04-bean-s2.png",
+      "prompt": "The same common bean specimen at an early seedling stage. A pale green hypocotyl rises in a gentle hook and carries two thick pale-green cotyledons, partly enclosed by the loosened reddish-brown seed coat. Below it, one ivory primary root with a few short lateral roots. Show the full connected plant from root tip to cotyledons, isolated without soil. Keep proportions botanical and simplified, with no true leaves yet, no flowers and no pod.\n\nCreate one isolated asset reference for a stylized 3D elementary-school science game. Warm natural materials, cream ceramic, forest green, light oak and muted brass where appropriate; botanical parts retain natural colors. Simple rounded forms, readable silhouette, restrained surface detail, matte finish. Front three-quarter view, camera slightly above the object, near-orthographic perspective. Entire object centered with generous margin, square composition, genuinely transparent alpha background, soft even studio lighting, no cast shadow. No environment, people, UI, text, letters, numbers, logos, watermark, collage or extra objects."
+    },
+    {
+      "code": "M04-06",
+      "heading": "M04-06 강낭콩 S3 어린 식물",
+      "filename": "m04-bean-s3.png",
+      "prompt": "The same common bean as a young seedling, full plant including roots. A slender upright green stem, two thick cotyledons low on the stem, and the first opposite pair of broad simple green true leaves above them. A clearly visible ivory primary root with a few thicker lateral roots. Natural green botanical colors, simplified readable geometry. No flowers, pods, mature trifoliate canopy, soil, pot, labels or disconnected parts.\n\nCreate one isolated asset reference for a stylized 3D elementary-school science game. Warm natural materials, cream ceramic, forest green, light oak and muted brass where appropriate; botanical parts retain natural colors. Simple rounded forms, readable silhouette, restrained surface detail, matte finish. Front three-quarter view, camera slightly above the object, near-orthographic perspective. Entire object centered with generous margin, square composition, genuinely transparent alpha background, soft even studio lighting, no cast shadow. No environment, people, UI, text, letters, numbers, logos, watermark, collage or extra objects."
+    },
+    {
+      "code": "M04-07",
+      "heading": "M04-07 시간 가속 레버",
+      "filename": "m04-time-lever.png",
+      "prompt": "One compact tabletop time-control lever for a friendly botanical laboratory. A low rounded cream rectangular base, a single curved muted-brass lever shaft and an oval forest-green grip. Lever rests at the middle of its travel. A simple recessed arc suggests the movement path, completely blank with no tick marks, numbers or writing. No wires, floating pieces, extra controls, glowing effects or separate objects.\n\nCreate one isolated asset reference for a stylized 3D elementary-school science game. Warm natural materials, cream ceramic, forest green, light oak and muted brass where appropriate; botanical parts retain natural colors. Simple rounded forms, readable silhouette, restrained surface detail, matte finish. Front three-quarter view, camera slightly above the object, near-orthographic perspective. Entire object centered with generous margin, square composition, genuinely transparent alpha background, soft even studio lighting, no cast shadow. No environment, people, UI, text, letters, numbers, logos, watermark, collage or extra objects."
+    },
+    {
+      "code": "M05-01",
+      "heading": "M05-01 빛 센서",
+      "filename": "m05-light-sensor.png",
+      "prompt": "One small freestanding light sensor for a greenhouse. A squat cream cylindrical body on a broad forest-green circular foot, with a large upward-facing pale amber circular sensing disc recessed into the top. One small muted-brass connector detail. Compact rounded design, clearly distinct from a soil probe. No screen, antenna, cable, text, symbols, plant or soil.\n\nCreate one isolated asset reference for a stylized 3D elementary-school science game. Warm natural materials, cream ceramic, forest green, light oak and muted brass where appropriate; botanical parts retain natural colors. Simple rounded forms, readable silhouette, restrained surface detail, matte finish. Front three-quarter view, camera slightly above the object, near-orthographic perspective. Entire object centered with generous margin, square composition, genuinely transparent alpha background, soft even studio lighting, no cast shadow. No environment, people, UI, text, letters, numbers, logos, watermark, collage or extra objects."
+    },
+    {
+      "code": "M05-02",
+      "heading": "M05-02 수분 센서",
+      "filename": "m05-moisture-sensor.png",
+      "prompt": "One soil moisture sensor with a small rounded cream capsule head, a forest-green inset panel with no display or markings, and two straight parallel muted-brass probes extending downward. Make the probes sturdy and easy to see, clearly separated by a gap. The full device is visible and not inserted into soil. No wires, digits, icons, screen content, pot or extra components.\n\nCreate one isolated asset reference for a stylized 3D elementary-school science game. Warm natural materials, cream ceramic, forest green, light oak and muted brass where appropriate; botanical parts retain natural colors. Simple rounded forms, readable silhouette, restrained surface detail, matte finish. Front three-quarter view, camera slightly above the object, near-orthographic perspective. Entire object centered with generous margin, square composition, genuinely transparent alpha background, soft even studio lighting, no cast shadow. No environment, people, UI, text, letters, numbers, logos, watermark, collage or extra objects."
+    },
+    {
+      "code": "M05-03",
+      "heading": "M05-03 식물 조명",
+      "filename": "m05-grow-lamp.png",
+      "prompt": "One compact freestanding grow lamp for a miniature greenhouse. A stable rounded cream foot, one sturdy muted-brass vertical support with a simple pivot joint, and a broad forest-green shallow lamp head angled downward. Matte pale-cream diffuser on the underside. Show the lamp switched off, no emitted light, bloom or light rays. No hanging cable, plant, pot, bench or extra fixtures.\n\nCreate one isolated asset reference for a stylized 3D elementary-school science game. Warm natural materials, cream ceramic, forest green, light oak and muted brass where appropriate; botanical parts retain natural colors. Simple rounded forms, readable silhouette, restrained surface detail, matte finish. Front three-quarter view, camera slightly above the object, near-orthographic perspective. Entire object centered with generous margin, square composition, genuinely transparent alpha background, soft even studio lighting, no cast shadow. No environment, people, UI, text, letters, numbers, logos, watermark, collage or extra objects."
+    },
+    {
+      "code": "M05-04",
+      "heading": "M05-04 차광판",
+      "filename": "m05-shade-panel.png",
+      "prompt": "One freestanding adjustable greenhouse shade panel. A single flat rectangular forest-green panel with rounded corners and a sturdy light-oak border, held upright by two short simple supports on a stable cream base. Panel tilted slightly backward, with an uninterrupted opaque surface and visible thickness. No woven holes, fabric folds, plant, text, decorations or surrounding greenhouse structure.\n\nCreate one isolated asset reference for a stylized 3D elementary-school science game. Warm natural materials, cream ceramic, forest green, light oak and muted brass where appropriate; botanical parts retain natural colors. Simple rounded forms, readable silhouette, restrained surface detail, matte finish. Front three-quarter view, camera slightly above the object, near-orthographic perspective. Entire object centered with generous margin, square composition, genuinely transparent alpha background, soft even studio lighting, no cast shadow. No environment, people, UI, text, letters, numbers, logos, watermark, collage or extra objects."
+    },
+    {
+      "code": "M10-01",
+      "heading": "M10-01 생명 시계 본체",
+      "filename": "m10-clock-body.png",
+      "prompt": "One tabletop life-clock housing for a magical botanical research laboratory. A round upright cream clock body seated on a short broad light-oak pedestal, restrained muted-brass edging and a simple forest-green leaf relief on the pedestal. The front has five clearly separated empty concentric circular grooves surrounding an empty central socket. No rings installed, no clock hands, numbers, letters, gemstones, plants or glowing effects. The circular front remains clearly visible.\n\nCreate one isolated asset reference for a stylized 3D elementary-school science game. Warm natural materials, cream ceramic, forest green, light oak and muted brass where appropriate; botanical parts retain natural colors. Simple rounded forms, readable silhouette, restrained surface detail, matte finish. Front three-quarter view, camera slightly above the object, near-orthographic perspective. Entire object centered with generous margin, square composition, genuinely transparent alpha background, soft even studio lighting, no cast shadow. No environment, people, UI, text, letters, numbers, logos, watermark, collage or extra objects."
+    },
+    {
+      "code": "M10-02",
+      "heading": "M10-02 복구 링 원형",
+      "filename": "m10-clock-ring.png",
+      "prompt": "One single flat annular ring for the life clock, a wide circular band with an empty open center, visible solid thickness, softly beveled inner and outer edges, muted brushed brass material. Outer diameter approximately 1.25 times the inner diameter. Completely unbroken circular band, no spokes, text, glyphs, gems, face, clock hands, additional rings or central disk. Hold the ring upright and show its front and thickness clearly.\n\nCreate one isolated asset reference for a stylized 3D elementary-school science game. Warm natural materials, cream ceramic, forest green, light oak and muted brass where appropriate; botanical parts retain natural colors. Simple rounded forms, readable silhouette, restrained surface detail, matte finish. Front three-quarter view, camera slightly above the object, near-orthographic perspective. Entire object centered with generous margin, square composition, genuinely transparent alpha background, soft even studio lighting, no cast shadow. No environment, people, UI, text, letters, numbers, logos, watermark, collage or extra objects."
+    },
+    {
+      "code": "M10-03",
+      "heading": "M10-03 생명 시계 중심 코어",
+      "filename": "m10-clock-core.png",
+      "prompt": "One compact circular center medallion for the life clock. A softly domed opaque pale-jade disk in a narrow muted-brass rim, with one simple raised forest-green leaf relief centered on its front. Clean substantial shape with restrained detail. The medallion is unlit, no transparency, glow, particles, rays, text, symbols other than the single leaf, separate leaves or surrounding clock parts.\n\nCreate one isolated asset reference for a stylized 3D elementary-school science game. Warm natural materials, cream ceramic, forest green, light oak and muted brass where appropriate; botanical parts retain natural colors. Simple rounded forms, readable silhouette, restrained surface detail, matte finish. Front three-quarter view, camera slightly above the object, near-orthographic perspective. Entire object centered with generous margin, square composition, genuinely transparent alpha background, soft even studio lighting, no cast shadow. No environment, people, UI, text, letters, numbers, logos, watermark, collage or extra objects."
+    },
+    {
+      "code": "BIO-01",
+      "filename": "butterfly-egg.png",
+      "prompt": "A single pale yellow cabbage white butterfly egg, Pieris rapae, standing upright on a small oval section of a green cabbage leaf. Close macro view: elongated bullet-shaped egg with fine vertical ridges, rounded narrow tip. Only one egg, and a modest leaf patch beneath it. Front three-quarter botanical specimen view. Use case: scientific-educational. Asset: single cutout specimen for a polished Korean elementary science learning game. Soft natural 3D illustration, accurate readable anatomy, gently rounded forms, restrained detail and soft studio light. Natural colors, no toy facial expression, no anthropomorphism. Entire specimen clearly framed with 12% margin, square image, truly transparent alpha background, no floor or cast shadow, no text, labels, UI, collage, border or watermark."
+    },
+    {
+      "code": "BIO-02",
+      "filename": "butterfly-larva.png",
+      "prompt": "One cabbage white butterfly caterpillar, Pieris rapae, in a clear side profile, slightly curved along a short green cabbage leaf strip. Slender velvety green body with clear segments, a fine pale yellow dorsal line and subtle side markings, a small green head, three pairs of tiny true legs near the head and abdominal prolegs. No big cartoon eyes, no exaggerated smile. Full body, all legs contained. Use case: scientific-educational. Asset: single cutout specimen for a polished Korean elementary science learning game. Soft natural 3D illustration, accurate readable anatomy, gently rounded forms, restrained detail and soft studio light. Natural colors, no toy facial expression, no anthropomorphism. Entire specimen clearly framed with 12% margin, square image, truly transparent alpha background, no floor or cast shadow, no text, labels, UI, collage, border or watermark."
+    },
+    {
+      "code": "BIO-03",
+      "filename": "butterfly-pupa.png",
+      "prompt": "One cabbage white butterfly chrysalis, Pieris rapae. A pale leaf-green angular pupa with a pointed head and subtle ridges, attached upright at an angle to a short diagonal brown twig by its lower tip and a thin silk girdle around its middle. Clearly show an exposed angular chrysalis, not a silk cocoon and not a caterpillar. A minimal twig just long enough for attachment. Entire specimen. Use case: scientific-educational. Asset: single cutout specimen for a polished Korean elementary science learning game. Soft natural 3D illustration, accurate readable anatomy, gently rounded forms, restrained detail and soft studio light. Natural colors, no toy facial expression, no anthropomorphism. Entire specimen clearly framed with 12% margin, square image, truly transparent alpha background, no floor or cast shadow, no text, labels, UI, collage, border or watermark."
+    },
+    {
+      "code": "BIO-04",
+      "filename": "butterfly-adult.png",
+      "prompt": "One adult female cabbage white butterfly, Pieris rapae, dorsal view with both pairs of wings fully and symmetrically open. Cream-white forewings with small charcoal-gray tips and two round dark spots on each forewing, gently rounded pale cream hindwings, slim dark gray body, six delicate legs and two clubbed antennae. Clear butterfly anatomy, no fancy colored patterns, no flowers or props. Use case: scientific-educational. Asset: single cutout specimen for a polished Korean elementary science learning game. Soft natural 3D illustration, accurate readable anatomy, gently rounded forms, restrained detail and soft studio light. Natural colors, no toy facial expression, no anthropomorphism. Entire specimen clearly framed with 12% margin, square image, truly transparent alpha background, no floor or cast shadow, no text, labels, UI, collage, border or watermark."
+    },
+    {
+      "code": "BIO-05",
+      "filename": "species-frog.png",
+      "prompt": "One adult green frog resting naturally in a gentle three-quarter front view. Visible four limbs, folded strong hind legs, small front legs, a pale cream underside, natural green skin and dark eyes. Friendly but anatomically plausible, no smile or clothes, no lily pad, pond, plant or other object. Use case: scientific-educational. Asset: single cutout specimen for a polished Korean elementary science learning game. Soft natural 3D illustration, accurate readable anatomy, gently rounded forms, restrained detail and soft studio light. Natural colors, no toy facial expression, no anthropomorphism. Entire specimen clearly framed with 12% margin, square image, truly transparent alpha background, no floor or cast shadow, no text, labels, UI, collage, border or watermark."
+    },
+    {
+      "code": "BIO-06",
+      "filename": "species-chicken.png",
+      "prompt": "One adult white domestic hen standing in a gentle three-quarter side view, warm ivory feathers, small red comb and wattles, yellow beak, two scaly yellow legs and natural toes, short rounded tail. Accurate bird proportions with clearly visible wings folded against body. No egg, chick, nest, clothing or props. Use case: scientific-educational. Asset: single cutout specimen for a polished Korean elementary science learning game. Soft natural 3D illustration, accurate readable anatomy, gently rounded forms, restrained detail and soft studio light. Natural colors, no toy facial expression, no anthropomorphism. Entire specimen clearly framed with 12% margin, square image, truly transparent alpha background, no floor or cast shadow, no text, labels, UI, collage, border or watermark."
+    },
+    {
+      "code": "BIO-07",
+      "filename": "species-dog.png",
+      "prompt": "One healthy adult small tan mixed-breed domestic dog standing in side three-quarter view. Natural dog proportions, four legs, short soft tan coat, cream chest and muzzle, floppy ears, gently curved tail, dark eyes and nose. Calm friendly pose without a cartoon smile. No collar, clothes, toys, floor or props. Use case: scientific-educational. Asset: single cutout specimen for a polished Korean elementary science learning game. Soft natural 3D illustration, accurate readable anatomy, gently rounded forms, restrained detail and soft studio light. Natural colors, no toy facial expression, no anthropomorphism. Entire specimen clearly framed with 12% margin, square image, truly transparent alpha background, no floor or cast shadow, no text, labels, UI, collage, border or watermark."
+    },
+    {
+      "code": "BIO-08",
+      "filename": "species-balsam.png",
+      "prompt": "One complete flowering garden balsam plant, Impatiens balsamina. Upright fleshy green branching stem, narrow lance-shaped serrated leaves, several pink flowers growing close to the stem in the leaf axils and a few small green seed capsules. Botanical educational illustration of the whole plant from soil level to top, naturally growing out of a very small compact brown soil base. No pot, no label, no unrelated flowers, no bean leaves. Use case: scientific-educational. Asset: single cutout specimen for a polished Korean elementary science learning game. Soft natural 3D illustration, accurate readable anatomy, gently rounded forms, restrained detail and soft studio light. Natural colors, no toy facial expression, no anthropomorphism. Entire specimen clearly framed with 12% margin, square image, truly transparent alpha background, no floor or cast shadow, no text, labels, UI, collage, border or watermark."
+    },
+    {
+      "code": "BIO-09",
+      "filename": "species-apple.png",
+      "prompt": "One complete mature apple tree as a small educational botanical illustration, sturdy brown branching trunk and a rounded leafy green canopy bearing several clearly visible red apples. Roots concealed under a minimal small dark-brown oval patch of earth. Natural tree structure with visible trunk and branches, no flower pot, no person, no landscape, no labels. Entire tree visible. Use case: scientific-educational. Asset: single cutout specimen for a polished Korean elementary science learning game. Soft natural 3D illustration, accurate readable anatomy, gently rounded forms, restrained detail and soft studio light. Natural colors, no toy facial expression, no anthropomorphism. Entire specimen clearly framed with 12% margin, square image, truly transparent alpha background, no floor or cast shadow, no text, labels, UI, collage, border or watermark."
+    },
+    {
+      "code": "MAP-01",
+      "filename": "forest-map.png",
+      "transparent": false,
+      "prompt": "Use case: stylized-concept. Create a finished premium 2.5D pixel art overworld map for a Korean elementary science adventure, landscape 16:9. True crisp square pixels, rich but restrained handcrafted 16-bit game detail, soft sunlit greens, cream buildings, warm light wood and muted brass. A coherent forest garden with winding beige paths connecting exactly five distinct landmarks. Landmark placement in image percentages: butterfly observation grove at x20% y43%, little seed research cottage at x39% y25%, glass greenhouse at x61% y40%, botanical library cottage at x77% y18%, large life-clock tower at x82% y58%. Leave small clear path patches directly BELOW each landmark for HTML labels later. A gentle turquoise stream runs top to bottom just left of the center-right, crossed by small wooden bridges. Lush varied trees, small flowers, rocks, garden plots, inviting safe discovery atmosphere. Beautiful balance and readable hierarchy, no clutter across the paths, no people or creatures. No text, lettering, numbers, map pins, user interface, labels, logos, gradients or photorealism. Image fills the frame, no floating island, no outside border."
+    }
+  ]
+}

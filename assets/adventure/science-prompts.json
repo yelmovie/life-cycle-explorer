@@ -1,0 +1,36 @@
+{
+  "created": "2026-10-15",
+  "tool": "built-in image_gen",
+  "prompts": [
+    {
+      "code": "ADV-apple-spring",
+      "filename": "apple-spring.png",
+      "prompt": "A small mature apple tree in spring with a branched brown living trunk, fresh small light-green leaves and pale pink-white apple blossom clusters. Absolutely NO fruit or apples. Small circular soil patch at base. Premium soft 3D natural storybook botanical/scientific illustration, warm sunlight, anatomically credible subject, full single subject centered within square with generous transparent margin. True transparent alpha background. No labels, text, frames or UI.",
+      "transparent": true
+    },
+    {
+      "code": "ADV-apple-summer",
+      "filename": "apple-summer.png",
+      "prompt": "A small mature apple tree in summer with dense rich green leaves and scattered SMALL unripe GREEN young apple fruits only, no red fruit, no flowers. Small circular soil patch at base. Premium soft 3D natural storybook botanical/scientific illustration, warm sunlight, anatomically credible subject, full single subject centered within square with generous transparent margin. True transparent alpha background. No labels, text, frames or UI.",
+      "transparent": true
+    },
+    {
+      "code": "ADV-balsam-sprout",
+      "filename": "balsam-sprout.png",
+      "prompt": "A young garden balsam plant (Impatiens balsamina) seedling with two small cotyledons and several narrow lance-shaped serrated green leaves on a short succulent upright stem, no beans, no flowers, tiny shallow root soil patch at base. Premium soft 3D natural storybook botanical/scientific illustration, warm sunlight, anatomically credible subject, full single subject centered within square with generous transparent margin. True transparent alpha background. No labels, text, frames or UI.",
+      "transparent": true
+    },
+    {
+      "code": "ADV-balsam-seeds",
+      "filename": "balsam-seeds.png",
+      "prompt": "One garden balsam plant (Impatiens balsamina) in early autumn, slender succulent upright stem and narrow lance-shaped serrated green leaves, no flowers, several small oval pointed green seed capsules (slightly hairy, about the length of a leaf width), one capsule split and curled to reveal tiny dark brown seeds. No large woody pods. Small circular soil patch. Premium soft 3D natural storybook botanical/scientific illustration, warm sunlight, anatomically credible subject, full single subject centered within square with generous transparent margin. True transparent alpha background. No labels, text, frames or UI.",
+      "transparent": true
+    },
+    {
+      "code": "ADV-dog-young",
+      "filename": "dog-young.png",
+      "prompt": "One young adolescent golden retriever, smaller than adult but past tiny puppy age, slightly lanky legs and medium fluffy golden fur, seated calmly at front three-quarter angle, full body and tail visible. No parent, no other dogs. Premium soft 3D natural storybook botanical/scientific illustration, warm sunlight, anatomically credible subject, full single subject centered within square with generous transparent margin. True transparent alpha background. No labels, text, frames or UI.",
+      "transparent": true
+    }
+  ]
+}

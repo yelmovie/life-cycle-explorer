@@ -1,0 +1,12 @@
+import {fresh,capturePin,addEvidence,startPair,draftRetry,startRetry,captureSeed,captureRetry,complete,recordBank} from '../inquiry-core.js';
+export function preparedState(last=-1){const s=fresh(),p={x:.55,y:.45,zoom:2};s.intro=false;
+for(const id of ['egg','larva','pupa','adult'])capturePin(s,id,p);
+s.discovery.drawing=[[[.1,.2],[.3,.4],[.45,.3]]];s.discovery.note='애벌레의 몸에 마디가 보여요.';
+s.cycle={order:['egg','larva','pupa','adult'],compared:true,generation:true,note:'어른벌레에는 날개가 있어요.'};s.inquiry.compare={trait:'wings',larva:{...p},adult:{...p}};addEvidence(s,{type:'compare',...s.inquiry.compare});
+s.seed.prepared={a:{soil:true,seeds:true},b:{soil:true,seeds:true}};s.seed.b.water=false;s.seed.prediction='unsure';startPair(s);s.journey.peek=true;for(const day of [0,3,7])captureSeed(s,day);s.journey.day=7;s.journey.winner='a';s.journey.reason='water';
+draftRetry(s,'b');s.inquiry.draft.after.water=true;s.inquiry.draft.prediction='same';const r=startRetry(s);s.inquiry.retryDay=7;captureRetry(s);s.inquiry.reflections[r.id]='changed';
+s.greenhouse.sensors=['a-water','a-light','b-water','b-light'];s.greenhouse.b.light=false;s.greenhouse.prediction='unsure';s.recovery={traits:['color','stem'],cause:'light',repaired:true,note:'연한 잎을 보고 밝은 곳으로 옮겼어요.'};s.inquiry.care={step:2,seen:[0,1,2],pins:{a:{...p},b:{...p}}};addEvidence(s,{type:'care',question:'light',weak:'b',a:p,b:p});
+s.archives={animalSeen:['butterfly-0','butterfly-3','dog-0','dog-2'],plantSeen:['balsam-0','balsam-3','apple-0','apple-3'],birth:'different',perennial:'same'};s.inquiry.season={step:4,seen:[0,1,2,3,4],tagged:true,prediction:'different',labels:{balsam:'new',apple:'same'}};addEvidence(s,{type:'season',step:4});
+s.garden.placements={butterfly:'egg',frog:'egg',chicken:'egg',dog:'live',balsam:'annual',apple:'perennial',rose:'perennial'};s.inquiry.garden.proofs={dog:'live',apple:'same',rose:'same'};s.inquiry.garden.draft={...s.garden.placements};
+const records=recordBank(s),cards=[records.find(r=>r.evidence?.type==='observation').id,records.find(r=>r.evidence?.type==='retry').id,records.find(r=>r.evidence?.type==='season').id];s.book={title:'내가 찾은 생명의 시간',cards,captions:Object.fromEntries(cards.map(id=>[id,'이 모습을 자세히 관찰했어요.'])),summary:'나비와 식물은 자라는 모습과 다음 생명의 시작이 달라요.'};s.clock={rings:[0,1,2,3,4],transfer:''};s.inquiry.plan={animal:'화단의 봉선화',feature:'잎과 꽃의 변화',when:'매주 월요일'};
+for(let n=0;n<=last;n++)if(!complete(s,n))throw Error('Fixture cannot complete '+n);return s;}

@@ -1,0 +1,13 @@
+import fs from 'node:fs';
+const root='F:/iscreammedia_sc34/4 lifecycle/';
+let s=fs.readFileSync(root+'inquiry-ui.js','utf8');
+s=s.replace('export function plantDiagram(species,step){','export function plantDiagram(species,step,tagged=true){');
+s=s.replace('return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 260"',`if(!tagged)body=body.replace(/<rect[^>]*\/>/g,'').replace(/<text[^>]*>[12]<\/text>/g,'');\n return \`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 260"`);
+s=s.replace('${plantDiagram(id,step)}<span class="identity-tag">', '${plantDiagram(id,step,Q().season.tagged)}<span class="identity-tag" ${!Q().season.tagged?\'hidden\':\'\'}>');
+s=s.replace('처음부터 자란 나무 · 표식 1','줄기에 남은 표식 1').replace('씨앗에서 자란 새 식물 · 표식 2','새싹에 붙은 표식 2');
+s=s.replace('돌봄 뒤의 변화도 모형이야. 실제 식물은 회복에 시간이 걸리고, 상태에 따라 달라.','돌봄 뒤의 변화도 모형이야. 실제 식물은 회복에 시간이 걸려.');
+s=s.replace('오래된 줄기가 갑자기 짧아지는 것은 아니야.','새로 자라는 잎을 살펴봐.');
+s=s.replace("${(p?['rose']:['dog','apple']).map(k=>proofPanel(k)).join('')}","${(p?['rose']:['dog','apple'].includes(id)?[id]:[]).map(k=>proofPanel(k)).join('')}${!p?`<div class=\"proof-progress\"><span>까닭도 찾아보자</span>${['dog','apple'].map(k=>B((q.garden.proofs[k]===(k==='dog'?'live':'same')?'✓ ':'○ ')+names[k]+'의 까닭','garden-pick',k,id===k)).join('')}</div>`:''}");
+s=s.replace("gardenFeedback||'틀려도 괜찮아. 자료를 보고 바꿔 보자.'", "gardenFeedback||('찾은 자리 '+ids.filter(k=>S().garden.placements[k]).length+' / '+ids.length)");
+fs.writeFileSync(root+'inquiry-ui.js',s);
+fs.appendFileSync(root+'inquiry.css',`\n.species-tabs button{flex-direction:column;justify-content:center;gap:2px;white-space:normal;word-break:keep-all}.species-tabs button span{max-width:100%}.proof-progress{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;font-size:16px}.proof-progress button{font-size:16px;padding:8px 12px}.identity-tag[hidden]{display:none}.mission-screen[data-mission="7"] .activity{gap:6px}.mission-screen[data-mission="7"] .gentle-feedback{margin:0;padding:4px 12px}\n`);

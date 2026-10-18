@@ -1,0 +1,782 @@
+[
+  {
+    "source": "assets/generated/m04-vessel.webp",
+    "output": "assets/game/vessel.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 24984
+  },
+  {
+    "source": "assets/generated/m04-soil.webp",
+    "output": "assets/game/soil.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 69004
+  },
+  {
+    "source": "assets/generated/m04-bean-s0.webp",
+    "output": "assets/game/seed0.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 32762
+  },
+  {
+    "source": "assets/generated/m04-bean-s1.webp",
+    "output": "assets/game/seed1.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 32030
+  },
+  {
+    "source": "assets/generated/m04-bean-s2.webp",
+    "output": "assets/game/seed2.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 34172
+  },
+  {
+    "source": "assets/generated/m04-bean-s3.webp",
+    "output": "assets/game/seed3.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 50780
+  },
+  {
+    "source": "assets/generated/m04-time-lever.webp",
+    "output": "assets/game/lever.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 33852
+  },
+  {
+    "source": "assets/generated/m05-light-sensor.webp",
+    "output": "assets/game/lightSensor.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 26110
+  },
+  {
+    "source": "assets/generated/m05-moisture-sensor.webp",
+    "output": "assets/game/moistureSensor.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 22136
+  },
+  {
+    "source": "assets/generated/m05-grow-lamp.webp",
+    "output": "assets/game/lamp.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 28828
+  },
+  {
+    "source": "assets/generated/m05-shade-panel.webp",
+    "output": "assets/game/shade.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 39680
+  },
+  {
+    "source": "assets/generated/m10-clock-body.webp",
+    "output": "assets/game/clock.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 47994
+  },
+  {
+    "source": "assets/generated/m10-clock-ring.webp",
+    "output": "assets/game/ring.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 41462
+  },
+  {
+    "source": "assets/generated/m10-clock-core.webp",
+    "output": "assets/game/core.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 34132
+  },
+  {
+    "source": "assets/generated/butterfly-egg.webp",
+    "output": "assets/game/egg.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 60250
+  },
+  {
+    "source": "assets/generated/butterfly-larva.webp",
+    "output": "assets/game/caterpillar.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 57598
+  },
+  {
+    "source": "assets/generated/butterfly-pupa.webp",
+    "output": "assets/game/chrysalis.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 36830
+  },
+  {
+    "source": "assets/generated/butterfly-adult.webp",
+    "output": "assets/game/butterfly.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 103680
+  },
+  {
+    "source": "assets/generated/species-frog.webp",
+    "output": "assets/game/frog.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 80926
+  },
+  {
+    "source": "assets/generated/species-chicken.webp",
+    "output": "assets/game/chicken.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 50440
+  },
+  {
+    "source": "assets/generated/species-dog.webp",
+    "output": "assets/game/dog.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 70494
+  },
+  {
+    "source": "assets/generated/species-balsam.webp",
+    "output": "assets/game/balsam.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 124432
+  },
+  {
+    "source": "assets/generated/species-apple.webp",
+    "output": "assets/game/apple.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 154510
+  },
+  {
+    "source": "assets/generated/forest-map.webp",
+    "output": "assets/game/forestMap.webp",
+    "before": [
+      1536,
+      864
+    ],
+    "after": [
+      1536,
+      864
+    ],
+    "bytes": 528776
+  },
+  {
+    "source": "assets/adventure/jihoon-explore.webp",
+    "output": "assets/game/jihoon.webp",
+    "before": [
+      512,
+      768
+    ],
+    "after": [
+      427,
+      640
+    ],
+    "bytes": 57660
+  },
+  {
+    "source": "assets/adventure/jihoon-think.webp",
+    "output": "assets/game/think.webp",
+    "before": [
+      512,
+      768
+    ],
+    "after": [
+      427,
+      640
+    ],
+    "bytes": 46624
+  },
+  {
+    "source": "assets/adventure/jihoon-cheer.webp",
+    "output": "assets/game/cheer.webp",
+    "before": [
+      512,
+      768
+    ],
+    "after": [
+      427,
+      640
+    ],
+    "bytes": 49194
+  },
+  {
+    "source": "assets/adventure/ipsae-guide.webp",
+    "output": "assets/game/ipsae.webp",
+    "before": [
+      640,
+      768
+    ],
+    "after": [
+      533,
+      640
+    ],
+    "bytes": 52656
+  },
+  {
+    "source": "assets/adventure/ipsae-cheer.webp",
+    "output": "assets/game/ipsaeCheer.webp",
+    "before": [
+      702,
+      768
+    ],
+    "after": [
+      585,
+      640
+    ],
+    "bytes": 56330
+  },
+  {
+    "source": "assets/adventure/map-walk-sheet.webp",
+    "output": "assets/game/walk.webp",
+    "before": [
+      2048,
+      2048
+    ],
+    "after": [
+      1024,
+      1024
+    ],
+    "bytes": 368266
+  },
+  {
+    "source": "assets/adventure/leaf-world.webp",
+    "output": "assets/game/leaf.webp",
+    "before": [
+      1536,
+      864
+    ],
+    "after": [
+      640,
+      360
+    ],
+    "bytes": 75426
+  },
+  {
+    "source": "assets/adventure/pot-seed.webp",
+    "output": "assets/game/pot0.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 71498
+  },
+  {
+    "source": "assets/adventure/pot-root.webp",
+    "output": "assets/game/pot1.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 79522
+  },
+  {
+    "source": "assets/adventure/pot-sprout.webp",
+    "output": "assets/game/pot2.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 107836
+  },
+  {
+    "source": "assets/adventure/pot-healthy.webp",
+    "output": "assets/game/pot3.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 113638
+  },
+  {
+    "source": "assets/adventure/pot-pale.webp",
+    "output": "assets/game/pale.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 74590
+  },
+  {
+    "source": "assets/adventure/pot-dry.webp",
+    "output": "assets/game/dry.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 112756
+  },
+  {
+    "source": "assets/adventure/magnifier.webp",
+    "output": "assets/game/magnifier.webp",
+    "before": [
+      744,
+      768
+    ],
+    "after": [
+      620,
+      640
+    ],
+    "bytes": 61652
+  },
+  {
+    "source": "assets/adventure/watering-can.webp",
+    "output": "assets/game/watercan.webp",
+    "before": [
+      768,
+      702
+    ],
+    "after": [
+      640,
+      585
+    ],
+    "bytes": 54248
+  },
+  {
+    "source": "assets/adventure/season-lens.webp",
+    "output": "assets/game/season.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 121710
+  },
+  {
+    "source": "assets/adventure/field-camera.webp",
+    "output": "assets/game/camera.webp",
+    "before": [
+      768,
+      704
+    ],
+    "after": [
+      640,
+      587
+    ],
+    "bytes": 67266
+  },
+  {
+    "source": "assets/adventure/storybook.webp",
+    "output": "assets/game/book.webp",
+    "before": [
+      1536,
+      1024
+    ],
+    "after": [
+      640,
+      427
+    ],
+    "bytes": 44930
+  },
+  {
+    "source": "assets/adventure/dog-puppy.webp",
+    "output": "assets/game/puppy.webp",
+    "before": [
+      768,
+      702
+    ],
+    "after": [
+      640,
+      585
+    ],
+    "bytes": 74486
+  },
+  {
+    "source": "assets/adventure/balsam-dry.webp",
+    "output": "assets/game/balsamDry.webp",
+    "before": [
+      734,
+      768
+    ],
+    "after": [
+      612,
+      640
+    ],
+    "bytes": 114788
+  },
+  {
+    "source": "assets/adventure/apple-winter.webp",
+    "output": "assets/game/winter.webp",
+    "before": [
+      739,
+      768
+    ],
+    "after": [
+      616,
+      640
+    ],
+    "bytes": 136374
+  },
+  {
+    "source": "assets/optimized/scene-08.webp",
+    "output": "assets/game/rose.webp",
+    "before": [
+      1672,
+      941
+    ],
+    "after": [
+      640,
+      360
+    ],
+    "bytes": 46670
+  },
+  {
+    "source": "assets/adventure/apple-spring.webp",
+    "output": "assets/game/appleSpring.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 188158
+  },
+  {
+    "source": "assets/adventure/apple-summer.webp",
+    "output": "assets/game/appleSummer.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 170542
+  },
+  {
+    "source": "assets/adventure/balsam-sprout.webp",
+    "output": "assets/game/balsamSprout.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 79240
+  },
+  {
+    "source": "assets/adventure/balsam-seeds.webp",
+    "output": "assets/game/balsamSeeds.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 138522
+  },
+  {
+    "source": "assets/adventure/dog-young.webp",
+    "output": "assets/game/dogYoung.webp",
+    "before": [
+      768,
+      768
+    ],
+    "after": [
+      640,
+      640
+    ],
+    "bytes": 69214
+  },
+  {
+    "source": "assets/optimized/scene-01.webp",
+    "output": "assets/game/bg0.webp",
+    "before": [
+      1672,
+      941
+    ],
+    "after": [
+      1280,
+      720
+    ],
+    "bytes": 170238
+  },
+  {
+    "source": "assets/optimized/scene-02.webp",
+    "output": "assets/game/bg1.webp",
+    "before": [
+      1672,
+      941
+    ],
+    "after": [
+      1280,
+      720
+    ],
+    "bytes": 183648
+  },
+  {
+    "source": "assets/optimized/scene-03.webp",
+    "output": "assets/game/bg2.webp",
+    "before": [
+      1672,
+      941
+    ],
+    "after": [
+      1280,
+      720
+    ],
+    "bytes": 201584
+  },
+  {
+    "source": "assets/optimized/scene-04.webp",
+    "output": "assets/game/bg3.webp",
+    "before": [
+      1672,
+      941
+    ],
+    "after": [
+      1280,
+      720
+    ],
+    "bytes": 187852
+  },
+  {
+    "source": "assets/optimized/scene-05.webp",
+    "output": "assets/game/bg4.webp",
+    "before": [
+      1672,
+      941
+    ],
+    "after": [
+      1280,
+      720
+    ],
+    "bytes": 205978
+  },
+  {
+    "source": "assets/optimized/scene-06.webp",
+    "output": "assets/game/bg5.webp",
+    "before": [
+      1672,
+      941
+    ],
+    "after": [
+      1280,
+      720
+    ],
+    "bytes": 177894
+  },
+  {
+    "source": "assets/optimized/scene-07.webp",
+    "output": "assets/game/bg6.webp",
+    "before": [
+      1672,
+      941
+    ],
+    "after": [
+      1280,
+      720
+    ],
+    "bytes": 157654
+  },
+  {
+    "source": "assets/optimized/scene-09.webp",
+    "output": "assets/game/bg8.webp",
+    "before": [
+      1672,
+      941
+    ],
+    "after": [
+      1280,
+      720
+    ],
+    "bytes": 227070
+  },
+  {
+    "source": "assets/optimized/scene-10.webp",
+    "output": "assets/game/bg9.webp",
+    "before": [
+      1672,
+      941
+    ],
+    "after": [
+      1280,
+      720
+    ],
+    "bytes": 259942
+  }
+]

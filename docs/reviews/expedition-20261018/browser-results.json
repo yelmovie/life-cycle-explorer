@@ -1,0 +1,31 @@
+{
+  "fixture": "Existing inquiry performance injected; all five new commissions used real UI inputs.",
+  "navigation": {
+    "domContentLoadedMs": 713.5,
+    "loadEventMs": 1317.1000000000931,
+    "requests": 18,
+    "transferredBytes": 2674508
+  },
+  "png": {
+    "width": 1800,
+    "height": 1160
+  },
+  "completed": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "restoredChapters": 5,
+  "errors": [],
+  "warnings": [],
+  "failures": [],
+  "reset": "passed",
+  "reload": "passed"
+}

@@ -1,0 +1,36 @@
+{
+  "created": "2026-10-15",
+  "tool": "built-in image_gen",
+  "prompts": [
+    {
+      "code": "CHAR-J-01",
+      "filename": "jihoon-explore.png",
+      "prompt": "Jihoon is the brown-haired boy in the middle row of the reference sheet. Same cream explorer vest over a white long-sleeved shirt, olive shorts, green backpack, green sneakers. He is standing, looking toward screen-right, holding his magnifying glass forward at chest level, other hand gently pointing toward a discovery. Use the supplied character sheet only as identity and style reference. Generate a single full-body character cutout for the polished Korean elementary science adventure Life Clock Lab. Match the character's exact face, hair, outfit, colors and charming proportions. Premium soft 3D storybook illustration, finely crafted material details, natural soft light, warm friendly expression. Whole body and all accessories visible, centered with 12 percent margin. Transparent alpha background, no shadow floor, scene, lettering, logo, UI, panels or extra people."
+    },
+    {
+      "code": "CHAR-J-02",
+      "filename": "jihoon-think.png",
+      "prompt": "Jihoon is the brown-haired boy in the middle row of the reference. Same cream explorer vest, white long-sleeved shirt, olive shorts, green backpack, green sneakers. Full body in thoughtful research pose, holding a small open brown notebook with one hand and resting his pencil near his chin, curious kind expression looking toward screen-right. Use the supplied character sheet only as identity and style reference. Generate a single full-body character cutout for the polished Korean elementary science adventure Life Clock Lab. Match the character's exact face, hair, outfit, colors and charming proportions. Premium soft 3D storybook illustration, finely crafted material details, natural soft light, warm friendly expression. Whole body and all accessories visible, centered with 12 percent margin. Transparent alpha background, no shadow floor, scene, lettering, logo, UI, panels or extra people."
+    },
+    {
+      "code": "CHAR-J-03",
+      "filename": "jihoon-cheer.png",
+      "prompt": "Jihoon is the brown-haired boy in the middle row of the reference. Same cream explorer vest, white shirt, olive shorts, green backpack and green sneakers. Full body cheering after a discovery, one hand raised, the other holding his closed brown notebook to his chest, natural delighted smile. Use the supplied character sheet only as identity and style reference. Generate a single full-body character cutout for the polished Korean elementary science adventure Life Clock Lab. Match the character's exact face, hair, outfit, colors and charming proportions. Premium soft 3D storybook illustration, finely crafted material details, natural soft light, warm friendly expression. Whole body and all accessories visible, centered with 12 percent margin. Transparent alpha background, no shadow floor, scene, lettering, logo, UI, panels or extra people."
+    },
+    {
+      "code": "CHAR-L-01",
+      "filename": "ipsae-guide.png",
+      "prompt": "Ipsae is the tiny light-green leaf spirit in the top row of the reference. Same green leaf hair with a single sprout, pale cream-green round face and body, large friendly green eyes, delicate leaf wings, small brown crossbody pouch. Floating gently in a helpful pose and pointing toward screen-left with a small leaf pointer. Use the supplied character sheet only as identity and style reference. Generate a single full-body character cutout for the polished Korean elementary science adventure Life Clock Lab. Match the character's exact face, hair, outfit, colors and charming proportions. Premium soft 3D storybook illustration, finely crafted material details, natural soft light, warm friendly expression. Whole body and all accessories visible, centered with 12 percent margin. Transparent alpha background, no shadow floor, scene, lettering, logo, UI, panels or extra people."
+    },
+    {
+      "code": "CHAR-L-02",
+      "filename": "ipsae-cheer.png",
+      "prompt": "Ipsae is the tiny light-green leaf spirit in the top row of the reference. Same leaf hair with a single sprout, pale cream-green face and body, friendly green eyes, leaf wings and small brown pouch. Floating happily with open arms, delighted warm expression, holding one small golden botanical ring in one hand. Use the supplied character sheet only as identity and style reference. Generate a single full-body character cutout for the polished Korean elementary science adventure Life Clock Lab. Match the character's exact face, hair, outfit, colors and charming proportions. Premium soft 3D storybook illustration, finely crafted material details, natural soft light, warm friendly expression. Whole body and all accessories visible, centered with 12 percent margin. Transparent alpha background, no shadow floor, scene, lettering, logo, UI, panels or extra people."
+    },
+    {
+      "code": "CHAR-MAP",
+      "filename": "map-walk-sheet.png",
+      "prompt": "Use the reference sheet for exact character identity. Create a clean 4 by 4 WALK CYCLE SPRITE SHEET for a premium 2.5D pixel-art forest game. Exactly 16 equal square cells on a transparent canvas, 4 columns and 4 rows, no visible grid. EVERY cell contains the same small brown-haired boy Jihoon in cream explorer vest, white sleeves, olive shorts, green backpack, plus tiny green leaf spirit Ipsae floating just to his left. Entire paired sprite fits inside each cell with consistent scale and centered foot baseline. Row 1 faces down/front, row 2 faces left, row 3 faces right, row 4 faces up/back. Four columns are successive walking frames, alternating left foot and right foot with natural intermediate standing poses; the tiny spirit gently bobs. Camera 3/4 top-down isometric game perspective, crisp square pixels, restrained rich green/cream/brown palette, consistent character identity across all 16 cells. No text, border, labels, watermark, environment, shadow floor, extra sprites or cropped limbs."
+    }
+  ]
+}

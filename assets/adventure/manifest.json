@@ -1,0 +1,319 @@
+{
+  "created": "2026-10-15",
+  "assets": [
+    {
+      "code": "ADV-apple-spring",
+      "runtime": "apple-spring.webp",
+      "source": "source/apple-spring.png",
+      "bytes": 256652,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json",
+        "scene-prompts.json",
+        "science-prompts.json"
+      ]
+    },
+    {
+      "code": "ADV-apple-summer",
+      "runtime": "apple-summer.webp",
+      "source": "source/apple-summer.png",
+      "bytes": 236638,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json",
+        "scene-prompts.json",
+        "science-prompts.json"
+      ]
+    },
+    {
+      "code": "ADV-apple-winter",
+      "runtime": "apple-winter.webp",
+      "source": "source/apple-winter.png",
+      "bytes": 183246,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json",
+        "scene-prompts.json",
+        "science-prompts.json"
+      ]
+    },
+    {
+      "code": "ADV-balsam-dry",
+      "runtime": "balsam-dry.webp",
+      "source": "source/balsam-dry.png",
+      "bytes": 159024,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json",
+        "scene-prompts.json",
+        "science-prompts.json"
+      ]
+    },
+    {
+      "code": "ADV-balsam-seeds",
+      "runtime": "balsam-seeds.webp",
+      "source": "source/balsam-seeds.png",
+      "bytes": 187286,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json",
+        "scene-prompts.json",
+        "science-prompts.json"
+      ]
+    },
+    {
+      "code": "ADV-balsam-sprout",
+      "runtime": "balsam-sprout.webp",
+      "source": "source/balsam-sprout.png",
+      "bytes": 109302,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json",
+        "scene-prompts.json",
+        "science-prompts.json"
+      ]
+    },
+    {
+      "code": "ADV-dog-puppy",
+      "runtime": "dog-puppy.webp",
+      "source": "source/dog-puppy.png",
+      "bytes": 107586,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json",
+        "scene-prompts.json",
+        "science-prompts.json"
+      ]
+    },
+    {
+      "code": "ADV-dog-young",
+      "runtime": "dog-young.webp",
+      "source": "source/dog-young.png",
+      "bytes": 96622,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json",
+        "scene-prompts.json",
+        "science-prompts.json"
+      ]
+    },
+    {
+      "code": "ADV-field-camera",
+      "runtime": "field-camera.webp",
+      "source": "source/field-camera.png",
+      "bytes": 98462,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json",
+        "scene-prompts.json",
+        "science-prompts.json"
+      ]
+    },
+    {
+      "code": "CHAR-L-02",
+      "runtime": "ipsae-cheer.webp",
+      "source": "source/ipsae-cheer.png",
+      "bytes": 75372,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json",
+        "scene-prompts.json",
+        "science-prompts.json"
+      ]
+    },
+    {
+      "code": "CHAR-L-01",
+      "runtime": "ipsae-guide.webp",
+      "source": "source/ipsae-guide.png",
+      "bytes": 70700,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json",
+        "scene-prompts.json",
+        "science-prompts.json"
+      ]
+    },
+    {
+      "code": "CHAR-J-03",
+      "runtime": "jihoon-cheer.webp",
+      "source": "source/jihoon-cheer.png",
+      "bytes": 66310,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json",
+        "scene-prompts.json",
+        "science-prompts.json"
+      ]
+    },
+    {
+      "code": "CHAR-J-01",
+      "runtime": "jihoon-explore.webp",
+      "source": "source/jihoon-explore.png",
+      "bytes": 77096,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json",
+        "scene-prompts.json",
+        "science-prompts.json"
+      ]
+    },
+    {
+      "code": "CHAR-J-02",
+      "runtime": "jihoon-think.webp",
+      "source": "source/jihoon-think.png",
+      "bytes": 62986,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json",
+        "scene-prompts.json",
+        "science-prompts.json"
+      ]
+    },
+    {
+      "code": "ADV-leaf-world",
+      "runtime": "leaf-world.webp",
+      "source": "source/leaf-world.png",
+      "bytes": 334602,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json",
+        "scene-prompts.json",
+        "science-prompts.json"
+      ]
+    },
+    {
+      "code": "ADV-magnifier",
+      "runtime": "magnifier.webp",
+      "source": "source/magnifier.png",
+      "bytes": 85372,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json",
+        "scene-prompts.json",
+        "science-prompts.json"
+      ]
+    },
+    {
+      "code": "CHAR-MAP",
+      "runtime": "map-walk-sheet.webp",
+      "source": "source/map-walk-sheet.png",
+      "bytes": 1415176,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json",
+        "scene-prompts.json",
+        "science-prompts.json"
+      ]
+    },
+    {
+      "code": "ADV-pot-dry",
+      "runtime": "pot-dry.webp",
+      "source": "source/pot-dry.png",
+      "bytes": 163498,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json",
+        "scene-prompts.json",
+        "science-prompts.json"
+      ]
+    },
+    {
+      "code": "ADV-pot-healthy",
+      "runtime": "pot-healthy.webp",
+      "source": "source/pot-healthy.png",
+      "bytes": 162208,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json",
+        "scene-prompts.json",
+        "science-prompts.json"
+      ]
+    },
+    {
+      "code": "ADV-pot-pale",
+      "runtime": "pot-pale.webp",
+      "source": "source/pot-pale.png",
+      "bytes": 105794,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json",
+        "scene-prompts.json",
+        "science-prompts.json"
+      ]
+    },
+    {
+      "code": "ADV-pot-root",
+      "runtime": "pot-root.webp",
+      "source": "source/pot-root.png",
+      "bytes": 117068,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json",
+        "scene-prompts.json",
+        "science-prompts.json"
+      ]
+    },
+    {
+      "code": "ADV-pot-seed",
+      "runtime": "pot-seed.webp",
+      "source": "source/pot-seed.png",
+      "bytes": 106354,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json",
+        "scene-prompts.json",
+        "science-prompts.json"
+      ]
+    },
+    {
+      "code": "ADV-pot-sprout",
+      "runtime": "pot-sprout.webp",
+      "source": "source/pot-sprout.png",
+      "bytes": 156236,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json",
+        "scene-prompts.json",
+        "science-prompts.json"
+      ]
+    },
+    {
+      "code": "ADV-season-lens",
+      "runtime": "season-lens.webp",
+      "source": "source/season-lens.png",
+      "bytes": 178504,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json",
+        "scene-prompts.json",
+        "science-prompts.json"
+      ]
+    },
+    {
+      "code": "ADV-storybook",
+      "runtime": "storybook.webp",
+      "source": "source/storybook.png",
+      "bytes": 271782,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json",
+        "scene-prompts.json",
+        "science-prompts.json"
+      ]
+    },
+    {
+      "code": "ADV-watering-can",
+      "runtime": "watering-can.webp",
+      "source": "source/watering-can.png",
+      "bytes": 76152,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json",
+        "scene-prompts.json",
+        "science-prompts.json"
+      ]
+    }
+  ],
+  "count": 26,
+  "totalBytes": null
+}

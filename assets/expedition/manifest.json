@@ -1,0 +1,139 @@
+[
+  {
+    "source": "source/forest-world.png",
+    "path": "forest-world.webp",
+    "size": [
+      1586,
+      992
+    ],
+    "bytes": 727374
+  },
+  {
+    "source": "source/jihoon-actions.png",
+    "frame": 0,
+    "bounds": [
+      0,
+      0,
+      627,
+      627
+    ],
+    "path": "guideLook.webp",
+    "size": [
+      512,
+      512
+    ],
+    "bytes": 102552
+  },
+  {
+    "source": "source/jihoon-actions.png",
+    "frame": 1,
+    "bounds": [
+      627,
+      0,
+      1254,
+      627
+    ],
+    "path": "guideCare.webp",
+    "size": [
+      512,
+      512
+    ],
+    "bytes": 106208
+  },
+  {
+    "source": "source/jihoon-actions.png",
+    "frame": 2,
+    "bounds": [
+      0,
+      627,
+      627,
+      1254
+    ],
+    "path": "guideTime.webp",
+    "size": [
+      512,
+      512
+    ],
+    "bytes": 96452
+  },
+  {
+    "source": "source/jihoon-actions.png",
+    "frame": 3,
+    "bounds": [
+      627,
+      627,
+      1254,
+      1254
+    ],
+    "path": "guideStory.webp",
+    "size": [
+      512,
+      512
+    ],
+    "bytes": 97418
+  },
+  {
+    "source": "source/explorer-tools.png",
+    "frame": 0,
+    "bounds": [
+      86,
+      12,
+      707,
+      617
+    ],
+    "path": "timeWheel.webp",
+    "size": [
+      512,
+      499
+    ],
+    "bytes": 64798
+  },
+  {
+    "source": "source/explorer-tools.png",
+    "frame": 1,
+    "bounds": [
+      724,
+      7,
+      1124,
+      658
+    ],
+    "path": "plantSensor.webp",
+    "size": [
+      315,
+      512
+    ],
+    "bytes": 41288
+  },
+  {
+    "source": "source/explorer-tools.png",
+    "frame": 2,
+    "bounds": [
+      71,
+      600,
+      605,
+      1194
+    ],
+    "path": "seasonCompass.webp",
+    "size": [
+      460,
+      512
+    ],
+    "bytes": 74998
+  },
+  {
+    "source": "source/explorer-tools.png",
+    "frame": 3,
+    "bounds": [
+      633,
+      683,
+      1241,
+      1164
+    ],
+    "path": "storyCamera.webp",
+    "size": [
+      512,
+      405
+    ],
+    "bytes": 68648
+  }
+]

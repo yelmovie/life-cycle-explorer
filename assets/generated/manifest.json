@@ -1,0 +1,247 @@
+{
+  "created": "2026-10-15",
+  "assets": [
+    {
+      "code": "BIO-04",
+      "runtime": "butterfly-adult.webp",
+      "source": "source/butterfly-adult.png",
+      "bytes": 147220,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json"
+      ]
+    },
+    {
+      "code": "BIO-01",
+      "runtime": "butterfly-egg.webp",
+      "source": "source/butterfly-egg.png",
+      "bytes": 85846,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json"
+      ]
+    },
+    {
+      "code": "BIO-02",
+      "runtime": "butterfly-larva.webp",
+      "source": "source/butterfly-larva.png",
+      "bytes": 81744,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json"
+      ]
+    },
+    {
+      "code": "BIO-03",
+      "runtime": "butterfly-pupa.webp",
+      "source": "source/butterfly-pupa.png",
+      "bytes": 51892,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json"
+      ]
+    },
+    {
+      "code": "MAP-01",
+      "runtime": "forest-map.webp",
+      "source": "source/forest-map.png",
+      "bytes": 552710,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json"
+      ]
+    },
+    {
+      "code": "M04-03",
+      "runtime": "m04-bean-s0.webp",
+      "source": "source/m04-bean-s0.png",
+      "bytes": 45894,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json"
+      ]
+    },
+    {
+      "code": "M04-04",
+      "runtime": "m04-bean-s1.webp",
+      "source": "source/m04-bean-s1.png",
+      "bytes": 46088,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json"
+      ]
+    },
+    {
+      "code": "M04-05",
+      "runtime": "m04-bean-s2.webp",
+      "source": "source/m04-bean-s2.png",
+      "bytes": 45258,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json"
+      ]
+    },
+    {
+      "code": "M04-06",
+      "runtime": "m04-bean-s3.webp",
+      "source": "source/m04-bean-s3.png",
+      "bytes": 67386,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json"
+      ]
+    },
+    {
+      "code": "M04-02",
+      "runtime": "m04-soil.webp",
+      "source": "source/m04-soil.png",
+      "bytes": 103482,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json"
+      ]
+    },
+    {
+      "code": "M04-07",
+      "runtime": "m04-time-lever.webp",
+      "source": "source/m04-time-lever.png",
+      "bytes": 45728,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json"
+      ]
+    },
+    {
+      "code": "M04-01",
+      "runtime": "m04-vessel.webp",
+      "source": "source/m04-vessel.png",
+      "bytes": 32396,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json"
+      ]
+    },
+    {
+      "code": "M05-03",
+      "runtime": "m05-grow-lamp.webp",
+      "source": "source/m05-grow-lamp.png",
+      "bytes": 37110,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json"
+      ]
+    },
+    {
+      "code": "M05-01",
+      "runtime": "m05-light-sensor.webp",
+      "source": "source/m05-light-sensor.png",
+      "bytes": 35578,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json"
+      ]
+    },
+    {
+      "code": "M05-02",
+      "runtime": "m05-moisture-sensor.webp",
+      "source": "source/m05-moisture-sensor.png",
+      "bytes": 29048,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json"
+      ]
+    },
+    {
+      "code": "M05-04",
+      "runtime": "m05-shade-panel.webp",
+      "source": "source/m05-shade-panel.png",
+      "bytes": 51496,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json"
+      ]
+    },
+    {
+      "code": "M10-01",
+      "runtime": "m10-clock-body.webp",
+      "source": "source/m10-clock-body.png",
+      "bytes": 64886,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json"
+      ]
+    },
+    {
+      "code": "M10-03",
+      "runtime": "m10-clock-core.webp",
+      "source": "source/m10-clock-core.png",
+      "bytes": 48446,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json"
+      ]
+    },
+    {
+      "code": "M10-02",
+      "runtime": "m10-clock-ring.webp",
+      "source": "source/m10-clock-ring.png",
+      "bytes": 59466,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json"
+      ]
+    },
+    {
+      "code": "BIO-09",
+      "runtime": "species-apple.webp",
+      "source": "source/species-apple.png",
+      "bytes": 213432,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json"
+      ]
+    },
+    {
+      "code": "BIO-08",
+      "runtime": "species-balsam.webp",
+      "source": "source/species-balsam.png",
+      "bytes": 166816,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json"
+      ]
+    },
+    {
+      "code": "BIO-06",
+      "runtime": "species-chicken.webp",
+      "source": "source/species-chicken.png",
+      "bytes": 68570,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json"
+      ]
+    },
+    {
+      "code": "BIO-07",
+      "runtime": "species-dog.webp",
+      "source": "source/species-dog.png",
+      "bytes": 98380,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json"
+      ]
+    },
+    {
+      "code": "BIO-05",
+      "runtime": "species-frog.webp",
+      "source": "source/species-frog.png",
+      "bytes": 113894,
+      "generator": "OpenAI image_gen",
+      "promptFiles": [
+        "prompts.json"
+      ]
+    }
+  ],
+  "count": 24,
+  "totalBytes": null
+}

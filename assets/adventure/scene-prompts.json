@@ -1,0 +1,96 @@
+{
+  "created": "2026-10-15",
+  "tool": "built-in image_gen",
+  "prompts": [
+    {
+      "code": "ADV-leaf-world",
+      "filename": "leaf-world.png",
+      "prompt": "Wide 16:9 close-up miniature garden scene with a single very large fresh green leaf spread across the center like an exploration island, veins visible, dew drops at edges, richly layered sunlit garden softly blurred behind. Center leaf fills 80 percent width and 65 percent height, its surface empty for biology specimens. A short wooden platform at bottom and tiny plants around corners. Premium soft 3D storybook illustration, natural warm morning light, beautifully tactile, charming but scientifically credible. No insects, characters, text, UI, frames or panels.",
+      "transparent": false
+    },
+    {
+      "code": "ADV-pot-seed",
+      "filename": "pot-seed.png",
+      "prompt": "One small clear cylindrical glass cultivation cup with a warm brass thin rim, dark brown soil visible through glass, and exactly three bean seedlings spaced in the soil. Camera front three-quarter at slight high angle, consistent pot proportions, full composition within square frame. Cutaway soil front reveals exactly three light brown bean seeds, unsprouted, situated just below soil surface. No shoots. Premium handcrafted 3D storybook illustration for a Korean elementary science adventure, warm cream and forest green palette, realistic botanical anatomy, soft warm studio light, crisp detailed materials. Single game object, centered, entire object visible with 10 percent margin, true transparent alpha background. No text, lettering, UI, logos, people or decorative floor.",
+      "transparent": true
+    },
+    {
+      "code": "ADV-pot-root",
+      "filename": "pot-root.png",
+      "prompt": "One small clear cylindrical glass cultivation cup with a warm brass thin rim, dark brown soil visible through glass, and exactly three bean seedlings spaced in the soil. Camera front three-quarter at slight high angle, consistent pot proportions, full composition within square frame. Early germination: three small white roots grow downward from three beans visible in cutaway front soil, each tiny curved green shoot only slightly emerges above soil. Premium handcrafted 3D storybook illustration for a Korean elementary science adventure, warm cream and forest green palette, realistic botanical anatomy, soft warm studio light, crisp detailed materials. Single game object, centered, entire object visible with 10 percent margin, true transparent alpha background. No text, lettering, UI, logos, people or decorative floor.",
+      "transparent": true
+    },
+    {
+      "code": "ADV-pot-sprout",
+      "filename": "pot-sprout.png",
+      "prompt": "One small clear cylindrical glass cultivation cup with a warm brass thin rim, dark brown soil visible through glass, and exactly three bean seedlings spaced in the soil. Camera front three-quarter at slight high angle, consistent pot proportions, full composition within square frame. Young sprouts: three short healthy green stems emerge and open their first two smooth green leaves, visible thin white roots below soil in cutaway glass. Premium handcrafted 3D storybook illustration for a Korean elementary science adventure, warm cream and forest green palette, realistic botanical anatomy, soft warm studio light, crisp detailed materials. Single game object, centered, entire object visible with 10 percent margin, true transparent alpha background. No text, lettering, UI, logos, people or decorative floor.",
+      "transparent": true
+    },
+    {
+      "code": "ADV-pot-healthy",
+      "filename": "pot-healthy.png",
+      "prompt": "One small clear cylindrical glass cultivation cup with a warm brass thin rim, dark brown soil visible through glass, and exactly three bean seedlings spaced in the soil. Camera front three-quarter at slight high angle, consistent pot proportions, full composition within square frame. Three healthy young bean plants with sturdy medium-short stems and two pairs of rich green leaves each, thin white roots visible below soil. Not tall, compact vigorous foliage. Premium handcrafted 3D storybook illustration for a Korean elementary science adventure, warm cream and forest green palette, realistic botanical anatomy, soft warm studio light, crisp detailed materials. Single game object, centered, entire object visible with 10 percent margin, true transparent alpha background. No text, lettering, UI, logos, people or decorative floor.",
+      "transparent": true
+    },
+    {
+      "code": "ADV-pot-pale",
+      "filename": "pot-pale.png",
+      "prompt": "One small clear cylindrical glass cultivation cup with a warm brass thin rim, dark brown soil visible through glass, and exactly three bean seedlings spaced in the soil. Camera front three-quarter at slight high angle, consistent pot proportions, full composition within square frame. Three bean seedlings grown with inadequate light: tall thin elongated pale yellow-green stems, widely spaced small pale leaves, plants taller than healthy compact seedlings, visibly fragile but living. Thin white roots visible below soil. This is an educational etiolation comparison. Premium handcrafted 3D storybook illustration for a Korean elementary science adventure, warm cream and forest green palette, realistic botanical anatomy, soft warm studio light, crisp detailed materials. Single game object, centered, entire object visible with 10 percent margin, true transparent alpha background. No text, lettering, UI, logos, people or decorative floor.",
+      "transparent": true
+    },
+    {
+      "code": "ADV-pot-dry",
+      "filename": "pot-dry.png",
+      "prompt": "One small clear cylindrical glass cultivation cup with a warm brass thin rim, dark brown soil visible through glass, and exactly three bean seedlings spaced in the soil. Camera front three-quarter at slight high angle, consistent pot proportions, full composition within square frame. Three young bean plants suffering lack of water: soil visibly very dry light brown cracked surface, leaves still green but wilted and drooping, stems limp. Not dead, no rotting. White roots visible in clear cup. Premium handcrafted 3D storybook illustration for a Korean elementary science adventure, warm cream and forest green palette, realistic botanical anatomy, soft warm studio light, crisp detailed materials. Single game object, centered, entire object visible with 10 percent margin, true transparent alpha background. No text, lettering, UI, logos, people or decorative floor.",
+      "transparent": true
+    },
+    {
+      "code": "ADV-magnifier",
+      "filename": "magnifier.png",
+      "prompt": "One beautifully made wooden-handled magnifying glass with brass circular frame and clear glass lens. At slight diagonal, lens faces camera, usable scientist tool proportions. Premium handcrafted 3D storybook illustration for a Korean elementary science adventure, warm cream and forest green palette, realistic botanical anatomy, soft warm studio light, crisp detailed materials. Single game object, centered, entire object visible with 10 percent margin, true transparent alpha background. No text, lettering, UI, logos, people or decorative floor.",
+      "transparent": true
+    },
+    {
+      "code": "ADV-watering-can",
+      "filename": "watering-can.png",
+      "prompt": "One child-sized dark sage green metal watering can with short brass perforated spout and curved handle, a few clear water droplets at spout. Premium handcrafted 3D storybook illustration for a Korean elementary science adventure, warm cream and forest green palette, realistic botanical anatomy, soft warm studio light, crisp detailed materials. Single game object, centered, entire object visible with 10 percent margin, true transparent alpha background. No text, lettering, UI, logos, people or decorative floor.",
+      "transparent": true
+    },
+    {
+      "code": "ADV-season-lens",
+      "filename": "season-lens.png",
+      "prompt": "One brass and carved wood circular research dial divided into four small natural inset leaf symbols: spring bud, summer green leaf, autumn golden leaf and winter bare branch. Center glass clear, no numbers, text or magical effects. Premium handcrafted 3D storybook illustration for a Korean elementary science adventure, warm cream and forest green palette, realistic botanical anatomy, soft warm studio light, crisp detailed materials. Single game object, centered, entire object visible with 10 percent margin, true transparent alpha background. No text, lettering, UI, logos, people or decorative floor.",
+      "transparent": true
+    },
+    {
+      "code": "ADV-field-camera",
+      "filename": "field-camera.png",
+      "prompt": "One charming small cream and forest green research instant camera with brass lens ring, warm brown hand strap, tactile vintage scientific instrument design. Premium handcrafted 3D storybook illustration for a Korean elementary science adventure, warm cream and forest green palette, realistic botanical anatomy, soft warm studio light, crisp detailed materials. Single game object, centered, entire object visible with 10 percent margin, true transparent alpha background. No text, lettering, UI, logos, people or decorative floor.",
+      "transparent": true
+    },
+    {
+      "code": "ADV-storybook",
+      "filename": "storybook.png",
+      "prompt": "Open thick field research notebook lying on warm wood table, empty pale cream left and right pages with subtle paper fiber and blank faint botanical corner decorations, olive cloth cover and brass page clips. Overhead near-frontal view, pages occupy central 90 percent, full book in frame. Landscape 3:2 composition, premium soft 3D storybook art, warm light, no writing, text, UI or photographs.",
+      "transparent": false
+    },
+    {
+      "code": "ADV-dog-puppy",
+      "filename": "dog-puppy.png",
+      "prompt": "A very young golden-brown puppy sitting beside its mother golden retriever, anatomically accurate friendly dogs, showing live-born animal offspring, puppy much smaller but similar recognizable features. Entire two animals visible. Premium handcrafted 3D storybook illustration for a Korean elementary science adventure, warm cream and forest green palette, realistic botanical anatomy, soft warm studio light, crisp detailed materials. Single game object, centered, entire object visible with 10 percent margin, true transparent alpha background. No text, lettering, UI, logos, people or decorative floor.",
+      "transparent": true
+    },
+    {
+      "code": "ADV-balsam-dry",
+      "filename": "balsam-dry.png",
+      "prompt": "A single annual garden balsam plant at end of its life, in a small cross-section clump of soil: dry brown thin stems, a few withered leaves, mature split seed pods and several small dark seeds on the soil surface, no new green shoots. Botanically plausible Impatiens balsamina. Premium handcrafted 3D storybook illustration for a Korean elementary science adventure, warm cream and forest green palette, realistic botanical anatomy, soft warm studio light, crisp detailed materials. Single game object, centered, entire object visible with 10 percent margin, true transparent alpha background. No text, lettering, UI, logos, people or decorative floor.",
+      "transparent": true
+    },
+    {
+      "code": "ADV-apple-winter",
+      "filename": "apple-winter.png",
+      "prompt": "A small mature apple tree in winter dormancy, bare branching brown trunk and twigs, tiny buds, no leaves or fruits. Living tree with intact branches in small circular soil patch, only light snow on ground corners. Same tree can sprout again in spring. Premium handcrafted 3D storybook illustration for a Korean elementary science adventure, warm cream and forest green palette, realistic botanical anatomy, soft warm studio light, crisp detailed materials. Single game object, centered, entire object visible with 10 percent margin, true transparent alpha background. No text, lettering, UI, logos, people or decorative floor.",
+      "transparent": true
+    }
+  ]
+}
