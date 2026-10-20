@@ -1,0 +1,19 @@
+{
+  "method": "Direct CUA verification in the visible in-app browser",
+  "url": "http://127.0.0.1:4204/",
+  "renderer": "Canvas",
+  "verified": [
+    "initial title and map",
+    "locked seed room shows prerequisite dialog immediately",
+    "prerequisite button reaches butterfly room",
+    "teacher preview entry to all five rooms",
+    "magnifier drag produces observation feedback",
+    "switch destination during travel: clock tower to greenhouse",
+    "return to first room",
+    "opening settings during travel cancels entry and restores enabled map controls"
+  ],
+  "pageErrors": [],
+  "consoleWarnings": [],
+  "studentCompletionWasNotFilled": true,
+  "previewLeftOpen": true
+}

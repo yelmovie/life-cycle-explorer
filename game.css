@@ -82,7 +82,7 @@ button svg{flex:none;width:28px;height:28px;fill:none;stroke:currentColor;stroke
 #guide-bubble:empty{display:none}
 .map-direction{position:absolute;z-index:4;left:50%;bottom:112px;transform:translateX(-50%);padding:var(--space-sm) var(--space-lg);width:max-content;max-width:74%;background:var(--color-surface-glass);border-radius:var(--radius-pill);font-size:var(--font-size-md);text-align:center;pointer-events:none}
 .map-door{position:absolute;z-index:4;transform:translate(-50%,-50%);min-height:var(--button-height-lg);max-width:220px}
-.map-door.locked{filter:saturate(.3)}
+.map-door.locked{filter:saturate(.3);border-style:dashed}
 .map-door.done{border-color:var(--color-correct)}
 .boot{position:absolute;inset:0;z-index:9;display:grid;place-content:center;background:var(--cream-100);font-size:var(--font-size-lg);text-align:center}
 .boot small{font-size:var(--font-size-sm)}

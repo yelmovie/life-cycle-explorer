@@ -83,6 +83,7 @@ export function createFieldGame(context){
    }
   }
   walkDoor(chapter){if(!Number.isInteger(chapter)||chapter<0||chapter>4)return;this.walkTo(DOORS[chapter],chapter);}
+  cancelTravel(){this.travelId=(this.travelId||0)+1;this.walkTimer?.remove();if(this.avatar)this.tweens.killTweensOf(this.avatar);this.walking=false;this.walkTarget=null;}
   step(dx,dy){
    if(this.walking||context.mode()!=='map')return;
    const at=nearest([context.s.avatar.x,context.s.avatar.y]),neighbors=EDGES.flatMap(([a,b])=>a===at?[b]:b===at?[a]:[]);
@@ -90,14 +91,18 @@ export function createFieldGame(context){
    if(next?.score>.2)this.walkTo(next.n,DOORS.includes(next.n)?DOORS.indexOf(next.n):null);
   }
   walkTo(target,chapter){
-   if(this.walking||context.mode()!=='map'||context.modalOpen())return;
-   this.walking=true;const path=route(nearest([context.s.avatar.x,context.s.avatar.y]),target);let i=0,frame=0;
-   const timer=this.time.addEvent({delay:130,loop:true,callback:()=>{if(!context.s.settings.reducedMotion)this.avatar.setFrame((this.walkRow||0)*4+(frame++%4));}});
+   if(context.mode()!=='map'||context.modalOpen()||this.walking&&this.walkTarget===target)return;
+   this.walkTimer?.remove();this.tweens.killTweensOf(this.avatar);
+   this.walking=true;this.walkTarget=target;const trip=this.travelId=(this.travelId||0)+1;
+   const path=route(nearest([context.s.avatar.x,context.s.avatar.y]),target);let i=0,frame=0;
+   context.emit('travel-start',chapter);
+   const timer=this.walkTimer=this.time.addEvent({delay:130,loop:true,callback:()=>{if(!context.s.settings.reducedMotion)this.avatar.setFrame((this.walkRow||0)*4+(frame++%4));}});
    const advance=()=>{
+    if(trip!==this.travelId)return;
     if(i===path.length){timer.remove();this.walking=false;this.avatar.setFrame(0);if(chapter!==null)context.emit('arrived',chapter);return;}
     const node=path[i++],[nx,ny]=POINTS[node],x=nx*W,y=ny*H,dx=x-this.avatar.x,dy=y-this.avatar.y;
     this.walkRow=Math.abs(dx)>Math.abs(dy)?dx<0?1:2:dy<0?3:0;
-    this.tweens.add({targets:this.avatar,x,y,duration:context.s.settings.reducedMotion?1:Math.max(70,Math.hypot(dx,dy)*2.7),onComplete:()=>{context.s.avatar={x:nx,y:ny};context.emit('map-step');advance();}});
+    this.tweens.add({targets:this.avatar,x,y,duration:context.s.settings.reducedMotion?1:Math.max(70,Math.hypot(dx,dy)*2.7),onComplete:()=>{if(trip!==this.travelId)return;context.s.avatar={x:nx,y:ny};context.emit('map-step');advance();}});
    };advance();
   }
   update(){
