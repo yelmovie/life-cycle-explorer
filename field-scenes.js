@@ -108,5 +108,6 @@ export function createFieldGame(context){
    context.placeDoors(DOORS.map((node,c)=>({chapter:c,x:(POINTS[node][0]*W-origin.x)*camera.zoom,y:(POINTS[node][1]*H-origin.y)*camera.zoom})));
   }
  }
- return new P.Game({type:P.AUTO,parent:'phaser-root',backgroundColor:'#72966e',scale:{mode:P.Scale.ENVELOP,autoCenter:P.Scale.CENTER_BOTH,width:W,height:H},render:{antialias:true},input:{activePointers:3},scene:FieldWorld,banner:false,audio:{noAudio:true}});
+ // The game uses 2D images and geometry masks; embedded previews need no WebGL context.
+ return new P.Game({type:P.CANVAS,parent:'phaser-root',backgroundColor:'#72966e',scale:{mode:P.Scale.ENVELOP,autoCenter:P.Scale.CENTER_BOTH,width:W,height:H},render:{antialias:true},input:{activePointers:3},scene:FieldWorld,banner:false,audio:{noAudio:true}});
 }
