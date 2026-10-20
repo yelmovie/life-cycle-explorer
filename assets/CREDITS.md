@@ -1,4 +1,26 @@
-# 에셋 출처 · Phaser 0.5.0
+# 에셋 출처 · 저작권 기록
+
+## 도구·라이선스 검토 (2026-10-21)
+
+| 도구·자료 | 쓰는 곳 | 라이선스·확인 근거 | 판정·조치 |
+|---|---|---|---|
+| Phaser 3.90.0 | 게임 엔진, 로컬 `vendor/` | MIT. 공식 v3.90.0 라이선스와 보관본 일치 | PASS. `vendor/PHASER-LICENSE.md`를 함께 배포 |
+| Jua Regular 1.001 | 제목·본문용 로컬 웹폰트 2개 | SIL Open Font License 1.1. 폰트 내부 이름·버전·저작권 및 Google Fonts 원문 확인 | PASS. `fonts/Jua-OFL.txt`와 함께 배포. 바이너리 수정 없음 |
+| 신규 관찰장 배경 | `field/observation-clearing.webp` | 내장 OpenAI image_gen, 2026-10-21, 생성 ID·원문 프롬프트 보관 | 생성 기록 확인. OpenAI 출력물 조건 확인, 인물·브랜드·외부 스톡 없음 |
+| 기존 AI 그림 | `game/`, `expedition/`의 원본 대응 manifest | OpenAI 생성 기록과 최초 사용자 제공 ChatGPT 파일명·대응표 | 생성 출처 확인. 이전 계정·요금제 영수증은 저장소에 없으므로 이를 확인했다고 표시하지 않음 |
+| 직접 작성 SVG | 홈·이전·소리·설정·활동 아이콘 | 프로젝트 자체 작성 | 외부 유료 아이콘·이모지 사용 없음 |
+| npm 의존성·제한 도구 | 루트와 리뷰 보존본의 package.json 4개 | dependencies/devDependencies 없음. 배포 엔진은 위 Phaser | Remotion·유료 키트·NC/ND 자료·GPL 런타임 번들 발견 안 됨 |
+
+확인한 1차 문서: [Phaser 3.90.0 MIT](https://github.com/phaserjs/phaser/blob/v3.90.0/LICENSE.md), [Google Fonts Jua OFL](https://github.com/google/fonts/blob/main/ofl/jua/OFL.txt), [OpenAI 이용약관의 Content 항목](https://openai.com/policies/row-terms-of-use/). 출력물의 권리 귀속과 입력 자료를 제공할 권한은 별개이며, 이 기록이 미확인 계약을 대신하지 않는다.
+
+### 이번에 추가·재사용한 자료
+
+- 관찰장: `field/source/observation-clearing-20261021.png` 원본 3,134,046 bytes → `field/observation-clearing.webp` 438,524 bytes, 1586×992. 기존 숲 지도와 같은 색·재질로 생성한 별도 장면이며 생물·문자·UI가 그려져 있지 않다. 생물 표본은 게임에서 합성한다. `field/prompt.txt`, `field/manifest.json`, `scripts/prepare-field-assets.py`로 대응한다.
+- 지도·지훈의 관찰/돌봄/시간/이야기 4동작과 도구 4개는 기존 2026-10-18 생성물을 그대로 재사용한다. 투명 배경과 완전한 손·발·도구 범위를 육안 확인했다. 신규 캐릭터 생성 없음.
+- Jua는 기존 `1udangtangtang` 프로젝트에서 같은 WOFF2를 복사했다. 한국어 368,172 bytes, 라틴 16,620 bytes. 출처·해시·내부 메타데이터는 `fonts/README.md`에 기록했다. 기존 보관 고지의 2017 표제는 공식·바이너리 표기에 맞춰 바로잡았고 OFL 본문을 보존했다.
+- 전체 파일명·크기·화상 크기·SHA-256·정적 참조는 `asset-inventory-20261021.json`에 기록한다. 원본과 이전 그림은 삭제하지 않는다.
+
+## 2026-10-18 이전 제작 이력
 
 2026-10-18. 이 파일은 확인된 제작 이력과 라이선스를 기록한다. 제공 이미지의 권리자·공개 배포 허락 범위를 임의로 정하지 않는다.
 
@@ -6,9 +28,9 @@
 |---|---|---|
 | 최초 배경·타이틀·캐릭터 PNG | 사용자가 제공한 `ChatGPT Image 2026년 9월 23일…` 파일. 대응표는 `assets/README.md` | 원본 보존. 제공 주체와 권리자 이름·플랫폼 이용 조건은 별도 확정 필요 |
 | 생물·도구·계절·지도 이미지 | `assets/generated/manifest.json`, `assets/adventure/manifest.json`에 OpenAI image_gen 제작 기록과 프롬프트 위치 있음 | 생성형 AI 이미지임을 앱 정보에 고지. 과학 내용은 모의 관찰용 도해 |
-| 현재 런타임 이미지 60개 | `assets/game/manifest.json`에 원본 경로, 출력 경로, 전후 크기, 용량 기록 | 기존 그림을 크기 조정한 WebP 사본. 이번 Phaser 전환에서 신규 이미지 생성 없음 |
+| 초기 Phaser 런타임 이미지 60개 | `assets/game/manifest.json`에 원본 경로, 출력 경로, 전후 크기, 용량 기록 | 기존 그림을 크기 조정한 WebP 사본. 당시 Phaser 전환에서 신규 이미지 생성 없음 |
 | Phaser 3.90.0 | 공식 Phaser 배포의 고정 버전 | MIT. `vendor/PHASER-LICENSE.md`를 배포 빌드에 포함 |
-| 글꼴 | 운영체제 기본 Malgun Gothic / sans-serif | 외부 폰트 파일 배포 없음 |
+| 당시 글꼴 | 운영체제 기본 Malgun Gothic / sans-serif | 2026-10-18에는 외부 폰트 파일 배포 없음. 현재 Jua는 위 검토표 참조 |
 | 교육 내용 | 교육부 2022 개정 과학과 교육과정, moe.go.kr | [4과04-01]~[4과04-03]과 활동을 연결. 앱 문구는 요약이며 교과서 원문·삽화를 복제한 자료가 아님 |
 | 학생 산출물 | 현재 브라우저에서 만든 그림·핀·조건·메모·선택 | 실제 수행 데이터로 이야기와 PNG를 구성. 외부 자동 전송 없음 |
 

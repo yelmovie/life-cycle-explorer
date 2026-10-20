@@ -1,0 +1,15 @@
+{
+  "checks": [
+    "tap-tool-target",
+    "actual-touch-drag",
+    "touch-add-to-occupied-story-slot",
+    "new-story-preserves-original-certificate",
+    "dist-cold-title"
+  ],
+  "errors": [],
+  "loading": {
+    "titleReadyMs": 651,
+    "transferBytes": 3152670,
+    "resources": 34
+  }
+}

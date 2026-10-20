@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import * as G from '../game-model.js';
 import {preparedState} from './inquiry-fixture.js';
 
-function at(chapter){const s=preparedState(chapter*2);s.screen='mission';s.mission=chapter*2+1;s.phase[s.mission]=1;s.expedition=G.initialExpedition();assert.ok(G.startQuest(s,chapter));return s;}
+function at(chapter){const s=G.restore(JSON.stringify(preparedState(chapter*2)));s.screen='mission';s.mission=chapter*2+1;s.phase[s.mission]=1;s.expedition=G.initialExpedition();assert.ok(G.startQuest(s,chapter));return s;}
 function solve(s,c){
   if(c===0)for(const x of G.CLUES)assert.ok(G.questAction(s,'match',{id:x.id,target:x.target}).ok);
   if(c===1)for(const x of G.SEED_CASES){
@@ -69,7 +69,7 @@ test('손상된 신규 의뢰 저장은 안전하게 보정하고 없는 기록�
   const r=G.restore(JSON.stringify(s));assert.equal(r.expedition.active,null);assert.equal(G.questSolved(r,1),false);assert.equal(G.questSolved(r,2),false);assert.deepEqual(r.expedition.final,{});
 });
 test('모든 탐구·다섯 의뢰·증거·작품을 마치면 보상이 연결되고 완료가 중복되지 않는다',()=>{
-  const s=preparedState();s.expedition=G.initialExpedition();s.screen='mission';
+  const s=G.restore(JSON.stringify(preparedState()));s.expedition=G.initialExpedition();s.screen='mission';
   for(let c=0;c<5;c++){
     assert.ok(G.complete(s,c*2));s.mission=c*2+1;assert.ok(G.startQuest(s,c));solve(s,c);assert.ok(G.complete(s,s.mission));assert.ok(G.complete(s,s.mission));
     assert.equal(G.restoredChapters(s),c+1);assert.equal(s.completed.length,(c+1)*2);

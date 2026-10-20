@@ -6,7 +6,7 @@ const project = path.dirname(fileURLToPath(import.meta.url));
 const previewBuild = process.argv.includes('--dist');
 const root = previewBuild ? path.join(project, 'dist') : project;
 const port = Number(process.env.PORT || 4186);
-const mime = {'.md':'text/plain; charset=utf-8','.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.png':'image/png','.webp':'image/webp','.svg':'image/svg+xml','.jpg':'image/jpeg','.jpeg':'image/jpeg','.gif':'image/gif','.avif':'image/avif','.ico':'image/x-icon','.woff2':'font/woff2'};
+const mime = {'.txt':'text/plain; charset=utf-8','.md':'text/plain; charset=utf-8','.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.png':'image/png','.webp':'image/webp','.svg':'image/svg+xml','.jpg':'image/jpeg','.jpeg':'image/jpeg','.gif':'image/gif','.avif':'image/avif','.ico':'image/x-icon','.woff2':'font/woff2'};
 const runtimeFiles = new Set(['index.html','expedition.js','expedition-scenes.js','adventure.js','adventure.css','adventure-core.js','adventure-assets.js','adventure-map.js','adventure-export.js','inquiry-core.js','inquiry-ui.js','inquiry.css','assets.js','app.js','core.js','art.js','style.css','polish.css']);
 const securityHeaders = {
   'X-Content-Type-Options':'nosniff',
@@ -14,6 +14,7 @@ const securityHeaders = {
   'Content-Security-Policy':"default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'"
 };
 function permitted(relative) {
+  if (['field-certificate.js','field-record-art.js','field-model.js','field-content.js','field-flow.js','field-scenes.js','field-room-scenes.js','field-dialogs.js','ui-icons.js','game-info.js','game-audio.js','game-settings.js','settings-content.js'].includes(relative)) return true;
   if (['game-app.js','game-model.js','game-scenes.js','game-records.js','game-assets.js','game-metadata.js','game.css','vendor/phaser-3.90.0.min.js','vendor/PHASER-LICENSE.md'].includes(relative)) return true;
   if (runtimeFiles.has(relative)) return true;
   if (!/^assets\/(?:(?:generated|optimized|adventure)\/)?[A-Za-z0-9_./-]+$/.test(relative)) return false;

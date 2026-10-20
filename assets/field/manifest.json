@@ -1,0 +1,42 @@
+{
+  "source": "source/observation-clearing-20261021.png",
+  "output": "observation-clearing.webp",
+  "before": [
+    1586,
+    992
+  ],
+  "after": [
+    1586,
+    992
+  ],
+  "originalBytes": 3134046,
+  "bytes": 438524,
+  "generator": "OpenAI image_gen (built-in)",
+  "generated": "2026-10-21",
+  "generationId": "exec-2b86d132-6b12-4929-918f-39e8ed21269e",
+  "reference": "../expedition/forest-world.webp",
+  "promptFile": "prompt.txt",
+  "overlaySuggestions": {
+    "egg": [
+      0.22,
+      0.2
+    ],
+    "larva": [
+      0.2,
+      0.44
+    ],
+    "pupa": [
+      0.65,
+      0.28
+    ],
+    "adult": [
+      0.61,
+      0.5
+    ],
+    "workbench": [
+      0.5,
+      0.75
+    ]
+  },
+  "notes": "No specimen, character, text or UI is painted into the backdrop. Suggestions are normalized coordinates, not scientific observations."
+}

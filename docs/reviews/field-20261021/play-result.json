@@ -1,0 +1,53 @@
+{
+  "checks": [
+    "chapter-0",
+    "missing-prediction-blocked",
+    "wrong-seed-reason-blocked",
+    "missing-prediction-blocked",
+    "wrong-seed-reason-blocked",
+    "chapter-1",
+    "wrong-pin-blocked",
+    "wrong-care-blocked",
+    "wrong-pin-blocked",
+    "wrong-care-blocked",
+    "chapter-2",
+    "chapter-3",
+    "empty-plan-blocked",
+    "chapter-4",
+    "actual-evidence-PNG",
+    "certificate-PNG",
+    "complete-reload"
+  ],
+  "errors": [],
+  "completed": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "story": {
+    "records": [
+      "field-observation-egg",
+      "field-observation-larva",
+      "field-seed-water"
+    ],
+    "title": "작은 생명들의 서로 다른 시간",
+    "captions": {
+      "field-observation-egg": "작은 알의 모양과 붙어 있는 부분을 자세히 관찰했어.",
+      "field-observation-larva": "몸이 여러 마디인 애벌레가 잎을 먹으며 자라."
+    },
+    "summary": "나비는 몸 모습이 달라지고 식물은 자라는 데 물과 빛이 필요해. 사과나무는 겨울을 지난 같은 나무야.",
+    "matches": {
+      "observation": "field-observation-egg",
+      "retry": "field-seed-water",
+      "care": "field-care-water"
+    },
+    "plan": {
+      "subject": "학교 화단의 봉선화",
+      "when": "매주 월요일과 목요일",
+      "what": "잎 수와 줄기 모양을 보고 글과 그림으로 남기기"
+    }
+  },
+  "out": "D:\\iscreammedia_sc34\\4 lifecycle\\.tmp\\field-play"
+}

@@ -1,0 +1,22 @@
+import {createRequire} from 'node:module';
+import {mkdir,readFile,writeFile} from 'node:fs/promises';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+import assert from 'node:assert/strict';
+import {initialField} from '../field-model.js';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),out=path.join(root,'.tmp/field-touch');await mkdir(out,{recursive:true});process.env.TEMP=out;process.env.TMP=out;
+const require=createRequire(import.meta.url),{chromium}=require(process.env.PLAYWRIGHT_MODULE||'C:/Users/bongb/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');const browser=await chromium.launch({channel:'chrome',headless:true}),earned=JSON.parse(await readFile(path.join(root,'.tmp/field-play/earned-state.json'),'utf8')),errors=[],checks=[];
+try{
+ for(const chapter of [1,4]){
+  const context=await browser.newContext({viewport:{width:1024,height:600},hasTouch:true}),page=await context.newPage();const fixture=structuredClone(earned);fixture.fieldView='room';fixture.field.active=chapter;fixture.field.chapters[chapter]=initialField().chapters[chapter];
+  await page.addInitScript(s=>localStorage.setItem('life-clock-lab.phaser.4',JSON.stringify(s)),fixture);page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400)errors.push(r.status()+' '+r.url());});await page.goto(process.env.BASE_URL||'http://127.0.0.1:4204');await page.locator('.boot').waitFor({state:'detached'});await page.waitForTimeout(500);const cdp=await context.newCDPSession(page);
+  const point=async(x,y)=>{const b=await page.locator('canvas').boundingBox();return {x:b.x+x*b.width/1280,y:b.y+y*b.height/800};};
+  async function drag(x,y,tx,ty){const a=await point(x,y),b=await point(tx,ty);await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{...a,radiusX:8,radiusY:8,id:1}]});for(let i=1;i<=12;i++){await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:a.x+(b.x-a.x)*i/12,y:a.y+(b.y-a.y)*i/12,radiusX:8,radiusY:8,id:1}]});}await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await page.waitForTimeout(160);}
+  const state=()=>page.evaluate(()=>JSON.parse(localStorage.getItem('life-clock-lab.phaser.4')));
+  if(chapter===1){const a=await point(585,640),b=await point(420,400);await page.touchscreen.tap(a.x,a.y);await page.touchscreen.tap(b.x,b.y);assert.equal((await state()).field.chapters[1].rounds[0].prepared.a.soil,true);await drag(720,640,420,400);assert.equal((await state()).field.chapters[1].rounds[0].prepared.a.seeds,1);checks.push('tap-tool-target','actual-touch-drag');}
+  else{await drag(370,575,650,340);await drag(650,575,650,340);assert.equal((await state()).field.chapters[4].records.length,2);checks.push('touch-add-to-occupied-story-slot');}
+  await page.screenshot({path:path.join(out,`dist-touch-${chapter}.png`)});await context.close();
+ }
+ const replay=await browser.newContext({acceptDownloads:true}),r=await replay.newPage();await r.addInitScript(s=>{if(!sessionStorage.getItem('seeded')){s.fieldView='room';s.field.active=4;localStorage.setItem('life-clock-lab.phaser.4',JSON.stringify(s));sessionStorage.setItem('seeded','1');}},earned);await r.goto(process.env.BASE_URL||'http://127.0.0.1:4204');await r.locator('.boot').waitFor({state:'detached'});await r.locator('[data-field-action=chapter-restart]').click();await r.locator('[data-action=settings]').click();await r.locator('[data-action=certificate]').click();assert.match(await r.locator('dialog').innerText(),/작은 생명들의 서로 다른 시간/);const pending=r.waitForEvent('download');await r.locator('[data-action=certificate-png]').click();await(await pending).saveAs(path.join(out,'preserved-certificate.png'));checks.push('new-story-preserves-original-certificate');await replay.close();
+ const context=await browser.newContext(),page=await context.newPage();await page.goto('http://127.0.0.1:4204');await page.locator('.boot').waitFor({state:'detached'});const loading=await page.evaluate(()=>({titleReadyMs:Math.round(performance.now()),transferBytes:performance.getEntriesByType('resource').reduce((n,r)=>n+r.transferSize,0),resources:performance.getEntriesByType('resource').length}));checks.push('dist-cold-title');await context.close();assert.deepEqual(errors,[]);await writeFile(path.join(out,'result.json'),JSON.stringify({checks,errors,loading},null,2));console.log(JSON.stringify({checks,errors,loading}));
+}catch(e){console.log('FAIL',e.message);process.exitCode=1;}finally{await browser.close();}

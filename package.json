@@ -1,13 +1,13 @@
 {
   "name": "life-clock-lab",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "node server.mjs",
+    "start": "node scripts/sync-info.mjs && node server.mjs",
     "test": "node --test tests/*.test.js",
-    "check": "node --check game-app.js && node --check game-model.js && node --check game-scenes.js && node --check expedition.js && node --check expedition-scenes.js && node --check game-records.js && node --check adventure-core.js && node --check adventure-assets.js && node --check adventure-export.js && node --check assets.js && node --check server.mjs && node --check scripts/build.mjs && node --check inquiry-core.js",
-    "build": "node scripts/build.mjs",
+    "check": "node scripts/sync-info.mjs && node scripts/check.mjs",
+    "build": "node scripts/sync-info.mjs && node scripts/build.mjs",
     "preview": "node server.mjs --dist"
   }
 }

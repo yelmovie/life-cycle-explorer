@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const destination = path.join(root, 'dist');
-const required = ['index.html','game-app.js','game-model.js','game-scenes.js','game-records.js','game-assets.js','game-metadata.js','game.css','expedition.js','expedition-scenes.js','adventure-core.js','adventure-export.js','inquiry-core.js','vendor/phaser-3.90.0.min.js','vendor/PHASER-LICENSE.md'];
+const required = ['index.html','game-app.js','game-model.js','game-records.js','game-assets.js','game-metadata.js','game.css','game-info.js','game-audio.js','game-settings.js','settings-content.js','ui-icons.js','field-certificate.js','field-record-art.js','field-model.js','field-content.js','field-flow.js','field-scenes.js','field-room-scenes.js','field-dialogs.js','expedition.js','adventure-core.js','adventure-export.js','inquiry-core.js','vendor/phaser-3.90.0.min.js','vendor/PHASER-LICENSE.md','assets/fonts/Jua-OFL.txt'];
 const sourceOnly = new Set(['source','raw-png','originals','original-downloads']);
 const assetExtension = /\.(?:png|webp|svg|jpe?g|gif|avif|ico|woff2)$/i;
 const dryRun = process.argv.includes('--dry-run');

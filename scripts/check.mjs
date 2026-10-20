@@ -1,0 +1,3 @@
+import {spawnSync} from 'node:child_process';
+const files=['game-app.js','game-model.js','game-records.js','game-assets.js','game-metadata.js','game-info.js','game-audio.js','game-settings.js','settings-content.js','ui-icons.js','field-model.js','field-content.js','field-flow.js','field-scenes.js','field-room-scenes.js','field-dialogs.js','field-record-art.js','field-certificate.js','expedition.js','inquiry-core.js','adventure-core.js','adventure-export.js','server.mjs','scripts/build.mjs','scripts/sync-info.mjs'];
+for(const file of files){const result=spawnSync(process.execPath,['--check',file],{stdio:'inherit'});if(result.status!==0)process.exit(result.status||1);}console.log(`Syntax checked ${files.length} active runtime/build files.`);

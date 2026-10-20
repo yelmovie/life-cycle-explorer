@@ -1,0 +1,3795 @@
+{
+  "checked": "2026-10-21",
+  "method": "Static code references; dynamically composed paths require manual review. No files deleted.",
+  "entries": [
+    {
+      "path": "assets/adventure/apple-spring.webp",
+      "kind": "image",
+      "bytes": 256652,
+      "format": "webp",
+      "modifiedUtc": "2026-10-15T13:29:40+00:00",
+      "sha256": "e86a36a79d7929626ddaa8fb774438c2960824fe51a9f965a6de76c834fe4d47",
+      "exactPathCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/apple-summer.webp",
+      "kind": "image",
+      "bytes": 236638,
+      "format": "webp",
+      "modifiedUtc": "2026-10-15T13:29:52+00:00",
+      "sha256": "eaa1bdf2e0513e7ac97d056519cdb1f12b963aa01126e20aa7f1d343c2542fb1",
+      "exactPathCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/apple-winter.webp",
+      "kind": "image",
+      "bytes": 183246,
+      "format": "webp",
+      "modifiedUtc": "2026-10-15T13:11:02+00:00",
+      "sha256": "7c75356e9cfd7a8f289c39616ba4df6e5ce6f66a0b173551b9b04d2d2432619e",
+      "exactPathCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "width": 739,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/balsam-dry.webp",
+      "kind": "image",
+      "bytes": 159024,
+      "format": "webp",
+      "modifiedUtc": "2026-10-15T13:11:10+00:00",
+      "sha256": "194c7d14cd9c6a3ec209451fadb5e70179f1ca951181c1efd8539c3bbf46d4e6",
+      "exactPathCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "width": 734,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/balsam-seeds.webp",
+      "kind": "image",
+      "bytes": 187286,
+      "format": "webp",
+      "modifiedUtc": "2026-10-15T13:30:04+00:00",
+      "sha256": "b48b4cef071f59d8301678e7089cd5585868fc2f71f244cf30cb647495691204",
+      "exactPathCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/balsam-sprout.webp",
+      "kind": "image",
+      "bytes": 109302,
+      "format": "webp",
+      "modifiedUtc": "2026-10-15T13:30:10+00:00",
+      "sha256": "2b0765ac8e3899feaacf326b2e33fc736e522bd737da5c658b45220273a7e396",
+      "exactPathCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/dog-puppy.webp",
+      "kind": "image",
+      "bytes": 107586,
+      "format": "webp",
+      "modifiedUtc": "2026-10-15T13:11:18+00:00",
+      "sha256": "6bc8b967a7ce62a9530bb797c8ebf20a2ffb946dbaf69c216633d6461a37a0e9",
+      "exactPathCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "width": 768,
+      "height": 702,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/dog-young.webp",
+      "kind": "image",
+      "bytes": 96622,
+      "format": "webp",
+      "modifiedUtc": "2026-10-15T13:30:18+00:00",
+      "sha256": "547784a2caf05ccaa498697a0393ec094bf5748c9b3263184f4482f62e76ec91",
+      "exactPathCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/field-camera.webp",
+      "kind": "image",
+      "bytes": 98462,
+      "format": "webp",
+      "modifiedUtc": "2026-10-15T13:11:22+00:00",
+      "sha256": "db85f28a04645821dba886cc831dc4ab8c58d0745588e5a784962a3d1bc8dd47",
+      "exactPathCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "width": 768,
+      "height": 704,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/ipsae-cheer.webp",
+      "kind": "image",
+      "bytes": 75372,
+      "format": "webp",
+      "modifiedUtc": "2026-10-15T13:05:40+00:00",
+      "sha256": "9bd782b9395f6c04dd67c5846c74525e50dcecb1e46b17234c10446982fc79cb",
+      "exactPathCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "width": 702,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/ipsae-guide.webp",
+      "kind": "image",
+      "bytes": 70700,
+      "format": "webp",
+      "modifiedUtc": "2026-10-15T13:05:46+00:00",
+      "sha256": "029cf64806565e28a554961ac8c57e6eb5679ac8264d524f5630fe20cfe00056",
+      "exactPathCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "width": 640,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/jihoon-cheer.webp",
+      "kind": "image",
+      "bytes": 66310,
+      "format": "webp",
+      "modifiedUtc": "2026-10-15T13:05:48+00:00",
+      "sha256": "84fd4f6121e12b9f63bcf5602f8b2cb439e57f727f21459212ceade600789b4c",
+      "exactPathCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "width": 512,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/jihoon-explore.webp",
+      "kind": "image",
+      "bytes": 77096,
+      "format": "webp",
+      "modifiedUtc": "2026-10-15T13:05:52+00:00",
+      "sha256": "0796bae5ea3e3a78e17f0b25ce8b918bca29fc4df2c781974ec24a6e7c1c60d4",
+      "exactPathCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "width": 512,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/jihoon-think.webp",
+      "kind": "image",
+      "bytes": 62986,
+      "format": "webp",
+      "modifiedUtc": "2026-10-15T13:05:56+00:00",
+      "sha256": "97bd5fb5ae7f7593ef180323868526f7970de7e3c93d1b1669740c3e901d88fa",
+      "exactPathCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "width": 512,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/leaf-world.webp",
+      "kind": "image",
+      "bytes": 334602,
+      "format": "webp",
+      "modifiedUtc": "2026-10-15T13:05:56+00:00",
+      "sha256": "8feb2f8c81173f9b9e8011aa9783a8f957ec9c12d673f5a4e79c5fea25960780",
+      "exactPathCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "width": 1536,
+      "height": 864,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/magnifier.webp",
+      "kind": "image",
+      "bytes": 85372,
+      "format": "webp",
+      "modifiedUtc": "2026-10-15T13:06:02+00:00",
+      "sha256": "1a01367f205878861c9af582cb635cbba38d3206021ba30d1e725aaa39c51364",
+      "exactPathCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js",
+        "game-assets.js"
+      ],
+      "width": 744,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/manifest.json",
+      "kind": "record",
+      "bytes": 8205,
+      "format": "json",
+      "modifiedUtc": "2026-10-15T13:46:30+00:00",
+      "sha256": "491e65765a0b973f2229b9fa3e78464ede0a083af676faf5b1d559a48ac9b610",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [
+        "game-assets.js",
+        "scripts/build.mjs"
+      ],
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/map-walk-sheet.webp",
+      "kind": "image",
+      "bytes": 1415176,
+      "format": "webp",
+      "modifiedUtc": "2026-10-15T13:06:16+00:00",
+      "sha256": "f458a4bf23e085f05c43041305b3814f7e6518f40f6d721adfa1079fb2324f5b",
+      "exactPathCodeReferences": [
+        "adventure-assets.js",
+        "adventure.css"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js",
+        "adventure.css"
+      ],
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/pot-dry.webp",
+      "kind": "image",
+      "bytes": 163498,
+      "format": "webp",
+      "modifiedUtc": "2026-10-15T13:06:26+00:00",
+      "sha256": "568db285c3f8f3e06bed0aecb99fd6659582a0809376d51323d6483ad7788f89",
+      "exactPathCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/pot-healthy.webp",
+      "kind": "image",
+      "bytes": 162208,
+      "format": "webp",
+      "modifiedUtc": "2026-10-15T13:06:32+00:00",
+      "sha256": "3c99e8a020d53f4ded07e81f243a62e01e1d4e5b460a82d4ed0f0df70b771964",
+      "exactPathCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/pot-pale.webp",
+      "kind": "image",
+      "bytes": 105794,
+      "format": "webp",
+      "modifiedUtc": "2026-10-15T13:06:38+00:00",
+      "sha256": "7c43f08c47c49d6ec982592adf27f9fbbcd24aa108aa5a5d8d74c96ce31419d1",
+      "exactPathCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/pot-root.webp",
+      "kind": "image",
+      "bytes": 117068,
+      "format": "webp",
+      "modifiedUtc": "2026-10-15T13:06:46+00:00",
+      "sha256": "2eb80274f000736519789328447f71f1ac88c21a54067f30abb75222accde58b",
+      "exactPathCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/pot-seed.webp",
+      "kind": "image",
+      "bytes": 106354,
+      "format": "webp",
+      "modifiedUtc": "2026-10-15T13:30:24+00:00",
+      "sha256": "b357ad5b9f5892ebfed5ca1add3ef33327ac8c1920d80c05fbb4d6c115cd317b",
+      "exactPathCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/pot-sprout.webp",
+      "kind": "image",
+      "bytes": 156236,
+      "format": "webp",
+      "modifiedUtc": "2026-10-15T13:07:00+00:00",
+      "sha256": "67cdb2addcbfcaeb25671685dea3c40e07bc1f9e4bf65a144bfe75d63dd992de",
+      "exactPathCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/prompts.json",
+      "kind": "record",
+      "bytes": 6051,
+      "format": "json",
+      "modifiedUtc": "2026-10-15T12:54:32+00:00",
+      "sha256": "fde001750f07c086e8695af776cf63652fe74b8cdc1ba02c541e873b78b0d185",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/scene-prompts.json",
+      "kind": "record",
+      "bytes": 12099,
+      "format": "json",
+      "modifiedUtc": "2026-10-15T13:00:08+00:00",
+      "sha256": "a36ad69d21536ebfadb76de1acb26087b8afc7b6e217283f030fc6053e67a22f",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/science-prompts.json",
+      "kind": "record",
+      "bytes": 3241,
+      "format": "json",
+      "modifiedUtc": "2026-10-15T13:14:02+00:00",
+      "sha256": "df328b98a5f39011eab6bb0999c85353c8ecedd12ac5438c3c3323896b3a825d",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/season-lens.webp",
+      "kind": "image",
+      "bytes": 178504,
+      "format": "webp",
+      "modifiedUtc": "2026-10-15T13:11:32+00:00",
+      "sha256": "0e357fef4dd9fb888dc567e7fb8db6cce82c42fb35896560ad7cccc812c8e401",
+      "exactPathCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/source/apple-spring.png",
+      "kind": "image",
+      "bytes": 2052826,
+      "format": "png",
+      "modifiedUtc": "2026-10-15T13:14:48+00:00",
+      "sha256": "4067696d7765fcbfd662520952a5dc6269f4c8cdf24340e0f9ee5fea6fbdf56b",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/apple-summer.png",
+      "kind": "image",
+      "bytes": 2099725,
+      "format": "png",
+      "modifiedUtc": "2026-10-15T13:16:30+00:00",
+      "sha256": "4d73d19b4d3eae37a58b4c0bcb92be14ee9927327273b3708a216390d0ae727e",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/apple-winter.png",
+      "kind": "image",
+      "bytes": 1343339,
+      "format": "png",
+      "modifiedUtc": "2026-10-15T13:07:38+00:00",
+      "sha256": "80f5ea250db4d3567724a1ac3d49dcc018b83a69f82899f0c00a926f26f8a61b",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1230,
+      "height": 1278,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/balsam-dry.png",
+      "kind": "image",
+      "bytes": 1480165,
+      "format": "png",
+      "modifiedUtc": "2026-10-15T13:08:26+00:00",
+      "sha256": "ffa98a5209b56e8e98a7ba2cc6617a1990ffb963f06aec1252378740f9971133",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1226,
+      "height": 1283,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/balsam-seeds.png",
+      "kind": "image",
+      "bytes": 1471312,
+      "format": "png",
+      "modifiedUtc": "2026-10-15T13:16:58+00:00",
+      "sha256": "6173b94d3891390c7ca180318606bf835929af6fe65409bd7aee11003dc1c210",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/balsam-sprout.png",
+      "kind": "image",
+      "bytes": 1095461,
+      "format": "png",
+      "modifiedUtc": "2026-10-15T13:15:18+00:00",
+      "sha256": "c225f621a22415ab90e8201047b4b9bd8e92ec877afc424b73596035b9445d56",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/dog-puppy.png",
+      "kind": "image",
+      "bytes": 1596767,
+      "format": "png",
+      "modifiedUtc": "2026-10-15T13:09:02+00:00",
+      "sha256": "ecc002777a72f3a27d311c95af05dfb4a66f67c4b7823b81a2d86184d78cca15",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1312,
+      "height": 1199,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/dog-young.png",
+      "kind": "image",
+      "bytes": 1247165,
+      "format": "png",
+      "modifiedUtc": "2026-10-15T13:15:56+00:00",
+      "sha256": "2eb619cfd7587fb51133e7e943fb591d8cfd8cd5afa4ddc53377ca8e72a51f10",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/field-camera.png",
+      "kind": "image",
+      "bytes": 1871833,
+      "format": "png",
+      "modifiedUtc": "2026-10-15T13:06:42+00:00",
+      "sha256": "0b7a0ea14a02593f41480385a7830ee31ca65bb75266bbf34e24e09f07d6c9ed",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1310,
+      "height": 1200,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/ipsae-cheer.png",
+      "kind": "image",
+      "bytes": 1154035,
+      "format": "png",
+      "modifiedUtc": "2026-10-15T13:01:22+00:00",
+      "sha256": "063220adcd310f3952199e98323f584da71731323e7783b06a3e9828020fdf64",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1199,
+      "height": 1312,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/ipsae-guide.png",
+      "kind": "image",
+      "bytes": 1172050,
+      "format": "png",
+      "modifiedUtc": "2026-10-15T13:00:38+00:00",
+      "sha256": "42157d4d505239e2c4703db39c9781fcf6dce3d044578b04c9d947bfce6a7137",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1145,
+      "height": 1374,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/jihoon-cheer.png",
+      "kind": "image",
+      "bytes": 1960461,
+      "format": "png",
+      "modifiedUtc": "2026-10-15T12:59:56+00:00",
+      "sha256": "9ac3901564c15141d33b3c22222a9d65bb8b0d8b61720ac03e30b5f3309ade5d",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1024,
+      "height": 1536,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/jihoon-explore.png",
+      "kind": "image",
+      "bytes": 2031071,
+      "format": "png",
+      "modifiedUtc": "2026-10-15T12:59:06+00:00",
+      "sha256": "45de76fa9a029c310e0c79459968c999dd8dcb5cdf26e55e72a73c95a1476557",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1024,
+      "height": 1536,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/jihoon-think.png",
+      "kind": "image",
+      "bytes": 1819305,
+      "format": "png",
+      "modifiedUtc": "2026-10-15T12:58:30+00:00",
+      "sha256": "10b852187ea4e96b5ffd083385353ad88d0a402dbbcd668ce8cc9af351714dc0",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1024,
+      "height": 1536,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/leaf-world.png",
+      "kind": "image",
+      "bytes": 2995471,
+      "format": "png",
+      "modifiedUtc": "2026-10-15T13:00:34+00:00",
+      "sha256": "0928b3a73e82e222a5ae4426d959ac9397455fa35114de5e939e92c35c74cffc",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/magnifier.png",
+      "kind": "image",
+      "bytes": 960239,
+      "format": "png",
+      "modifiedUtc": "2026-10-15T13:04:58+00:00",
+      "sha256": "b006de2fa4c5c3edd81e716a7ac11f3d0608564967a13aa93d5ffac5313bac2b",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1234,
+      "height": 1274,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/map-walk-sheet.png",
+      "kind": "image",
+      "bytes": 1757470,
+      "format": "png",
+      "modifiedUtc": "2026-10-15T13:02:10+00:00",
+      "sha256": "37fd9cf25c5e54992b0dd3f23c35e96b1cff8b4fb8ea2c5093522e6bd1e298dd",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/pot-dry.png",
+      "kind": "image",
+      "bytes": 1769105,
+      "format": "png",
+      "modifiedUtc": "2026-10-15T13:03:38+00:00",
+      "sha256": "a8a9c7b3c49098ea6766f771aba892c0db70d17e310c1c4f1392eec2fbfcfeba",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/pot-healthy.png",
+      "kind": "image",
+      "bytes": 1777034,
+      "format": "png",
+      "modifiedUtc": "2026-10-15T13:04:22+00:00",
+      "sha256": "08552a49b1be162454019bc3a85e79a80dcebdcd8f7e0f81804e6b003d570614",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/pot-pale.png",
+      "kind": "image",
+      "bytes": 1122195,
+      "format": "png",
+      "modifiedUtc": "2026-10-15T13:03:10+00:00",
+      "sha256": "19f7ae35aa833291bd9349ae93fba9f62701fe5e4728cd1f7876d0b8efac7997",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/pot-root.png",
+      "kind": "image",
+      "bytes": 1478798,
+      "format": "png",
+      "modifiedUtc": "2026-10-15T13:01:56+00:00",
+      "sha256": "e3d0e9b69f2275139e4099d3833fbda6ce23984946b98ab4f011b3a4721dd206",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/pot-seed.png",
+      "kind": "image",
+      "bytes": 1470276,
+      "format": "png",
+      "modifiedUtc": "2026-10-15T13:14:06+00:00",
+      "sha256": "3d580b3f3e7ccaeda9d910b323148c0bcbc7df76956edc4fad7a12a34b832926",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/pot-sprout.png",
+      "kind": "image",
+      "bytes": 1871850,
+      "format": "png",
+      "modifiedUtc": "2026-10-15T13:02:26+00:00",
+      "sha256": "e98d7e3590f0453444e1983aa019f3c49892322cc38af6f6fdbfff66c44ea45c",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/season-lens.png",
+      "kind": "image",
+      "bytes": 2469416,
+      "format": "png",
+      "modifiedUtc": "2026-10-15T13:06:04+00:00",
+      "sha256": "a21a5c6e4bfbc370379b8c12e2a4ba1de5aeb64a9b3e49e4dd35da16b7e299f5",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/storybook.png",
+      "kind": "image",
+      "bytes": 2832518,
+      "format": "png",
+      "modifiedUtc": "2026-10-15T13:07:02+00:00",
+      "sha256": "66b334378a35114dac6435dbd977b105b2e010c8ac8b723258a3b5e8a5e38e81",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGB",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/watering-can.png",
+      "kind": "image",
+      "bytes": 1288175,
+      "format": "png",
+      "modifiedUtc": "2026-10-15T13:05:20+00:00",
+      "sha256": "35fe606c915d39d0b4599fb519bd9ec9b703aa511e4d702e93330b3ff4fefa6d",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1312,
+      "height": 1199,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/storybook.webp",
+      "kind": "image",
+      "bytes": 271782,
+      "format": "webp",
+      "modifiedUtc": "2026-10-15T13:11:32+00:00",
+      "sha256": "f126fd1d92c53a1341bf8c5a1cf566056d32e44be32c6bfc13c256a8570659b7",
+      "exactPathCodeReferences": [
+        "adventure-assets.js",
+        "adventure.css"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js",
+        "adventure.css"
+      ],
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/watering-can.webp",
+      "kind": "image",
+      "bytes": 76152,
+      "format": "webp",
+      "modifiedUtc": "2026-10-15T13:07:06+00:00",
+      "sha256": "4a7d2e620bd6167cb6cbdd0715e7ab096944ef24c65d1b1de7872a9d91ea8923",
+      "exactPathCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js"
+      ],
+      "width": 768,
+      "height": 702,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/asset-inventory-20261021.json",
+      "kind": "record",
+      "bytes": 112160,
+      "format": "json",
+      "modifiedUtc": "2026-10-20T15:29:34+00:00",
+      "sha256": "4f7ec7507f0e2b99b80dd6884ad5b711aa65101063cd93c9c473b66b089a97ad",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/characters.png",
+      "kind": "image",
+      "bytes": 2190863,
+      "format": "png",
+      "modifiedUtc": "2026-09-23T12:34:46+00:00",
+      "sha256": "8ca50fc66cb45f07fa8d71226de330eee490dde8f31ac27b190a6b4ac3c3605a",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/CREDITS.md",
+      "kind": "record",
+      "bytes": 3688,
+      "format": "md",
+      "modifiedUtc": "2026-10-18T14:14:08+00:00",
+      "sha256": "81a8d348826530a3c036700101a4603f1e9edafca0d988d3ab641b2102c9aff8",
+      "exactPathCodeReferences": [
+        "settings-content.js"
+      ],
+      "filenameCodeReferences": [
+        "settings-content.js"
+      ],
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/expedition/forest-world.webp",
+      "kind": "image",
+      "bytes": 727374,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T12:51:56+00:00",
+      "sha256": "eea66f79347eb314ff1d9c2bd27cb2fd1e0aaf0bb4b16c0cf4a06957d25d96d9",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 1586,
+      "height": 992,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/expedition/generation.json",
+      "kind": "record",
+      "bytes": 6690,
+      "format": "json",
+      "modifiedUtc": "2026-10-18T14:09:26+00:00",
+      "sha256": "4e87d03acb9436761b231788e10188add5769b05cc4eee016dda55f4efa4bb11",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/expedition/guideCare.webp",
+      "kind": "image",
+      "bytes": 106208,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T14:08:28+00:00",
+      "sha256": "bf49fc3c84dc17085de7b3ca33fc05b13ed8b8496a5254b944cc0e4e7b67e76c",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 512,
+      "height": 512,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/expedition/guideLook.webp",
+      "kind": "image",
+      "bytes": 102552,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T14:08:14+00:00",
+      "sha256": "84cb4bcbb8cc2f0ceaa0907bf280916a656376cacc3a505a15c148bb3adb7806",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 512,
+      "height": 512,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/expedition/guideStory.webp",
+      "kind": "image",
+      "bytes": 97418,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T14:08:50+00:00",
+      "sha256": "d04200bdf93e4eb4d3b1862f759aca49e5cda7342ce4bd9a599e791a2777f999",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 512,
+      "height": 512,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/expedition/guideTime.webp",
+      "kind": "image",
+      "bytes": 96452,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T14:08:40+00:00",
+      "sha256": "790d8b33f887f291cafd8790e4a2ec37d870c8738a04a7e7066865d06a3476d7",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 512,
+      "height": 512,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/expedition/manifest.json",
+      "kind": "record",
+      "bytes": 2094,
+      "format": "json",
+      "modifiedUtc": "2026-10-18T14:14:00+00:00",
+      "sha256": "0cf07e6e08e75e6ac3e8778a83efaf03219a95f008bf2ead98d83a2122fa9cdc",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [
+        "game-assets.js",
+        "scripts/build.mjs"
+      ],
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/expedition/plantSensor.webp",
+      "kind": "image",
+      "bytes": 41288,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T14:09:02+00:00",
+      "sha256": "45537c1e10e3cfd44150befb98ba244b4e498d2052c2b8d4103c3a5de57d4214",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 315,
+      "height": 512,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/expedition/seasonCompass.webp",
+      "kind": "image",
+      "bytes": 74998,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T14:09:08+00:00",
+      "sha256": "7cee074b9df26aa899a365349da215d99ed859a529d8e4be7cc80aca59c1b880",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 460,
+      "height": 512,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/expedition/source/explorer-tools.png",
+      "kind": "image",
+      "bytes": 1877568,
+      "format": "png",
+      "modifiedUtc": "2026-10-18T12:54:26+00:00",
+      "sha256": "15228ef0e9efb9a9307623ec6eb4830f1157106e941626cbfefb0a388fe3aba3",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/expedition/source/forest-world.png",
+      "kind": "image",
+      "bytes": 3893242,
+      "format": "png",
+      "modifiedUtc": "2026-10-18T12:50:58+00:00",
+      "sha256": "948d285f9d96af2466d2fc3b292b14db4401225ffe5aca559237640c2d7a6556",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1586,
+      "height": 992,
+      "mode": "RGB",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/expedition/source/jihoon-actions.png",
+      "kind": "image",
+      "bytes": 1974210,
+      "format": "png",
+      "modifiedUtc": "2026-10-18T12:53:26+00:00",
+      "sha256": "689e3e084ec1d149e8b5445d71d3c944e6bd5681aab7d5fd7e02a9b61ffac98c",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/expedition/storyCamera.webp",
+      "kind": "image",
+      "bytes": 68648,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T14:09:14+00:00",
+      "sha256": "11511137d960e0aedec6707810ef26c7b331c01c27cd39a13d10d9e7b6a7935d",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 512,
+      "height": 405,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/expedition/timeWheel.webp",
+      "kind": "image",
+      "bytes": 64798,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T14:08:56+00:00",
+      "sha256": "e410c52a50cbe9a216b68766a91ff969ff70674f7b0b331dd77514f5c2875833",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 512,
+      "height": 499,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/field/manifest.json",
+      "kind": "record",
+      "bytes": 880,
+      "format": "json",
+      "modifiedUtc": "2026-10-20T15:29:20+00:00",
+      "sha256": "0bd18f9fdf91569959bbd204e3687000348b70f5165905ea41907d63b069a366",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [
+        "game-assets.js",
+        "scripts/build.mjs"
+      ],
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/field/observation-clearing.webp",
+      "kind": "image",
+      "bytes": 438524,
+      "format": "webp",
+      "modifiedUtc": "2026-10-20T15:29:20+00:00",
+      "sha256": "7680c2da8caea778117d43abffc49a449b7a4512c80245f5401d38cf81d04336",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1586,
+      "height": 992,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/field/prompt.txt",
+      "kind": "record",
+      "bytes": 1777,
+      "format": "txt",
+      "modifiedUtc": "2026-10-20T15:28:52+00:00",
+      "sha256": "2382a836125f408f8d18a87c5495b26ec10703ee0d098143606f328f2d3db573",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/field/source/guide-alpha-inspection.jpg",
+      "kind": "image",
+      "bytes": 35161,
+      "format": "jpg",
+      "modifiedUtc": "2026-10-20T15:27:08+00:00",
+      "sha256": "ff8ca039edbbd1829ec5a32460c3b16a769eb061e238c217157269f519902845",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 512,
+      "height": 512,
+      "mode": "RGB",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/field/source/observation-clearing-20261021.png",
+      "kind": "image",
+      "bytes": 3134046,
+      "format": "png",
+      "modifiedUtc": "2026-10-20T15:26:50+00:00",
+      "sha256": "ba4d46f47b3987c2211e8b081fe92a67fbdafe3e7e181cd968edf4d24aa94ae3",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1586,
+      "height": 992,
+      "mode": "RGB",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/fonts/jua-korean-400.woff2",
+      "kind": "font",
+      "bytes": 368172,
+      "format": "woff2",
+      "modifiedUtc": "2026-09-22T13:30:46+00:00",
+      "sha256": "b5c280f7c75d6634c3011682ab7787b73b8cfc4acaee4b70fa7aad228adf7d70",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/fonts/jua-latin-400.woff2",
+      "kind": "font",
+      "bytes": 16620,
+      "format": "woff2",
+      "modifiedUtc": "2026-09-22T13:30:46+00:00",
+      "sha256": "a317499f46a11810207ace4e5fdf04c9949250abeb914a1e713c391e4606c4f2",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/fonts/Jua-OFL.txt",
+      "kind": "record",
+      "bytes": 4571,
+      "format": "txt",
+      "modifiedUtc": "2026-10-20T15:29:18+00:00",
+      "sha256": "947fb61893c08d712fc1f2d3857c436cd48014e70760c564777606b45c97df28",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/fonts/README.md",
+      "kind": "record",
+      "bytes": 1130,
+      "format": "md",
+      "modifiedUtc": "2026-10-20T15:28:52+00:00",
+      "sha256": "83ffb72ac3abba45b3380570784a910bd568712fc41a6a9ed4eb9a38b1c3fb91",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/apple.webp",
+      "kind": "image",
+      "bytes": 154510,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:57:36+00:00",
+      "sha256": "93b9bb7425eddbf7c208f48dc1e5cac4c8bab3e562ae4970014f355ccfd5f1db",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js",
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/appleSpring.webp",
+      "kind": "image",
+      "bytes": 188158,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:59:42+00:00",
+      "sha256": "1dec4c0a3b79417b740e42735f37e0eed039aa13abf1f4278c9ff43a3b264f99",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/appleSummer.webp",
+      "kind": "image",
+      "bytes": 170542,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:59:50+00:00",
+      "sha256": "7c03c886631d7dd784eb6fb4406908aa467fb19bde66fd0dc789b91fe043b686",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/balsam.webp",
+      "kind": "image",
+      "bytes": 124432,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:57:30+00:00",
+      "sha256": "c2081596da173f89dc7f030027d38764ef67a742dbc03a3114a1a4ffd8337309",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js",
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/balsamDry.webp",
+      "kind": "image",
+      "bytes": 114788,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:59:22+00:00",
+      "sha256": "d471b1d8d53f70391acc622d1fd57c8e6ceb75b2f7a97ae2fa76bac1ab0526ba",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 612,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/balsamSeeds.webp",
+      "kind": "image",
+      "bytes": 138522,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T12:00:04+00:00",
+      "sha256": "b2ba1206801bbba064b2968ba48e26604dfa9fc7cfd7cbbe8c306bc372f16107",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/balsamSprout.webp",
+      "kind": "image",
+      "bytes": 79240,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:59:54+00:00",
+      "sha256": "5da7ceb5eababe8047f166e11fe4c84bc00367ae12ba54125c5e0e894fc121b9",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/bg0.webp",
+      "kind": "image",
+      "bytes": 170238,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T12:00:10+00:00",
+      "sha256": "bbe2729fd395f6f02fa15615e99600cc0ffa16e4ae53b7b9c9c53ea95e18c69a",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 1280,
+      "height": 720,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/bg1.webp",
+      "kind": "image",
+      "bytes": 183648,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T12:00:10+00:00",
+      "sha256": "297f680658441fb73be15c0eb5093337a94ae7099adc5a93e40cef0ca57f2247",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 1280,
+      "height": 720,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/bg2.webp",
+      "kind": "image",
+      "bytes": 201584,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T12:00:12+00:00",
+      "sha256": "4ce9616bf67f504fd97b2bd02f3e861888c3e67caaacc3fb477ce94866c88c3f",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 1280,
+      "height": 720,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/bg3.webp",
+      "kind": "image",
+      "bytes": 187852,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T12:00:12+00:00",
+      "sha256": "ff5987d7ed7cd36767eded9942dd3f55f360c29ffd04a3666c80892483b61784",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 1280,
+      "height": 720,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/bg4.webp",
+      "kind": "image",
+      "bytes": 205978,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T12:00:12+00:00",
+      "sha256": "1b6f8abd9ab2a838a7bb397a166b7a2f1b65ce4ca2c522c0915444b5d947f841",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 1280,
+      "height": 720,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/bg5.webp",
+      "kind": "image",
+      "bytes": 177894,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T12:00:12+00:00",
+      "sha256": "1d5e9a35f887bb4d75a7e2ea4b8663542d4de20ba733e5e25a879f2c36efdc55",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 1280,
+      "height": 720,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/bg6.webp",
+      "kind": "image",
+      "bytes": 157654,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T12:00:14+00:00",
+      "sha256": "9dfc7c70f6e4c6bc60f7b577dd96374cf1794d3cc5d296abffb2b0784e9c4131",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 1280,
+      "height": 720,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/bg8.webp",
+      "kind": "image",
+      "bytes": 227070,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T12:00:14+00:00",
+      "sha256": "6ac82e0b7c98b3973f4720cbf7a8d2049a6e76a9cf5c079ec39d4a91e6960184",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 1280,
+      "height": 720,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/bg9.webp",
+      "kind": "image",
+      "bytes": 259942,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T12:00:14+00:00",
+      "sha256": "661ab962663f86b3e4e72340b2e25495e7c4a7fa0945549974f70941d93f2d73",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 1280,
+      "height": 720,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/book.webp",
+      "kind": "image",
+      "bytes": 44930,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:59:10+00:00",
+      "sha256": "9363de9e3ccd45b0ebf212091cfb8f393591e8b7d4b1f413ceaf2c3f610ac150",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js",
+        "adventure.css",
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 427,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/butterfly.webp",
+      "kind": "image",
+      "bytes": 103680,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:57:06+00:00",
+      "sha256": "f0b5debf7db2a4ba8b96e9826e10bb1179cb309f73afeb121c15c33942abf44c",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/camera.webp",
+      "kind": "image",
+      "bytes": 67266,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:59:10+00:00",
+      "sha256": "071a99be010aedd3f1d3b0fb0528750f96e420b247b726d2205f339dd6ac5530",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js",
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 587,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/caterpillar.webp",
+      "kind": "image",
+      "bytes": 57598,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:56:58+00:00",
+      "sha256": "b323cc695595e9b67c432233f7cc45813605276fdb6df24a74da7fefa96f2e4b",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/cheer.webp",
+      "kind": "image",
+      "bytes": 49194,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:57:46+00:00",
+      "sha256": "feaab72ff190f6aa78d4c27692e1de003dcb8cf36397a97a3319f0bc6ff405bc",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js",
+        "game-assets.js"
+      ],
+      "width": 427,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/chicken.webp",
+      "kind": "image",
+      "bytes": 50440,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:57:16+00:00",
+      "sha256": "c90b5c887b527b69c137aef199ca29026df92f10cb2aba3a82ff13c6a09305bf",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js",
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/chrysalis.webp",
+      "kind": "image",
+      "bytes": 36830,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:57:00+00:00",
+      "sha256": "d0e66ec4776912e9969f0acd7da1eb0a34212372bf9f2e0dcedd19bb52ce2053",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/clock.webp",
+      "kind": "image",
+      "bytes": 47994,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:56:44+00:00",
+      "sha256": "7f2df290e395cc48eddc8553f86d6e1d90b180a035ec0109e9f3765f272255e0",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/core.webp",
+      "kind": "image",
+      "bytes": 34132,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:56:50+00:00",
+      "sha256": "270b7d7320296986ac213e77d2b0778bc49168826653fe0e32d12f3eae868db8",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js",
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/dog.webp",
+      "kind": "image",
+      "bytes": 70494,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:57:22+00:00",
+      "sha256": "05a74d527a4a451af102e85442344e414feda75ca62b0595a0bba22244094ff8",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js",
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/dogYoung.webp",
+      "kind": "image",
+      "bytes": 69214,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T12:00:10+00:00",
+      "sha256": "3dbb9786f1a7333de79b45ef12e316b33eaa75ee412b6569b215cfc93e1a4a00",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/dry.webp",
+      "kind": "image",
+      "bytes": 112756,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:58:48+00:00",
+      "sha256": "68e95ae036c13c1b3e1646517147ffe1a741d1e96388c79ea0651daea6ed4185",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js",
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/egg.webp",
+      "kind": "image",
+      "bytes": 60250,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:56:54+00:00",
+      "sha256": "978b446705f084f34f7fb8bc65a73ce61d81aac6010c6db2212e0e37f736966c",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js",
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/forestMap.webp",
+      "kind": "image",
+      "bytes": 528776,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:57:38+00:00",
+      "sha256": "f696b8b052d9bd98bd3a855d3d31642255ab628c5eba024ae0d44c8bb9bbe941",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1536,
+      "height": 864,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/frog.webp",
+      "kind": "image",
+      "bytes": 80926,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:57:12+00:00",
+      "sha256": "68964856d7e546c79d7c0bb3f2303f91b81a4d18277a78c6815b3f4994cd1a15",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js",
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/ipsae.webp",
+      "kind": "image",
+      "bytes": 52656,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:57:48+00:00",
+      "sha256": "5c669c48d93563b057c4244414bd46353d01d816392cde85d09590f37d990325",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 533,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/ipsaeCheer.webp",
+      "kind": "image",
+      "bytes": 56330,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:57:52+00:00",
+      "sha256": "e042e8c498ff31ead7da7d654444ff8caf111364b5f5db24be413a0bf3468e94",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 585,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/jihoon.webp",
+      "kind": "image",
+      "bytes": 57660,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:57:40+00:00",
+      "sha256": "608543008c1706a51738b03627b41af829599d3eb49600fb423fbdebfae1ec95",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 427,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/lamp.webp",
+      "kind": "image",
+      "bytes": 28828,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:56:36+00:00",
+      "sha256": "c6bda3d98760195eac21608aa1a734a35f4ceb92a80cb339057d39713ba92dc1",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js",
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/leaf.webp",
+      "kind": "image",
+      "bytes": 75426,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:58:12+00:00",
+      "sha256": "7b0585b6a1cf6c14f5ba0f82399eae648809a3492d79b71cc25c7b6d778d3009",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 360,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/lever.webp",
+      "kind": "image",
+      "bytes": 33852,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:56:26+00:00",
+      "sha256": "b9bafaa6bcb5c55468e658378590ddac981448d18bfa584e8e34b191ab5e0d2c",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js",
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/lightSensor.webp",
+      "kind": "image",
+      "bytes": 26110,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:56:30+00:00",
+      "sha256": "7fcd1305b509b46cbc2986d5e41be33d2c4f0a0986a4b399abd36da8e3f19151",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/magnifier.webp",
+      "kind": "image",
+      "bytes": 61652,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:58:54+00:00",
+      "sha256": "84176c62d47e091519a48e136920b803e6c71903a0b8b7124d98bd785ad83b8b",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js",
+        "game-assets.js"
+      ],
+      "width": 620,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/manifest.json",
+      "kind": "record",
+      "bytes": 13252,
+      "format": "json",
+      "modifiedUtc": "2026-10-18T12:00:14+00:00",
+      "sha256": "f82bdb0d68fe1a605117897050f998150eb1819ca2a1c4150fd351b9749e7ace",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js",
+        "scripts/build.mjs"
+      ],
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/moistureSensor.webp",
+      "kind": "image",
+      "bytes": 22136,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:56:32+00:00",
+      "sha256": "81d84769895e6a6f2669bde53591b923a8d3ba131c3ff41f08efe13e983ac3e9",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/pale.webp",
+      "kind": "image",
+      "bytes": 74590,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:58:42+00:00",
+      "sha256": "d845e59803dd783054a38ea1cf553e441b8fe0cf66dd6cb8f82392d05335c0aa",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js",
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/pot0.webp",
+      "kind": "image",
+      "bytes": 71498,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:58:16+00:00",
+      "sha256": "7eb6ceb529444d3690a12eb5f860d67ecbad1df4d9e7301487d957d816da4dd9",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/pot1.webp",
+      "kind": "image",
+      "bytes": 79522,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:58:24+00:00",
+      "sha256": "845d2340fc3f424ab61c209435565c2d51fa31b915b79fc02fedd8aa23d79a19",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/pot2.webp",
+      "kind": "image",
+      "bytes": 107836,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:58:30+00:00",
+      "sha256": "8eeeb785a577750a9e90a5a87f8ed81d60c9facee10da6e06ba5619a08c41705",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/pot3.webp",
+      "kind": "image",
+      "bytes": 113638,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:58:38+00:00",
+      "sha256": "4a705a8fc4a407de06460ac677cd606355df3eb4a2034ee08f65c3d77e263c50",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/puppy.webp",
+      "kind": "image",
+      "bytes": 74486,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:59:16+00:00",
+      "sha256": "6f17d53e5ba347a440ec4b952d4e0e30e82cbfc3d9e60ffa03537617c63c19c4",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js",
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 585,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/ring.webp",
+      "kind": "image",
+      "bytes": 41462,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:56:46+00:00",
+      "sha256": "837962da51b2c14ce80c88854d6834ebed5c117b2aa6dd6b16a35b02c03b94ee",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js",
+        "adventure-assets.js",
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/rose.webp",
+      "kind": "image",
+      "bytes": 46670,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:59:30+00:00",
+      "sha256": "0b1ed05d937e278c52e1fc36409455524bf019334982957735ddf9197061ecb6",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 360,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/season.webp",
+      "kind": "image",
+      "bytes": 121710,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:59:06+00:00",
+      "sha256": "f7f5329669df4359878a44fc8275f0726e64fa9550d0935097a8441e40878346",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/seed0.webp",
+      "kind": "image",
+      "bytes": 32762,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:56:14+00:00",
+      "sha256": "b952d51e79fedca487159e62d28c6ca204f70c531e7ec9d7bb663d5d69e47c0c",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/seed1.webp",
+      "kind": "image",
+      "bytes": 32030,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:56:16+00:00",
+      "sha256": "578989dd412b6ad8ebb75e7c67b49e6e6603e9734108579e12eb72948f6d003a",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/seed2.webp",
+      "kind": "image",
+      "bytes": 34172,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:56:18+00:00",
+      "sha256": "2b25f86e6c95cd6d8f32be3c1d7704b9c35fc110b896176daf187fbb2ef30a07",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/seed3.webp",
+      "kind": "image",
+      "bytes": 50780,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:56:22+00:00",
+      "sha256": "cf5c652a9bff480579ac2601dcbee79f727973b42354c1f4b06b7964681127fa",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/shade.webp",
+      "kind": "image",
+      "bytes": 39680,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:56:40+00:00",
+      "sha256": "9fbaa30fcf803eed7646d5c7fc5470f11e74d8eddaf4bbb9faee21462f41ee17",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/soil.webp",
+      "kind": "image",
+      "bytes": 69004,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:56:10+00:00",
+      "sha256": "8deabfb530574fcdc5334e9794ec3b04e93f61bcefa4f4f7d36980f8566b1f09",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js",
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/think.webp",
+      "kind": "image",
+      "bytes": 46624,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:57:44+00:00",
+      "sha256": "39914225f405430fb161df822c8f5ee7ca7cab8a3a8daea8b4b3164f8e6b1bc8",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js",
+        "game-assets.js"
+      ],
+      "width": 427,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/vessel.webp",
+      "kind": "image",
+      "bytes": 24984,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:56:06+00:00",
+      "sha256": "0a8a28a1ed5bd3b6ee3580f4b3bccf485bd30d36fe4a493e4a3b7f7e8d8b85d2",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js",
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/walk.webp",
+      "kind": "image",
+      "bytes": 368266,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:58:12+00:00",
+      "sha256": "64ea96a9ca442767777fbcee65f03ae91a654ffbcd6305fc5481208fd6ca3bf5",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/watercan.webp",
+      "kind": "image",
+      "bytes": 54248,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:58:58+00:00",
+      "sha256": "5c288170032299ae03834de3ca485c068a08f04e025d5d3a23a152b000c36097",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "game-assets.js"
+      ],
+      "width": 640,
+      "height": 585,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/winter.webp",
+      "kind": "image",
+      "bytes": 136374,
+      "format": "webp",
+      "modifiedUtc": "2026-10-18T11:59:30+00:00",
+      "sha256": "e637d9f864f69a0502da87ffe0434e6d7778fc1651592e9992a3bb7c9633bb77",
+      "exactPathCodeReferences": [
+        "game-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "adventure-assets.js",
+        "game-assets.js"
+      ],
+      "width": 616,
+      "height": 640,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/butterfly-adult.webp",
+      "kind": "image",
+      "bytes": 147220,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:44:36+00:00",
+      "sha256": "299a52d0aada1c2f438950868b673c51230876540e013f9f02ccff3e107ad246",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/butterfly-egg.webp",
+      "kind": "image",
+      "bytes": 85846,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:44:42+00:00",
+      "sha256": "61567f28bf374c0f987049ede5b71212dde108128575009fd8a403c4a57ad910",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/butterfly-larva.webp",
+      "kind": "image",
+      "bytes": 81744,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:44:48+00:00",
+      "sha256": "72d0492ded9895357f0cd2c7c2ac95f4e28612865f05e42d0e213adadb356044",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/butterfly-pupa.webp",
+      "kind": "image",
+      "bytes": 51892,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:44:52+00:00",
+      "sha256": "60f89f15990db080d5c34fb24b01b1bbe81636d76f67f427411998c26639a37e",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/forest-map.webp",
+      "kind": "image",
+      "bytes": 552710,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:47:10+00:00",
+      "sha256": "790aa2dc0b240fadb4280cfa2d5ab5700933382894db0f9ecc09d4435a76a5df",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 1536,
+      "height": 864,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/m04-bean-s0.webp",
+      "kind": "image",
+      "bytes": 45894,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:37:12+00:00",
+      "sha256": "d6584e62c18c290c7018549308683d1c82d3412511e22215f4d25a233f3f0ac2",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/m04-bean-s1.webp",
+      "kind": "image",
+      "bytes": 46088,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:37:18+00:00",
+      "sha256": "66373f2031ba6e8740ae76e0132802e88268d480ecfcb42be2b52f1052e1fb91",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/m04-bean-s2.webp",
+      "kind": "image",
+      "bytes": 45258,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:37:22+00:00",
+      "sha256": "f510403ea555c1937b1f67ea9a9711f4b7a5f57556b42ba311629bf5f2166872",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/m04-bean-s3.webp",
+      "kind": "image",
+      "bytes": 67386,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:37:28+00:00",
+      "sha256": "875743370ec49c4787f14fed2a75104e4efb3456243c84041823bbe076ceea30",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/m04-soil.webp",
+      "kind": "image",
+      "bytes": 103482,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:37:36+00:00",
+      "sha256": "2a22715e5de009aae1c3e38f52a024656744f94e7662a8dd44c158dcb95f0fbb",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/m04-time-lever.webp",
+      "kind": "image",
+      "bytes": 45728,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:39:56+00:00",
+      "sha256": "8425d66a9c590082c1bfbabb460ae03b853a6e940814d0d4d744c63f3bf04f88",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/m04-vessel.webp",
+      "kind": "image",
+      "bytes": 32396,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:37:42+00:00",
+      "sha256": "07770b892bb4ce64d48085d54d02dee1ac74f8f6774289e5df0555c201bdff96",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/m05-grow-lamp.webp",
+      "kind": "image",
+      "bytes": 37110,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:37:48+00:00",
+      "sha256": "2c41298eb6a4b4f18e58e9544310e1720773a4726a8252a6a3054c1babbda526",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/m05-light-sensor.webp",
+      "kind": "image",
+      "bytes": 35578,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:37:54+00:00",
+      "sha256": "8067a67b38116f7ccaaa1c26e61ee82097ff216cace14c4c46fa760ef808d5c1",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/m05-moisture-sensor.webp",
+      "kind": "image",
+      "bytes": 29048,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:37:58+00:00",
+      "sha256": "76ee7928048f0b1726709d7b1b48c981f1ca8eb30b7a1e9283ec12b4b98d4e07",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/m05-shade-panel.webp",
+      "kind": "image",
+      "bytes": 51496,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:38:06+00:00",
+      "sha256": "38a0c9f2f45e48c22385c81be95b015355d90f81ae0325706993688871f5d8bd",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/m10-clock-body.webp",
+      "kind": "image",
+      "bytes": 64886,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:40:00+00:00",
+      "sha256": "92b0d11f175c8cdbeea5cf8cbe45162ad38c523d0642fe84a3e23b6493756785",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/m10-clock-core.webp",
+      "kind": "image",
+      "bytes": 48446,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:40:04+00:00",
+      "sha256": "07d76e44ff50d09ff371ee4469c2fffddf83740cc2277230e70611f7b11803eb",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/m10-clock-ring.webp",
+      "kind": "image",
+      "bytes": 59466,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:40:08+00:00",
+      "sha256": "d1e7d979ba8109edb04d214b5f69cde4d07bbd0c6b430dce80064d6ec12e5abe",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/manifest.json",
+      "kind": "record",
+      "bytes": 5980,
+      "format": "json",
+      "modifiedUtc": "2026-10-15T13:46:30+00:00",
+      "sha256": "7bbfe5b898cb0611f45c21dadf6a4b7aab4372e2ffb03721b150b892ed3d80f6",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [
+        "game-assets.js",
+        "scripts/build.mjs"
+      ],
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/prompts.json",
+      "kind": "record",
+      "bytes": 26570,
+      "format": "json",
+      "modifiedUtc": "2026-10-14T13:40:22+00:00",
+      "sha256": "d2d6be20719b65489a7740b241b1b156b8c1a93b9797e6baa72742d7ebca1896",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/source/butterfly-adult.png",
+      "kind": "image",
+      "bytes": 1887899,
+      "format": "png",
+      "modifiedUtc": "2026-10-14T13:42:38+00:00",
+      "sha256": "14994dc62a2180462ecb85aa5e74e44f29c8a8611c3990f1e35074f33fd4ab69",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/butterfly-egg.png",
+      "kind": "image",
+      "bytes": 1209715,
+      "format": "png",
+      "modifiedUtc": "2026-10-14T13:40:36+00:00",
+      "sha256": "749f6cf7894237aeca385973a30586ae37c3e1659a49c552f4d6b599700b1eeb",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/butterfly-larva.png",
+      "kind": "image",
+      "bytes": 996640,
+      "format": "png",
+      "modifiedUtc": "2026-10-14T13:41:12+00:00",
+      "sha256": "217d3a2e3f52b07f83bd4ac0257726810e8b1de71a092fc59a456b44e120d923",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/butterfly-pupa.png",
+      "kind": "image",
+      "bytes": 648694,
+      "format": "png",
+      "modifiedUtc": "2026-10-14T13:41:56+00:00",
+      "sha256": "d5c39bdcf190fab8c837c2a01562320cc86c0643b298b3c777c45e104f166f42",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/forest-map.png",
+      "kind": "image",
+      "bytes": 3719104,
+      "format": "png",
+      "modifiedUtc": "2026-10-14T13:45:24+00:00",
+      "sha256": "5e66b3a3649aa150b582089281cb39ddfbfa9bd5e194c8c32616280c1e21e5e4",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/m04-bean-s0.png",
+      "kind": "image",
+      "bytes": 809330,
+      "format": "png",
+      "modifiedUtc": "2026-10-14T13:28:12+00:00",
+      "sha256": "b7595b81c8003df71a7ecca3d4a2432cb035410a15a645420dc20a527896e721",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/m04-bean-s1.png",
+      "kind": "image",
+      "bytes": 840721,
+      "format": "png",
+      "modifiedUtc": "2026-10-14T13:33:22+00:00",
+      "sha256": "0687bf34d99ed6c5f81f402165d5741ec11ee58b432d685cc70f0998377896f8",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/m04-bean-s2.png",
+      "kind": "image",
+      "bytes": 532228,
+      "format": "png",
+      "modifiedUtc": "2026-10-14T13:32:46+00:00",
+      "sha256": "d3e25ced9ede15c5944a8c9248fbf9312daf5649b59c231c2b97c084f379923c",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/m04-bean-s3.png",
+      "kind": "image",
+      "bytes": 680020,
+      "format": "png",
+      "modifiedUtc": "2026-10-14T13:31:34+00:00",
+      "sha256": "f3069284fff6caf134a6827fd3fb47561529c2d1790843ac89afb1822b5428fa",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/m04-soil.png",
+      "kind": "image",
+      "bytes": 1273612,
+      "format": "png",
+      "modifiedUtc": "2026-10-14T13:27:38+00:00",
+      "sha256": "51194439e702c56f68f609428276820e8ebaced81f831f3d98dd5abb09ec3554",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/m04-time-lever.png",
+      "kind": "image",
+      "bytes": 944523,
+      "format": "png",
+      "modifiedUtc": "2026-10-14T13:37:14+00:00",
+      "sha256": "895b81582a084e04b3b7aa62ab783f0d9e4598260d84228b9ebd358721a5a38f",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/m04-vessel.png",
+      "kind": "image",
+      "bytes": 1037973,
+      "format": "png",
+      "modifiedUtc": "2026-10-14T13:26:18+00:00",
+      "sha256": "2ffd35e455ab46ea2853e70ce87ee1a866a1e25d0cb65970b2e01cc5534966da",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/m05-grow-lamp.png",
+      "kind": "image",
+      "bytes": 657626,
+      "format": "png",
+      "modifiedUtc": "2026-10-14T13:32:10+00:00",
+      "sha256": "937ee0a31067edb6753b2ba877b17601fa629e5b3713c46b0489cfb4e707ea15",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/m05-light-sensor.png",
+      "kind": "image",
+      "bytes": 866419,
+      "format": "png",
+      "modifiedUtc": "2026-10-14T13:28:50+00:00",
+      "sha256": "94271bd4ab89ed986c5fbaff57faa29169552497f67d26809ab50d2f575ec295",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/m05-moisture-sensor.png",
+      "kind": "image",
+      "bytes": 469207,
+      "format": "png",
+      "modifiedUtc": "2026-10-14T13:33:56+00:00",
+      "sha256": "6b62997f6761bf72c6ed292237972e8023a37a9d35cd9023a204b273faea7d2c",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/m05-shade-panel.png",
+      "kind": "image",
+      "bytes": 1350106,
+      "format": "png",
+      "modifiedUtc": "2026-10-14T13:34:22+00:00",
+      "sha256": "e722aa41a6750fad3357d9bf7c86b2cd6226d7df994cee05369067d5bdf138f2",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/m10-clock-body.png",
+      "kind": "image",
+      "bytes": 1390888,
+      "format": "png",
+      "modifiedUtc": "2026-10-14T13:37:42+00:00",
+      "sha256": "ae0207b26e987199d35c975f16b2672b37d406f9464d0a6ae79929db452158ba",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/m10-clock-core.png",
+      "kind": "image",
+      "bytes": 1135839,
+      "format": "png",
+      "modifiedUtc": "2026-10-14T13:39:04+00:00",
+      "sha256": "872fdf19c82ec70f7d49f6c7b69da1ba522fbf4f8cacc5599b48e665c3680255",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/m10-clock-ring.png",
+      "kind": "image",
+      "bytes": 1091700,
+      "format": "png",
+      "modifiedUtc": "2026-10-14T13:38:26+00:00",
+      "sha256": "fa944309e50a869a8dae6665f3f12de7677386a01933ef0164a58faa61e3a7f8",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/species-apple.png",
+      "kind": "image",
+      "bytes": 2100302,
+      "format": "png",
+      "modifiedUtc": "2026-10-14T13:44:52+00:00",
+      "sha256": "8bb16a64f663c8f09054da410131da42373b43f2c1819a637cd3501043a35a87",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/species-balsam.png",
+      "kind": "image",
+      "bytes": 1356225,
+      "format": "png",
+      "modifiedUtc": "2026-10-14T13:44:18+00:00",
+      "sha256": "99269869f3b8af6b82bfe6cc8516e7c691ca28ce91bd39bda454f5604805dc35",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/species-chicken.png",
+      "kind": "image",
+      "bytes": 941425,
+      "format": "png",
+      "modifiedUtc": "2026-10-14T13:44:00+00:00",
+      "sha256": "b53c48e9aef49124042d3a8784ac429f58c2625b8fd0a42891cd056d4c5aecd8",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/species-dog.png",
+      "kind": "image",
+      "bytes": 1339312,
+      "format": "png",
+      "modifiedUtc": "2026-10-14T13:43:50+00:00",
+      "sha256": "c0019b794919cd30b1537ccc434beb3c5309f485b065e62e4ebe354f81328e41",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/species-frog.png",
+      "kind": "image",
+      "bytes": 1324067,
+      "format": "png",
+      "modifiedUtc": "2026-10-14T13:43:18+00:00",
+      "sha256": "141c6394ae03397c3ce3c00b18a2b5cacd14c6513577e7efd358cbb285862385",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/species-apple.webp",
+      "kind": "image",
+      "bytes": 213432,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:47:32+00:00",
+      "sha256": "594ef9c169f6923720afeafb025ad61f978edf954c70caf07fb6cca9d8bd3b45",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/species-balsam.webp",
+      "kind": "image",
+      "bytes": 166816,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:45:06+00:00",
+      "sha256": "da7c5c97fdb19f7e69eb5557315650b484a02ffd22277444eee132a0354468f1",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/species-chicken.webp",
+      "kind": "image",
+      "bytes": 68570,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:45:14+00:00",
+      "sha256": "1dee8dcdc1fefa61a455552f3e181c0d1130f9d5c495bddfada665f6faaf3e51",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/species-dog.webp",
+      "kind": "image",
+      "bytes": 98380,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:45:22+00:00",
+      "sha256": "3b0827474f5acb1595b9dc886550b5b021d5a605fb5b3362590947579f38fea2",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/species-frog.webp",
+      "kind": "image",
+      "bytes": 113894,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:45:30+00:00",
+      "sha256": "38ce9f0b4926fffbbc3f67261dd80c7a97978d1dbade68332de9de24b1ed8850",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 768,
+      "height": 768,
+      "mode": "RGBA",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/optimized/characters.webp",
+      "kind": "image",
+      "bytes": 255292,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:28:22+00:00",
+      "sha256": "516e120a5cb33b89329246b2c3384952a13368ff897947fd5869c3abf83af96e",
+      "exactPathCodeReferences": [
+        "style.css"
+      ],
+      "filenameCodeReferences": [
+        "style.css"
+      ],
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/optimized/scene-01.webp",
+      "kind": "image",
+      "bytes": 237456,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:28:04+00:00",
+      "sha256": "d8ef5ef012e2451c453549f9128a16d764ce43df3c27862e58964e32dfee9862",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/optimized/scene-02.webp",
+      "kind": "image",
+      "bytes": 255500,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:28:06+00:00",
+      "sha256": "4c65282e2e7fa8f99375fb1bb634a520fbf89fd23afe061a8f6456ae83a7909c",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/optimized/scene-03.webp",
+      "kind": "image",
+      "bytes": 295302,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:28:08+00:00",
+      "sha256": "c551a71cedf0d783724425962532373716360a2c43f1f335d6a9294ffcd5c5ec",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/optimized/scene-04.webp",
+      "kind": "image",
+      "bytes": 265350,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:28:10+00:00",
+      "sha256": "8453f862fe8390ff2a2bd46ea85e4d86bb09503bedf89966da47ef3d50eb8616",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/optimized/scene-05.webp",
+      "kind": "image",
+      "bytes": 295428,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:28:12+00:00",
+      "sha256": "ec2f45154222d2e1ff54aa05798f15309bb1f27a93db6a60a500efab4e6e7cb0",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/optimized/scene-06.webp",
+      "kind": "image",
+      "bytes": 244854,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:28:14+00:00",
+      "sha256": "82ec63dcc0ea81559da35aec7b34886aa0ac6ae8931978705584fa001ac93fde",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/optimized/scene-07.webp",
+      "kind": "image",
+      "bytes": 249620,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:28:16+00:00",
+      "sha256": "2e76334f3c38c4f7dc6b7e098b9a91712e409ae979cda7dd764c75b9bb759d16",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/optimized/scene-08.webp",
+      "kind": "image",
+      "bytes": 153812,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:28:18+00:00",
+      "sha256": "77bdf09f8fa9cdae3b851c29bec31c216743052d0109785ee3ca0d9ee252d1fd",
+      "exactPathCodeReferences": [
+        "assets.js",
+        "adventure-assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js",
+        "adventure-assets.js"
+      ],
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/optimized/scene-09.webp",
+      "kind": "image",
+      "bytes": 339578,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:28:20+00:00",
+      "sha256": "51dfb30c1cd36299b767e5084c05b1b1e9f7767d29451a942b2eecdd2e6b84eb",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/optimized/scene-10.webp",
+      "kind": "image",
+      "bytes": 378222,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:28:20+00:00",
+      "sha256": "093cc5dc691187d14ad7b1bab824fb21596b08bb1ff6d2f14b743da568975031",
+      "exactPathCodeReferences": [
+        "assets.js"
+      ],
+      "filenameCodeReferences": [
+        "assets.js"
+      ],
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/optimized/title.webp",
+      "kind": "image",
+      "bytes": 230820,
+      "format": "webp",
+      "modifiedUtc": "2026-10-14T13:28:22+00:00",
+      "sha256": "fe2b56f8696089c0550eb68b2c6f26078c328846977736afb93669cb37dedce7",
+      "exactPathCodeReferences": [
+        "style.css",
+        "polish.css"
+      ],
+      "filenameCodeReferences": [
+        "style.css",
+        "polish.css"
+      ],
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/raw-png/08ba68a0-e485-48b9-aae1-ed18c752da27.png",
+      "kind": "image",
+      "bytes": 892441,
+      "format": "png",
+      "modifiedUtc": "2026-09-23T12:32:24+00:00",
+      "sha256": "e459fb3922c70314a03e215a3cf00beb1867b07639794f5ea757f521fb4ac34a",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1600,
+      "height": 900,
+      "mode": "RGB",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/raw-png/1181e293-93ab-4718-be43-8da4ce33e17e.png",
+      "kind": "image",
+      "bytes": 803306,
+      "format": "png",
+      "modifiedUtc": "2026-09-23T12:32:44+00:00",
+      "sha256": "0511e2cc77ac1e1765dd2376295cb0ba75619314ba1cab9827c15604daad564e",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1600,
+      "height": 900,
+      "mode": "RGB",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/raw-png/15add942-3c04-4095-8220-1e81fb0358f1.png",
+      "kind": "image",
+      "bytes": 382858,
+      "format": "png",
+      "modifiedUtc": "2026-09-23T12:32:18+00:00",
+      "sha256": "89b8a34bf6b0f356b381c45991454a6c60f46b614d5b53c1ee8ed748f6a0f3db",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1600,
+      "height": 900,
+      "mode": "RGB",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/raw-png/245c6746-7ddb-49b3-b522-1bdb85c8d1eb.png",
+      "kind": "image",
+      "bytes": 865154,
+      "format": "png",
+      "modifiedUtc": "2026-09-23T12:32:40+00:00",
+      "sha256": "1ac1f0d7a69dc71ac12c7ffe9c440b89e238f321f31d9983181d9d1c800a6373",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1600,
+      "height": 900,
+      "mode": "RGB",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/raw-png/3543334d-9fd4-4f06-95d6-a94a12348e07.png",
+      "kind": "image",
+      "bytes": 704958,
+      "format": "png",
+      "modifiedUtc": "2026-09-23T12:32:28+00:00",
+      "sha256": "e60b354f46614c4c7b3f5a527912d383ec0cd1caa450c6c5f0a0d215d2ffcd78",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1600,
+      "height": 900,
+      "mode": "RGB",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/raw-png/543de4ec-6c24-4c3a-83d4-fe484a254254.png",
+      "kind": "image",
+      "bytes": 332215,
+      "format": "png",
+      "modifiedUtc": "2026-09-23T12:32:04+00:00",
+      "sha256": "4176825aaad0fb51500c9036c3d63738f192844fa3cf4bf117babeae553eda7a",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1600,
+      "height": 900,
+      "mode": "RGB",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/raw-png/785f1e6c-678f-449c-b716-3ba671151bbf.png",
+      "kind": "image",
+      "bytes": 98628,
+      "format": "png",
+      "modifiedUtc": "2026-09-23T12:32:14+00:00",
+      "sha256": "8db27e9c37dbe18b0b6a0a0e279d782eccb9cf12d079c24e3c31565706eca2f8",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1600,
+      "height": 900,
+      "mode": "RGB",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/raw-png/8a06fc08-ae4a-4af9-aa70-393364f0bb16.png",
+      "kind": "image",
+      "bytes": 88428,
+      "format": "png",
+      "modifiedUtc": "2026-09-23T12:32:34+00:00",
+      "sha256": "6605a31cacf0819ab6c4e0ec70f36b7f8e40b7c4c56c38cb8219d9eb93b81617",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1600,
+      "height": 900,
+      "mode": "RGB",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/raw-png/91297860-1d64-4fb4-8d0d-52b92b451716.png",
+      "kind": "image",
+      "bytes": 704958,
+      "format": "png",
+      "modifiedUtc": "2026-09-23T12:31:42+00:00",
+      "sha256": "e60b354f46614c4c7b3f5a527912d383ec0cd1caa450c6c5f0a0d215d2ffcd78",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1600,
+      "height": 900,
+      "mode": "RGB",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/raw-png/a759c441-5cce-4547-987e-a794140a3717.png",
+      "kind": "image",
+      "bytes": 463153,
+      "format": "png",
+      "modifiedUtc": "2026-09-23T12:31:48+00:00",
+      "sha256": "d59a9837d3cc6ffab250e8d39c3866f10123e4c5b45e61c3a1b298d293da9a32",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1600,
+      "height": 900,
+      "mode": "RGB",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/raw-png/ac942879-0065-4547-a0ba-573c766b0a39.png",
+      "kind": "image",
+      "bytes": 88428,
+      "format": "png",
+      "modifiedUtc": "2026-09-23T12:31:52+00:00",
+      "sha256": "6605a31cacf0819ab6c4e0ec70f36b7f8e40b7c4c56c38cb8219d9eb93b81617",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1600,
+      "height": 900,
+      "mode": "RGB",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/raw-png/c1c75f63-7d7c-466b-9b84-d1764daaface.png",
+      "kind": "image",
+      "bytes": 463153,
+      "format": "png",
+      "modifiedUtc": "2026-09-23T12:32:32+00:00",
+      "sha256": "d59a9837d3cc6ffab250e8d39c3866f10123e4c5b45e61c3a1b298d293da9a32",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1600,
+      "height": 900,
+      "mode": "RGB",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/raw-png/ca5c3f7f-0eb8-417a-8e1f-da089c6eaaae.png",
+      "kind": "image",
+      "bytes": 803306,
+      "format": "png",
+      "modifiedUtc": "2026-09-23T12:32:02+00:00",
+      "sha256": "0511e2cc77ac1e1765dd2376295cb0ba75619314ba1cab9827c15604daad564e",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1600,
+      "height": 900,
+      "mode": "RGB",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/raw-png/ea03a81b-c79c-466d-aa97-648e410cd812.png",
+      "kind": "image",
+      "bytes": 865154,
+      "format": "png",
+      "modifiedUtc": "2026-09-23T12:31:56+00:00",
+      "sha256": "1ac1f0d7a69dc71ac12c7ffe9c440b89e238f321f31d9983181d9d1c800a6373",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1600,
+      "height": 900,
+      "mode": "RGB",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/raw-png/f3053833-6c62-4e87-aea4-36c27f442767.png",
+      "kind": "image",
+      "bytes": 78968,
+      "format": "png",
+      "modifiedUtc": "2026-09-23T12:32:10+00:00",
+      "sha256": "a7748cf08f513063855598922636147f62e869e5843d77c524675d2664032b9a",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1600,
+      "height": 900,
+      "mode": "RGB",
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/README.md",
+      "kind": "record",
+      "bytes": 1331,
+      "format": "md",
+      "modifiedUtc": "2026-10-18T12:18:56+00:00",
+      "sha256": "301b496bb75dc640f6e214d76259de987fb9dc938d3a44530fbb8e019b83a209",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/scene-01.png",
+      "kind": "image",
+      "bytes": 2354179,
+      "format": "png",
+      "modifiedUtc": "2026-09-23T12:34:28+00:00",
+      "sha256": "3a6b391fe1a379f3fa7c77820d6b8e6be338e012c11c8e562a3e7eb93fcfbb1d",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/scene-02.png",
+      "kind": "image",
+      "bytes": 2400152,
+      "format": "png",
+      "modifiedUtc": "2026-09-23T12:34:28+00:00",
+      "sha256": "33b434f0aedcde8507856e0fa3c6ec0857f4a39d0a146b5c06b30231edc5f20b",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/scene-03.png",
+      "kind": "image",
+      "bytes": 2516658,
+      "format": "png",
+      "modifiedUtc": "2026-09-23T12:34:28+00:00",
+      "sha256": "0f0c6ced1bad8389cc60af5e41aead39e0619b53aaafc43b39f74e56e94f9096",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/scene-04.png",
+      "kind": "image",
+      "bytes": 2367053,
+      "format": "png",
+      "modifiedUtc": "2026-09-23T12:34:30+00:00",
+      "sha256": "79ab17963095d0c9de53220619c5189f74044a4e61dedbf16b4981e43a7d94c3",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/scene-05.png",
+      "kind": "image",
+      "bytes": 2487232,
+      "format": "png",
+      "modifiedUtc": "2026-09-23T12:34:30+00:00",
+      "sha256": "83e9d824d651e564e346525d5c88c6887af5d2a81e1c3e61107c476db51877fc",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/scene-06.png",
+      "kind": "image",
+      "bytes": 2279986,
+      "format": "png",
+      "modifiedUtc": "2026-09-23T12:34:30+00:00",
+      "sha256": "c5243e27878982ad0e099f60c3350b995b687d85a9a29bab2817c0f7fb86290e",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/scene-07.png",
+      "kind": "image",
+      "bytes": 2418339,
+      "format": "png",
+      "modifiedUtc": "2026-09-23T12:34:32+00:00",
+      "sha256": "50967222f762a1971e4fb3c5aa06efe2f29e7d8dbe221674768de662afae0987",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/scene-08.png",
+      "kind": "image",
+      "bytes": 1908765,
+      "format": "png",
+      "modifiedUtc": "2026-09-23T12:34:32+00:00",
+      "sha256": "f1a8d66c2c6959ac2352f87ff4afdf20cd4945ba027ddb0866782f640d4ef144",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/scene-09.png",
+      "kind": "image",
+      "bytes": 2707138,
+      "format": "png",
+      "modifiedUtc": "2026-09-23T12:34:34+00:00",
+      "sha256": "1dbff8caf7b02e47740eee7fe64b2e236dd7f131e03738e17c6d51f6f802a14a",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/scene-10.png",
+      "kind": "image",
+      "bytes": 2794374,
+      "format": "png",
+      "modifiedUtc": "2026-09-23T12:34:34+00:00",
+      "sha256": "5831efaf4cf54766da9d884bb7b13ca21157c11e4ab92d443b3256cdcfe63a2e",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/title.png",
+      "kind": "image",
+      "bytes": 2336857,
+      "format": "png",
+      "modifiedUtc": "2026-09-23T12:34:44+00:00",
+      "sha256": "294f68e83ca5fec8b11d1411ef328c20273a89d4931b2b2bd6c6d30fed19a419",
+      "exactPathCodeReferences": [],
+      "filenameCodeReferences": [],
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "sourceOnly": false
+    }
+  ],
+  "duplicates": [
+    [
+      "assets/raw-png/1181e293-93ab-4718-be43-8da4ce33e17e.png",
+      "assets/raw-png/ca5c3f7f-0eb8-417a-8e1f-da089c6eaaae.png"
+    ],
+    [
+      "assets/raw-png/245c6746-7ddb-49b3-b522-1bdb85c8d1eb.png",
+      "assets/raw-png/ea03a81b-c79c-466d-aa97-648e410cd812.png"
+    ],
+    [
+      "assets/raw-png/3543334d-9fd4-4f06-95d6-a94a12348e07.png",
+      "assets/raw-png/91297860-1d64-4fb4-8d0d-52b92b451716.png"
+    ],
+    [
+      "assets/raw-png/8a06fc08-ae4a-4af9-aa70-393364f0bb16.png",
+      "assets/raw-png/ac942879-0065-4547-a0ba-573c766b0a39.png"
+    ],
+    [
+      "assets/raw-png/a759c441-5cce-4547-987e-a794140a3717.png",
+      "assets/raw-png/c1c75f63-7d7c-466b-9b84-d1764daaface.png"
+    ]
+  ]
+}

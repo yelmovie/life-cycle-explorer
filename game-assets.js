@@ -1,5 +1,6 @@
 // Resized copies of existing project illustrations. Sources: assets/game/manifest.json
 export const ART={
+  "fieldClearing": "assets/field/observation-clearing.webp",
   "vessel": "assets/game/vessel.webp",
   "soil": "assets/game/soil.webp",
   "seed0": "assets/game/seed0.webp",

@@ -1,5 +1,6 @@
 import * as inquiry from './inquiry-core.js';
 import {initialExpedition,restoreExpedition,questSolved} from './expedition.js';
+import {initialField,restoreField,fieldRecords} from './field-model.js';
 export * from './inquiry-core.js';
 export * from './expedition.js';
 export const GAME_KEY='life-clock-lab.phaser.4';
@@ -10,8 +11,14 @@ export const EDGES=[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[6,9],[9,10]
 export const DOORS=[8,12,17,23,26];
 export function nearest(p){return POINTS.reduce((b,q,i)=>Math.hypot(q[0]-p[0],q[1]-p[1])<Math.hypot(POINTS[b][0]-p[0],POINTS[b][1]-p[1])?i:b,0);}
 export function route(a,b){const distance=POINTS.map(()=>Infinity),previous=[],open=new Set(POINTS.map((_,i)=>i));distance[a]=0;while(open.size){const u=[...open].reduce((x,y)=>distance[x]<distance[y]?x:y);open.delete(u);if(u===b)break;for(const [x,y] of EDGES){const v=x===u?y:y===u?x:null;if(v===null||!open.has(v))continue;const d=distance[u]+Math.hypot(POINTS[u][0]-POINTS[v][0],POINTS[u][1]-POINTS[v][1]);if(d<distance[v]){distance[v]=d;previous[v]=u;}}}const result=[b];while(result[0]!==a&&previous[result[0]]!==undefined)result.unshift(previous[result[0]]);return result;}
-export function fresh(){return {...inquiry.fresh(),avatar:{x:POINTS[0][0],y:POINTS[0][1]},expedition:initialExpedition()};}
-export function restore(raw){let parsed;try{parsed=JSON.parse(raw);}catch{}if(!parsed||![2,3].includes(parsed.version))return fresh();const s=inquiry.restore(raw);s.expedition=restoreExpedition(parsed.expedition,s);return s;}
+export function fresh(){return {...inquiry.fresh(),avatar:{x:POINTS[0][0],y:POINTS[0][1]},expedition:initialExpedition(),field:initialField(),fieldView:'title',audio:{bgm:false,sfx:true,volume:.2}};}
+export function restore(raw){
+ let parsed;try{parsed=JSON.parse(raw);}catch{}if(!parsed||![2,3].includes(parsed.version))return fresh();
+ const s=inquiry.restore(raw);s.expedition=restoreExpedition(parsed.expedition,s);s.field=restoreField(parsed.field);
+ s.fieldView=['title','map','room'].includes(parsed.fieldView)?parsed.fieldView:'title';
+ s.audio={bgm:parsed.audio?.bgm===true,sfx:parsed.audio?.sfx!==false,volume:Number.isFinite(parsed.audio?.volume)?Math.max(0,Math.min(1,parsed.audio.volume)):.2};
+ return s;
+}
 export function loadGame(storage){try{const raw=storage.getItem(GAME_KEY);if(raw)return restore(raw);return restore(storage.getItem(inquiry.STORAGE_KEY)||storage.getItem(inquiry.LEGACY_KEY));}catch{return fresh();}}
 export function complete(s,n){if(n%2===1&&!questSolved(s,Math.floor(n/2)))return false;return inquiry.complete(s,n);}
 export function saveGame(storage,s){try{storage.setItem(GAME_KEY,JSON.stringify(s));return true;}catch{return false;}}
@@ -20,7 +27,7 @@ export function saveGame(storage,s){try{storage.setItem(GAME_KEY,JSON.stringify(
 export function addEvidence(s,data){const old=s.inquiry.evidence.find(e=>e.type===data.type&&(['compare','care','season'].includes(e.type)||e.type==='observation'&&e.species===data.species));if(old){Object.assign(old,JSON.parse(JSON.stringify(data)));return old;}return inquiry.addEvidence(s,data);}
 export function capturePin(s,id,p){if(!inquiry.SPECIES.includes(id)||!p||!Number.isFinite(p.x)||!Number.isFinite(p.y))return false;const old=s.inquiry.evidence.find(e=>e.type==='observation'&&e.species===id);if(!old)return inquiry.capturePin(s,id,p);old.pin={...p};s.inquiry.pins[id]={...p};if(!s.discovery.seen.includes(id))s.discovery.seen.push(id);return true;}
 export function captureRetry(s){const r=inquiry.activeRetry(s);if(!r||s.inquiry.retryDay<2)return null;const old=s.inquiry.evidence.find(e=>e.type==='retry'&&e.runId===r.id);if(old){old.day=s.inquiry.retryDay;return old;}return inquiry.captureRetry(s);}
-export function recordBank(s){return inquiry.recordBank(s).map(r=>r.id.startsWith('obs-')?{...r,detail:LABELS[r.id.slice(4)]+'의 전체 모습을 살펴본 기록'}:r);}
+export function recordBank(s){return [...inquiry.recordBank(s).map(r=>r.id.startsWith('obs-')?{...r,detail:LABELS[r.id.slice(4)]+'의 전체 모습을 살펴본 기록'}:r),...(s.field?fieldRecords(s.field):[])];}
 export function moveFilm(s,from,to){if(from<0||to<0||from>3||to>3)return false;const [id]=s.cycle.order.splice(from,1);s.cycle.order.splice(to,0,id);return true;}
 export function changeCondition(s,domain,side,key){if(!['seed','greenhouse'].includes(domain)||!['a','b'].includes(side)||typeof s[domain][side][key]!=='boolean')return false;if(domain==='seed'&&inquiry.initialRun(s)||domain==='greenhouse'&&s.completed.includes(4))return false;s[domain][side][key]=!s[domain][side][key];return true;}
 export function classify(s,id,group){if(!(id in inquiry.GROUPS)||!['egg','live','annual','perennial'].includes(group))return false;s.inquiry.garden.draft[id]=group;if(inquiry.GROUPS[id]!==group)return false;s.garden.placements[id]=group;return true;}
