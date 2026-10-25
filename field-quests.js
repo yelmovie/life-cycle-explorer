@@ -90,7 +90,7 @@ export function applyQuest(field,payload={}){
 export function renderQuestRoom(v,ctx){
  const f=ctx.s.field,c=f.active,step=currentStep(f),saved=state(f),e=saved[step]||{},mission=DISCOVERY_MISSIONS[c],reduced=reducedMotion(ctx.s.settings);
  const send=payload=>ctx.emit('act',{type:'quest-answer',payload:{step,...payload}});
- const panel=(x,y,w,h)=>v.add.rectangle(x,y,w,h,0xfffdf3,1).setStrokeStyle(2,0xa7b99a);
+ const panel=(x,y,w,h)=>v.paper(x,y,w,h);
  const label=(x,y,text,size=23,w=350)=>v.label(x,y,text,size,w);
  const button=(x,y,w,text,payload,done=false)=>{
   const shadow=v.add.rectangle(x,y+4,w,52,0x315742,.96),face=v.add.rectangle(x,y,w,52,done?0x4d7d56:0xfffbee,.98).setStrokeStyle(2,done?0x39613f:0x9eaf91);

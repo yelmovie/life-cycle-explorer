@@ -5,7 +5,7 @@ globalThis.Phaser={Scene:class{},CANVAS:1,Scale:{ENVELOP:1,CENTER_BOTH:2},Game:c
 const {createFieldGame}=await import('../field-scenes.js');
 
 function assets(chapter=1){
- const events=[],textures=new Set(['forestMap','ipsae','guideLook','guideStory']),queued=[],handlers=new Map();
+ const events=[],textures=new Set(['forestMap','ipsae','guideLook','guideStory','walker','doto']),queued=[],handlers=new Map();
  const context={s:{field:{active:chapter}},mode:()=> 'room',modalOpen:()=>false,focusTargets(){},emit:(type)=>events.push(type)};
  const {scene}=createFieldGame(context);
  scene.load={image(key){queued.push(key);},spritesheet(){},on(event,fn){handlers.set(event,fn);},once(event,fn){handlers.set(event,fn);},start(){}};
@@ -20,7 +20,7 @@ function assets(chapter=1){
 for(const chapter of [1,2,3,4])test(`${chapter+1}단계는 배경과 도구를 불러온 뒤에만 활동을 연다`,()=>{
  const a=assets(chapter);a.scene.refresh();
  assert.equal(a.scene.loading,true);assert.equal(a.scene.input.enabled,false);
- assert.ok(a.queued.includes('bg'+chapter*2));assert.ok(a.queued.length>1);
+ assert.ok(a.queued.includes(['fieldClearing','bg2','bg4','gardenSeasons','bg8'][chapter]));assert.ok(a.queued.length>1);
  assert.deepEqual(a.events,['assets-loading']);
 });
 
@@ -48,6 +48,11 @@ test('복구된 그림은 다음 화면의 입력을 다시 열고 탐구 상태
  a.context.mode=()=> 'map';a.scene.input.on=()=>{};let rendered=false;a.scene.map=()=>{rendered=true;};
  a.handlers.get('complete')();assert.equal(rendered,true);assert.equal(a.scene.input.enabled,true);
  assert.equal(a.scene.assetFailure,null);assert.equal(JSON.stringify(a.context.s.field),before);assert.equal(a.events.at(-1),'loaded');
+});
+
+test('첫 화면은 지도·걷기 그림을 미리 받지 않고 바로 열린다',()=>{
+ const a=assets();a.context.mode=()=> 'title';a.textures.clear();let rendered=false;a.scene.map=()=>{rendered=true;};
+ a.scene.refresh();assert.deepEqual(a.queued,[]);assert.equal(rendered,true);assert.equal(a.events.at(-1),'loaded');
 });
 
 test('누락된 그림은 지훈 캐릭터로 대체하지 않는다',()=>{

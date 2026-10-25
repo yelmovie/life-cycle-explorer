@@ -65,17 +65,15 @@ export const ART={
   "appleSummer": "assets/game/appleSummer.webp",
   "balsamSprout": "assets/game/balsamSprout.webp",
   "balsamSeeds": "assets/game/balsamSeeds.webp",
-  "dogYoung": "assets/field/dog-juvenile-v1.webp"
+  "dogYoung": "assets/field/dog-juvenile-v1.webp",
+  "gardenSeasons": "assets/field/garden-seasons-v1.webp",
+  "paperCard": "assets/field/paper-card-v1.webp",
+  "rewardRays": "assets/field/reward-rays-v1.webp",
+  "dotoMap": "assets/field/doto-map-v1.webp"
 };
-export const SCENES=[
-  "assets/game/bg0.webp",
-  "assets/game/bg1.webp",
-  "assets/game/bg2.webp",
-  "assets/game/bg3.webp",
-  "assets/game/bg4.webp",
-  "assets/game/bg5.webp",
-  "assets/game/bg6.webp",
-  "assets/game/rose.webp",
-  "assets/game/bg8.webp",
-  "assets/game/bg9.webp"
-];
+// Room backdrops still in use; the other early scene renders moved to _unused/ on 2026-10-25.
+export const SCENES={
+  "bg2": "assets/game/bg2.webp",
+  "bg4": "assets/game/bg4.webp",
+  "bg8": "assets/game/bg8.webp"
+};

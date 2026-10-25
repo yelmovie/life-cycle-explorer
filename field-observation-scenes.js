@@ -23,8 +23,7 @@ export function renderObservationRoom(v,ctx,phase){
   // A quiet specimen mat, number and name separate each organism from the busy forest.
   for(const [i,id] of FORMS.entries()){
    const [x,y,size]=POSITIONS[id];
-   v.add.graphics().fillStyle(0x173e30,.12).fillRoundedRect(x-177,y-93,354,216,23);
-   v.add.graphics().fillStyle(0xfffbed,.97).fillRoundedRect(x-180,y-98,354,216,23);
+   v.paper(x-3,y+10,354,216);
    v.text(x,y-72,`${i+1}  ${FORM_NAMES[id]}${q.inspected[id].length===2?' · 기록 완료':''}`,26,320);
    // The egg remains one third its old displayed size; the whole mat is a large touch target.
    const specimenY=y+(id==='egg'?7:-3);
@@ -81,9 +80,9 @@ export function renderObservationRoom(v,ctx,phase){
   return;
  }
  if(phase==='draw'){
-  const id=q.drawingForm||'larva';v.add.graphics().fillStyle(0xfffbed,.92).fillRoundedRect(170,230,355,355,22);
+  const id=q.drawingForm||'larva';v.paper(347,407,355,355);
   v.pic(id,345,365,id==='egg'?160/3:240);v.label(345,550,'내가 본 '+FORM_NAMES[id],26,300);
-  const x=610,y=230,w=470,h=305;v.add.graphics().fillStyle(0xfffdf3,.97).fillRoundedRect(x,y,w,h,18);
+  const x=610,y=230,w=470,h=305;v.paper(x+w/2,y+h/2,w,h);
   v.text(x+w/2,y-28,'① 특징을 직접 그려 줘',26,460);
   const ink=v.add.graphics().lineStyle(4,INK,1);
   for(const a of q.drawing){ink.beginPath();a.forEach((p,i)=>i?ink.lineTo(x+p[0]*w,y+p[1]*h):ink.moveTo(x+p[0]*w,y+p[1]*h));ink.strokePath();}
@@ -95,7 +94,7 @@ export function renderObservationRoom(v,ctx,phase){
  }
  if(phase==='film'){
   for(let i=0;i<4;i++){
-   const x=300+i*225;v.add.graphics().fillStyle(0xfffcf0,.95).fillRoundedRect(x-99,260,198,280,18);
+   const x=300+i*225;v.paper(x,400,198,280);
    v.drop(x,390,200,265,'film-'+i,['처음','다음','다음','마지막'][i],()=>ctx.emit('target','film-'+i));
    v.label(x,575,['1 처음','2 다음','3 다음','4 마지막'][i],24,200);
    const id=q.order[i],o=v.pic(id,x,385,id==='egg'?160/3:165,220);v.draggable(o,'film',{from:i},FORM_NAMES[id]+' 사진 옮기기');
@@ -103,8 +102,8 @@ export function renderObservationRoom(v,ctx,phase){
   v.text(640,635,'사진을 먼저 누른 뒤, 옮길 자리를 눌러도 돼.',24,900);
   if(ctx.ui.play){let i=0;const marker=v.add.graphics().lineStyle(5,0x4d9270).strokeRoundedRect(199,258,202,284,18),caption=v.label(640,215,'내 시간 필름 · '+FORM_NAMES[q.order[0]],27,850);v.time.addEvent({delay:1150,loop:true,callback:()=>{i=(i+1)%4;marker.x=i*225;caption.setText('내 시간 필름 · '+FORM_NAMES[q.order[i]]);}});}return;
  }
- v.add.graphics().fillStyle(0xfffbed,.88).fillRoundedRect(210,240,360,320,22);v.pic('adult',390,370,260);
- v.add.graphics().fillStyle(0xfffbed,.88).fillRoundedRect(745,240,340,320,22);
+ v.paper(390,400,360,320);v.pic('adult',390,370,260);
+ v.paper(915,400,340,320);
  v.text(915,330,'새 잎에서\n새로운 생명이 시작돼',28,300);v.drop(915,440,280,170,'next-egg','다음 세대의 새 알을 놓을 자리',()=>ctx.emit('target','next-egg'));
  const egg=v.pic('egg',650,440,160/3);v.draggable(egg,'generation',{},'새 알을 고른 뒤 오른쪽 잎 자리 누르기');
  v.label(390,590,'알을 낳는 어른벌레',25,330);v.label(915,590,'새 알을 여기에 놓기',25,330);v.text(640,655,'어른벌레가 알로 바뀌는 게 아니라, 새 개체가 태어나.',23,1000);

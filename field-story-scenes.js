@@ -90,7 +90,7 @@ export function renderStoryRoom(v,ctx,phase){
   ctx.ui.storyBoardSeen=[...q.records];
   // A quiet notebook preview on the existing easel, separate from the board.
   if(v.textures.exists('researchNotebook'))v.pic('researchNotebook',1090,382,255,320);
-  else v.add.rectangle(1090,382,220,285,0xfffbed,.96).setStrokeStyle(1,0xc9bc91);
+  else v.paper(1090,382,220,285);
   handwriting(1090,331,'내가 알게 된 점',28,205);
   const summary=handwriting(1090,400,q.summary||'사진을 붙이고\n내 말로 설명해 보자!',26,190);
   const summaryLines=summary.getWrappedText();

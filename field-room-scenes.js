@@ -7,9 +7,9 @@ import {renderQuestRoom,questReady,DISCOVERY_MISSIONS} from './field-quests.js';
 import {fieldRecords} from './field-model.js';
 import {FIELD_CHAPTERS,FORM_NAMES,FORM_TRAITS} from './field-content.js';
 
-const ROOM_ART=[['fieldClearing','egg','larva','pupa','adult','leaf','observationLens'],['bg2','vessel','soil','seed0','pot0','pot1','pot2','pot3','watercan','lamp','timeWheel'],['bg4','dry','pale','pot3','watercan','lamp','lightSensor','moistureSensor','timeWheel'],['bg6','egg','larva','pupa','adult','puppy','dogYoung','dog','timeWheel','seasonCompass','appleSpring','appleSummer','apple','winter','balsam','balsamDry','balsamSprout','balsamSeeds','rose'],['bg8',...storyRoomAssets]];
+const ROOM_ART=[['fieldClearing','egg','larva','pupa','adult','leaf','observationLens'],['bg2','vessel','soil','seed0','pot0','pot1','pot2','pot3','watercan','lamp','timeWheel'],['bg4','dry','pale','pot3','watercan','lamp','lightSensor','moistureSensor','timeWheel'],['gardenSeasons','egg','larva','pupa','adult','puppy','dogYoung','dog','timeWheel','seasonCompass','appleSpring','appleSummer','apple','winter','balsam','balsamDry','balsamSprout','balsamSeeds','rose'],['bg8',...storyRoomAssets]];
 const QUEST_ART=[['leaf','pupa','egg','larva','adult'],['vessel','pot0'],['pot3','pale'],['appleSpring','balsamSprout','storyCamera'],['storyCamera']];
-export const fieldRoomAssets=ctx=>[...new Set([...ROOM_ART[ctx.s.field.active],...QUEST_ART[ctx.s.field.active],FIELD_CHAPTERS[ctx.s.field.active].art])];
+export const fieldRoomAssets=ctx=>[...new Set([...ROOM_ART[ctx.s.field.active],...QUEST_ART[ctx.s.field.active],FIELD_CHAPTERS[ctx.s.field.active].art,'paperCard','rewardRays'])];
 const names={water:'물',warm:'온도',light:'빛'}, seasons=['첫봄','여름','가을','겨울','다음 봄'];
 export function renderFieldRoom(v,ctx){
  const f=ctx.s.field,c=f.active,q=f.chapters[c],phase=roomPhase(f),act=(type,payload={})=>ctx.emit('act',{type,payload});
@@ -17,14 +17,16 @@ export function renderFieldRoom(v,ctx){
  const tool=(key,x,y,kind,data={},label='')=>{const o=v.pic(key,x,y,115);v.draggable(o,kind,data,label||key);return o;};
  const token=(text,x,y,kind,data={},w=155)=>{const plate=v.add.rectangle(0,0,w,68,0xfff7d9).setStrokeStyle(3,0xa88a43),label=v.text(0,0,text,26,w-12);const o=v.add.container(x,y,[plate,label]).setSize(w,68);v.draggable(o,kind,data,text+' 옮기기');return o;};
  const check=(x,y,yes)=>{if(yes)v.text(x,y,'✓',35,50,'#21573b');};
- const plant=(key,x,y,size=290)=>{v.add.graphics().fillStyle(0xfffdf3,1).fillRoundedRect(x-180,240,360,355,20).lineStyle(2,0xc6ceb8,1).strokeRoundedRect(x-180,240,360,355,20);v.shadow(x,y+size*.40,size*.65);return v.pic(key,x,y,size,size);};
+ const plant=(key,x,y,size=290)=>{v.paper(x,417,360,355);v.shadow(x,y+size*.40,size*.65);return v.pic(key,x,y,size,size);};
  const line=(x1,y1,x2,y2)=>v.add.graphics().lineStyle(5,0xffe8a9,.9).lineBetween(x1,y1,x2,y2);
  const tag=(x,y,text)=>v.label(x,y,text,22,250);
  const dayDial=(key,x,y,value,max,type,payload={},labels)=>{v.dial(key,x,y,value,max,'dial',labels);ctx.ui.dial={type,payload};};
  if(phase==='discovery'){renderQuestRoom(v,ctx);return;}
  if(phase==='ready'){
   v.pic(c===4?'guideStory':'guideCare',370,440,370,440);const art=FIELD_CHAPTERS[c].art;
+  const rays=v.pic('rewardRays',800,360,520).setAlpha(.85);
   const reward=v.pic(art,800,360,280);v.shadow(800,510,260);
+  if(!reducedMotion(ctx.s.settings))v.tweens.add({targets:rays,angle:360,duration:24000,repeat:-1});
   v.label(800,560,FIELD_CHAPTERS[c].reward,38,530);v.text(800,620,FIELD_CHAPTERS[c].use,24,530);
   if(questReady(f,c))v.label(800,678,'✓ '+DISCOVERY_MISSIONS[c].name+' 도장',23,600);
   if(!reducedMotion(ctx.s.settings))v.tweens.add({targets:reward,y:340,duration:1300,yoyo:true,repeat:-1});return;

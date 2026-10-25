@@ -6,8 +6,8 @@ import {seedObservation,careTimeLabels} from './field-model.js';
 export function renderPlantRoom(v,ctx,phase){
  const f=ctx.s.field,c=f.active,q=f.chapters[c],act=(type,payload={})=>ctx.emit('act',{type,payload});
  const reduced=reducedMotion(ctx.s.settings);
- const observationMat=(x,y,w,h)=>v.add.graphics().fillStyle(0xfffdf3,1).fillRoundedRect(x-w/2,y-h/2,w,h,20).lineStyle(2,0xc6ceb8,1).strokeRoundedRect(x-w/2,y-h/2,w,h,20);
- const card=(x,y,w,h)=>v.add.rectangle(x,y,w,h,0xfffbee,.94).setStrokeStyle(2,0xb6c8a7);
+ const observationMat=(x,y,w,h)=>v.paper(x,y,w,h);
+ const card=(x,y,w,h)=>v.paper(x,y,w,h);
  const label=(x,y,text,size=23,w=270)=>v.label(x,y,text,size,w);
  const button=(x,y,w,text,fn,active=false)=>{
   const shadow=v.add.rectangle(x,y+4,w,64,0x244d3d,.94);const face=v.add.rectangle(x,y,w,64,active?0x3c7353:0xfffbee,.98).setStrokeStyle(2,active?0x2e5c41:0x829779);

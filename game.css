@@ -128,7 +128,7 @@ button svg{flex:none;width:28px;height:28px;fill:none;stroke:currentColor;stroke
 #app[data-view=title] #stage{position:absolute;inset:0;min-height:0;height:100%}
 #app[data-view=title] .game-header{position:absolute;inset:0 0 auto;z-index:10;background:transparent}
 #app[data-view=title] .game-footer{display:none}
-#app[data-view=title] #title-screen{position:relative;min-height:100dvh;height:100%;overflow:hidden;background:linear-gradient(90deg,#102e27eb 0%,#173c32c2 30%,#1d44374d 56%,transparent 78%),linear-gradient(0deg,#0f302975,transparent 38%),url('assets/expedition/forest-world.webp') center/cover no-repeat}
+#app[data-view=title] #title-screen{position:relative;min-height:100dvh;height:100%;overflow:hidden;background:linear-gradient(90deg,#102e27eb 0%,#173c32c2 30%,#1d44374d 56%,transparent 78%),linear-gradient(0deg,#0f302975,transparent 38%),url('assets/expedition/forest-world-title.webp') center/cover no-repeat}
 /* Activities are landscape-first. Portrait uses a real blocking orientation surface. */
 .portrait{display:none}
 @media(orientation:portrait){#app:not([data-view=title]) .portrait{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:24px;width:100%;padding:32px;background:var(--cream-50);font-size:var(--font-size-lg);line-height:1.35;text-align:center;pointer-events:auto}#app:not([data-view=title]) .portrait:before{content:'↻';font-size:72px;line-height:1;color:var(--color-primary)}}
@@ -191,6 +191,12 @@ dialog details{margin-top:8px;border-top:1px solid var(--color-border-soft)}dial
 #app:not([data-view=title]) #guide-bubble{position:absolute;left:clamp(12px,2vw,28px);bottom:calc(100% + 6px);width:fit-content;max-width:min(860px,calc(100% - 24px));height:auto;max-height:none;padding:8px 10px 8px 16px;border:2px solid var(--color-accent);box-shadow:var(--shadow-card)}
 /* Short landscape (fold, in-app browsers): one footer row so the next button stays on screen without scrolling. */
 @media(max-height:640px) and (min-width:700px){#app{--stage-min-height:330px}#app:not([data-view=title]) .game-footer{grid-template-columns:auto minmax(0,1fr) minmax(150px,max-content);grid-template-areas:"guide controls next";padding:6px 12px 10px}#app:not([data-view=title]) .game-header{padding-block:6px;gap:4px}#guide span{display:none}#guide{padding:4px}#next{min-height:52px;padding:8px 14px}}
+/* Zone loading card: Doto unrolls the map while the room art arrives. */
+.boot:has(.boot-bar){gap:14px;justify-items:center;background:radial-gradient(circle at 50% 42%,#fffbed 0,#f1e6c4 55%,#d9cfa3 100%)}
+.boot img{width:clamp(150px,22vh,240px);height:auto;filter:drop-shadow(0 12px 14px #3a2c1a40)}
+.boot p{margin:0;font-size:var(--font-size-md);color:var(--forest-900)}
+.boot-bar{display:block;width:min(320px,70vw);height:14px;padding:3px;border:2px solid var(--brass-700);border-radius:999px;background:#fffbed}
+.boot-bar i{display:block;width:0;height:100%;border-radius:999px;background:linear-gradient(90deg,#7fae64,var(--forest-700));transition:width .2s ease}
 .modal-portrait{display:none}
 @media(orientation:portrait){dialog[open] .modal-portrait{display:flex;position:absolute;inset:0;z-index:50;align-items:center;justify-content:center;padding:24px;text-align:center;background:var(--cream-50);font-size:28px;line-height:1.5;border-radius:inherit}dialog[open]>.modal-body,dialog[open]>h2,dialog[open]>.close,dialog[open]>.dialog-actions{visibility:hidden}}
 

@@ -11,14 +11,14 @@ const P=globalThis.Phaser,W=1280,H=800;
 // Activity renderers keep their established world coordinates. The room camera
 // fits the content only; page chrome reserves its own space outside the canvas.
 const ROOM_VIEW={x:64,y:140,width:1184,height:600};
+const ROOM_BACKDROPS=['fieldClearing','bg2','bg4','gardenSeasons','bg8'];
 export function createFieldGame(context){
  class FieldWorld extends P.Scene{
   constructor(){super('field-world');}
   preload(){
    this.load.on('progress',progress=>context.emit('assets-progress',{progress}));
-   this.paths={...ART,doto:COMPANION_ART};SCENES.forEach((path,i)=>this.paths['bg'+i]=path);
-   this.load.image('forestMap',ART.forestMap);this.load.image('ipsae',ART.ipsae);this.load.image('doto',COMPANION_ART);this.load.image('guideLook',ART.guideLook);this.load.image('guideStory',ART.guideStory);
-   this.load.spritesheet('walker',ART.walk,{frameWidth:256,frameHeight:256});
+   // Nothing preloads: the title is DOM art, so map and room images arrive when first needed.
+   this.paths={...ART,...SCENES,doto:COMPANION_ART,walker:ART.walk};
    this.failed=new Set();this.assetAttempts=new Map();this.load.on('loaderror',file=>{this.failed.add(file.key);this.assetAttempts.set(file.key,(this.assetAttempts.get(file.key)||0)+1);});
    this.load.on('filecomplete',key=>this.failed.delete(key));
   }
@@ -98,6 +98,15 @@ export function createFieldGame(context){
   }
   pic(key,x,y,w,h=w){const texture=this.textures.exists(key)?key:'__MISSING',o=this.add.image(x,y,texture);return o.setScale(Math.min(w/o.width,h/o.height));}
   shadow(x,y,w=210){return this.add.ellipse(x,y,w,25,0x173d2e,.20);}
+  // Nine-slice paper card (Canvas has no NineSlice object): taped corners keep their size, edges stretch.
+  paper(x,y,w,h){
+   if(!this.textures.exists('paperCard'))return this.add.graphics().fillStyle(0xfffbed,.97).fillRoundedRect(x-w/2,y-h/2,w,h,20);
+   const t=this.textures.get('paperCard'),{width:SW,height:SH}=t.source[0],m=Math.round(Math.min(SW,SH)*.15),c=Math.min(52,w/3,h/3);
+   const cut=[[0,m,SW-m],[m,SW-2*m,m],[0,m,SH-m],[m,SH-2*m,m]];
+   if(!t.has('paper8'))for(let n=0;n<9;n++)t.add('paper'+n,0,cut[0][n%3],cut[2][n/3|0],cut[1][n%3],cut[3][n/3|0]);
+   const xs=[x-w/2,x-w/2+c,x+w/2-c],ws=[c,w-2*c,c],ys=[y-h/2,y-h/2+c,y+h/2-c],hs=[c,h-2*c,c];
+   return this.add.container(0,0,[...Array(9)].map((_,n)=>this.add.image(xs[n%3],ys[n/3|0],'paperCard','paper'+n).setOrigin(0).setDisplaySize(ws[n%3]+.6,hs[n/3|0]+.6)));
+  }
   click(x,y,w,h,fn,label='대상 살펴보기'){
    const min=this.theme.touch/this.screenScale();w=Math.max(w,min);h=Math.max(h,min);
    const zone=this.add.zone(x,y,w,h).setInteractive({useHandCursor:true});zone.on('pointerdown',fn);
@@ -139,10 +148,10 @@ export function createFieldGame(context){
    const css=typeof getComputedStyle==='function'&&globalThis.document?.documentElement?getComputedStyle(document.documentElement):null,token=(name,fallback)=>css?.getPropertyValue(name).trim()||fallback;
    this.theme={font:token('--font-body','Jua,Malgun Gothic,sans-serif'),ink:token('--forest-900','#1e4337'),paper:token('--cream-50','#fffbed'),body:parseFloat(token('--field-body-min','20')),caption:parseFloat(token('--field-caption-min','16')),touch:parseFloat(token('--field-touch-min','48'))};
    const mode=context.mode(),chapter=context.s.field.active;
-   const keys=mode==='room'?[...fieldRoomAssets(context),...['guideLook','guideCare','guideTime','guideStory']]:['forestMap','ipsae','guideLook','guideStory'];
+   const keys=mode==='room'?[...fieldRoomAssets(context),...['guideLook','guideCare','guideTime','guideStory']]:mode==='map'?['forestMap','ipsae','guideLook','guideStory','walker','doto']:[];
    const unavailable=[...new Set(keys)].filter(key=>!this.textures.exists(key));
    const missing=unavailable.filter(key=>this.paths[key]&&(this.assetAttempts.get(key)||0)<2);
-   if(missing.length){this.loading=true;this.input.enabled=false;context.focusTargets([]);context.emit('assets-loading');this.load.once('complete',()=>{this.loading=false;this.refresh();});for(const key of missing)this.load.image(key,this.paths[key]);this.load.start();return;}
+   if(missing.length){this.loading=true;this.input.enabled=false;context.focusTargets([]);context.emit('assets-loading');this.load.once('complete',()=>{this.loading=false;this.refresh();});for(const key of missing)key==='walker'?this.load.spritesheet(key,this.paths[key],{frameWidth:256,frameHeight:256}):this.load.image(key,this.paths[key]);this.load.start();return;}
    this.renderToken++;this.walking=false;this.focusTargets=[];this.tweens.killAll();this.time.removeAllEvents();this.input.removeAllListeners();this.input.keyboard?.removeAllListeners();
    this.children.removeAll(true);for(const key of this.recordTextures||[])if(this.textures.exists(key))this.textures.remove(key);this.recordTextures=[];
    for(const mask of this.worldMasks||[])mask.destroy();this.worldMasks=[];
@@ -157,14 +166,14 @@ export function createFieldGame(context){
    }
    this.assetFailure=null;
    if(mode==='room'){
-    const bg=chapter===0&&this.textures.exists('fieldClearing')?'fieldClearing':'bg'+chapter*2;
-    this.backdrop(bg);
+    this.backdrop(ROOM_BACKDROPS[chapter]);
     renderFieldRoom(this,context);
    }else this.map(mode==='title');
    this.ensureTouchTargets();context.focusTargets(this.focusTargets);context.sceneReady?.();context.emit('loaded');
   }
   map(title=false){
    const s=context.s,completed=s.field.completed;
+   if(title&&!this.textures.exists('forestMap'))return;
    this.pic('forestMap',640,400,W,H).setDisplaySize(W,H);
    this.add.rectangle(640,400,W,H,0x173d36,title?.12:Math.max(0,.35-completed.length*.065));
    if(title)return;
