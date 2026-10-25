@@ -174,15 +174,16 @@ export function createFieldGame(context){
   map(title=false){
    const s=context.s,completed=s.field.completed;
    if(title&&!this.textures.exists('forestMap'))return;
-   this.pic('forestMap',640,400,W,H).setDisplaySize(W,H);
-   this.add.rectangle(640,400,W,H,0x173d36,title?.12:Math.max(0,.35-completed.length*.065));
+   // Mirrored strips above and below let the camera lift edge paths clear of the floating HUD.
+   for(const j of title?[0]:[-1,0,1])this.pic('forestMap',640,400+j*H,W,H).setDisplaySize(W,H).setFlipY(j!==0);
+   this.add.rectangle(640,400,W,H*3,0x173d36,title?.12:Math.max(0,.35-completed.length*.065));
    if(title)return;
    lightRestoredLandmarks(this,context);
    const pos=nearest([s.avatar.x,s.avatar.y]),point=POINTS[pos];
    this.avatar=this.add.sprite(point[0]*W,point[1]*H,'walker',0).setDisplaySize(86,86).setOrigin(.5,.83).setDepth(15);
    this.foot=this.add.ellipse(this.avatar.x,this.avatar.y,42,13,0x092f22,.30).setDepth(14);this.spirit=this.pic('doto',this.avatar.x-55,this.avatar.y-12,64).setDepth(16);
    const zoom=this.viewport.zoom*1.08,{top,bottom}=this.viewport.insets;
-   this.cameras.main.setZoom(zoom).startFollow(this.avatar,true,.12,.12).setFollowOffset(0,(top-bottom)/2/zoom);
+   this.cameras.main.setZoom(zoom).setBounds(0,-top/zoom,W,H+(top+bottom)/zoom).startFollow(this.avatar,true,.12,.12).setFollowOffset(0,(top-bottom)/2/zoom);
    const land=this.add.zone(W/2,H/2,W,H).setInteractive().setDepth(-1);
    land.on('pointerdown',p=>{const point=this.pointerWorld(p),n=nearest([point.x/W,point.y/H]),c=DOORS.indexOf(n);this.walkTo(n,c<0?null:c);});
    this.input.keyboard?.on('keydown',event=>{const vectors={ArrowUp:[0,-1],KeyW:[0,-1],ArrowDown:[0,1],KeyS:[0,1],ArrowLeft:[-1,0],KeyA:[-1,0],ArrowRight:[1,0],KeyD:[1,0]};const v=vectors[event.code];if(v&&!context.modalOpen()){event.preventDefault();this.step(...v);}});
