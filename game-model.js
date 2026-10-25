@@ -25,6 +25,11 @@ const coreShape=inquiry.fresh(),fieldShape=initialField();
 // Discovery quests were added to the same field version; their absence is a
 // supported older save, while losing a whole chapter/record container is not.
 for(const chapter of fieldShape.chapters)delete chapter.discovery;
+// New draft/observation fields are optional in older student saves.
+for(const key of ['drawingForm','noteDraft'])delete fieldShape.chapters[0][key];
+for(const round of fieldShape.chapters[1].rounds){delete round.report;delete round.legacyReport;}
+for(const task of fieldShape.chapters[2].cases)delete task.observations;
+delete fieldShape.chapters[4].drafts;
 function sameShape(value,shape){
  if(shape===null)return value===null||typeof value==='string'||Number.isFinite(value)||savedObject(value);
  if(Array.isArray(shape))return Array.isArray(value)&&(!shape.length||value.length===shape.length&&shape.every((item,i)=>sameShape(value[i],item)));

@@ -1,10 +1,11 @@
+import {reducedMotion} from './game-motion.js';
 import {seedObservation,careTimeLabels} from './field-model.js';
 
 // Plant rooms keep the specimens at the same baseline. Every drag also has
 // a labelled tap path; visual size never determines the seed's hit area.
 export function renderPlantRoom(v,ctx,phase){
  const f=ctx.s.field,c=f.active,q=f.chapters[c],act=(type,payload={})=>ctx.emit('act',{type,payload});
- const reduced=ctx.s.settings.reducedMotion;
+ const reduced=reducedMotion(ctx.s.settings);
  const observationMat=(x,y,w,h)=>v.add.graphics().fillStyle(0xfffdf3,1).fillRoundedRect(x-w/2,y-h/2,w,h,20).lineStyle(2,0xc6ceb8,1).strokeRoundedRect(x-w/2,y-h/2,w,h,20);
  const card=(x,y,w,h)=>v.add.rectangle(x,y,w,h,0xfffbee,.94).setStrokeStyle(2,0xb6c8a7);
  const label=(x,y,text,size=23,w=270)=>v.label(x,y,text,size,w);
@@ -27,6 +28,21 @@ export function renderPlantRoom(v,ctx,phase){
   return next;
  };
  const check=(yes,text)=>`${yes?'✓':'○'} ${text}`;
+ if(c===1&&phase==='reason'){
+  const r=q.rounds[q.round],names={a:'A만 싹이 날 거야',b:'B만 싹이 날 거야',both:'둘 다 싹이 날 거야',neither:'둘 다 싹이 안 날 거야',unsure:'아직 모르겠어'};
+  label(640,175,'이 콩 실험에서는 다른 조건을 같게 하고 물·온도를 비교했어.',20,1100);
+  card(275,292,300,150);label(275,275,'내 첫 예상\n'+names[r.run.prediction],24,275);
+  label(830,213,'내가 남긴 날짜별 사진 · A / B',22,710);
+  const days=[0,r.photos.find(d=>d>=2&&d<=4),r.photos.find(d=>d>=6)];
+  days.forEach((day,i)=>{const x=590+i*235;observationMat(x,302,215,165);for(const[side,dx]of [['a',-43],['b',43]]){const frame=seedObservation({...r,day},side);v.pic('pot'+frame.level,x+dx,290,84,100);v.text(x+dx,335,side.toUpperCase(),18,60);}label(x,367,day+'일 사진',20,180);});
+  label(640,409,'① 마지막 사진에서 무엇이 달라졌니?',23,1000);
+  for(const[result,x,text]of [['a',300,'A에서만 싹이 났어'],['b',640,'B에서만 싹이 났어'],['both',980,'둘 다 싹이 났어']])button(x,463,290,text,()=>act('seed-report',{result}),r.report?.result===result);
+  label(235,550,'② 바꾼 조건',24,260);
+  button(540,550,270,'물 조건',()=>act('seed-report',{reason:'water'}),r.reason==='water');button(900,550,270,'온도 조건',()=>act('seed-report',{reason:'warm'}),r.reason==='warm');
+  label(235,652,'③ 처음 예상과 비교',24,270);
+  for(const[expectation,x,w,text]of [['same',500,185,'예상과 같았어'],['changed',770,270,'달라서 생각을 바꿨어'],['unsure',1060,230,'처음엔 몰랐어']])button(x,652,w,text,()=>act('seed-report',{expectation}),r.report?.expectation===expectation);
+  return true;
+ }
  if(c===1){
   const r=q.rounds[q.round],started=!!r.run,day=started?r.day:0,variable=r.variable;
   const positions={a:390,b:790};
@@ -72,14 +88,8 @@ export function renderPlantRoom(v,ctx,phase){
    }
    v.text(650,190,'씨앗 종류와 환경에 따라 싹트는 때가 달라. 두 화분의 빛·공기·흙·콩 수는 같아.',20,1080);
   }
-  if(phase==='reason'){
-   label(1070,345,'이번 실험에서\n다르게 둔 조건은?',24,265);
-   button(1070,440,220,'물 조건',()=>act('seed-report',{reason:'water'}));
-   button(1070,530,220,'온도 조건',()=>act('seed-report',{reason:'warm'}));
-   label(590,650,'내 예상과 달라도 괜찮아. 두 화분의 조건과 사진을 근거로 골라 봐.',23,820);
-  }
   if(phase==='seed-next')label(640,650,'물을 주고 알맞은 온도에 둔 콩에서 싹이 났어.\n다음에는 다른 조건을 하나만 바꿔 보자.',24,850);
-  if(phase==='design'||phase==='reason')v.text(590,700,variable==='water'?'같게 둔 것: 온도·빛·공기·흙·콩 종류와 수':'같게 둔 것: 물의 양·빛·공기·흙·콩 종류와 수',20,820);
+  if(phase==='design')v.text(590,700,variable==='water'?'같게 둔 것: 온도·빛·공기·흙·콩 종류와 수':'같게 둔 것: 물의 양·빛·공기·흙·콩 종류와 수',20,820);
   return true;
  }
  if(c!==2)return false;
@@ -107,12 +117,14 @@ export function renderPlantRoom(v,ctx,phase){
   label(655,655,'양쪽의 물기 재기·빛 재기 버튼을 눌러 줘.',23,620);
  }
  if(phase==='symptom'){
-   let pinBusy=false;
-   const choose=symptom=>{if(pinBusy)return;pinBusy=true;const pin=v.add.container(symptom==='dry'?665:650,symptom==='dry'?490:310);pin.add([v.add.circle(0,0,14,0x3f7a57),v.add.triangle(0,17,0,0,14,0,7,18,0x3f7a57)]);if(!reduced)v.tweens.add({targets:pin,y:pin.y+10,duration:200,yoyo:true,onComplete:()=>act('care-pin',{symptom})});else act('care-pin',{symptom});};
-  drop(655,490,210,90,'dry','① 흙을 살펴보고 관찰 표시');drop(655,320,250,150,'pale','② 잎을 살펴보고 관찰 표시');
-  button(350,495,250,'① 흙에 표시하기',()=>choose('dry'));
-  button(970,495,250,'② 잎에 표시하기',()=>choose('pale'));
-  label(655,657,'물·빛을 잰 결과와 눈으로 본 모습을 연결해 봐.\n① 흙 또는 ② 잎 버튼을 누르면 관찰 표시가 붙어.',22,790);
+  let pinBusy=false;
+  const choose=(part,feature)=>{if(pinBusy)return;pinBusy=true;act('care-pin',{part,feature});};
+  const leafFeature=isLight?'pale-leaf':'drooping-leaf';
+  v.drop(655,490,210,90,'care-soil','흙 · 마른 흙에 표시',()=>choose('soil','dry-soil'));
+  v.drop(655,320,250,150,'care-leaf',isLight?'잎 · 옅어진 잎빛에 표시':'잎 · 처진 잎에 표시',()=>choose('leaf',leafFeature));
+  button(350,495,250,'① 흙 · 마른 흙',()=>choose('soil','dry-soil'));
+  button(970,495,250,isLight?'② 잎 · 옅어진 잎빛':'② 잎 · 처진 잎',()=>choose('leaf',leafFeature));
+  label(655,657,'관찰한 부위와 특징을 골라 줘.\n원인은 모습만으로 정하지 않고 물기·빛 측정과 함께 판단해.',22,930);
  }
  if(phase==='care-before')label(655,650,'오른쪽 아래 사진 버튼을 눌러 지금 모습을 기록해 줘.',24,760);
  if(phase==='care'){
@@ -136,6 +148,6 @@ export function renderPlantRoom(v,ctx,phase){
    if(!reduced&&isLight){const ray=v.add.rectangle(655,380,270,330,0xf8f4da,.30);v.tweens.add({targets:ray,alpha:0,duration:1100,onComplete:()=>ray.destroy()});}
   }
  }
- if(phase==='care-next')label(655,650,'측정 → 관찰 표시 → 사진 → 돌봄 → 시간 뒤 비교\n네가 찾은 기록가 실험일지에 남았어.',24,850);
+ if(phase==='care-next')label(655,650,'측정 → 관찰 표시 → 사진 → 돌봄 → 시간 뒤 비교\n네가 찾은 기록이 실험일지에 남았어.',24,850);
  return true;
 }

@@ -19,7 +19,7 @@ const securityHeaders = {
 function permitted(relative) {
   if(relative==='field-mission-data.js')return true;
   if(previewBuild&&relative==='service-worker.js')return true;
-  if (['field-quests.js','field-quest-state.js','field-world-effects.js','field-clock.js','field-observation-scenes.js','field-plant-scenes.js','field-story-scenes.js','field-notebook.js','field-notebook.css','field-concepts.js','field-companion.js','field-certificate.js','field-record-art.js','field-model.js','field-content.js','field-flow.js','field-scenes.js','field-room-scenes.js','field-dialogs.js','ui-icons.js','game-info.js','game-audio.js','game-settings.js','settings-content.js'].includes(relative)) return true;
+  if (['field-writing.js','game-motion.js','field-quests.js','field-quest-state.js','field-world-effects.js','field-clock.js','field-observation-scenes.js','field-plant-scenes.js','field-story-scenes.js','field-notebook.js','field-notebook.css','field-concepts.js','field-companion.js','field-certificate.js','field-record-art.js','field-model.js','field-content.js','field-flow.js','field-scenes.js','field-room-scenes.js','field-dialogs.js','ui-icons.js','game-info.js','game-audio.js','game-settings.js','settings-content.js'].includes(relative)) return true;
   if (['game-app.js','game-model.js','game-records.js','game-assets.js','game-metadata.js','game.css','vendor/phaser-3.90.0.min.js','vendor/PHASER-LICENSE.md'].includes(relative)) return true;
   if (runtimeFiles.has(relative)) return true;
   if (!/^assets\/(?:(?:generated|optimized|adventure)\/)?[A-Za-z0-9_./-]+$/.test(relative)) return false;

@@ -1,3 +1,4 @@
+import {TEXT_LIMITS,PLAN_LIMITS,preserveText,meaningfulText} from './field-writing.js';
 import {normalizeDiscovery} from './field-quest-state.js';
 
 // The field notebook is independent of the earlier inquiry and expedition saves.
@@ -7,8 +8,8 @@ export const FIELD_PREDICTIONS = ['a', 'b', 'both', 'neither', 'unsure'];
 const copy = value => JSON.parse(JSON.stringify(value));
 const prep = () => ({soil:false, seeds:0});
 const baseline = variable => ({water:variable !== 'water', warm:variable !== 'warm'});
-const seedRound = variable => ({variable, prepared:{a:prep(), b:prep()}, prediction:'', b:baseline(variable), run:null, day:0, photos:[], reason:''});
-const careCase = variable => ({variable, measured:[], symptom:'', tool:'', day:0, photos:[]});
+const seedRound = variable => ({variable, prepared:{a:prep(), b:prep()}, prediction:'', b:baseline(variable), run:null, day:0, photos:[], reason:'', report:{result:'',expectation:''},legacyReport:false});
+const careCase = variable => ({variable, measured:[], symptom:'', observations:[], tool:'', day:0, photos:[]});
 
 // These are observation frames in a simplified bean experiment, not a promise
 // that every species germinates on a fixed day or that cold seeds are dead.
@@ -26,26 +27,39 @@ export function initialField() {
   return {
     version:1, active:0, completed:[], attempts:[], snapshots:{},
     chapters:[
-      {inspected:Object.fromEntries(FIELD_FORMS.map(id => [id, []])), drawing:[], note:'', order:['pupa','egg','adult','larva'], generation:'',discovery:[]},
+      {inspected:Object.fromEntries(FIELD_FORMS.map(id => [id, []])), drawing:[], drawingForm:'larva',note:'',noteDraft:null, order:['pupa','egg','adult','larva'], generation:'',discovery:[]},
       {round:0, rounds:[seedRound('water'), seedRound('warm')],discovery:[]},
       {case:0, cases:[careCase('water'), careCase('light')],discovery:[]},
       {animals:{butterfly:{step:0, photos:[]}, dog:{step:0, photos:[]}}, generation:'', tags:[], season:0, plantPhotos:[], classifications:{}, transfers:{},discovery:[]},
-      {records:[], title:'', captions:{}, summary:'', matches:{}, plan:{subject:'', when:'', what:''},discovery:[]},
+      {records:[], title:'', captions:{}, drafts:{captions:{},story:{},plan:{}},summary:'', matches:{}, plan:{subject:'', when:'', what:''},discovery:[]},
     ],
   };
 }
 
-const textValue = (value, limit=300) => typeof value === 'string' ? value.trim().slice(0, limit) : '';
+// Drafts persist writing only. They never update submitted answers or readiness.
+export function storeFieldDraft(field,scope,values={}){
+ if(scope==='observation'){field.chapters[0].noteDraft=preserveText(values.text,TEXT_LIMITS.observation);return true;}
+ const book=field.chapters[4];book.drafts||={captions:{},story:{},plan:{}};
+ if(scope==='caption'){if(!book.records.includes(values.id))return false;book.drafts.captions[values.id]=preserveText(values.text,TEXT_LIMITS.caption);return true;}
+ const limits=scope==='story'?{title:TEXT_LIMITS.title,summary:TEXT_LIMITS.summary}:scope==='plan'?PLAN_LIMITS:null;
+ if(!limits)return false;
+ for(const[key,limit]of Object.entries(limits))if(typeof values[key]==='string')book.drafts[scope][key]=preserveText(values[key],limit);
+ return true;
+}
+
+const textValue = (value, limit=300) => preserveText(value,limit);
 const numberIn = (value, min, max) => Number.isInteger(value) && value >= min && value <= max;
 const array = value => Array.isArray(value) ? value : [];
 const unique = values => [...new Set(values)];
 const validPrep = round => ['a','b'].every(side => round.prepared[side].soil === true && round.prepared[side].seeds === 3);
 const validSeedChange = round => round.b.water === true && round.b.warm === true;
 const seedPhotosDone = round => round.photos.includes(0) && round.photos.some(day => day >= 2 && day <= 4) && round.photos.some(day => day >= 6);
-const seedDone = round => !!round.run && seedPhotosDone(round) && round.reason === round.variable;
+export const seedExpectation=round=>round.run?.prediction==='unsure'?'unsure':round.run?.prediction==='b'?'same':'changed';
+export const seedReportDone=round=>round.legacyReport===true||(round.report?.result==='b'&&round.report?.expectation===seedExpectation(round));
+const seedDone = round => !!round.run && seedPhotosDone(round) && round.reason === round.variable && seedReportDone(round);
 const careDone = task => task.measured.includes('water') && task.measured.includes('light') && task.symptom === (task.variable === 'water' ? 'dry' : 'pale') && task.tool === task.variable && task.photos.includes(0) && task.photos.includes(2);
 const observed = chapter => FIELD_FORMS.every(form => chapter.inspected[form].includes(0) && chapter.inspected[form].includes(1));
-const drawingDone = chapter => chapter.note.length >= 4 && chapter.drawing.reduce((count, stroke) => count + stroke.slice(1).filter((point, i) => point[0] !== stroke[i][0] || point[1] !== stroke[i][1]).length, 0) >= 2;
+const drawingDone = chapter => meaningfulText(chapter.note) >= 4 && chapter.drawing.reduce((count, stroke) => count + stroke.slice(1).filter((point, i) => point[0] !== stroke[i][0] || point[1] !== stroke[i][1]).length, 0) >= 2;
 const filmDone = chapter => FIELD_FORMS.every((form,i) => chapter.order[i] === form);
 const animalDone = chapter => chapter.animals.butterfly.photos.includes(0) && chapter.animals.butterfly.photos.includes(3) && chapter.animals.dog.photos.includes(0) && chapter.animals.dog.photos.includes(2) && chapter.generation === 'different';
 const plantsSeen = chapter => ['apple','balsam'].every(plant => chapter.tags.includes(plant) && [0,3,4].every(step => chapter.plantPhotos.includes(`${plant}-${step}`)));
@@ -63,12 +77,12 @@ export function fieldBookReady(field) {
   const selected = book.records.map(id => bank.find(record => record.id === id));
   return selected.length >= 3 && selected.length <= 6 && unique(book.records).length === selected.length && selected.every(Boolean)
     && selected.some(record => record.kind === 'animal') && selected.some(record => record.kind === 'plant')
-    && book.title.length >= 2 && book.summary.length >= 8
-    && selected.filter(record => (book.captions[record.id] || '').length >= 4).length >= 2;
+    && meaningfulText(book.title) >= 2 && meaningfulText(book.summary) >= 8
+    && selected.filter(record => meaningfulText(book.captions[record.id]) >= 4).length >= 2;
 }
 
 const matchesDone = field => ['observation','retry','care'].every(request => fieldRecords(field).some(record => record.id === field.chapters[4].matches[request] && record.fieldEvidence.type === request));
-const planDone = book => book.plan.subject.length >= 2 && book.plan.when.length >= 2 && book.plan.what.length >= 4;
+const planDone = book => meaningfulText(book.plan.subject) >= 2 && meaningfulText(book.plan.when) >= 2 && meaningfulText(book.plan.what) >= 4;
 
 export function fieldReady(field, chapter=field.active) {
   if (!numberIn(chapter,0,4)) return false;
@@ -103,21 +117,21 @@ export function fieldRecords(field) {
   const names = {egg:'알',larva:'애벌레',pupa:'번데기',adult:'어른벌레'};
   for (const form of FIELD_FORMS) {
     if (observation.inspected[form].length !== 2) continue;
-    records.push({id:`field-observation-${form}`,art:form,title:`${names[form]} 확대 관찰`,kind:'animal',detail:observation.note || '서로 다른 두 부분을 확대해 살펴봤어.',fieldEvidence:{chapter:0,type:'observation',form,spots:[...observation.inspected[form]],drawing:copy(observation.drawing),note:observation.note}});
+    records.push({id:`field-observation-${form}`,art:form,title:`${names[form]} 확대 관찰`,kind:'animal',detail:observation.note || '서로 다른 두 부분을 확대해 살펴봤어.',fieldEvidence:{chapter:0,type:'observation',form,spots:[...observation.inspected[form]],drawing:copy(observation.drawing),note:observation.note,drawingForm:observation.drawingForm}});
   }
   for (const round of seeds.rounds) {
     if (!seedDone(round)) continue;
     const name = round.variable === 'water' ? '물' : '온도';
-    records.push({id:`field-seed-${round.variable}`,art:'pot3',title:`${name} 조건 비교 실험`,kind:'plant',detail:`A는 그대로 두고 B의 ${name} 조건 하나만 바꿨어. 0일·중간·마지막 모습을 비교했어.`,fieldEvidence:{chapter:1,type:'retry',variable:round.variable,prediction:round.run.prediction,conditions:copy(round.run),photos:[...round.photos],reason:round.reason}});
+    records.push({id:`field-seed-${round.variable}`,art:'pot3',title:`${name} 조건 비교 실험`,kind:'plant',detail:`A는 그대로 두고 B의 ${name} 조건 하나만 바꿨어. 0일·중간·마지막 모습을 비교했어. ${round.legacyReport?'이전 기록에는 예상-결과 비교 응답이 없어.':'마지막 사진: B에서만 싹이 났어. 처음 예상과 '+({same:'같았어.',changed:'달라서 생각을 바꿨어.',unsure:'비교해 새롭게 알았어.'}[round.report?.expectation]||'비교했어.')} `,fieldEvidence:{chapter:1,type:'retry',variable:round.variable,prediction:round.run.prediction,conditions:copy(round.run),photos:[...round.photos],reason:round.reason,report:copy(round.report),legacyReport:round.legacyReport}});
   }
   for (const task of care.cases) {
     if (!careDone(task)) continue;
-    records.push({id:`field-care-${task.variable}`,art:task.variable==='light'?'pale':'pot3',title:task.variable === 'water' ? '시든 화분 돌봄 기록' : '빛이 부족한 화분 돌봄 기록',kind:'plant',detail:`물기와 빛을 재고 ${task.variable === 'water' ? '물' : '빛'} 조건을 돌본 뒤, 돌보기 전과 ${task.variable==='light'?'새잎이 자란 뒤':'이틀 뒤'}를 비교했어.`,fieldEvidence:{chapter:2,type:'care',variable:task.variable,measured:[...task.measured],symptom:task.symptom,tool:task.tool,photos:[...task.photos]}});
+    records.push({id:`field-care-${task.variable}`,art:task.variable==='light'?'pale':'pot3',title:task.variable === 'water' ? '시든 화분 돌봄 기록' : '빛이 부족한 화분 돌봄 기록',kind:'plant',detail:`물기와 빛을 재고 ${task.variable === 'water' ? '물' : '빛'} 조건을 돌본 뒤, 돌보기 전과 ${task.variable==='light'?'새잎이 자란 뒤':'이틀 뒤'}를 비교했어.`,fieldEvidence:{chapter:2,type:'care',variable:task.variable,measured:[...task.measured],symptom:task.symptom,observations:copy(task.observations||[]),tool:task.tool,photos:[...task.photos]}});
   }
   for (const animal of ['butterfly','dog']) {
     const last = animal === 'butterfly' ? 3 : 2, data = comparison.animals[animal];
     if (!data.photos.includes(0) || !data.photos.includes(last) || comparison.generation !== 'different') continue;
-    records.push({id:`field-animal-${animal}`,art:animal === 'butterfly' ? 'adult' : 'dog',title:animal === 'butterfly' ? '나비의 한살이' : '개의 한살이',kind:'animal',detail:'처음과 다 자란 모습을 각각 기록했어. 다음 세대는 새로 태어난 생명야.',fieldEvidence:{chapter:3,type:'comparison',animal,photos:[...data.photos],generation:'different'}});
+    records.push({id:`field-animal-${animal}`,art:animal === 'butterfly' ? 'adult' : 'dog',title:animal === 'butterfly' ? '나비의 한살이' : '개의 한살이',kind:'animal',detail:'처음과 다 자란 모습을 각각 기록했어. 다음 세대는 새로 태어난 생명이야.',fieldEvidence:{chapter:3,type:'comparison',animal,photos:[...data.photos],generation:'different'}});
   }
   for (const plant of ['apple','balsam']) {
     if (!comparison.tags.includes(plant) || ![0,3,4].every(step => comparison.plantPhotos.includes(`${plant}-${step}`)) || comparison.classifications[plant] !== (plant === 'apple' ? 'same' : 'new')) continue;
@@ -126,7 +140,7 @@ export function fieldRecords(field) {
   return records;
 }
 
-const actionChapter = type => type.startsWith('seed-') ? 1 : type.startsWith('care-') ? 2 : ['animal-time','animal-photo','animal-generation','plant-tag','season','season-photo','plant-classify','transfer'].includes(type) ? 3 : type.startsWith('book-') || ['help-match','observation-plan'].includes(type) ? 4 : ['inspect','observation-draw','observation-note','film-move','generation'].includes(type) ? 0 : -1;
+const actionChapter = type => type.startsWith('seed-') ? 1 : type.startsWith('care-') ? 2 : ['animal-time','animal-photo','animal-generation','plant-tag','season','season-photo','plant-classify','transfer'].includes(type) ? 3 : type.startsWith('book-') || ['help-match','observation-plan'].includes(type) ? 4 : ['inspect','observation-draw','observation-note','observation-reference','film-move','generation'].includes(type) ? 0 : -1;
 
 export function fieldAction(field, type, payload={}) {
   const done = message => ({ok:true,message});
@@ -152,7 +166,7 @@ export function fieldAction(field, type, payload={}) {
     }
     field.chapters[chapter]=initialField().chapters[chapter];
     field.active=chapter;
-    return done('완성한 기록과 보상은 간직했어. 이번에는 어떤 기록를 찾을지 다시 탐사해 보자.');
+    return done('완성한 기록과 보상은 간직했어. 이번에는 어떤 기록을 찾을지 다시 탐사해 보자.');
   }
   if (['chapter-enter','chapter-replay'].includes(type)) {
     const chapter = p.chapter ?? p.c;
@@ -176,6 +190,7 @@ export function fieldAction(field, type, payload={}) {
     data.inspected[p.form] = unique([...data.inspected[p.form],p.spot]);
     return done(`${{egg:'알',larva:'애벌레',pupa:'번데기',adult:'어른벌레'}[p.form]}의 특징을 발견했어.`);
   }
+  if(type==='observation-reference'){if(!FIELD_FORMS.includes(p.form))return fail('살펴볼 생물의 모습을 골라 줘.');data.drawingForm=p.form;return done('그림의 참고 모습을 보관했어.');}
   if (type === 'observation-draw') {
     if (!observed(data)) return fail('네 모습에서 서로 다른 두 부분을 먼저 살펴보자.');
     const stroke = sanitizeStroke(p.stroke);
@@ -186,7 +201,7 @@ export function fieldAction(field, type, payload={}) {
   }
   if (type === 'observation-note') {
     if (!observed(data)) return fail('네 모습을 먼저 관찰해 보자.');
-    data.note = textValue(p.text,180);
+    data.note = textValue(p.text,TEXT_LIMITS.observation);data.noteDraft=null;
     return done('눈으로 찾은 특징을 글로 남겼어.');
   }
   if (type === 'film-move') {
@@ -247,8 +262,14 @@ function seedAction(data,type,p,done,fail) {
   if (type === 'seed-photo') {round.photos = unique([...round.photos,round.day]).sort((a,b) => a-b); return done(`${round.day}일 사진을 기록했어.`);}
   if (type === 'seed-report') {
     if (!seedPhotosDone(round)) return fail('0일·중간(2~4일)·마지막(6~7일) 사진을 모아 비교해 보자.');
-    if (p.reason !== round.variable) return fail(`두 화분의 조건표를 다시 비교해 봐. 이번 실험에서 A와 B가 달랐던 것은 ${round.variable === 'water' ? '물' : '온도'} 조건이야.`);
-    round.reason = p.reason; return done('예상과 결과를 비교하고, 실제로 달랐던 조건을 찾았어.');
+    if(p.reason!==undefined&&p.reason!==round.variable)return fail(`두 화분에서 다르게 둔 것은 ${round.variable==='water'?'물':'온도'} 조건이야. 같은 조건과 다른 조건을 다시 살펴봐.`);
+    if(p.result!==undefined&&p.result!=='b')return fail('네가 남긴 날짜별 사진에서 A와 B의 싹을 비교해 봐. 마지막 사진에서는 B에서 싹이 자랐어.');
+    if(p.expectation!==undefined&&p.expectation!==seedExpectation(round))return fail('처음 예상과 마지막 사진을 나란히 비교해 봐. 예상이 달랐어도 사진을 보고 생각을 고치면 돼.');
+    if(p.reason!==undefined)round.reason=p.reason;
+    round.report||={result:'',expectation:''};
+    if(p.result!==undefined)round.report.result=p.result;
+    if(p.expectation!==undefined)round.report.expectation=p.expectation;
+    return done(seedDone(round)?'사진의 변화, 바꾼 조건, 처음 예상과의 비교를 기록했어.':'선택한 내용을 보관했어. 사진의 변화·바꾼 조건·예상 비교를 모두 살펴봐.');
   }
   return fail('실험에서 할 활동을 다시 골라 줘.');
 }
@@ -265,8 +286,12 @@ function careAction(data,type,p,done,fail) {
   }
   if (type === 'care-pin') {
     if (task.measured.length < 2) return fail('물과 빛을 둘 다 재 본 다음, 눈에 보이는 변화를 찾아보자.');
-    if (p.symptom !== expectedSymptom) return fail(task.variable === 'water' ? '흙이 마르고 잎이 처진 부분을 살펴봐. 측정 결과와 함께 생각해 보자.' : '빛의 양과 잎의 옅은 색을 함께 살펴봐.');
-    task.symptom = p.symptom; return done('측정 결과와 눈으로 본 모습가 연결됐어.');
+    const observed=p.part&&p.feature?{part:p.part,feature:p.feature}:p.symptom==='dry'?{part:'soil',feature:'dry-soil'}:p.symptom==='pale'?{part:'leaf',feature:'pale-leaf'}:null;
+    const valid=observed&&(task.variable==='water'?(observed.part==='soil'&&observed.feature==='dry-soil'||observed.part==='leaf'&&observed.feature==='drooping-leaf'):observed.part==='leaf'&&observed.feature==='pale-leaf');
+    if(!valid)return fail(task.variable==='water'?'이 화분에서는 마른 흙과 처진 잎을 살펴볼 수 있어. 원인은 물기·빛을 잰 결과와 함께 판단해.':'이 화분은 흙의 물기가 충분하고 빛이 부족해. 잎빛이 옅어진 모습을 살펴봐.');
+    task.observations||=[];if(!task.observations.some(o=>o.part===observed.part&&o.feature===observed.feature))task.observations.push(observed);
+    task.symptom=expectedSymptom;
+    return done('관찰한 부위와 특징을 기록했어. 잎이 처진 까닭은 모습만으로 정하지 않고 물기·빛 측정과 함께 판단해.');
   }
   if (type === 'care-photo') {
     if (task.measured.length < 2 || !task.symptom) return fail('물과 빛을 재고 증상을 표시한 뒤 사진을 남겨 줘.');
@@ -298,7 +323,7 @@ function comparisonAction(data,type,p,done,fail) {
   }
   if (type === 'animal-generation') {
     if (![0,3].every(step => data.animals.butterfly.photos.includes(step)) || ![0,2].every(step => data.animals.dog.photos.includes(step))) return fail('각 동물의 처음과 다 자란 모습을 먼저 남겨 보자.');
-    if (p.answer !== 'different') return fail('다 자란 동물이 처음 모습으로 돌아간 걸까? 다음 세대는 새로 태어난 생명야.');
+    if (p.answer !== 'different') return fail('다 자란 동물이 처음 모습으로 돌아간 걸까? 다음 세대는 새로 태어난 생명이야.');
     data.generation = p.answer; return done('한살이가 이어져도 다음 세대는 새로 태어난 생명이라는 것을 찾았어.');
   }
   if (type === 'plant-tag') {
@@ -324,7 +349,7 @@ function comparisonAction(data,type,p,done,fail) {
   }
   if (type === 'transfer') {
     if (!classificationsDone(data)) return fail('사과나무와 봉선화의 이름표 기록을 먼저 비교해 보자.');
-    if (!['rose','dog'].includes(p.subject)) return fail('새로운 생물의 기록를 가져가 보자.');
+    if (!['rose','dog'].includes(p.subject)) return fail('새로운 생물의 기록을 가져가 보자.');
     const answer = p.subject === 'rose' ? 'same' : 'live';
     if (p.answer !== answer) return fail(p.subject === 'rose' ? '장미도 여러 해 같은 줄기와 뿌리에서 자라. 사과나무의 기록을 연결해 보자.' : '개는 새끼를 낳아. 나비가 알을 낳는 모습과 비교해 보자.');
     data.transfers[p.subject] = p.answer; return done('관찰에서 찾은 생각을 다른 생물에도 적용했어.');
@@ -346,11 +371,11 @@ function bookAction(field,data,type,p,done,fail) {
     if (!numberIn(p.from,0,data.records.length-1) || !numberIn(p.to,0,data.records.length-1)) return fail('책에 넣은 기록을 끌어서 순서를 바꿔 줘.');
     const [id] = data.records.splice(p.from,1); data.records.splice(p.to,0,id); return done('읽는 순서에 맞게 기록을 놓았어.');
   }
-  if (type === 'book-title') {data.title=textValue(p.text,60);return done('나만의 책 제목을 남겼어.');}
-  if (type === 'book-summary') {data.summary=textValue(p.text,300);return done('관찰해서 알게 된 생각을 남겼어.');}
+  if (type === 'book-title') {data.title=textValue(p.text,TEXT_LIMITS.title);if(data.drafts?.story)delete data.drafts.story.title;return done('나만의 책 제목을 남겼어.');}
+  if (type === 'book-summary') {data.summary=textValue(p.text,TEXT_LIMITS.summary);if(data.drafts?.story)delete data.drafts.story.summary;return done('관찰해서 알게 된 생각을 남겼어.');}
   if (type === 'book-caption') {
     if (!data.records.includes(p.id) || !bank.some(record => record.id === p.id)) return fail('책에 넣은 기록에 설명을 써 줘.');
-    data.captions[p.id]=textValue(p.text,180); return done('기록 옆에 내 설명을 남겼어.');
+    data.captions[p.id]=textValue(p.text,TEXT_LIMITS.caption);if(data.drafts?.captions)delete data.drafts.captions[p.id]; return done('기록 옆에 내 설명을 남겼어.');
   }
   if (type === 'help-match') {
     if (!fieldBookReady(field)) return fail('동물·식물 기록과 설명을 담은 책을 먼저 마무리해 보자.');
@@ -361,9 +386,9 @@ function bookAction(field,data,type,p,done,fail) {
   }
   if (type === 'observation-plan') {
     if (!matchesDone(field)) return fail('세 친구에게 도움이 되는 탐사 기록을 먼저 연결해 보자.');
-    const plan=Object.fromEntries(['subject','when','what'].map(key => [key,textValue(typeof p[key] === 'string' ? p[key] : data.plan[key],180)]));
-    if (plan.subject.length < 2 || plan.when.length < 2 || plan.what.length < 4) return fail('관찰할 생물과 언제 볼지 각각 두 글자 이상, 무엇을 기록할지 네 글자 이상으로 세 칸을 모두 써 줘.');
-    data.plan=plan;
+    const plan=Object.fromEntries(['subject','when','what'].map(key => [key,textValue(typeof p[key] === 'string' ? p[key] : data.plan[key],PLAN_LIMITS[key])]));
+    if (meaningfulText(plan.subject) < 2 || meaningfulText(plan.when) < 2 || meaningfulText(plan.what) < 4) return fail('관찰할 생물과 언제 볼지 각각 두 글자 이상, 무엇을 기록할지 네 글자 이상으로 세 칸을 모두 써 줘.');
+    data.plan=plan;if(data.drafts)data.drafts.plan={};
     return done('교실 밖에서도 이어 갈 나의 실제 관찰 계획을 세웠어.');
   }
   return fail('기록 책에서 할 활동을 다시 골라 줘.');
@@ -389,7 +414,7 @@ export function restoreField(raw) {
   const c0=object(saved[0]);
   for (const form of FIELD_FORMS) observation.inspected[form]=integerList(object(c0.inspected)[form],0,1);
   observation.drawing=array(c0.drawing).slice(0,200).map(sanitizeStroke).filter(stroke => stroke.length >= 2);
-  observation.note=textValue(c0.note,180);
+  observation.note=textValue(c0.note,TEXT_LIMITS.observation);observation.drawingForm=FIELD_FORMS.includes(c0.drawingForm)?c0.drawingForm:'larva';observation.noteDraft=typeof c0.noteDraft==='string'?textValue(c0.noteDraft,TEXT_LIMITS.observation):null;
   if (Array.isArray(c0.order) && c0.order.length === 4 && unique(c0.order).length === 4 && c0.order.every(form => FIELD_FORMS.includes(form))) observation.order=[...c0.order];
   if (observed(observation) && drawingDone(observation) && filmDone(observation) && c0.generation === 'next-egg') observation.generation='next-egg';
 
@@ -406,7 +431,11 @@ export function restoreField(raw) {
     round.prepared=copy(runPrepared);round.prediction=run.prediction;round.b={water:true,warm:true};
     round.day=numberIn(source.day,0,7) ? source.day : 0;
     round.photos=integerList(source.photos,0,7);
-    if (seedPhotosDone(round) && source.reason === round.variable) round.reason=source.reason;
+    if(seedPhotosDone(round)&&source.reason===round.variable)round.reason=source.reason;
+    if(source.report&&typeof source.report==='object'){round.report={result:source.report.result==='b'?'b':'',expectation:source.report.expectation===seedExpectation(round)?source.report.expectation:''};}
+    // Prior completed experiments had no comparison responses. Preserve them as
+    // legacy evidence, without inventing a student's answer to the new choices.
+    round.legacyReport=source.legacyReport===true||(!Object.hasOwn(source,'report')&&round.reason===round.variable);
   });
   seeds.round=c1.round === 1 && seedDone(seeds.rounds[0]) ? 1 : 0;
 
@@ -416,6 +445,8 @@ export function restoreField(raw) {
     task.measured=unique(array(source.measured).filter(sensor => ['water','light'].includes(sensor)));
     if (task.measured.length !== 2 || source.symptom !== (task.variable === 'water' ? 'dry' : 'pale')) return;
     task.symptom=source.symptom;
+    const allowed=task.variable==='water'?['soil:dry-soil','leaf:drooping-leaf']:['leaf:pale-leaf'];task.observations=array(source.observations).filter(o=>allowed.includes(`${object(o).part}:${object(o).feature}`)).map(o=>({part:o.part,feature:o.feature,...(o.legacy===true?{legacy:true}:{})}));
+    if(!task.observations.length)task.observations=[task.variable==='water'?{part:'soil',feature:'dry-soil',legacy:true}:{part:'leaf',feature:'pale-leaf',legacy:true}];
     const photos=integerList(source.photos,0,2);
     if (!photos.includes(0)) return;
     task.photos=[0];
@@ -451,15 +482,19 @@ export function restoreField(raw) {
   }
   const c4=object(saved[4]), bank=fieldRecords(field);
   book.records=unique(array(c4.records).filter(id => bank.some(record => record.id === id))).slice(0,6);
-  book.title=textValue(c4.title,60);book.summary=textValue(c4.summary,300);
-  for (const id of book.records) if (typeof object(c4.captions)[id] === 'string') book.captions[id]=textValue(c4.captions[id],180);
+  book.title=textValue(c4.title,TEXT_LIMITS.title);book.summary=textValue(c4.summary,TEXT_LIMITS.summary);
+  for (const id of book.records) if (typeof object(c4.captions)[id] === 'string') book.captions[id]=textValue(c4.captions[id],TEXT_LIMITS.caption);
+  const drafts=object(c4.drafts);
+  for(const record of bank)if(typeof object(drafts.captions)[record.id]==='string')book.drafts.captions[record.id]=textValue(drafts.captions[record.id],TEXT_LIMITS.caption);
+  for(const key of ['title','summary'])if(typeof object(drafts.story)[key]==='string')book.drafts.story[key]=textValue(drafts.story[key],TEXT_LIMITS[key]);
+  for(const key of ['subject','when','what'])if(typeof object(drafts.plan)[key]==='string')book.drafts.plan[key]=textValue(drafts.plan[key],PLAN_LIMITS[key]);
   if (fieldBookReady(field)) {
     for (const request of ['observation','retry','care']) {
       const id=object(c4.matches)[request];
       if (bank.some(record => record.id === id && record.fieldEvidence.type === request)) book.matches[request]=id;
     }
   }
-  if (matchesDone(field)) for (const key of ['subject','when','what']) book.plan[key]=textValue(object(c4.plan)[key],180);
+  if (matchesDone(field)) for (const key of ['subject','when','what']) book.plan[key]=textValue(object(c4.plan)[key],PLAN_LIMITS[key]);
 
   // Completed flags alone are not evidence. Keep only a contiguous, supported path.
   const claimed=integerList(parsed.completed,0,4);

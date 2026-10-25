@@ -1,35 +1,17 @@
 const FONT = '"Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif';
 const COLORS = { paper: '#fbf7e8', ink: '#244d39', muted: '#637462', line: '#d6ddc5', green: '#315c42', mint: '#edf3df', gold: '#e7c77c', white: '#fffef8' };
-const wordSegmenter = typeof Intl.Segmenter === 'function' ? new Intl.Segmenter('ko', { granularity: 'word' }) : null;
-const letterSegmenter = typeof Intl.Segmenter === 'function' ? new Intl.Segmenter('ko', { granularity: 'grapheme' }) : null;
 
 function cleanText(value, fallback = '') {
-  return String(value ?? '').replace(/\r\n?/g, '\n').replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g, '').trim() || fallback;
+  const text=String(value ?? '').replace(/\r\n?/g, '\n').replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g, '');return text.trim()?text:fallback;
 }
 
 function font(ctx, size, weight = 400) { ctx.font = `${weight} ${size}px ${FONT}`; }
 
-/** Preserve paragraphs and prefer word boundaries; long Korean words still fit. */
-function wrapText(ctx, text, width) {
-  const lines = [];
-  for (const paragraph of text.split('\n')) {
-    if (!paragraph.trim()) { lines.push(''); continue; }
-    const words = wordSegmenter ? [...wordSegmenter.segment(paragraph)].map(item => item.segment) : paragraph.split(/(\s+)/);
-    let line = '';
-    for (const word of words) {
-      if (ctx.measureText(line + word).width <= width) { line += word; continue; }
-      if (line.trim()) { lines.push(line.trimEnd()); line = ''; }
-      const token = word.trimStart();
-      if (ctx.measureText(token).width <= width) { line = token; continue; }
-      const letters = letterSegmenter ? [...letterSegmenter.segment(token)].map(item => item.segment) : [...token];
-      for (const letter of letters) {
-        if (line && ctx.measureText(line + letter).width > width) { lines.push(line); line = ''; }
-        line += letter;
-      }
-    }
-    if (line.trim()) lines.push(line.trimEnd());
-  }
-  return lines.length ? lines : [''];
+/** Preserve spaces and every paragraph, wrapping by measured width. */
+function wrapText(ctx,text,width){
+ const lines=[];
+ for(const paragraph of text.split('\n')){let line='';for(const letter of [...paragraph]){if(line&&ctx.measureText(line+letter).width>width){lines.push(line);line='';}line+=letter;}lines.push(line);}
+ return lines.length?lines:[''];
 }
 
 function paintLines(ctx, lines, x, y, lineHeight) {
@@ -142,7 +124,7 @@ async function loadArtwork(value) {
 }
 
 /** Render the student's actual evidence and captions. The caller owns downloading. */
-export async function exportStorybook({ title, summary, cards } = {}) {
+export async function exportStorybook({ title, summary, cards, plan, limits } = {}) {
   if (!Array.isArray(cards) || !cards.length || cards.length > 6) throw new Error('탐구 카드 1~6장을 골라 줘.');
   const heading = cleanText(title, '나의 생명 탐구 이야기');
   const conclusion = cleanText(summary, '아직 한 문장 정리를 적지 않았어.');
@@ -152,7 +134,7 @@ export async function exportStorybook({ title, summary, cards } = {}) {
     caption: cleanText(card?.caption, '아직 설명을 적지 않았어.'),
     image: card?.image,
   }));
-  if (heading.length > 200 || conclusion.length > 1600 || records.some(card => card.title.length > 240 || card.detail.length > 1200 || card.caption.length > 2000)) {
+  if (heading.length > (limits?.title??200) || conclusion.length > (limits?.summary??1600) || records.some(card => card.title.length > 240 || card.detail.length > 1200 || card.caption.length > (limits?.caption??2000))) {
     throw new Error('한 장에 담기에는 글이 너무 길어. 핵심 발견을 조금 더 짧게 정리해 줘.');
   }
   const [images] = await Promise.all([Promise.all(records.map(card => loadArtwork(card.image))), document.fonts?.ready]);
@@ -182,7 +164,8 @@ export async function exportStorybook({ title, summary, cards } = {}) {
   font(ctx, 30, 500); const summaryLines = wrapText(ctx, conclusion, contentWidth - 72);
   const summaryTop = cardsTop + rows.reduce((sum, row) => sum + row.height + gap, 0) + 12;
   const summaryHeight = 110 + summaryLines.length * 44;
-  const outputHeight = Math.ceil(summaryTop + summaryHeight + 130);
+  const planLines=plan?wrapText(ctx,`관찰할 생물: ${cleanText(plan.subject)}\n언제: ${cleanText(plan.when)}\n${cleanText(plan.what)}`,contentWidth-72):[],planHeight=planLines.length?110+planLines.length*42:0;
+  const outputHeight = Math.ceil(summaryTop + summaryHeight + (planHeight?planHeight+24:0) + 130);
   if (outputHeight > 16000) throw new Error('기록이 너무 길어 결과 그림에 담기 어려워. 설명을 조금 줄여 줘.');
   canvas.height = outputHeight;
   ctx.textBaseline = 'top';
@@ -217,6 +200,7 @@ export async function exportStorybook({ title, summary, cards } = {}) {
   rounded(ctx, margin, summaryTop, contentWidth, summaryHeight, 24, '#e7edda', COLORS.line);
   font(ctx, 23, 800); ctx.fillStyle = COLORS.green; ctx.fillText('내 탐구를 한 문장으로', margin + 36, summaryTop + 28);
   font(ctx, 30, 500); ctx.fillStyle = COLORS.ink; paintLines(ctx, summaryLines, margin + 36, summaryTop + 76, 44);
+  if(planHeight){const planTop=summaryTop+summaryHeight+24;rounded(ctx,margin,planTop,contentWidth,planHeight,24,COLORS.mint,COLORS.line);font(ctx,23,800);ctx.fillStyle=COLORS.green;ctx.fillText('실제로 이어 갈 관찰',margin+36,planTop+24);font(ctx,30,500);ctx.fillStyle=COLORS.ink;paintLines(ctx,planLines,margin+36,planTop+70,42);}
   const footerTop = canvas.height - 74;
   ctx.strokeStyle = COLORS.line; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(margin, footerTop - 22); ctx.lineTo(canvas.width - margin, footerTop - 22); ctx.stroke();
   font(ctx, 22, 600); ctx.fillStyle = COLORS.muted; ctx.fillText('생명 시계 연구실 · 탐구 기록 / 모의 관찰', margin, footerTop);

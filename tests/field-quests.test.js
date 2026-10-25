@@ -18,7 +18,7 @@ function readyField(){
   }else if(c===1){
    for(const key of ['water','warm']){
     for(const side of ['a','b'])act(f,'seed-prepare',{side,soil:true,seeds:3});act(f,'seed-predict',{choice:'unsure'});act(f,'seed-condition',{key});act(f,'seed-run');
-    for(const day of [0,3,7]){act(f,'seed-day',{day});act(f,'seed-photo');}act(f,'seed-report',{reason:key});if(key==='water')act(f,'seed-next');
+    for(const day of [0,3,7]){act(f,'seed-day',{day});act(f,'seed-photo');}act(f,'seed-report',{reason:key,result:'b',expectation:'unsure'});if(key==='water')act(f,'seed-next');
    }
   }else if(c===2){
    for(const variable of ['water','light']){

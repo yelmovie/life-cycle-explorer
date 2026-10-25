@@ -13,11 +13,11 @@ export async function fieldRecordArt(r,{img,text,parts}){
   await img(e.form,20,45,300,320);for(const i of e.spots)parts.push(`<circle cx="${110+i*110}" cy="220" r="13" fill="#e9bd54" stroke="#fff" stroke-width="4"/>`);
   parts.push('<rect x="355" y="50" width="335" height="325" rx="12" fill="#eee8cf"/>');
   for(const stroke of e.drawing)parts.push(`<polyline points="${stroke.map(p=>[365+p[0]*315,60+p[1]*305].join(',')).join(' ')}" fill="none" stroke="#285e45" stroke-width="4" stroke-linecap="round"/>`);
-  text(360,420,'확대 관찰 두 부분 · 네 모습을 살핀 공통 관찰 노트',21);text(360,464,e.note.slice(0,30)||'관찰한 특징 기록',21);
+  text(360,420,'확대 관찰 두 부분 · 네 모습을 살핀 공통 관찰 노트',21);text(360,464,(e.note.length>30?e.note.slice(0,30)+'…':e.note)||'관찰한 특징 기록',21);
  }else if(e.type==='retry'){
   const day=Math.max(...e.photos),growth=condition=>condition.water&&condition.warm?(day>=6?3:day>=4?2:day>=2?1:0):0;
   for(const[side,i]of ['a','b'].map((k,i)=>[k,i])){const c=e.conditions[side],x=180+i*360;await img('pot'+growth(c),x-155,50,310,290);text(x,35,'화분 '+side.toUpperCase());text(x,365,'물 '+(c.water?'있음':'없음')+' · '+(c.warm?'따뜻함':'차가움'));}
-  text(360,410,'바꾼 조건: '+(e.variable==='water'?'물':'온도')+' 하나');text(360,448,'직접 찍은 날: '+e.photos.map(d=>d+'일').join(' · '),21);text(360,480,'내 예상: '+({a:'A만',b:'B만',both:'둘 다',neither:'둘 다 안 틈',unsure:'아직 모름'}[e.prediction]),20);
+  text(360,410,'바꾼 조건: '+(e.variable==='water'?'물':'온도')+' 하나');text(360,448,'직접 찍은 날: '+e.photos.map(d=>d+'일').join(' · '),21);text(180,480,'내 예상: '+({a:'A만',b:'B만',both:'둘 다',neither:'둘 다 안 틈',unsure:'아직 모름'}[e.prediction]),18);text(540,480,e.legacyReport?'이전 기록 · 비교 응답 없음':'사진 B만 · '+({same:'예상과 같음',changed:'생각을 수정함',unsure:'처음엔 몰랐음'}[e.report?.expectation]||''),18);
  }else if(e.type==='care'){
   const light=e.variable==='light',labels=careTimeLabels(e);
   await img(light?'pale':'dry',25,45,310,310);await img(light?'pale':'pot3',385,45,310,310);

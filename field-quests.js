@@ -1,3 +1,5 @@
+import {TEXT_LIMITS,preserveText} from './field-writing.js';
+import {reducedMotion} from './game-motion.js';
 import {fieldReady,fieldRecords,fieldUnlocked} from './field-model.js';
 import {normalizeDiscovery,discoveryStepDone,DISCOVERY_TYPES,DISCOVERY_PLAN,questionValid} from './field-quest-state.js';
 
@@ -13,7 +15,7 @@ export function applyQuest(field,payload={}){
  const c=field.active,q=field.chapters[c],records=bank(field),p=payload&&typeof payload==='object'?payload:{};
  const fail=message=>({ok:false,message});
  if(!fieldUnlocked(field,c)||!fieldReady(field,c))return fail('이 구역의 관찰 기록을 마치면 추가 발견에 도전할 수 있어.');
- if(questReady(field,c))return {ok:true,message:'발견 도장를 이미 받았어. 네 기록에 잘 보관돼 있어.',completed:true};
+ if(questReady(field,c))return {ok:true,message:'발견 도장을 이미 받았어. 네 기록에 잘 보관돼 있어.',completed:true};
  const step=currentStep(field,c);
  if(p.step!==step)return fail('지금 화면의 발견 미션부터 차례로 완성해 줘.');
  const data=state(field,c),e=data[step]||{};
@@ -63,7 +65,7 @@ export function applyQuest(field,payload={}){
    if(p.mark!=='A-01')return fail('크기나 잎 모양보다 지난해 붙인 A-01 이름표이 이어지는지 확인해 봐.');
    e.mark='A-01';
   }else if(step===0&&p.kind==='record'){
-   if(e.mark!=='A-01')return fail('지난해와 같은 A-01 이름표을 먼저 이어 줘.');
+   if(e.mark!=='A-01')return fail('지난해와 같은 A-01 이름표를 먼저 이어 줘.');
    e.confirmed=true;
   }else if(step===1&&p.kind==='plan'){
    if(!DISCOVERY_PLAN.includes(p.item))return fail('비교할 사진은 같은 자리에서 찍고, 생물은 그곳에서 계속 자라도록 지켜 줘.');
@@ -71,22 +73,22 @@ export function applyQuest(field,payload={}){
   }else if(step===1&&p.kind==='record'){
    if(!DISCOVERY_PLAN.every(x=>e.plan?.includes(x)))return fail('같은 방향·꾸준한 기록·생물 보호 세 가지 사진 계획을 모두 확인해 줘.');
    e.confirmed=true;
-  }else return fail('이름표을 확인하고 다음 사진 계획을 완성해 줘.');
+  }else return fail('이름표를 확인하고 다음 사진 계획을 완성해 줘.');
  }else if(step===0&&p.kind==='stamp'){
   const record=records.find(r=>r.id===p.recordId&&DISCOVERY_TYPES.includes(r.fieldEvidence?.type));
-  if(!record)return fail('직접 만든 관찰·조건 비교·돌봄 기록에서 도장를 붙일 자료를 골라 줘.');
+  if(!record)return fail('직접 만든 관찰·조건 비교·돌봄 기록에서 도장을 붙일 자료를 골라 줘.');
   e.stamps={...e.stamps,[record.fieldEvidence.type]:record.id};
  }else if(step===1&&p.kind==='question'){
   if(!questionValid(p.text))return fail('알아보고 싶은 생물과 궁금한 점을 여덟 글자 이상 네 말로 써 줘.');
-  e.question=p.text.trim().slice(0,180);
- }else return fail('내 기록에 도장를 붙이고 다음 궁금증을 남겨 줘.');
+  e.question=preserveText(p.text,TEXT_LIMITS.question);
+ }else return fail('내 기록에 도장을 붙이고 다음 궁금증을 남겨 줘.');
  data[step]=e;q.discovery=normalizeDiscovery(c,data,records);
  const complete=questReady(field,c),stepDone=discoveryStepDone(c,step,q.discovery[step],records);
- return {ok:true,completed:complete,completedStep:stepDone?step:null,message:complete?`${DISCOVERY_MISSIONS[c].name} 도장를 받았어! 네가 찾은 기록와 다음 생각이 기록됐어.`:stepDone?'첫 발견 기록 완료! 다음 단서로 한 번 더 생각해 보자.':'단서를 기록했어. 화면의 다음 안내를 따라 발견을 완성해 줘.',...(complete?{reward:DISCOVERY_MISSIONS[c].name}:{})};
+ return {ok:true,completed:complete,completedStep:stepDone?step:null,message:complete?`${DISCOVERY_MISSIONS[c].name} 도장을 받았어! 네가 찾은 기록와 다음 생각이 기록됐어.`:stepDone?'첫 발견 기록 완료! 다음 단서로 한 번 더 생각해 보자.':'단서를 기록했어. 화면의 다음 안내를 따라 발견을 완성해 줘.',...(complete?{reward:DISCOVERY_MISSIONS[c].name}:{})};
 }
 
 export function renderQuestRoom(v,ctx){
- const f=ctx.s.field,c=f.active,step=currentStep(f),saved=state(f),e=saved[step]||{},mission=DISCOVERY_MISSIONS[c],reduced=ctx.s.settings.reducedMotion;
+ const f=ctx.s.field,c=f.active,step=currentStep(f),saved=state(f),e=saved[step]||{},mission=DISCOVERY_MISSIONS[c],reduced=reducedMotion(ctx.s.settings);
  const send=payload=>ctx.emit('act',{type:'quest-answer',payload:{step,...payload}});
  const panel=(x,y,w,h)=>v.add.rectangle(x,y,w,h,0xfffdf3,1).setStrokeStyle(2,0xa7b99a);
  const label=(x,y,text,size=23,w=350)=>v.label(x,y,text,size,w);
@@ -185,8 +187,8 @@ export function renderQuestRoom(v,ctx){
  label(820,350,'다음 탐험의 첫 질문',27,460);
  v.text(820,435,'내가 관찰한 생물에서\n아직 궁금한 점은 무엇일까?',25,445);
  button(820,590,440,'나만의 궁금증 쓰기',()=>{
-  ctx.dialog({title:'다음 탐험의 첫 질문',className:'field-notebook-dialog',body:'<section class="notebook-page"><p class="notebook-kicker">발견을 새로운 질문으로!</p><label for="discovery-question">어떤 생물의 무엇이 궁금하니?</label><textarea id="discovery-question" class="notebook-own-writing" maxlength="180" placeholder="관찰하면서 새롭게 궁금해진 점을 네 말로 써 줘."></textarea><p class="notebook-next">여덟 글자 이상 네 말로 쓰면 돼. 정해진 정답은 없어.</p></section>',actions:'<button type="button" id="discovery-question-save" class="primary">내 궁금증 기록</button>'});
-  const input=document.getElementById('discovery-question'),save=document.getElementById('discovery-question-save');
+  ctx.dialog({title:'다음 탐험의 첫 질문',className:'field-notebook-dialog',body:'<section class="notebook-page"><p class="notebook-kicker">발견을 새로운 질문으로!</p><label for="discovery-question">어떤 생물의 무엇이 궁금하니?</label><textarea id="discovery-question" class="notebook-own-writing"  placeholder="관찰하면서 새롭게 궁금해진 점을 네 말로 써 줘."></textarea><p class="notebook-next">여덟 글자 이상 네 말로 쓰면 돼. 정해진 정답은 없어.</p></section>',actions:'<button type="button" id="discovery-question-save" class="primary">내 궁금증 기록</button>'});
+  const input=document.getElementById('discovery-question'),save=document.getElementById('discovery-question-save');input.maxLength=TEXT_LIMITS.question;
   save.addEventListener('click',()=>{const text=input.value;if(!questionValid(text)){ctx.emit('feedback','알아보고 싶은 생물과 궁금한 점을 여덟 글자 이상 써 줘.');return;}input.closest('dialog')?.close();send({kind:'question',text});});
   input.focus();
  });

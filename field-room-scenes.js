@@ -1,3 +1,4 @@
+import {reducedMotion} from './game-motion.js';
 import {roomPhase} from './field-flow.js';
 import {renderObservationRoom} from './field-observation-scenes.js';
 import {renderPlantRoom} from './field-plant-scenes.js';
@@ -26,7 +27,7 @@ export function renderFieldRoom(v,ctx){
   const reward=v.pic(art,800,360,280);v.shadow(800,510,260);
   v.label(800,560,FIELD_CHAPTERS[c].reward,38,530);v.text(800,620,FIELD_CHAPTERS[c].use,24,530);
   if(questReady(f,c))v.label(800,678,'✓ '+DISCOVERY_MISSIONS[c].name+' 도장',23,600);
-  if(!ctx.s.settings.reducedMotion)v.tweens.add({targets:reward,y:340,duration:1300,yoyo:true,repeat:-1});return;
+  if(!reducedMotion(ctx.s.settings))v.tweens.add({targets:reward,y:340,duration:1300,yoyo:true,repeat:-1});return;
  }
  if(c===0){renderObservationRoom(v,ctx,phase);return;}
  if(c===1||c===2){renderPlantRoom(v,ctx,phase);return;}

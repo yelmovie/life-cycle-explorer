@@ -1,3 +1,4 @@
+import {reducedMotion} from './game-motion.js';
 import {ART,SCENES} from './game-assets.js';
 import {POINTS,EDGES,DOORS,nearest,route} from './game-model.js';
 import {FIELD_CHAPTERS} from './field-content.js';
@@ -91,7 +92,7 @@ export function createFieldGame(context){
    object.on('dragstart',()=>object.setDepth(30).setScale(object.scale*1.05));
    object.on('drag',(_,dx,dy)=>object.setPosition(dx,dy));
    object.on('drop',(_,zone)=>context.emit('drop',{kind,...data,target:zone.getData('target')}));
-   object.on('dragend',(_,dx,dy,dropped)=>{if(!dropped)this.tweens.add({targets:object,x,y,duration:context.s.settings.reducedMotion?1:160,onComplete:()=>object.setScale(object.scale/1.05)});});
+   object.on('dragend',(_,dx,dy,dropped)=>{if(!dropped)this.tweens.add({targets:object,x,y,duration:reducedMotion(context.s.settings)?1:160,onComplete:()=>object.setScale(object.scale/1.05)});});
    this.focusTargets.push({x,y,w:Math.max(min,object.displayWidth),h:Math.max(min,object.displayHeight),label,fn:()=>context.emit('select',{kind,...data})});return object;
   }
   ensureTouchTargets(){
@@ -106,7 +107,7 @@ export function createFieldGame(context){
   showHint(pattern,items=this.focusTargets){
    this.hintMarks?.forEach(o=>o.destroy());this.hintMarks=[];
    const targets=items.filter(item=>pattern.test(item.label)).slice(0,4);
-   for(const [index,item] of targets.entries()){const y=Math.max(205,item.y-item.h/2-24),o=this.label(item.x,y,(index+1)+' ↓ 여기',20,160).setDepth(45).setColor('#276c50');this.hintMarks.push(o);if(!context.s.settings.reducedMotion)this.tweens.add({targets:o,y:y+6,duration:500,yoyo:true,repeat:2});}
+   for(const item of targets){const o=this.add.graphics().lineStyle(Math.max(3,3/this.screenScale()),0x2d7550,.95).strokeRoundedRect(item.x-item.w/2-5,item.y-item.h/2-5,item.w+10,item.h+10,14).setDepth(45);this.hintMarks.push(o);if(!reducedMotion(context.s.settings))this.tweens.add({targets:o,alpha:.4,duration:500,yoyo:true,repeat:2});}
    this.time.delayedCall(4000,()=>this.hintMarks?.forEach(o=>o.destroy()));
   }
   showDropTargets(){this.showHint(/./,this.children.getChildren().filter(o=>o.getData?.('target')).map(o=>({x:o.x,y:o.y,w:o.width,h:o.height,label:'놓을 자리'})));}
@@ -156,7 +157,7 @@ export function createFieldGame(context){
    const c=context.ui.restoreChapter;
    if(Number.isInteger(c)){
     context.ui.restoreChapter=null;const path=route(DOORS[c],DOORS[4]),glow=this.add.circle(this.avatar.x,this.avatar.y,11,0xffef9d,.95).setDepth(19);let i=0;
-    const move=()=>{if(i>=path.length){glow.destroy();return;}const p=POINTS[path[i++]];this.tweens.add({targets:glow,x:p[0]*W,y:p[1]*H,duration:s.settings.reducedMotion?1:145,onComplete:move});};move();
+    const move=()=>{if(i>=path.length){glow.destroy();return;}const p=POINTS[path[i++]];this.tweens.add({targets:glow,x:p[0]*W,y:p[1]*H,duration:reducedMotion(s.settings)?1:145,onComplete:move});};move();
    }
   }
   walkDoor(chapter){if(!Number.isInteger(chapter)||chapter<0||chapter>4)return;this.walkTo(DOORS[chapter],chapter);}
@@ -173,18 +174,18 @@ export function createFieldGame(context){
    this.walking=true;this.walkTarget=target;const trip=this.travelId=(this.travelId||0)+1;
    const path=route(nearest([context.s.avatar.x,context.s.avatar.y]),target);let i=0,frame=0;
    context.emit('travel-start',chapter);
-   const timer=this.walkTimer=this.time.addEvent({delay:130,loop:true,callback:()=>{if(!context.s.settings.reducedMotion){this.avatar.setFrame((this.walkRow||0)*4+(frame++%4));if(frame%2===0)context.emit('footstep');}}});
+   const timer=this.walkTimer=this.time.addEvent({delay:130,loop:true,callback:()=>{if(!reducedMotion(context.s.settings)){this.avatar.setFrame((this.walkRow||0)*4+(frame++%4));if(frame%2===0)context.emit('footstep');}}});
    const advance=()=>{
     if(trip!==this.travelId)return;
     if(i===path.length){timer.remove();this.walking=false;this.avatar.setFrame(0);if(chapter!==null)context.emit('arrived',chapter);return;}
     const node=path[i++],[nx,ny]=POINTS[node],x=nx*W,y=ny*H,dx=x-this.avatar.x,dy=y-this.avatar.y;
     this.walkRow=Math.abs(dx)>Math.abs(dy)?dx<0?1:2:dy<0?3:0;
-    this.tweens.add({targets:this.avatar,x,y,duration:context.s.settings.reducedMotion?1:Math.max(70,Math.hypot(dx,dy)*2.7),onComplete:()=>{if(trip!==this.travelId)return;context.s.avatar={x:nx,y:ny};context.emit('map-step');advance();}});
+    this.tweens.add({targets:this.avatar,x,y,duration:reducedMotion(context.s.settings)?1:Math.max(70,Math.hypot(dx,dy)*2.7),onComplete:()=>{if(trip!==this.travelId)return;context.s.avatar={x:nx,y:ny};context.emit('map-step');advance();}});
    };advance();
   }
   update(){
    if(context.mode()!=='map'||!this.avatar)return;
-   this.foot?.setPosition(this.avatar.x,this.avatar.y);if(this.spirit){const follow=context.s.settings.reducedMotion?1:.09;this.spirit.x+=(this.avatar.x-55-this.spirit.x)*follow;this.spirit.y+=(this.avatar.y-12-this.spirit.y)*follow;this.spirit.setFlipX(this.walkRow===1);}
+   this.foot?.setPosition(this.avatar.x,this.avatar.y);if(this.spirit){const follow=reducedMotion(context.s.settings)?1:.09;this.spirit.x+=(this.avatar.x-55-this.spirit.x)*follow;this.spirit.y+=(this.avatar.y-12-this.spirit.y)*follow;this.spirit.setFlipX(this.walkRow===1);}
    context.placeDoors(DOORS.map((node,c)=>({chapter:c,x:POINTS[node][0]*W,y:POINTS[node][1]*H})));
   }
  }

@@ -44,12 +44,12 @@ try{
   await click('#next');assert.equal((await state()).field.chapters[1].rounds[round].run,null);checks.push('seed-prerequisites-'+round);
   await key(round?'① B를 알맞은 온도로':'① B에 물 주기');await click('[data-field-action=prediction]');await click('[data-action=predict][data-choice=both]');await click('#next');
   for(const day of [0,3,7]){if(day)await range('씨앗 관찰 날짜',day);await click('#next');}
-  await snap('seed-grown-'+round);await key(round?'온도 조건':'물 조건');if(!round)await click('#next');
+  await snap('seed-grown-'+round);await key('B에서만 싹이 났어');await key(round?'온도 조건':'물 조건');await key('달라서 생각을 바꿨어');if(!round)await click('#next');
  }
  await discoveries(1);await complete(1);await enter(2);}
  if(start<=2){
  for(let c=0;c<2;c++){
-  await key('○ 물기 재기');await key('○ 빛 재기');await key(c?'② 잎에 표시하기':'① 흙에 표시하기');await page.getByRole('button',{name:'돌봄 전 사진',exact:true}).waitFor();await click('#next');await key(c?'빛이 드는 곳으로':'알맞게 물 주기');await range('돌봄 뒤 시간',2);await snap('care-after-'+c);await click('#next');if(!c)await click('#next');
+  await key('○ 물기 재기');await key('○ 빛 재기');await key(c?'② 잎 · 옅어진 잎빛':'② 잎 · 처진 잎');await page.getByRole('button',{name:'돌봄 전 사진',exact:true}).waitFor();await click('#next');await key(c?'빛이 드는 곳으로':'알맞게 물 주기');await range('돌봄 뒤 시간',2);await snap('care-after-'+c);await click('#next');if(!c)await click('#next');
  }
  await discoveries(2);await complete(2);await enter(3);}
  if(start<=3){
@@ -62,7 +62,7 @@ try{
  await key(/눌러서 기록판에 붙이기$/);await key(/눌러서 기록판에 붙이기$/);await click('[data-field-action=record-page] >> text=다음 자료');await key(/눌러서 기록판에 붙이기$/);await snap('story-cork');
  await click('[data-field-action=story-info]');await page.locator('#story-title').fill('작은 생명들의 서로 다른 시간');await page.locator('#story-summary').fill('나는 이제 관찰 사진을 근거로 나비의 모습 변화와 식물에 필요한 물과 빛을 설명할 수 있어.');await click('[data-action=save-story]');
  for(let i=0;i<2;i++){await click('[data-field-action=story-caption]');await page.locator('#caption-record').selectOption({index:i});await page.locator('#story-caption').fill(i?'몸의 여러 마디와 작은 다리를 관찰했어.':'잎에 붙은 작고 길쭉한 알을 자세히 살펴봤어.');await click('[data-action=save-caption]');}
- for(const [pattern,target] of [[/알.*기록으로 선택하기$/,'생김새를 보여 줘 자리에 기록 놓기'],[/물.*기록으로 선택하기$/,'조건을 비교한 기록는? 자리에 기록 놓기'],[/시든.*기록으로 선택하기$/,'어떻게 돌봤니? 자리에 기록 놓기']]){
+ for(const [pattern,target] of [[/알.*기록으로 선택하기$/,'생김새를 보여 줘 자리에 기록 놓기'],[/물.*기록으로 선택하기$/,'조건을 비교한 기록은? 자리에 기록 놓기'],[/시든.*기록으로 선택하기$/,'어떻게 돌봤니? 자리에 기록 놓기']]){
   let found=false;for(let n=0;n<5;n++){const match=page.getByRole('button',{name:pattern});if(await match.count()){await key(pattern);found=true;break;}await click('[data-field-action=record-page] >> text=다음 자료');}assert.ok(found,String(pattern));await key(target);
  }
  await click('#next');await click('[data-action=save-plan]');assert.equal(await page.locator('dialog').isVisible(),true);await page.locator('#plan-subject').fill('학교 화단의 봉선화');await page.locator('#plan-when').fill('매주 월요일과 목요일');await page.locator('#plan-what').fill('잎 수와 줄기 모양을 보고 글과 그림으로 남기기');await click('[data-action=save-plan]');

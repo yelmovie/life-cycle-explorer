@@ -1,3 +1,4 @@
+import {reducedMotion} from './game-motion.js';
 // The face of the illustration is offset from its bounding box by the crank.
 export function clockFace(key,width,height,size=204){
  const scale=Math.min(size/width,size/height);
@@ -31,7 +32,7 @@ export function renderLifeClock(v,ctx,key,x,y,value,max,event,labels){
  const clockKey=event+':'+x+':'+y,previous=ctx.ui.clockValues?.[clockKey];
  ctx.ui.clockValues??={};ctx.ui.clockValues[clockKey]=value;
  const state={n:Number.isFinite(previous)?previous:value};draw(state.n);
- if(state.n!==value&&!ctx.s.settings.reducedMotion)v.tweens.add({targets:state,n:value,duration:650,ease:'Cubic.easeInOut',onUpdate:()=>draw(state.n)});
+ if(state.n!==value&&!reducedMotion(ctx.s.settings))v.tweens.add({targets:state,n:value,duration:650,ease:'Cubic.easeInOut',onUpdate:()=>draw(state.n)});
  else draw(value);
  const commit=n=>ctx.emit(event,Math.max(0,Math.min(max,n)));
  v.input.setDraggable(image);

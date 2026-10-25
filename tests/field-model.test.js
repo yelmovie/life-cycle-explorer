@@ -22,7 +22,7 @@ function finishSeeds(field) {
     act(field,'seed-condition',{key:variable});
     act(field,'seed-run');
     for (const day of [0,3,7]) {act(field,'seed-day',{day});act(field,'seed-photo');}
-    act(field,'seed-report',{reason:variable});
+    act(field,'seed-report',{reason:variable,result:'b',expectation:'changed'});
     if (variable === 'water') act(field,'seed-next');
   }
 }
@@ -98,7 +98,7 @@ test('seed rounds require equal preparation, one changed variable and three date
   assert.equal(fieldAction(field,'seed-report',{reason:'water'}).ok,false);
   for (const day of [0,2]) {act(field,'seed-day',{day});act(field,'seed-photo');}
   assert.equal(fieldAction(field,'seed-report',{reason:'warm'}).ok,false);
-  act(field,'seed-report',{reason:'water'});assert.equal(fieldReady(field),false);
+  act(field,'seed-report',{reason:'water',result:'b',expectation:'unsure'});assert.equal(fieldReady(field),false);
   act(field,'seed-next');assert.equal(field.chapters[1].rounds[1].variable,'warm');
 });
 

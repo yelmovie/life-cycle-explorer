@@ -1,3 +1,5 @@
+import {TEXT_LIMITS,captionText,draftValue} from './field-writing.js';
+import {reducedMotion} from './game-motion.js';
 import {fieldRecords} from './field-model.js';
 import {esc} from './game-metadata.js';
 
@@ -6,17 +8,17 @@ import {esc} from './game-metadata.js';
 export const storyRoomAssets=['storyCamera','researchNotebook'];
 
 export function storyInfoNotebook(q){
- return `<div class="notebook-book story-writing-book"><section class="notebook-page"><p class="notebook-kicker">나의 발견 연구노트</p><h3>내 탐구에 이름 붙이기</h3><label>이야기 이름<input id="story-title" type="text" maxlength="60" placeholder="내가 찾은 생명의 비밀" value="${esc(q.title)}"></label><p class="story-writing-guide">관찰 사진 ${q.records.length}장이 모였어.<br>기억에 남는 발견을 제목에 담아 줘.</p></section><section class="notebook-page"><h3>내가 설명할 수 있는 것</h3><label>관찰한 모습과 나의 설명<textarea id="story-summary" maxlength="300" placeholder="나는 …을 관찰해서 …을 알았어.">${esc(q.summary)}</textarea></label><p class="story-writing-guide">내 사진을 보고, 이제 무엇을 설명할 수 있는지<br>네 말로 써 줘.</p></section></div>`;
+ return `<div class="notebook-book story-writing-book"><section class="notebook-page"><p class="notebook-kicker">나의 발견 연구노트</p><h3>내 탐구에 이름 붙이기</h3><label>이야기 이름<input id="story-title" type="text" maxlength="${TEXT_LIMITS.title}" placeholder="내가 찾은 생명의 비밀" value="${esc(draftValue(q,'story','title',q.title))}"></label><p class="story-writing-guide">관찰 사진 ${q.records.length}장이 모였어.<br>기억에 남는 발견을 제목에 담아 줘.</p></section><section class="notebook-page"><h3>내가 설명할 수 있는 것</h3><label>관찰한 모습과 나의 설명<textarea id="story-summary" maxlength="${TEXT_LIMITS.summary}" placeholder="나는 …을 관찰해서 …을 알았어.">${esc(draftValue(q,'story','summary',q.summary))}</textarea></label><p class="story-writing-guide">내 사진을 보고, 이제 무엇을 설명할 수 있는지<br>네 말로 써 줘.</p></section></div>`;
 }
 
 export function storyCaptionNotebook(q,records,id,image){
  const record=records.find(r=>r.id===id)||records[0];
- return `<div class="notebook-book story-writing-book"><section class="notebook-page"><p class="notebook-kicker">사진 한 장, 발견 하나</p><label>기록 고르기<select id="caption-record">${records.map(r=>`<option value="${esc(r.id)}" ${r.id===record.id?'selected':''}>${esc(r.title)}</option>`).join('')}</select></label>${image?`<img class="story-note-evidence" src="${image}" alt="${esc(record.title)}">`:''}<p class="story-writing-guide">${esc(record.title)}</p></section><section class="notebook-page"><h3>사진이 들려준 기록</h3><label>무엇을 보고 무엇을 알았니?<textarea id="story-caption" maxlength="200" placeholder="나는 사진에서 …을 보았다. 그래서 …을 알았다.">${esc(q.captions[record.id]||'')}</textarea></label><p class="story-writing-guide">본 모습 · 바꾼 조건 · 달라진 점<br>사진에서 무엇을 보았는지 써 줘.</p></section></div>`;
+ return `<div class="notebook-book story-writing-book"><section class="notebook-page"><p class="notebook-kicker">사진 한 장, 발견 하나</p><label>기록 고르기<select id="caption-record">${records.map(r=>`<option value="${esc(r.id)}" ${r.id===record.id?'selected':''}>${esc(r.title)}</option>`).join('')}</select></label>${image?`<img class="story-note-evidence" src="${image}" alt="${esc(record.title)}">`:''}<p class="story-writing-guide">${esc(record.title)}</p></section><section class="notebook-page"><h3>사진이 들려준 기록</h3><label>무엇을 보고 무엇을 알았니?<textarea id="story-caption" maxlength="${TEXT_LIMITS.caption}" data-record-id="${esc(record.id)}" placeholder="나는 사진에서 …을 보았다. 그래서 …을 알았다.">${esc(captionText(q,record.id))}</textarea></label><p class="story-writing-guide">본 모습 · 바꾼 조건 · 달라진 점<br>사진에서 무엇을 보았는지 써 줘.</p><p class="draft-status" data-draft-status role="status">초안은 자동 보관돼. 「설명 기록」을 눌러야 제출돼.</p></section></div>`;
 }
 
 export function renderStoryRoom(v,ctx,phase){
  const q=ctx.s.field.chapters[4],bank=fieldRecords(ctx.s.field),stamp=v.renderToken;
- const reduced=ctx.s.settings.reducedMotion;
+ const reduced=reducedMotion(ctx.s.settings);
  const act=(type,payload)=>ctx.emit('act',{type,payload});
  const selected=bank.filter(r=>q.records.includes(r.id));
  const handwriting=(x,y,message,size,width)=>v.text(x,y,message,size,width,'#294e43').setFontFamily('Research Hand,Jua,Malgun Gothic,sans-serif');
@@ -97,7 +99,7 @@ export function renderStoryRoom(v,ctx,phase){
   v.label(1090,545,selected.length+' / 6장 · 내 탐구 기록',19,260);
  }
  if(phase==='story-help'){
-  const requests=[['observation','생김새를 보여 줘'],['retry','조건을 비교한 기록는?'],['care','어떻게 돌봤니?']];
+  const requests=[['observation','생김새를 보여 줘'],['retry','조건을 비교한 기록은?'],['care','어떻게 돌봤니?']];
   requests.forEach(([id,label],i)=>{
    const x=449+i*191,r=bank.find(record=>record.id===q.matches[id]);
    target(x,344,178,290,'help-'+id,label+' 자리에 기록 놓기');
@@ -105,7 +107,7 @@ export function renderStoryRoom(v,ctx,phase){
    sheet.add(handwriting(0,-89,label,25,156).setMaxLines(2));
    if(r){
     photo(r,x,364,156,155,{caption:r.title});
-    v.text(x,449,'✓ 기록를 연결했어',19,180,'#21573b');
+    v.text(x,449,'✓ 기록을 연결했어',19,180,'#21573b');
    }else{
     v.pic('storyCamera',x,349,70,70);
      handwriting(x,417,'사진을 골라\n놓아 줘',24,156);

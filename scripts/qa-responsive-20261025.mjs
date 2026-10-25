@@ -10,7 +10,7 @@ import {roomPhase} from '../field-flow.js';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),out=path.join(root,'.tmp/responsive-20261025-'+(process.env.RESPONSIVE_LABEL||'baseline'));
 await mkdir(out,{recursive:true});process.env.TEMP=out;process.env.TMP=out;
 const require=createRequire(import.meta.url),{chromium}=require(process.env.PLAYWRIGHT_MODULE||'C:/Users/bongb/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
-const earned=JSON.parse(await readFile(path.join(root,'.tmp/recovery-play/earned-state.json'),'utf8'));
+const earned=JSON.parse(await readFile(path.join(root,process.env.RESPONSIVE_FIXTURE||'.tmp/recovery-play/earned-state.json'),'utf8'));
 const browser=await chromium.launch({channel:'chrome',headless:true}),base=process.env.BASE_URL||'http://127.0.0.1:4318';
 const allViews=[[1595,892],[1280,800],[1024,768],[906,755],[873,580],[812,375],[768,1024],[375,812]];
 const views=allViews.filter(v=>!process.env.RESPONSIVE_VIEWS||process.env.RESPONSIVE_VIEWS.split(',').includes(v.join('x')));

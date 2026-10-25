@@ -1,11 +1,12 @@
+import {TEXT_LIMITS,preserveText} from './field-writing.js';
 // Shared, dependency-free validation for the discovery missions and save files.
 const unique=a=>[...new Set(Array.isArray(a)?a:[])];
 const object=a=>a&&typeof a==='object'&&!Array.isArray(a)?a:{};
 const list=(a,allowed)=>unique(a).filter(x=>allowed.includes(x));
-const words=a=>typeof a==='string'?a.trim().slice(0,180):'';
+const words=a=>preserveText(a,TEXT_LIMITS.question);
 export const DISCOVERY_TYPES=['observation','retry','care'];
 export const DISCOVERY_PLAN=['same-view','regular','leave-growing'];
-export const questionValid=text=>words(text).length>=8&&new Set(words(text).replace(/\s/g,'')).size>=4;
+export const questionValid=text=>words(text).trim().length>=8&&new Set(words(text).replace(/\s/g,'')).size>=4;
 
 function cleanEntry(c,step,raw,records){
  const e=object(raw);

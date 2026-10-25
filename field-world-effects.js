@@ -1,3 +1,4 @@
+import {reducedMotion} from './game-motion.js';
 // Restored landmarks use the exact original pixels, so buildings never jump
 // when the learner earns a chapter. Only completed regions regain full light.
 export const RESTORED_LANDMARKS=[
@@ -9,7 +10,7 @@ export const RESTORED_LANDMARKS=[
 ];
 
 export function lightRestoredLandmarks(v,ctx){
- const reduced=ctx.s.settings.reducedMotion,restoring=ctx.ui.restoreChapter;
+ const reduced=reducedMotion(ctx.s.settings),restoring=ctx.ui.restoreChapter;
  v.worldMasks=[];
  for(const chapter of ctx.s.field.completed){
   const region=RESTORED_LANDMARKS[chapter];if(!region)continue;

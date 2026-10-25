@@ -5,7 +5,7 @@ import {initialField,fieldAction,seedObservation,careTimeLabels,fieldRecords} fr
 const act=(f,type,p={})=>fieldAction(f,type,p);
 function seedField(){const f=initialField();f.preview=true;f.active=1;for(const side of ['a','b'])act(f,'seed-prepare',{side,soil:true,seeds:3});return f;}
 function startRound(f){const r=f.chapters[1].rounds[f.chapters[1].round];for(const side of ['a','b'])act(f,'seed-prepare',{side,soil:true,seeds:3});act(f,'seed-predict',{choice:'unsure'});act(f,'seed-condition',{side:'b',key:r.variable,value:true});assert.equal(act(f,'seed-run').ok,true);return r;}
-function finishSeed(f){const r=startRound(f);for(const day of [0,3,7]){act(f,'seed-day',{day});act(f,'seed-photo');}act(f,'seed-report',{reason:r.variable});}
+function finishSeed(f){const r=startRound(f);for(const day of [0,3,7]){act(f,'seed-day',{day});act(f,'seed-photo');}act(f,'seed-report',{reason:r.variable,result:'b',expectation:'unsure'});}
 
 test('comparison start explains missing prediction and missing contrasting condition without silently starting',()=>{
  const f=seedField(),r=f.chapters[1].rounds[0];

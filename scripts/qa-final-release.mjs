@@ -3,7 +3,7 @@ import {readFile,mkdir,writeFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import assert from 'node:assert/strict';
-const project=new URL('../',import.meta.url),out=new URL('.tmp/final-release/',project);
+const project=new URL('../',import.meta.url),out=new URL(process.env.RELEASE_OUTPUT||'.tmp/final-release/',project);
 await mkdir(out,{recursive:true});process.env.TEMP='D:/DevTemp';process.env.TMP='D:/DevTemp';
 const base=process.env.BASE_URL||'http://127.0.0.1:4215',hash=b=>createHash('sha256').update(b).digest('hex');
 const manifest=JSON.parse(await readFile(new URL('dist/build-manifest.json',project),'utf8')),result={cacheVersion:manifest.cacheVersion,manifestFiles:0,sourceFiles:0,httpFiles:0,errors:[]};
@@ -21,7 +21,7 @@ try{
  await page.goto(base);await page.locator('.boot').waitFor({state:'detached'});await page.locator('[data-action=start]').click();
  const opening=await page.locator('dialog[open]').innerText();assert.match(opening,/時間|시간 손잡이/);assert.match(opening,/기록증/);result.openingRewardPromise=opening;
  await page.screenshot({path:fileURLToPath(new URL('opening.png',out))});
- const completed=JSON.parse(await readFile(new URL('.tmp/recovery-play/earned-state.json',project),'utf8'));
+ const completed=JSON.parse(await readFile(new URL(process.env.RELEASE_FIXTURE||'.tmp/recovery-play/earned-state.json',project),'utf8'));
  await page.evaluate(s=>localStorage.setItem('life-clock-lab.phaser.4',JSON.stringify(s)),completed);await page.reload();await page.locator('.boot').waitFor({state:'detached'});
  await page.getByRole('button',{name:'설정',exact:true}).click();await page.locator('[data-action=ending]').click();
  const ending=await page.locator('dialog[open]').innerText();assert.ok(ending.includes(completed.field.chapters[4].summary));assert.ok(ending.includes(completed.field.chapters[4].plan.what));result.personalizedEnding=true;

@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-25",
+  "purpose": "Base images for Meshy image-to-3D. Not shipped in dist; GLB files go to assets/models/.",
+  "tool": "Higgsfield (MCP connector)",
+  "model": "gpt_image_2_5",
+  "settings": {"aspect_ratio": "1:1", "quality": "high", "resolution": "1k", "background": "transparent"},
+  "cost_credits_each": 1.5,
+  "postprocess": "Alpha halo removed (alpha 100..230 remapped), cropped to object, padded to 84% fill, 1024x1024. Script kept outside the project.",
+  "generated": [
+    {"file": "01-butterfly-adult.png", "raw": "raw/gen-01-butterfly-adult-3q.png", "job_id": "150ccf60-f823-460a-9722-c004f20f07e2", "reference": "assets/generated/source/butterfly-adult.png"},
+    {"file": "08-time-wheel.png", "raw": "raw/gen-02-time-wheel-3q.png", "job_id": "0d65d390-652f-45a2-b2d8-76b8da3d23f8", "reference": "assets/expedition/timeWheel.webp"},
+    {"file": "09-plant-sensor.png", "raw": "raw/gen-03-plant-sensor-3q.png", "job_id": "0cba349b-f0b3-47f4-8a9a-6e2417caca5e", "reference": "assets/expedition/plantSensor.webp"},
+    {"file": "10-season-compass.png", "raw": "raw/gen-04-season-compass-3q.png", "job_id": "c133f2f9-563f-450f-b411-176fa06c6fbe", "reference": "assets/expedition/seasonCompass.webp"},
+    {"file": "12-doto-apose.png", "raw": "raw/gen-05-doto-apose.png", "job_id": "90169ee3-5b95-4298-b2ed-92d3e9602992", "reference": "assets/field/source/doto-20261022.png"}
+  ],
+  "copied_from_existing": {
+    "02-butterfly-egg.png": "assets/generated/source/butterfly-egg.png",
+    "03-butterfly-larva.png": "assets/generated/source/butterfly-larva.png",
+    "04-butterfly-pupa.png": "assets/generated/source/butterfly-pupa.png",
+    "05-life-clock-body.png": "assets/generated/source/m10-clock-body.png",
+    "06-life-clock-ring.png": "assets/generated/source/m10-clock-ring.png",
+    "07-life-clock-core.png": "assets/generated/source/m10-clock-core.png",
+    "11-story-camera.png": "assets/expedition/source/explorer-tools.png (bottom-right crop)",
+    "13-bean-seedling.png": "assets/generated/source/m04-bean-s3.png",
+    "14-doto-original.png": "assets/field/source/doto-20261022.png"
+  },
+  "prompts": "docs/3d/3D-MODEL-BRIEF.md (section 4)"
+}

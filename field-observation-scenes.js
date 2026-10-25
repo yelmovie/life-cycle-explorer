@@ -1,3 +1,4 @@
+import {reducedMotion} from './game-motion.js';
 import {FORM_NAMES,FORM_TRAITS} from './field-content.js';
 
 const FORMS=['egg','larva','pupa','adult'];
@@ -74,13 +75,13 @@ export function renderObservationRoom(v,ctx,phase){
    if(nearest&&nearest.d<75){open(nearest.form,nearest.spot);return;}
    zoom?.destroy();zoom=null;zoomId=null;viewed=null;
    feedback.setText('생물 가까이에서 놓아 봐.\n보기 버튼도 눌러 봐.');
-   v.tweens.add({targets:lens,x:640,y:350,duration:ctx.s.settings.reducedMotion?1:180});
+   v.tweens.add({targets:lens,x:640,y:350,duration:reducedMotion(ctx.s.settings)?1:180});
   });
   v.label(640,695,`${total}/8 단서 기록  ·  다음: ${next?FORM_NAMES[next.form]+'의 '+PARTS[next.form][next.spot]:'내 관찰 그림 그리기'}`,24,950);
   return;
  }
  if(phase==='draw'){
-  const id=ctx.ui.drawForm||'larva';v.add.graphics().fillStyle(0xfffbed,.92).fillRoundedRect(170,230,355,355,22);
+  const id=q.drawingForm||'larva';v.add.graphics().fillStyle(0xfffbed,.92).fillRoundedRect(170,230,355,355,22);
   v.pic(id,345,365,id==='egg'?160/3:240);v.label(345,550,'내가 본 '+FORM_NAMES[id],26,300);
   const x=610,y=230,w=470,h=305;v.add.graphics().fillStyle(0xfffdf3,.97).fillRoundedRect(x,y,w,h,18);
   v.text(x+w/2,y-28,'① 특징을 직접 그려 줘',26,460);
@@ -90,7 +91,7 @@ export function renderObservationRoom(v,ctx,phase){
   v.input.on('pointermove',p=>{if(!stroke||!p.isDown)return;const point=v.pointerWorld?.(p)||p,nx=Math.max(x,Math.min(x+w,point.x)),ny=Math.max(y,Math.min(y+h,point.y));stroke.push([(nx-x)/w,(ny-y)/h]);ink.lineTo(nx,ny).strokePath();});
   v.input.on('pointerup',()=>{if(stroke){const a=stroke;stroke=null;act('observation-draw',{stroke:a});}});
   v.text(845,585,q.note||'② 아래 「특징 쓰기」에서 내 말로 적어 줘.',24,480);
-  FORMS.forEach((form,i)=>{const bx=225+i*85;v.pic(form,bx,625,form==='egg'?40:65);v.click(bx,625,76,68,()=>{ctx.ui.drawForm=form;v.refresh();},FORM_NAMES[form]+' 보며 그리기');});return;
+  FORMS.forEach((form,i)=>{const bx=225+i*85;v.pic(form,bx,625,form==='egg'?40:65);v.click(bx,625,76,68,()=>act('observation-reference',{form}),FORM_NAMES[form]+' 보며 그리기');});return;
  }
  if(phase==='film'){
   for(let i=0;i<4;i++){
@@ -107,4 +108,18 @@ export function renderObservationRoom(v,ctx,phase){
  v.text(915,330,'새 잎에서\n새로운 생명이 시작돼',28,300);v.drop(915,440,280,170,'next-egg','다음 세대의 새 알을 놓을 자리',()=>ctx.emit('target','next-egg'));
  const egg=v.pic('egg',650,440,160/3);v.draggable(egg,'generation',{},'새 알을 고른 뒤 오른쪽 잎 자리 누르기');
  v.label(390,590,'알을 낳는 어른벌레',25,330);v.label(915,590,'새 알을 여기에 놓기',25,330);v.text(640,655,'어른벌레가 알로 바뀌는 게 아니라, 새 개체가 태어나.',23,1000);
+}
+
+// This alternative records the learner's own lines through the same action as touch drawing.
+export function openKeyboardDrawing(ctx){
+ const q=ctx.s.field.chapters[0];
+ ctx.dialog({title:'키보드로 관찰 그림 그리기',body:'<p id="sketch-help">방향키로 커서를 움직여. Enter나 Space로 펜을 켜고 끌 수 있어. 선을 그린 뒤 특징 쓰기에서 네가 본 모습을 남겨 줘.</p><svg id="keyboard-sketch" class="keyboard-sketch" viewBox="0 0 470 305" tabindex="0" role="application" aria-label="키보드 그림판" aria-describedby="sketch-help"></svg><div class="sketch-buttons"><button id="sketch-pen" type="button" aria-pressed="false">펜 켜기</button><button type="button" data-sketch-direction="left">왼쪽</button><button type="button" data-sketch-direction="up">위</button><button type="button" data-sketch-direction="down">아래</button><button type="button" data-sketch-direction="right">오른쪽</button></div><p id="sketch-status" role="status">펜 꺼짐 · 방향키로 시작 위치를 골라 줘.</p>',actions:'<button data-action="close" class="primary">그림으로 돌아가기</button>'});
+ const modal=document.getElementById('modal'),canvas=modal.querySelector('#keyboard-sketch'),penButton=modal.querySelector('#sketch-pen'),status=modal.querySelector('#sketch-status'),controller=new AbortController();
+ let point=[.5,.5],pen=false;
+ const paint=()=>{canvas.innerHTML=q.drawing.map(stroke=>`<polyline points="${stroke.map(p=>`${p[0]*470},${p[1]*305}`).join(' ')}" fill="none" stroke="#285e45" stroke-width="4" stroke-linecap="round"/>`).join('')+`<circle cx="${point[0]*470}" cy="${point[1]*305}" r="7" fill="${pen?'#d39b36':'#527963'}" stroke="white" stroke-width="2"/>`;};
+ const toggle=()=>{pen=!pen;penButton.textContent=pen?'펜 끄기':'펜 켜기';penButton.setAttribute('aria-pressed',String(pen));status.textContent=pen?'펜 켜짐 · 방향키로 특징을 그려 줘.':'펜 꺼짐 · 방향키로 커서만 이동해.';paint();};
+ const move=direction=>{const [dx,dy]={left:[-.05,0],right:[.05,0],up:[0,-.05],down:[0,.05]}[direction],next=[Math.max(.02,Math.min(.98,point[0]+dx)),Math.max(.02,Math.min(.98,point[1]+dy))];if(pen&&(next[0]!==point[0]||next[1]!==point[1]))ctx.emit('act',{type:'observation-draw',payload:{stroke:[point,next]}});point=next;paint();};
+ canvas.addEventListener('keydown',event=>{const direction={ArrowLeft:'left',ArrowRight:'right',ArrowUp:'up',ArrowDown:'down'}[event.key];if(direction){event.preventDefault();event.stopPropagation();move(direction);}else if(event.key==='Enter'||event.key===' '){event.preventDefault();event.stopPropagation();toggle();}},{signal:controller.signal});
+ penButton.addEventListener('click',toggle,{signal:controller.signal});modal.querySelectorAll('[data-sketch-direction]').forEach(button=>button.addEventListener('click',()=>move(button.dataset.sketchDirection),{signal:controller.signal}));
+ modal.addEventListener('close',()=>controller.abort(),{signal:controller.signal});modal.addEventListener('modal-dismiss',()=>controller.abort(),{signal:controller.signal});paint();canvas.focus();
 }
