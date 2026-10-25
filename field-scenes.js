@@ -22,21 +22,43 @@ export function createFieldGame(context){
    this.failed=new Set();this.assetAttempts=new Map();this.load.on('loaderror',file=>{this.failed.add(file.key);this.assetAttempts.set(file.key,(this.assetAttempts.get(file.key)||0)+1);});
    this.load.on('filecomplete',key=>this.failed.delete(key));
   }
-  create(){context.scene=this;this.renderToken=0;this.refresh();this.scale.on('resize',()=>{
+  create(){context.scene=this;this.renderToken=0;this.refresh();this.scale.on('resize',()=>this.relayout());}
+  relayout(){
    const travel=context.mode()==='map'&&this.walking?{target:this.walkTarget,chapter:Number.isInteger(context.ui.travelChapter)?context.ui.travelChapter:null}:null;
    this.refresh();
    // A wrapping header may resize the stage during a walk. Continue from the
    // last recorded path node instead of leaving the destination button locked.
    if(travel&&!this.loading&&!this.assetFailure)this.walkTo(travel.target,travel.chapter);
-  });}
+  }
+  // The HUD floats over the artwork; activities fit between the bars it covers.
+  hudInsets(){
+   const canvas=this.game?.canvas?.getBoundingClientRect?.(),doc=globalThis.document;if(!canvas?.height||!doc?.querySelector)return {top:0,bottom:0};
+   const box=selector=>{const r=doc.querySelector(selector)?.getBoundingClientRect?.();return r?.height?r:null;};
+   const head=box('.game-header'),foot=box('.game-footer'),bubble=box('#guide-bubble:not([hidden])'),k=this.viewportSize().height/canvas.height;
+   // An open hint bubble floats above the footer, so the activity steps up instead of hiding under it.
+   const floor=Math.min(foot?foot.top:Infinity,bubble?bubble.top-8:Infinity);
+   return {top:Math.round(Math.max(0,head?head.bottom-canvas.top:0)*k),bottom:Math.round(Math.max(0,floor===Infinity?0:canvas.bottom-floor)*k)};
+  }
+  syncInsets(){const now=this.hudInsets(),was=this.viewport?.insets;if(!this.loading&&was&&(now.top!==was.top||now.bottom!==was.bottom))this.relayout();}
   viewportSize(){const size=this.scale?.gameSize||this.game?.scale?.gameSize;return {width:Math.max(1,size?.width||W),height:Math.max(1,size?.height||H)};}
   configureViewport(mode){
-   const size=this.viewportSize(),camera=this.cameras.main,bounds=mode==='room'?ROOM_VIEW:{x:0,y:0,width:W,height:H};
-   // A following map camera must cover its viewport; contain leaves empty world beyond the map.
-   const zoom=(mode==='room'?Math.min:Math.max)(size.width/bounds.width,size.height/bounds.height);
-   this.viewport={...size,zoom};camera.stopFollow();camera.setViewport?.(0,0,size.width,size.height);camera.setRotation?.(0);camera.setZoom(zoom);
-   if(mode==='room')camera.removeBounds?.();else camera.setBounds(0,0,W,H);
-   camera.centerOn(bounds.x+bounds.width/2,bounds.y+bounds.height/2);
+   const size=this.viewportSize(),camera=this.cameras.main,insets=this.hudInsets(),room=mode==='room',bounds=room?ROOM_VIEW:{x:0,y:0,width:W,height:H};
+   // Rooms contain the activity inside the uncovered band; the map covers the whole canvas.
+   const zoom=room?Math.min(size.width/bounds.width,Math.max(1,size.height-insets.top-insets.bottom)/bounds.height):Math.max(size.width/bounds.width,size.height/bounds.height);
+   const center={x:bounds.x+bounds.width/2,y:bounds.y+bounds.height/2-(room?(insets.top-insets.bottom)/2/zoom:0)};
+   this.viewport={...size,zoom,insets,center};camera.stopFollow();camera.setViewport?.(0,0,size.width,size.height);camera.setRotation?.(0);camera.setZoom(zoom);
+   if(room)camera.removeBounds?.();else camera.setBounds(0,0,W,H);
+   camera.centerOn(center.x,center.y);
+  }
+  // Mirror the room art past its edges so wide or tall screens never show bare canvas.
+  backdrop(key){
+   const {width,height,zoom,center}=this.viewport,hw=width/2/zoom,hh=height/2/zoom;
+   for(const i of [-1,0,1])for(const j of [-1,0,1]){
+    if(i*W+W<center.x-hw||i*W>center.x+hw||j*H+H<center.y-hh||j*H>center.y+hh)continue;
+    this.pic(key,W/2+i*W,H/2+j*H,W,H).setDisplaySize(W,H).setFlip(i!==0,j!==0);
+    if(i||j)this.add.rectangle(W/2+i*W,H/2+j*H,W,H,0x173d2e,.18);
+   }
+   this.add.rectangle(W/2,H/2,W*3,H*3,0x173d2e,.22);
   }
   screenScale(){const size=this.viewportSize(),cssWidth=this.game?.canvas?.getBoundingClientRect?.()?.width||size.width;return cssWidth/size.width*(this.cameras?.main?.zoom||this.viewport?.zoom||1);}
   projectWorld(item){
@@ -136,7 +158,7 @@ export function createFieldGame(context){
    this.assetFailure=null;
    if(mode==='room'){
     const bg=chapter===0&&this.textures.exists('fieldClearing')?'fieldClearing':'bg'+chapter*2;
-    this.pic(bg,W/2,H/2,W,H).setDisplaySize(W,H);this.add.rectangle(W/2,H/2,W,H,0x173d2e,.22);
+    this.backdrop(bg);
     renderFieldRoom(this,context);
    }else this.map(mode==='title');
    this.ensureTouchTargets();context.focusTargets(this.focusTargets);context.sceneReady?.();context.emit('loaded');
@@ -150,7 +172,8 @@ export function createFieldGame(context){
    const pos=nearest([s.avatar.x,s.avatar.y]),point=POINTS[pos];
    this.avatar=this.add.sprite(point[0]*W,point[1]*H,'walker',0).setDisplaySize(86,86).setOrigin(.5,.83).setDepth(15);
    this.foot=this.add.ellipse(this.avatar.x,this.avatar.y,42,13,0x092f22,.30).setDepth(14);this.spirit=this.pic('doto',this.avatar.x-55,this.avatar.y-12,64).setDepth(16);
-   this.cameras.main.setZoom(this.viewport.zoom*1.08).startFollow(this.avatar,true,.12,.12);
+   const zoom=this.viewport.zoom*1.08,{top,bottom}=this.viewport.insets;
+   this.cameras.main.setZoom(zoom).startFollow(this.avatar,true,.12,.12).setFollowOffset(0,(top-bottom)/2/zoom);
    const land=this.add.zone(W/2,H/2,W,H).setInteractive().setDepth(-1);
    land.on('pointerdown',p=>{const point=this.pointerWorld(p),n=nearest([point.x/W,point.y/H]),c=DOORS.indexOf(n);this.walkTo(n,c<0?null:c);});
    this.input.keyboard?.on('keydown',event=>{const vectors={ArrowUp:[0,-1],KeyW:[0,-1],ArrowDown:[0,1],KeyS:[0,1],ArrowLeft:[-1,0],KeyA:[-1,0],ArrowRight:[1,0],KeyD:[1,0]};const v=vectors[event.code];if(v&&!context.modalOpen()){event.preventDefault();this.step(...v);}});

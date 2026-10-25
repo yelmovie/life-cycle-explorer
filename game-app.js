@@ -112,18 +112,21 @@ function syncLayout(){
   app.style.setProperty('--header-height',header.offsetHeight+'px');app.style.setProperty('--footer-height',footer.offsetHeight+'px');app.style.setProperty('--footer-top',footer.offsetTop+'px');
   const scale=ctx.scene?.game?.scale,width=Math.round(host.clientWidth),height=Math.round(host.clientHeight);
   if(scale&&width>0&&height>0&&(scale.gameSize.width!==width||scale.gameSize.height!==height))scale.setParentSize(width,height);
+  else ctx.scene?.syncInsets?.();
   positionFocus();
  });
 }
-const layoutObserver=new ResizeObserver(syncLayout);for(const element of [app,$('phaser-root'),app.querySelector('.game-header'),app.querySelector('.game-footer')])layoutObserver.observe(element);
+const layoutObserver=new ResizeObserver(syncLayout);for(const element of [app,$('phaser-root'),app.querySelector('.game-header'),app.querySelector('.game-footer'),$('guide-bubble')])layoutObserver.observe(element);
 function positionDoors(items){
- if(mode()!=='map')return;const stage=$('stage'),width=stage.clientWidth,height=stage.clientHeight,gap=12;
+ if(mode()!=='map')return;const stage=$('stage'),width=stage.clientWidth,area=stage.getBoundingClientRect(),gap=12;
+ // Keep doors between the floating header and footer.
+ const top=Math.max(0,app.querySelector('.game-header').getBoundingClientRect().bottom-area.top),height=Math.min(stage.clientHeight,app.querySelector('.game-footer').getBoundingClientRect().top-area.top)-top;
  const boxes=items.map(item=>{const button=$('map-doors').querySelector(`[data-chapter="${item.chapter}"]`),p=coordinates({...item,w:0,h:0});if(!button||!p)return null;const rect=button.getBoundingClientRect();return {button,x:p.left,y:p.top,w:rect.width,h:rect.height};}).filter(Boolean).sort((a,b)=>a.y-b.y);
- const clamp=box=>{box.x=Math.max(gap+box.w/2,Math.min(width-gap-box.w/2,box.x));box.y=Math.max(gap+box.h/2,Math.min(height-gap-box.h/2,box.y));};
+ const clamp=box=>{box.x=Math.max(gap+box.w/2,Math.min(width-gap-box.w/2,box.x));box.y=Math.max(top+gap+box.h/2,Math.min(top+height-gap-box.h/2,box.y));};
  for(const box of boxes)clamp(box);
  for(let pass=0;pass<5;pass++)for(let i=1;i<boxes.length;i++)for(let j=0;j<i;j++){
   const a=boxes[j],b=boxes[i];if(Math.abs(a.x-b.x)>=(a.w+b.w)/2+gap||Math.abs(a.y-b.y)>=(a.h+b.h)/2+gap)continue;
-  const below=a.y+(a.h+b.h)/2+gap;b.y=below+b.h/2+gap<=height?below:a.y-(a.h+b.h)/2-gap;clamp(b);
+  const below=a.y+(a.h+b.h)/2+gap;b.y=below+b.h/2+gap<=top+height?below:a.y-(a.h+b.h)/2-gap;clamp(b);
  }
  for(const box of boxes)Object.assign(box.button.style,{left:box.x+'px',top:box.y+'px'});
 }

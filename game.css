@@ -180,6 +180,17 @@ dialog details{margin-top:8px;border-top:1px solid var(--color-border-soft)}dial
 @media(max-width:600px) and (orientation:portrait){#app[data-view=title] #title-screen{min-height:780px;height:100dvh}.title-copy{position:relative;left:auto;top:auto;transform:none;width:86%;margin:90px auto 260px}.title-logo{max-height:220px}.title-jihoon{width:43%;height:260px;bottom:0;right:2%}.title-spirit{top:auto;bottom:160px;height:100px;width:18%}.title-doto{bottom:12px;right:39%;height:130px;width:18%}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 
+/* Full-bleed stage: artwork runs under a floating HUD; the scene camera keeps activities between the bars (field-scenes.js hudInsets). */
+#app:not([data-view=title]) #stage{grid-row:1/-1;grid-column:1/-1}
+#app:not([data-view=title]) :is(.game-header,.game-footer,.screen-nav,#controls)>*{pointer-events:auto}
+#app:not([data-view=title]) :is(.game-header,.game-footer,.screen-nav,#controls,#status){pointer-events:none}
+#app:not([data-view=title]) .game-header{background:linear-gradient(#123329b8,#1233295c 62%,#12332900)}
+#app:not([data-view=title]) .game-footer{border-top:0;background:linear-gradient(#12332900,#1233296b 42%,#123329c4)}
+#app:not([data-view=title]) #status{position:absolute;left:50%;bottom:calc(100% + 6px);transform:translateX(-50%);height:auto;min-height:0;max-width:min(760px,calc(100% - 24px));padding:10px 20px}
+#app:not([data-view=title]) #status.visible{background:#fffbedf5;border:2px solid var(--color-accent);box-shadow:var(--shadow-card)}
+#app:not([data-view=title]) #guide-bubble{position:absolute;left:clamp(12px,2vw,28px);bottom:calc(100% + 6px);width:fit-content;max-width:min(860px,calc(100% - 24px));height:auto;max-height:none;padding:8px 10px 8px 16px;border:2px solid var(--color-accent);box-shadow:var(--shadow-card)}
+/* Short landscape (fold, in-app browsers): one footer row so the next button stays on screen without scrolling. */
+@media(max-height:640px) and (min-width:700px){#app{--stage-min-height:330px}#app:not([data-view=title]) .game-footer{grid-template-columns:auto minmax(0,1fr) minmax(150px,max-content);grid-template-areas:"guide controls next";padding:6px 12px 10px}#app:not([data-view=title]) .game-header{padding-block:6px;gap:4px}#guide span{display:none}#guide{padding:4px}#next{min-height:52px;padding:8px 14px}}
 .modal-portrait{display:none}
 @media(orientation:portrait){dialog[open] .modal-portrait{display:flex;position:absolute;inset:0;z-index:50;align-items:center;justify-content:center;padding:24px;text-align:center;background:var(--cream-50);font-size:28px;line-height:1.5;border-radius:inherit}dialog[open]>.modal-body,dialog[open]>h2,dialog[open]>.close,dialog[open]>.dialog-actions{visibility:hidden}}
 

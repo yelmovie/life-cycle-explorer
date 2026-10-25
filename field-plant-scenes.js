@@ -32,7 +32,6 @@ export function renderPlantRoom(v,ctx,phase){
   const r=q.rounds[q.round],names={a:'A만 싹이 날 거야',b:'B만 싹이 날 거야',both:'둘 다 싹이 날 거야',neither:'둘 다 싹이 안 날 거야',unsure:'아직 모르겠어'};
   label(640,175,'이 콩 실험에서는 다른 조건을 같게 하고 물·온도를 비교했어.',20,1100);
   card(275,292,300,150);label(275,275,'내 첫 예상\n'+names[r.run.prediction],24,275);
-  label(830,213,'내가 남긴 날짜별 사진 · A / B',22,710);
   const days=[0,r.photos.find(d=>d>=2&&d<=4),r.photos.find(d=>d>=6)];
   days.forEach((day,i)=>{const x=590+i*235;observationMat(x,302,215,165);for(const[side,dx]of [['a',-43],['b',43]]){const frame=seedObservation({...r,day},side);v.pic('pot'+frame.level,x+dx,290,84,100);v.text(x+dx,335,side.toUpperCase(),18,60);}label(x,367,day+'일 사진',20,180);});
   label(640,409,'① 마지막 사진에서 무엇이 달라졌니?',23,1000);
