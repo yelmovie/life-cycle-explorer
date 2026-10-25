@@ -101,6 +101,8 @@ function render(){rememberTeacherPreview();const m=mode(),room=m==='room';app.da
   $('map-doors').innerHTML=FIELD_CHAPTERS.map((ch,i)=>`<button class="map-door ${s.field.completed.includes(i)?'done':fieldUnlocked(s.field,i)?'':'locked'}" data-action="door" data-chapter="${i}" aria-label="${ch.title}${fieldUnlocked(s.field,i)?' 입장하기':' · 앞 탐사 뒤 열림'}">${s.field.completed.includes(i)?icon('check'):fieldUnlocked(s.field,i)?'':icon('lock')}${ch.title}</button>`).join('');
  }
  $('next').disabled=m==='map'&&Number.isInteger(ui.travelChapter);
+ // Rebuilt door buttons take their map positions at once instead of on the next frame.
+ if(m==='map')ctx.scene?.update?.();
  const b=app.querySelector('[data-action=sound]'),on=s.audio.bgm||s.audio.sfx;b.innerHTML=icon(on?'sound':'mute');b.setAttribute('aria-label',on?'소리 끄기':'소리 켜기');b.setAttribute('aria-pressed',String(on));updateGuide();}
 function coordinates(item){const canvas=document.querySelector('canvas');if(!canvas)return null;const a=canvas.getBoundingClientRect(),b=$('stage').getBoundingClientRect(),size=ctx.scene?.scale?.gameSize,p=ctx.scene?.projectWorld?.(item)||item,sx=a.width/(size?.width||1280),sy=a.height/(size?.height||800);return {left:a.left-b.left+p.x*sx,top:a.top-b.top+p.y*sy,w:p.w*sx,h:p.h*sy};}
 function focusTargets(items){focusItems=items;$('focus-targets').replaceChildren();items.forEach(item=>{const b=document.createElement('button');b.className='focus-target';b.setAttribute('aria-label',item.label);b.addEventListener('click',item.fn);$('focus-targets').append(b);});positionFocus();}

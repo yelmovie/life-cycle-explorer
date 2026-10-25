@@ -169,6 +169,8 @@ export function createFieldGame(context){
     this.backdrop(ROOM_BACKDROPS[chapter]);
     renderFieldRoom(this,context);
    }else this.map(mode==='title');
+   // Place map doors now, not on the next frame, so they never flash at the corner.
+   this.update();
    this.ensureTouchTargets();context.focusTargets(this.focusTargets);context.sceneReady?.();context.emit('loaded');
   }
   map(title=false){

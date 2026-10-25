@@ -1,5 +1,14 @@
 # 에셋 출처 · 저작권 기록
 
+## 2026-10-25 · 화면 고도화 그림
+
+- 힉스필드(gpt_image_2_5)로 4장을 생성했다. 원본 PNG는 `field/source/*-20261025.png`, 실행 WebP는 `field/`에 있다.
+  - `garden-seasons-v1.webp`: 사계절 정원 야외 배경. 이전 `game/bg6.webp`(실내 서재)의 구도와 지도 `expedition/forest-world.webp`의 정원 부분을 참고 이미지로 넣었다.
+  - `paper-card-v1.webp`: 표본·관찰 카드용 종이 카드. 활동 화면에서 9분할로 늘려 쓴다.
+  - `doto-map-v1.webp`: 구역 입장 로딩 그림. 기존 도토 원본(`field/source/doto-20261022.png`)을 참고했다.
+  - `reward-rays-v1.webp`: 보상 화면 광채.
+- `expedition/forest-world-title.webp`는 첫 화면 배경용으로 기존 지도 그림을 같은 해상도로 다시 압축한 복사본이다(새로 그린 그림이 아님).
+
 ## 2026-10-25 · 3D 모델 기본 이미지
 
 - 메시(Meshy) image-to-3D 입력용 기본 이미지 14장을 `models/source/`에 모았다. 나비 어른벌레 3/4 자세, 시간 손잡이·관찰 센서·계절 나침반 3/4 각도, 도토 A자세 5장은 힉스필드(gpt_image_2_5)로 기존 그림을 참고 이미지로 넣어 새로 생성했다. 나머지 9장은 기존 원본을 잘라 정사각형으로 맞춘 복사본이다.

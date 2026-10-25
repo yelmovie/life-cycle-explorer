@@ -8,6 +8,8 @@ export function renderPlantRoom(v,ctx,phase){
  const reduced=reducedMotion(ctx.s.settings);
  const observationMat=(x,y,w,h)=>v.paper(x,y,w,h);
  const card=(x,y,w,h)=>v.paper(x,y,w,h);
+ // A card that grows with its caption, since the 20px reading floor can make two lines taller than the design.
+ const cardText=(x,y,w,h,message)=>{const t=v.text(x,y,message,23,w-20).setDepth(2);card(x,y,w,Math.max(h,t.height+16));return t;};
  const label=(x,y,text,size=23,w=270)=>v.label(x,y,text,size,w);
  const button=(x,y,w,text,fn,active=false)=>{
   const shadow=v.add.rectangle(x,y+4,w,64,0x244d3d,.94);const face=v.add.rectangle(x,y,w,64,active?0x3c7353:0xfffbee,.98).setStrokeStyle(2,active?0x2e5c41:0x829779);
@@ -50,7 +52,7 @@ export function renderPlantRoom(v,ctx,phase){
    observationMat(x,405,330,310);
    label(x,240,`화분 ${side.toUpperCase()}${side==='a'?' · 그대로':' · 바꿔 보기'}`,27,325);
    drop(x,405,285,290,'pot-'+side,'화분 '+side.toUpperCase()+'에 선택한 재료 놓기');
-   if(started){fadeSpecimen('pot'+state.level,x,410,280,`seed-${q.round}-${side}`,day);label(x,600,state.detail,21,340);}
+   if(started){fadeSpecimen('pot'+state.level,x,410,280,`seed-${q.round}-${side}`,day);label(x,630,state.detail,21,340).setDepth(3);}
    else{
     specimen('vessel',x,410,280);
     if(p.soil){v.add.ellipse(x,423,148,42,0x614a32);for(let n=0;n<p.seeds;n++)v.pic('seed0',x-35+n*35,420,10);}
@@ -59,7 +61,7 @@ export function renderPlantRoom(v,ctx,phase){
     button(x-73,565,135,check(p.soil,'흙 넣기'),()=>act('seed-prepare',{side,soil:true}),p.soil);
     button(x+78,565,145,`콩 ${p.seeds}/3 · +1`,()=>act('seed-prepare',{side,seeds:Math.min(3,p.seeds+1)}),p.seeds===3);
    }else{
-    card(x,546,300,68);v.text(x,546,`물 ${cond.water?'있음':'없음'}\n온도 ${cond.warm?'알맞음':'낮음'}`,23,280);
+    cardText(x,546,300,68,`물 ${cond.water?'있음':'없음'}\n온도 ${cond.warm?'알맞음':'낮음'}`);
     if(cond.water){const g=v.add.graphics().fillStyle(0x6dbbd1,.75);for(let i=0;i<3;i++)g.fillCircle(x-26+i*26,489,4);}
    }
   }
@@ -106,7 +108,7 @@ export function renderPlantRoom(v,ctx,phase){
  if(!['care-after','care-next'].includes(phase))label(655,225,isLight?'잎빛이 옅고 줄기가 길어졌어':'잎이 축 처졌어',27,480);
  for(const [sensor,x]of [['water',350],['light',970]]){
   const measured=r.measured.includes(sensor),low=sensor===r.variable;
-  card(x,298,255,78);v.text(x,298,`${sensor==='water'?'흙의 물기':'받는 빛'}\n${measured?(low?'부족':'충분'):'도구로 재어 봐'}`,23,235);
+  cardText(x,298,255,78,`${sensor==='water'?'흙의 물기':'받는 빛'}\n${measured?(low?'부족':'충분'):'도구로 재어 봐'}`);
  }
  if(phase==='measure'){
   for(const[sensor,x,key]of [['water',350,'moistureSensor'],['light',970,'lightSensor']]){

@@ -190,7 +190,8 @@ dialog details{margin-top:8px;border-top:1px solid var(--color-border-soft)}dial
 #app:not([data-view=title]) #status.visible{background:#fffbedf5;border:2px solid var(--color-accent);box-shadow:var(--shadow-card)}
 #app:not([data-view=title]) #guide-bubble{position:absolute;left:clamp(12px,2vw,28px);bottom:calc(100% + 6px);width:fit-content;max-width:min(860px,calc(100% - 24px));height:auto;max-height:none;padding:8px 10px 8px 16px;border:2px solid var(--color-accent);box-shadow:var(--shadow-card)}
 /* Short landscape (fold, in-app browsers): one footer row so the next button stays on screen without scrolling. */
-@media(max-height:640px) and (min-width:700px){#app{--stage-min-height:330px}#app:not([data-view=title]) .game-footer{grid-template-columns:auto minmax(0,1fr) minmax(150px,max-content);grid-template-areas:"guide controls next";padding:6px 12px 10px}#app:not([data-view=title]) .game-header{padding-block:6px;gap:4px}#guide span{display:none}#guide{padding:4px}#next{min-height:52px;padding:8px 14px}}
+@media(max-height:640px) and (min-height:521px) and (min-width:700px){#app{--stage-min-height:330px}}
+@media(max-height:640px) and (min-width:700px){#app:not([data-view=title]) .game-footer{grid-template-columns:auto minmax(0,1fr) minmax(150px,max-content);grid-template-areas:"guide controls next";padding:6px 12px 10px}#app:not([data-view=title]) .game-header{padding-block:6px;gap:4px}#guide span{display:none}#guide{padding:4px}#next{min-height:52px;padding:8px 14px}}
 /* Zone loading card: Doto unrolls the map while the room art arrives. */
 .boot:has(.boot-bar){gap:14px;justify-items:center;background:radial-gradient(circle at 50% 42%,#fffbed 0,#f1e6c4 55%,#d9cfa3 100%)}
 .boot img{width:clamp(150px,22vh,240px);height:auto;filter:drop-shadow(0 12px 14px #3a2c1a40)}
