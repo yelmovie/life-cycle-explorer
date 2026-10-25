@@ -1,0 +1,181 @@
+{
+  "title": "생명 시계 연구실 · 인트로·파이널 영상 제작안",
+  "date": "2026-10-24",
+  "page": "https://chatgpt.com/space/page_460460032f588191b5ef86b6e3b246d6",
+  "status": "기존 생성 이미지 6장 복구, 프롬프트·자막 완성. 영상 파일은 생성하지 않음.",
+  "imageDirectory": "assets/video-production/20261024",
+  "recoveredFrom": "C:/Users/bongb/.codex/generated_images/01a16582-e33a-7a13-8352-1441ab4302f8",
+  "generationTool": "OpenAI built-in image_gen; prior-session outputs recovered without new generation.",
+  "format": "16:9, final edit 1920x1080, 24 fps",
+  "lengths": {
+    "intro": 24,
+    "finale": 30
+  },
+  "music": {
+    "intro": {
+      "file": "assets/audio/music/main-theme.mp3",
+      "title": "The Garden Blooms",
+      "sourceDuration": 67.88,
+      "in": 0,
+      "out": 24,
+      "fadeIn": 0.15,
+      "fadeOut": 0.8
+    },
+    "finale": {
+      "file": "assets/audio/music/ending-theme.mp3",
+      "title": "Rising Motif",
+      "sourceDuration": 172.8,
+      "in": 142.8,
+      "out": 172.8,
+      "fadeIn": 0.7,
+      "fadeOut": 1.5
+    },
+    "validation": "파일 길이와 선택 구간의 긴 무음 부재를 FFmpeg로 확인. 실제 청취·박자·프레이즈 검수는 미수행. 큐는 편집 시작안이며 청취 후 인접 프레이즈로 미세 조정."
+  },
+  "shots": [
+    {
+      "id": "intro-01-stopped-clock",
+      "label": "I-1 · 멈춘 생명 시계",
+      "range": "00:00–00:08",
+      "duration": 8,
+      "size": "롱샷",
+      "angle": "눈높이",
+      "movement": "느린 달리 인",
+      "purpose": "멈춘 시계와 흩어진 기록을 보고 탐험 이유를 이해해.",
+      "source": "exec-e8902c16-f95a-44e0-a1a4-dd98fed9c794.png",
+      "subs": [
+        [
+          0.4,
+          3.5,
+          "숲의 생명 시계가 멈췄어."
+        ],
+        [
+          3.8,
+          7.6,
+          "나비와 씨앗의 시간이\n기록에서 흩어졌대."
+        ]
+      ],
+      "prompt": "LOCK: Use the supplied start image as the composition and identity reference. Preserve Jihoon's exact face, brown hair, cream leaf-pattern jacket, olive shorts, green backpack and shoes; preserve Ipsae's pale-green leaf hair, leaf wings and brown satchel; preserve Doto's striped brown fur, curled tail and green neckerchief. Exactly one boy, one leaf spirit and one chipmunk. No duplicate characters.\n[CAMERA] 8 seconds, 16:9. Eye-level long shot. One movement only: a slow, straight dolly in by roughly 8%. Keep the empty clock face above the trio and all three characters readable. Ease to a complete stop by 6.5 seconds and hold the final composition for 1.5 seconds.\n[SCENE] A warm, richly illustrated storybook forest research village, exactly as in the reference. The life clock has stopped and its face is blank. Jihoon looks up with curious concern, holding his green record book close. Ipsae gently hovers beside him; Doto tilts his head toward the clock. Only a few leaves stir. The scattered photographs stay on the steps. The environment is inviting, not scary. Maintain the existing sunlight and handcrafted botanical architecture.\n[CONSTRAINTS] Keep the clock blank and motionless throughout this opening. No sudden restoration, new characters, scene transition, montage, camera shake, text, subtitles, logos, speech or music. Preserve anatomy and clothing. Leave the lower subtitle area readable."
+    },
+    {
+      "id": "intro-02-seed-question",
+      "label": "I-2 · 작은 씨앗의 질문",
+      "range": "00:08–00:16",
+      "duration": 8,
+      "size": "미디엄 샷",
+      "angle": "테이블 높이의 눈높이",
+      "movement": "정지",
+      "purpose": "직접 관찰하고 조건을 비교해 보고 싶은 질문을 던져.",
+      "source": "exec-5bd34f90-3e03-4b13-81d7-13c7b36d96a9.png",
+      "subs": [
+        [
+          8.3,
+          11.7,
+          "같은 씨앗도\n자라는 모습이 달라질까?"
+        ],
+        [
+          12,
+          15.6,
+          "직접 살펴보고,\n조건을 바꿔 비교해 보자!"
+        ]
+      ],
+      "prompt": "LOCK: Use the supplied start image. Keep the identical Jihoon, Ipsae and Doto, their faces, proportions, clothing and colors. Exactly one boy, one leaf spirit and one chipmunk in their existing places. Keep both matching seed pots and the same number of visible seeds in each.\n[CAMERA] 8 seconds, 16:9. Medium shot from eye level at the tabletop. Static camera; no zoom, pan or focus pull. Preserve both pots in the lower center and Jihoon's and Ipsae's faces above them. End on the same stable composition, with the last 1.5 seconds settled.\n[SCENE] Inside the sunlit seed research room, Jihoon studies the two matching pots with a curious smile. Ipsae makes one small inviting gesture with the leaf wand toward the pots. Doto blinks once from the existing shelf. Jihoon gives a slight thoughtful nod. Soft light glimmers on the brass magnifier and watering can. Keep the notebook, soil, pots, equipment and greenhouse background in place.\n[CONSTRAINTS] This is a question before an experiment: no automatic germination, growing plants, pouring water, changing soil or invented experiment results. Do not transform seeds into magical objects. No added text, subtitles, labels, speech, music, additional characters or shot changes."
+    },
+    {
+      "id": "intro-03-invitation",
+      "label": "I-3 · 함께 탐험하자",
+      "range": "00:16–00:24",
+      "duration": 8,
+      "size": "미디엄 풀샷",
+      "angle": "눈높이",
+      "movement": "느린 달리 인",
+      "purpose": "다섯 장소의 증거를 모으는 게임 목표와 출발 의지를 연결해.",
+      "source": "exec-ea9f3e13-325d-43a8-8edb-81b3df720e69.png",
+      "subs": [
+        [
+          16.2,
+          19.7,
+          "다섯 장소에서\n생명의 단서를 모아 줘."
+        ],
+        [
+          20,
+          23.7,
+          "네가 찾은 증거로\n숲의 시간을 다시 이어 보자!"
+        ]
+      ],
+      "prompt": "LOCK: Start from the supplied image. Preserve Jihoon's existing identity, leaf-pattern jacket, olive shorts, backpack and green record book. Preserve Ipsae's leaf wings and satchel and Doto's striped fur and neckerchief. Exactly these three characters, once each.\n[CAMERA] 8 seconds, 16:9. Eye-level medium-full shot. One movement: a very slow straight dolly in, about 6%, keeping Jihoon's inviting hand, the trio and the forest paths visible. Stop by 6 seconds; hold the welcoming composition for the last 2 seconds.\n[SCENE] At the butterfly-forest entrance, Jihoon faces the viewer with an open welcoming palm and his record book held safely against his body. He makes one subtle encouraging nod. Ipsae gives a tiny friendly wave with the leaf wand. Doto lifts his chin with eager curiosity while holding the acorn. The familiar clock tower, greenhouse and branching paths remain in the background. Gentle leaves and warm sunlight suggest an adventure about to begin.\n[CONSTRAINTS] Keep the clock un-restored. No walking out of frame, exaggerated bouncing, duplicate fingers, new characters, reshaped buildings, new props, montage, subtitles, text, speech or music. Finish with space for an editor-added start transition."
+    },
+    {
+      "id": "finale-01-evidence-book",
+      "label": "F-1 · 우리가 알아낸 것",
+      "range": "00:00–00:10",
+      "duration": 10,
+      "size": "미디엄 클로즈업 → 책 인서트에 가까운 구도",
+      "angle": "약한 하이 앵글",
+      "movement": "아주 느린 달리 인",
+      "purpose": "나비의 한살이와 조건 비교·돌봄을 기록으로 되짚어.",
+      "source": "exec-4323e8b8-4898-4e96-8c01-251e5641df9c.png",
+      "subs": [
+        [
+          0.3,
+          4.8,
+          "알, 애벌레, 번데기를 거쳐\n나비가 되었지."
+        ],
+        [
+          5.1,
+          9.7,
+          "조건을 하나씩 바꿔 비교하고,\n물과 빛에 맞게 돌봤지."
+        ]
+      ],
+      "prompt": "LOCK: Use the supplied start image exactly. Keep one Jihoon and one Ipsae only; Doto is outside this shot and must not be added. Preserve both characters' identities and clothing. Preserve every photograph, page edge and hand position in the open evidence book.\n[CAMERA] 10 seconds, 16:9. Medium close-up from a gentle high angle, oriented toward the open book. One movement only: a very slow straight dolly in by 5%, without tilting or zooming. Keep all eight photographs inside the frame and the characters' eyes visible above the book. Stop by 7 seconds and hold the final frame for 3 seconds.\n[SCENE] In the warm research room, Jihoon proudly presents a completed example evidence book while Ipsae smiles with quiet delight. Jihoon breathes naturally and blinks once, keeping his hands and the book steady. Ipsae hovers subtly. The book shows four separate butterfly stages on the left—elongated upright eggs, caterpillar, chrysalis and adult white butterfly—and plant and seasonal observations on the right. Maintain the exact printed photographs from the reference.\n[CONSTRAINTS] Printed evidence remains completely still. No photographs animating, no transformation between species, no page turning, no new symbols or labels, no duplicated hands, no lip-sync, captions, music or scene cuts. Keep the lower margin usable for subtitles added in editing."
+    },
+    {
+      "id": "finale-02-clock-restored",
+      "label": "F-2 · 증거로 되살린 숲",
+      "range": "00:10–00:20",
+      "duration": 10,
+      "size": "풀샷 → 롱샷",
+      "angle": "눈높이에서 완만한 하이 앵글",
+      "movement": "느린 크레인 업",
+      "purpose": "계절과 다음 세대의 차이를 되짚고 내 탐구가 숲을 회복시켰음을 보여 줘.",
+      "source": "exec-5c299f84-6d16-4dfa-b265-5382bb87ec75.png",
+      "subs": [
+        [
+          10.2,
+          14.7,
+          "겨울을 난 나무와\n씨앗에서 난 새 생명도 찾았어."
+        ],
+        [
+          15,
+          19.7,
+          "네 관찰과 실험으로\n숲의 시간이 다시 이어졌어!"
+        ]
+      ],
+      "prompt": "LOCK: Use the supplied start image, preserving the same Jihoon, Ipsae and Doto and every costume detail. Exactly one of each character. Keep the same life-clock tower, closed green evidence book on the stone pedestal, greenhouse, paths and waterfall.\n[CAMERA] 10 seconds, 16:9. Begin at eye level in a full shot. One movement only: a slow vertical crane up, maintaining a level horizon and gently revealing more of the same village. Do not orbit, pan, zoom or move backward. Keep the clock face and the trio visible. Stop rising by 7 seconds and hold for 3 seconds.\n[SCENE] The completed evidence book rests on the pedestal. Jihoon looks from the book toward the restored life clock with a proud, relieved smile. Ipsae hovers beside him and Doto watches from the stone ledge. The existing golden leaf-shaped clock hand glows softly and makes only a tiny natural movement. Warm light gently spreads through the existing lamps; leaves move in a mild breeze. Celebrate careful observation and evidence, with a tender sense of achievement.\n[CONSTRAINTS] No new buildings or characters, no exploding light, no rapid time lapse, no plants transforming into animals, no changed book or costume, no oversized new clock hands, text, subtitles, dialogue, music or shot changes."
+    },
+    {
+      "id": "finale-03-explorer-certificate",
+      "label": "F-3 · 생명 탐험가의 약속",
+      "range": "00:20–00:30",
+      "duration": 10,
+      "size": "미디엄 풀샷",
+      "angle": "눈높이",
+      "movement": "정지",
+      "purpose": "기록책·탐험 기록증 보상과 현실의 관찰로 이어지는 성취감을 남겨.",
+      "source": "exec-8b675823-4566-46ee-9ef6-efedd866bfbe.png",
+      "subs": [
+        [
+          20.2,
+          24.8,
+          "축하해, 생명 탐험가!\n기록책과 탐험 기록증을 받았어."
+        ],
+        [
+          25.1,
+          29.6,
+          "이제 우리 주변의 생명도\n직접 관찰해 보자!"
+        ]
+      ],
+      "prompt": "LOCK: Use the supplied start image. Preserve one Jihoon, one Ipsae and one Doto, the exact faces, leaf clothing, backpack, satchel, striped fur and green neckerchief. Preserve Jihoon's green book and the blank cream certificate with its gold leaf seal.\n[CAMERA] 10 seconds, 16:9. Eye-level medium-full group shot. Static camera for the entire shot; no zoom, pan, tilt or orbit. Keep the certificate fully readable as a blank shape and all three faces unobstructed. Settle the characters by 7 seconds and hold a calm, proud final composition for 3 seconds.\n[SCENE] Golden evening light falls across the restored forest village. Jihoon proudly presents the certificate to the viewer and gives one gentle nod while keeping it steady. Ipsae makes a small celebratory lift of the leaf wand; Doto closes his eyes in a happy smile and hugs the acorn. A few tiny golden leaves drift softly in the background. The mood is warm, earned and playful, leaving the viewer ready to observe real living things.\n[CONSTRAINTS] The certificate stays completely blank for later editor-added Korean lettering. No generated letters or student names. Do not add trophies, fireworks, coins, new characters or extra fingers. No loud jumping, new scene, spoken dialogue, subtitles or music. Preserve the final pose for the closing fade."
+    }
+  ]
+}

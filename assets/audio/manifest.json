@@ -1,0 +1,62 @@
+{
+  "date": "2026-10-22",
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "sources": {
+    "interface": "https://kenney.nl/assets/interface-sounds",
+    "impact": "https://kenney.nl/assets/impact-sounds"
+  },
+  "processing": "FFmpeg: OGG → mono PCM WAV 44100Hz; alimiter limit=0.8, level=false",
+  "files": [
+    {
+      "file": "assets/audio/click.wav",
+      "source": "interface/click_003.ogg",
+      "sha256": "3aaba97b2008809686ad0e4d506d61b24c68394962e2f0bf1b564fad799e80e7"
+    },
+    {
+      "file": "assets/audio/select.wav",
+      "source": "interface/select_003.ogg",
+      "sha256": "bc384b8472e9c7f232da11a340dd87e27264b3506d85b09de0a1f5d78a0c514c"
+    },
+    {
+      "file": "assets/audio/place.wav",
+      "source": "interface/drop_002.ogg",
+      "sha256": "dfd3a6acc00c52e0c62b08fd23034ca52ffdc8595884292b9bf4901fc38f75a2"
+    },
+    {
+      "file": "assets/audio/inspect.wav",
+      "source": "interface/pluck_001.ogg",
+      "sha256": "030ff2f8f028011d9b97368cc9b078eb3477e6e5ba62d5b5770abea3c05effb9"
+    },
+    {
+      "file": "assets/audio/photo.wav",
+      "source": "interface/switch_002.ogg",
+      "sha256": "da9ad15bf473160d4db21d2a1b4f7725261e3fa4947db0f40585080b3a61f7d0"
+    },
+    {
+      "file": "assets/audio/success.wav",
+      "source": "interface/confirmation_002.ogg",
+      "sha256": "ec160e2c4b23ae301cca34642c9ab0a8e41027a0f53c13b51029bf690dd60798"
+    },
+    {
+      "file": "assets/audio/reward.wav",
+      "source": "interface/confirmation_004.ogg",
+      "sha256": "01440fd4d613ae192e0c1d63f7c76ba97e8d4df6f942700cc73a95f5a6e2be10"
+    },
+    {
+      "file": "assets/audio/error.wav",
+      "source": "interface/question_001.ogg",
+      "sha256": "e88b80751f149ed7b3068257ab4ef55b9d6599915b2bec1bd0cbdd580501d09a"
+    },
+    {
+      "file": "assets/audio/time.wav",
+      "source": "interface/tick_002.ogg",
+      "sha256": "9af0fb879ee617f81a3374209cdf4b21d467df0fe2335240ae644acb308ea9d7"
+    },
+    {
+      "file": "assets/audio/step.wav",
+      "source": "impact/footstep_grass_001.ogg",
+      "sha256": "dcb0be2ccf4826486a0eb4887f295eb33e37843f14526cf4619ee93eecd19c90"
+    }
+  ]
+}

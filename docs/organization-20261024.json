@@ -1,0 +1,247 @@
+[
+  {
+    "from": "Main_The Garden Blooms.mp3",
+    "to": "assets/audio/music/main-theme.mp3",
+    "files": 1,
+    "bytes": 1625599.0,
+    "sha256": "ae89f37b7d2882f4e1c840f16726fc1e37941a2e1457a301f20968da9478bd5a"
+  },
+  {
+    "from": "Final_Rising Motif.mp3",
+    "to": "assets/audio/music/ending-theme.mp3",
+    "files": 1,
+    "bytes": 4126542.0,
+    "sha256": "eecc69efcbacf44cb5b8823807b269ee4aaf1193e33bbbe184a6f59c2fd1e34c"
+  },
+  {
+    "from": "app.js",
+    "to": "archive/legacy-ui/app.js",
+    "files": 1,
+    "bytes": 46351.0,
+    "sha256": "8987bbdff31780a4332c9238c88cd0de8380a61743135d2b347b8e326bed435f"
+  },
+  {
+    "from": "art.js",
+    "to": "archive/legacy-ui/art.js",
+    "files": 1,
+    "bytes": 2744.0,
+    "sha256": "2079d6ccbb43d919ab3c08c01bd5eef703b40e0afff07f31b29ea5011df961cc"
+  },
+  {
+    "from": "assets.js",
+    "to": "archive/legacy-ui/assets.js",
+    "files": 1,
+    "bytes": 4396.0,
+    "sha256": "2dc92287293013145c6df49488a844db5c99429d2ff14dd6e1494c5be5a657ad"
+  },
+  {
+    "from": "style.css",
+    "to": "archive/legacy-ui/style.css",
+    "files": 1,
+    "bytes": 35007.0,
+    "sha256": "3df36a2f0c8969ee9ef3780b3a5b568261dc4f19c30e0ea803bd661488ff81f1"
+  },
+  {
+    "from": "polish.css",
+    "to": "archive/legacy-ui/polish.css",
+    "files": 1,
+    "bytes": 29014.0,
+    "sha256": "692e9a25855c1ed79adcc27d1b9abad90ee027e1385589463e9420a8cc681771"
+  },
+  {
+    "from": "adventure.js",
+    "to": "archive/legacy-ui/adventure.js",
+    "files": 1,
+    "bytes": 61958.0,
+    "sha256": "48b09000280fcb281020c51bd064ae2d896da0a94f25247a86bc06f1fa27c451"
+  },
+  {
+    "from": "adventure-assets.js",
+    "to": "archive/legacy-ui/adventure-assets.js",
+    "files": 1,
+    "bytes": 3025.0,
+    "sha256": "70fab79c3486b57efc68fc83af6931fe9c4fb8fc7069d5d73812809724b23e3f"
+  },
+  {
+    "from": "adventure-map.js",
+    "to": "archive/legacy-ui/adventure-map.js",
+    "files": 1,
+    "bytes": 6155.0,
+    "sha256": "58273f53d68d9177c752cb09143501ce92b15956c59306bb92497ab775699716"
+  },
+  {
+    "from": "adventure.css",
+    "to": "archive/legacy-ui/adventure.css",
+    "files": 1,
+    "bytes": 41034.0,
+    "sha256": "09429b362503d7b2f5f6564980ffaddca7f5f947c0a8fa3bd011e90fd6f9d3f9"
+  },
+  {
+    "from": "inquiry-ui.js",
+    "to": "archive/legacy-ui/inquiry-ui.js",
+    "files": 1,
+    "bytes": 38269.0,
+    "sha256": "3cfb5f36b5712bb8517902beed6c858ee9c84074cb12e3c79cab300f5eef1e84"
+  },
+  {
+    "from": "inquiry.css",
+    "to": "archive/legacy-ui/inquiry.css",
+    "files": 1,
+    "bytes": 16687.0,
+    "sha256": "3cf43b3333b0016e7a299668df0d54d7a4ab65b14a3228e6ec2507364cf248e3"
+  },
+  {
+    "from": "game-scenes.js",
+    "to": "archive/legacy-ui/game-scenes.js",
+    "files": 1,
+    "bytes": 22170.0,
+    "sha256": "071d0618814e211a2d9462e2df11dfb3619e8f14a63dafdb13c52f485afca164"
+  },
+  {
+    "from": "expedition-scenes.js",
+    "to": "archive/legacy-ui/expedition-scenes.js",
+    "files": 1,
+    "bytes": 7290.0,
+    "sha256": "dceb1adfa7b0a0bc160f2a8e47e2226747af254280e7cfabc3da8994173deb63"
+  },
+  {
+    "from": "scripts/upgrade-inquiry.mjs",
+    "to": "archive/maintenance/upgrade-inquiry.mjs",
+    "files": 1,
+    "bytes": 9828.0,
+    "sha256": "cd3e4a4cabe0f8679115ab434b18c04f1d76411d860d916310c9519d8a4e712e"
+  },
+  {
+    "from": "scripts/fix-inquiry-review.mjs",
+    "to": "archive/maintenance/fix-inquiry-review.mjs",
+    "files": 1,
+    "bytes": 10187.0,
+    "sha256": "3fa9c98472a0d0016b3215b864f46c1a06e8c018e4449c83183d99f56bc62ed5"
+  },
+  {
+    "from": "scripts/finish-review-fixes.mjs",
+    "to": "archive/maintenance/finish-review-fixes.mjs",
+    "files": 1,
+    "bytes": 1494.0,
+    "sha256": "753a975143580a3a15ee06dfba86a3f14941d7e13c1fd43d6a2dd3e3291e0b9d"
+  },
+  {
+    "from": "scripts/finish-inquiry-links.mjs",
+    "to": "archive/maintenance/finish-inquiry-links.mjs",
+    "files": 1,
+    "bytes": 2332.0,
+    "sha256": "9d0905e66a8e6e5ba4b0e1931f8a2a1696d67e4a054924028c99dffb8218bc95"
+  },
+  {
+    "from": "scripts/polish-inquiry-ux.mjs",
+    "to": "archive/maintenance/polish-inquiry-ux.mjs",
+    "files": 1,
+    "bytes": 2318.0,
+    "sha256": "2eb4ed7f934ede97d5f41e4a9b6102b2225e9aa6a2adedea9f92d6a5742204f9"
+  },
+  {
+    "from": "scripts/refine-record-picker.mjs",
+    "to": "archive/maintenance/refine-record-picker.mjs",
+    "files": 1,
+    "bytes": 2317.0,
+    "sha256": "9ac74eb5a82d0da0df0a99087c2538b4987f201c2b7bb54c0c2ebf45eda58341"
+  },
+  {
+    "from": "scripts/refine-phaser.mjs",
+    "to": "archive/maintenance/refine-phaser.mjs",
+    "files": 1,
+    "bytes": 3207.0,
+    "sha256": "68fbfeca61fb41fb867a2d7c2863a409ac90bcfa72b829731d242ac793c7a69b"
+  },
+  {
+    "from": "scripts/lazy-phaser-assets.mjs",
+    "to": "archive/maintenance/lazy-phaser-assets.mjs",
+    "files": 1,
+    "bytes": 2553.0,
+    "sha256": "60a3bedf3c63d461eec42f8755af22507b5d92ae8fa0b2d3b0a93a425ffee037"
+  },
+  {
+    "from": "scripts/verify-inquiry-controls.mjs",
+    "to": "archive/maintenance/verify-inquiry-controls.mjs",
+    "files": 1,
+    "bytes": 5172.0,
+    "sha256": "dc3d6da5eb6bd4a41d85f2313dc2bc05a9486856b8ae85565bf51a14aab6ba27"
+  },
+  {
+    "from": "scripts/verify-expedition.mjs",
+    "to": "archive/maintenance/verify-expedition.mjs",
+    "files": 1,
+    "bytes": 9463.0,
+    "sha256": "ce97d93ba73c77b614d0f0c71c0171da65c30d7238e76f6a24d3827b1842c551"
+  },
+  {
+    "from": "scripts/inquiry-qa-server.mjs",
+    "to": "archive/maintenance/inquiry-qa-server.mjs",
+    "files": 1,
+    "bytes": 3153.0,
+    "sha256": "34f036320ebc8ffef0d9d04f06ab7bbf9db2bd69eb8acf5592d8adacbcf2743e"
+  },
+  {
+    "from": "PRD.md",
+    "to": "docs/planning/original/PRD.md",
+    "files": 1,
+    "bytes": 5337.0,
+    "sha256": "1d1adc0aaea275b3119297934d4f6e3ff47fcd7a3abb9e6d8c6ef943eec2e7b7"
+  },
+  {
+    "from": "TRD.md",
+    "to": "docs/planning/original/TRD.md",
+    "files": 1,
+    "bytes": 5221.0,
+    "sha256": "5a45f840e085063fb0fb57f03a5cef550730fd1392ebc8f52ff58173830bc8ad"
+  },
+  {
+    "from": "QA.md",
+    "to": "docs/planning/original/QA.md",
+    "files": 1,
+    "bytes": 4076.0,
+    "sha256": "c36dcd9daeadb051df3b0156d75e6f7a524ab0ba82ea658bce2a5fa3c02c4aa6"
+  },
+  {
+    "from": "3-1_life-clock-lab_PRD.md",
+    "to": "docs/planning/original/life-clock-lab-brief.md",
+    "files": 1,
+    "bytes": 16897.0,
+    "sha256": "b766d4d681fe4d0b0479bcddc2d4e2d259da3e1b19c3affffb1ebf2d7d63dac0"
+  },
+  {
+    "from": "files",
+    "to": "reference/design-package",
+    "files": 5,
+    "bytes": 117305.0,
+    "sha256": null
+  },
+  {
+    "from": "image",
+    "to": "reference/source-images",
+    "files": 51,
+    "bytes": 111803385.0,
+    "sha256": null
+  },
+  {
+    "from": "samplepages",
+    "to": "reference/sample-pages",
+    "files": 32,
+    "bytes": 70221672.0,
+    "sha256": null
+  },
+  {
+    "from": "_unused",
+    "to": "archive/unused-assets",
+    "files": 1,
+    "bytes": 1640.0,
+    "sha256": null
+  },
+  {
+    "from": "build-archive",
+    "to": "archive/builds",
+    "files": 237,
+    "bytes": 27367472.0,
+    "sha256": null
+  }
+]

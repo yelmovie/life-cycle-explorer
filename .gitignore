@@ -1,6 +1,6 @@
 node_modules/
 dist/
-build-archive/
+archive/builds/
 .tmp/
 .env
 .env.*
@@ -9,10 +9,13 @@ build-archive/
 Thumbs.db
 __pycache__/
 docs/reviews/before-*/
-samplepages/
-image/
-files/
+reference/
 assets/raw-png/
 docs/reviews/expedition-20261018/browser-failure.json
 docs/reviews/expedition-20261018/failure.png
 docs/reviews/expedition-20261018/initial.png
+
+# Local analysis and chat handoff files
+graphify-out/
+HANDOFF.md
+.wrangler/

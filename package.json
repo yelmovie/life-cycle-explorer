@@ -1,13 +1,15 @@
 {
   "name": "life-clock-lab",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "private": true,
   "type": "module",
   "scripts": {
     "start": "node scripts/sync-info.mjs && node server.mjs",
-    "test": "node --test tests/*.test.js",
+    "test": "node scripts/sync-info.mjs && node --test tests/*.test.js",
     "check": "node scripts/sync-info.mjs && node scripts/check.mjs",
     "build": "node scripts/sync-info.mjs && node scripts/build.mjs",
-    "preview": "node server.mjs --dist"
+    "preview": "node server.mjs --dist",
+    "concepts:render": "node scripts/render-concepts.mjs",
+    "check:classroom": "node scripts/qa-field-regression.mjs && node scripts/qa-classroom-media.mjs && node scripts/qa-popup-survey.mjs"
   }
 }

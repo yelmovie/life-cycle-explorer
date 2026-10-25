@@ -1,0 +1,9 @@
+{
+  "date": "2026-10-22",
+  "tool": "OpenAI image_gen built-in",
+  "outputId": "exec-f2810c27-1f68-4ffa-b2b9-58db59bd6c98",
+  "original": "assets/field/source/doto-20261022.png",
+  "runtime": "assets/field/doto.webp",
+  "runtimeSha256": "9496326a3f7e8394d896f79a10c8f2837cc905815a22c8348fdbee3b1759492b",
+  "prompt": "Use case: illustration-story. Create one single isolated game companion character asset with true transparent background: Doto, a small Korean striped chipmunk explorer, chestnut brown fur, cream face and belly, two dark back stripes, round fluffy curled tail fully in frame, small forest-green neckerchief with leaf-shaped clasp. Warm curious expression, large brown eyes, tiny front paws holding one acorn, three-quarter front view facing slightly right, full body standing upright. Match a polished Korean elementary science forest adventure, soft hand-painted 3D storybook shading, detailed warm fur, tidy silhouette, readable at 64px, not a flat icon, not a baby cartoon. Centered with 12% clear transparent margin around entire tail and ears. ONE animal only, no humans, no ground, no scenery, no lettering, no labels, no border, no extra objects, no sheet. This animal will follow an existing child explorer in a green forest."
+}

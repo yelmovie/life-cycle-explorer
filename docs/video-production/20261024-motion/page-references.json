@@ -1,0 +1,111 @@
+{
+  "page": "https://chatgpt.com/space/page_460460032f588191b5ef86b6e3b246d6",
+  "version": "motion-v2",
+  "verified": {
+    "title": "생명 시계 연구실 — 인트로·아웃트로 마을 여행 캔버스",
+    "images": 7,
+    "videoPrompts": 6,
+    "srtBlocks": 2,
+    "hasNewWorld": true,
+    "hasOldStaticPrompt": false
+  },
+  "images": [
+    {
+      "id": "intro-01-valley-village",
+      "page_id": "page_460460032f588191b5ef86b6e3b246d6",
+      "reference": "library-file:fde1_bGliZmlsZV8yUGpScUFaTGN6YlJtRlZRVGxWNUhn_FileDrive_faad31a6e6d081919fa7e2e772abebf0",
+      "file_name": "intro-01-valley-village-6ed544ced5e8467fb7d18a35340a3778.png",
+      "mime_type": "image/png",
+      "byte_size": 3473631,
+      "sha256": "c72d915c0143ac7ff8f016095c1b892cad7c22f4408de32feca43cdb8b4d9781",
+      "file_access_confirmed": true,
+      "is_image": true,
+      "markdown": "![계곡 너머의 마을](library-file:fde1_bGliZmlsZV8yUGpScUFaTGN6YlJtRlZRVGxWNUhn_FileDrive_faad31a6e6d081919fa7e2e772abebf0)",
+      "inserted": false,
+      "next_step": "Read the Page and use edit_page with its fresh guards to insert markdown."
+    },
+    {
+      "id": "intro-02-village-lane",
+      "page_id": "page_460460032f588191b5ef86b6e3b246d6",
+      "reference": "library-file:fde1_bGliZmlsZV9wa3FwZEhJZnV0VEpWV1Zva3hnTVJB_FileDrive_faad31a6e6d081919fa7e2e772abebf0",
+      "file_name": "intro-02-village-lane-bff316b004ab4dbd9026b6076e2f8383.png",
+      "mime_type": "image/png",
+      "byte_size": 3057332,
+      "sha256": "c76473143b81fca05dd88a2efd4ab541ffce0f4999090bed4857cecc9214d665",
+      "file_access_confirmed": true,
+      "is_image": true,
+      "markdown": "![마을 길을 따라](library-file:fde1_bGliZmlsZV9wa3FwZEhJZnV0VEpWV1Zva3hnTVJB_FileDrive_faad31a6e6d081919fa7e2e772abebf0)",
+      "inserted": false,
+      "next_step": "Read the Page and use edit_page with its fresh guards to insert markdown."
+    },
+    {
+      "id": "intro-03-enter-laboratory",
+      "page_id": "page_460460032f588191b5ef86b6e3b246d6",
+      "reference": "library-file:fde1_bGliZmlsZV9xb0JuUGhDaHlRQ2Q2N2F5SVlOdnZB_FileDrive_faad31a6e6d081919fa7e2e772abebf0",
+      "file_name": "intro-03-enter-laboratory-9ea380d6002b4404a0dc3525a2a9a12b.png",
+      "mime_type": "image/png",
+      "byte_size": 2545164,
+      "sha256": "6b6510a23d7cee1afc39a1732dc8a80f9b4b8990c2b02040f986c6faaf9dfe7b",
+      "file_access_confirmed": true,
+      "is_image": true,
+      "markdown": "![연구소 문을 열며](library-file:fde1_bGliZmlsZV9xb0JuUGhDaHlRQ2Q2N2F5SVlOdnZB_FileDrive_faad31a6e6d081919fa7e2e772abebf0)",
+      "inserted": false,
+      "next_step": "Read the Page and use edit_page with its fresh guards to insert markdown."
+    },
+    {
+      "id": "outro-01-leave-laboratory",
+      "page_id": "page_460460032f588191b5ef86b6e3b246d6",
+      "reference": "library-file:fde1_bGliZmlsZV9JSW8ta3NYbFNNZFVwSEtXVTIyMS1B_FileDrive_faad31a6e6d081919fa7e2e772abebf0",
+      "file_name": "outro-01-leave-laboratory-7409a75b52784a1e9fac6e147c4ea19a.png",
+      "mime_type": "image/png",
+      "byte_size": 2665044,
+      "sha256": "a79277c7175a0536873eaa167a8b1e1fc9fd71d6878811b2c148aa631a8047d5",
+      "file_access_confirmed": true,
+      "is_image": true,
+      "markdown": "![발견을 품고 밖으로](library-file:fde1_bGliZmlsZV9JSW8ta3NYbFNNZFVwSEtXVTIyMS1B_FileDrive_faad31a6e6d081919fa7e2e772abebf0)",
+      "inserted": false,
+      "next_step": "Read the Page and use edit_page with its fresh guards to insert markdown."
+    },
+    {
+      "id": "outro-02-living-village-bridge",
+      "page_id": "page_460460032f588191b5ef86b6e3b246d6",
+      "reference": "library-file:fde1_bGliZmlsZV8xZFZLcllocldhaTFjY2kxWUdsWUFB_FileDrive_faad31a6e6d081919fa7e2e772abebf0",
+      "file_name": "outro-02-living-village-bridge-bc47937e00904fddaa839f85a6c8e867.png",
+      "mime_type": "image/png",
+      "byte_size": 3378102,
+      "sha256": "e4b36d9011ea78559034cde7465a3b55068f0eeb639d77b128a2a65c45ba2d9c",
+      "file_access_confirmed": true,
+      "is_image": true,
+      "markdown": "![살아난 마을을 지나](library-file:fde1_bGliZmlsZV8xZFZLcllocldhaTFjY2kxWUdsWUFB_FileDrive_faad31a6e6d081919fa7e2e772abebf0)",
+      "inserted": false,
+      "next_step": "Read the Page and use edit_page with its fresh guards to insert markdown."
+    },
+    {
+      "id": "outro-03-world-beyond",
+      "page_id": "page_460460032f588191b5ef86b6e3b246d6",
+      "reference": "library-file:fde1_bGliZmlsZV9oQ1lRR2ZnV1k2dUFfSE5qZmZVWTd3_FileDrive_faad31a6e6d081919fa7e2e772abebf0",
+      "file_name": "outro-03-world-beyond-819cd78135bb4e369953ac691684d04c.png",
+      "mime_type": "image/png",
+      "byte_size": 3297348,
+      "sha256": "660fe9a71433967aca7afce0ac328b533ab2e8f9798cdea189587b29ee2b159a",
+      "file_access_confirmed": true,
+      "is_image": true,
+      "markdown": "![마을 밖 더 넓은 세계](library-file:fde1_bGliZmlsZV9oQ1lRR2ZnV1k2dUFfSE5qZmZVWTd3_FileDrive_faad31a6e6d081919fa7e2e772abebf0)",
+      "inserted": false,
+      "next_step": "Read the Page and use edit_page with its fresh guards to insert markdown."
+    }
+  ],
+  "characterSheet": {
+    "page_id": "page_460460032f588191b5ef86b6e3b246d6",
+    "reference": "library-file:fde1_bGliZmlsZV8zYUgwQlFoWTRqbDJzOWpEV2hDdnp3_FileDrive_faad31a6e6d081919fa7e2e772abebf0",
+    "file_name": "jihoon-identity-abe3a8cdc80c419da3d7ac763ccd426c.png",
+    "mime_type": "image/png",
+    "byte_size": 2018969,
+    "sha256": "cc76591bd526fe2a45ed8604c8e2d6e6c7642baebc8f2c7ff139c3b658a917f5",
+    "file_access_confirmed": true,
+    "is_image": true,
+    "markdown": "![지훈 캐릭터 일관성 · 3패널](library-file:fde1_bGliZmlsZV8zYUgwQlFoWTRqbDJzOWpEV2hDdnp3_FileDrive_faad31a6e6d081919fa7e2e772abebf0)",
+    "inserted": false,
+    "next_step": "Read the Page and use edit_page with its fresh guards to insert markdown."
+  }
+}

@@ -1,0 +1,224 @@
+{
+  "title": "생명 시계 연구실 · 마을을 여행하는 인트로·아웃트로",
+  "date": "2026-10-24",
+  "version": "motion-v2",
+  "page": "https://chatgpt.com/space/page_460460032f588191b5ef86b6e3b246d6",
+  "previousVersion": "docs/video-production/20261024/README.md",
+  "status": "새 초기 이미지 6장 생성 및 영상 생성 프롬프트 완성. 실제 영상 파일은 생성하지 않음.",
+  "generationTool": "OpenAI built-in image_gen",
+  "generationCalls": 6,
+  "format": "16:9; edit master 1920x1080/24fps; optional game delivery 1280x720 H.264 yuv420p",
+  "lengths": {
+    "intro": 24,
+    "outro": 30
+  },
+  "music": {
+    "intro": {
+      "file": "assets/audio/music/main-theme.mp3",
+      "title": "The Garden Blooms",
+      "sourceDuration": 67.88,
+      "in": 0,
+      "out": 24,
+      "fadeIn": 0.15,
+      "fadeOut": 0.8
+    },
+    "finale": {
+      "file": "assets/audio/music/ending-theme.mp3",
+      "title": "Rising Motif",
+      "sourceDuration": 172.8,
+      "in": 142.8,
+      "out": 172.8,
+      "fadeIn": 0.7,
+      "fadeOut": 1.5
+    },
+    "validation": "파일 길이와 선택 구간의 긴 무음 부재를 FFmpeg로 확인. 실제 청취·박자·프레이즈 검수는 미수행. 큐는 편집 시작안이며 청취 후 인접 프레이즈로 미세 조정."
+  },
+  "shots": [
+    {
+      "id": "intro-01-valley-village",
+      "title": "계곡 너머의 마을",
+      "scene": "0–2s: Jihoon is already walking forward across the bridge, Ipsae flies a little ahead and Doto trots beside him. 2–6s: they advance several clearly visible strides toward the village; the watermill, houses, glass domes and river open up around them. 6–8s: the trio begins following the lane to the right. The wheel slowly turns, water flows and leaves stir. The life-clock face remains blank: water and everyday village motion continue, while the missing life records are the story problem. No one stops to pose. Preserve the sunny morning.",
+      "duration": 8,
+      "range": "00:00–00:08",
+      "size": "롱샷 · 마을 전경",
+      "angle": "다리 뒤의 완만한 하이 앵글",
+      "movement": "전진 트래킹",
+      "travel": "다리 위에서 마을 초입까지 약 5m",
+      "end": "다리 끝에서 연구소 쪽 오른편 길로 접어드는 순간",
+      "connect": "I-2의 오른쪽으로 걷는 방향에 맞춰 매치 컷",
+      "layers": "전경 나뭇잎·난간은 빠르게 뒤로 / 친구들과 다리는 중간 속도 / 시계탑·산맥은 느리게",
+      "subs": [
+        [
+          0.4,
+          3.9,
+          "숲 너머에,\n생명의 시간을 지키는 마을이 있어."
+        ],
+        [
+          4.2,
+          7.7,
+          "그런데 생명 시계가\n멈춰 버렸어."
+        ]
+      ],
+      "camera": "8 seconds, 16:9, wide establishing shot, gently elevated view from behind the group. ONE movement: forward tracking along the bridge for approximately 5 meters at a smooth walking pace. Keep the trio in the lower third and the blank-faced clock tower and round seed laboratory visible above them. Foreground leaves and nearby bridge posts pass across the edges quickly; houses shift more slowly and mountains barely move. Keep the lens fixed. End at the far end of the bridge with the group naturally entering the lane toward the laboratory on screen-right; movement continues through the last frame.",
+      "imageFile": "assets/video-production/20261024-motion/intro-01-valley-village.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a16986-8af7-76d2-87c6-291ab4cc090f\\exec-ab2a9aca-12cd-4353-8fe7-25221925fd01.png",
+      "videoPrompt": "LOCK: Animate the supplied keyframe, preserving its exact storybook rendering, village architecture and character identities. Exactly one Jihoon (brown tousled hair, cream leaf-print jacket, olive shorts and backpack), one Ipsae (green leaf hair, leaf wings, brown satchel) and one Doto (striped brown chipmunk, curled tail, green neckerchief). Preserve their scale, clothes and props. Do not make them face or perform for the viewer.\n[CAMERA] 8 seconds, 16:9, wide establishing shot, gently elevated view from behind the group. ONE movement: forward tracking along the bridge for approximately 5 meters at a smooth walking pace. Keep the trio in the lower third and the blank-faced clock tower and round seed laboratory visible above them. Foreground leaves and nearby bridge posts pass across the edges quickly; houses shift more slowly and mountains barely move. Keep the lens fixed. End at the far end of the bridge with the group naturally entering the lane toward the laboratory on screen-right; movement continues through the last frame.\n[SCENE] 0–2s: Jihoon is already walking forward across the bridge, Ipsae flies a little ahead and Doto trots beside him. 2–6s: they advance several clearly visible strides toward the village; the watermill, houses, glass domes and river open up around them. 6–8s: the trio begins following the lane to the right. The wheel slowly turns, water flows and leaves stir. The life-clock face remains blank: water and everyday village motion continue, while the missing life records are the story problem. No one stops to pose. Preserve the sunny morning.\n[CONSTRAINTS] Keep a real, continuous walking journey with visible foot contact and changing location, not walking in place or a frozen picture with digital zoom. Stable anatomy, no sliding feet, teleporting, duplicated limbs or characters. No new text, titles, interface, reward cards, montage, transitions inside the shot, dialogue, sound or music. Keep the lower subtitle margin free of new important details.",
+      "pageReference": "library-file:fde1_bGliZmlsZV8yUGpScUFaTGN6YlJtRlZRVGxWNUhn_FileDrive_faad31a6e6d081919fa7e2e772abebf0"
+    },
+    {
+      "id": "intro-02-village-lane",
+      "title": "마을 길을 따라",
+      "scene": "0–3s: Jihoon, Ipsae and Doto travel steadily from left toward right along the curving stone lane. Jihoon's book stays secure at his side; his free arm swings naturally. 3–6s: Ipsae flies to the open entrance, and Jihoon and Doto follow without stopping. 6–8s: the group reaches the doorstep. The watermill turns in the background and light moves softly through leaves. Keep the tower face blank. No one looks at the camera and no character appears suddenly.",
+      "duration": 8,
+      "range": "00:08–00:16",
+      "size": "풀샷 · 이동하는 친구들과 골목",
+      "angle": "눈높이의 측후면",
+      "movement": "사이드 트래킹",
+      "travel": "골목에서 연구소 문앞까지 약 4m",
+      "end": "지훈의 앞발이 연구소 첫 문턱에 닿기 직전",
+      "connect": "I-3의 문턱을 넘는 발에 동작 연결",
+      "layers": "전경 화분·울타리는 왼쪽으로 빠르게 / 인물은 프레임 중앙 / 배경 시계탑은 천천히",
+      "subs": [
+        [
+          8.3,
+          11.8,
+          "나비는 어떻게 자랄까?\n씨앗은 언제 싹이 틀까?"
+        ],
+        [
+          12.1,
+          15.7,
+          "마을의 다섯 장소에\n시간을 잇는 단서가 숨어 있어."
+        ]
+      ],
+      "camera": "8 seconds, 16:9, full-body group shot at child eye level, three-quarter rear view as in the supplied frame. ONE movement: side tracking to the right, parallel to the lane, for about 4 meters. Keep the entire walking group in frame and allow the domed laboratory entrance to grow naturally in perspective. Close flower boxes and fence posts slide past the left frame edge, while the clock tower drifts slowly behind. Fixed lens; do not orbit or zoom. End beside the open green laboratory door, with Jihoon's leading foot just about to reach the first threshold.",
+      "imageFile": "assets/video-production/20261024-motion/intro-02-village-lane.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a16986-8af7-76d2-87c6-291ab4cc090f\\exec-1ebdd02e-6dfd-4c16-bef4-e0da791ce33b.png",
+      "videoPrompt": "LOCK: Animate the supplied keyframe, preserving its exact storybook rendering, village architecture and character identities. Exactly one Jihoon (brown tousled hair, cream leaf-print jacket, olive shorts and backpack), one Ipsae (green leaf hair, leaf wings, brown satchel) and one Doto (striped brown chipmunk, curled tail, green neckerchief). Preserve their scale, clothes and props. Do not make them face or perform for the viewer.\n[CAMERA] 8 seconds, 16:9, full-body group shot at child eye level, three-quarter rear view as in the supplied frame. ONE movement: side tracking to the right, parallel to the lane, for about 4 meters. Keep the entire walking group in frame and allow the domed laboratory entrance to grow naturally in perspective. Close flower boxes and fence posts slide past the left frame edge, while the clock tower drifts slowly behind. Fixed lens; do not orbit or zoom. End beside the open green laboratory door, with Jihoon's leading foot just about to reach the first threshold.\n[SCENE] 0–3s: Jihoon, Ipsae and Doto travel steadily from left toward right along the curving stone lane. Jihoon's book stays secure at his side; his free arm swings naturally. 3–6s: Ipsae flies to the open entrance, and Jihoon and Doto follow without stopping. 6–8s: the group reaches the doorstep. The watermill turns in the background and light moves softly through leaves. Keep the tower face blank. No one looks at the camera and no character appears suddenly.\n[CONSTRAINTS] Keep a real, continuous walking journey with visible foot contact and changing location, not walking in place or a frozen picture with digital zoom. Stable anatomy, no sliding feet, teleporting, duplicated limbs or characters. No new text, titles, interface, reward cards, montage, transitions inside the shot, dialogue, sound or music. Keep the lower subtitle margin free of new important details.",
+      "pageReference": "library-file:fde1_bGliZmlsZV9wa3FwZEhJZnV0VEpWV1Zva3hnTVJB_FileDrive_faad31a6e6d081919fa7e2e772abebf0"
+    },
+    {
+      "id": "intro-03-enter-laboratory",
+      "title": "연구소 문을 열며",
+      "scene": "0–2s: Jihoon releases the already-open door and crosses the threshold, with Doto close beside him and Ipsae flying ahead. 2–6s: they walk into the room toward the workbench, taking visible, natural steps. 6–8s: Jihoon reaches the workbench and turns his attention to the two pots while Ipsae hovers by them and Doto arrives at his feet. Sunlight through the glass dome reveals jars, growing plants and observation tools. No instant plant growth, no magical experiment result and no additional props appear.",
+      "duration": 8,
+      "range": "00:16–00:24",
+      "size": "풀샷 → 작업대가 보이는 미디엄 풀샷",
+      "angle": "지훈 어깨 뒤 눈높이",
+      "movement": "문을 통과하는 푸시 스루",
+      "travel": "문밖에서 연구소 작업대 앞까지 약 3m",
+      "end": "지훈은 왼쪽, 비교할 두 화분은 중앙에 보이는 탐구 시작 구도",
+      "connect": "마지막 작업대 구도에서 게임 시작 화면으로 0.2초 컷 또는 페이드",
+      "layers": "문틀·화분이 양옆으로 크게 빠짐 / 친구들은 전진 / 연구실 선반·돔은 점차 넓어짐",
+      "subs": [
+        [
+          16.2,
+          20,
+          "살펴보고, 조건을 바꿔 비교하고,\n변화를 기록해 줘."
+        ],
+        [
+          20.2,
+          23.8,
+          "네가 찾은 증거로\n숲의 시간을 다시 이어 보자!"
+        ]
+      ],
+      "camera": "8 seconds, 16:9. Full-body over-the-shoulder rear view at Jihoon's shoulder height. ONE movement: a smooth forward push-through following the trio through the existing open doorway and about 3 meters into the laboratory. No zoom or orbit. The near door jambs and potted plants sweep outward past both edges; the circular room opens in real perspective. Maintain a comfortable following distance and keep the two comparison pots ahead. End with Jihoon on the left third and the workbench with its two pots centered, ready for exploration; ease only during the final half-second.",
+      "imageFile": "assets/video-production/20261024-motion/intro-03-enter-laboratory.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a16986-8af7-76d2-87c6-291ab4cc090f\\exec-e30ad4da-44c1-4408-bdca-1322fe0444ac.png",
+      "videoPrompt": "LOCK: Animate the supplied keyframe, preserving its exact storybook rendering, village architecture and character identities. Exactly one Jihoon (brown tousled hair, cream leaf-print jacket, olive shorts and backpack), one Ipsae (green leaf hair, leaf wings, brown satchel) and one Doto (striped brown chipmunk, curled tail, green neckerchief). Preserve their scale, clothes and props. Do not make them face or perform for the viewer.\n[CAMERA] 8 seconds, 16:9. Full-body over-the-shoulder rear view at Jihoon's shoulder height. ONE movement: a smooth forward push-through following the trio through the existing open doorway and about 3 meters into the laboratory. No zoom or orbit. The near door jambs and potted plants sweep outward past both edges; the circular room opens in real perspective. Maintain a comfortable following distance and keep the two comparison pots ahead. End with Jihoon on the left third and the workbench with its two pots centered, ready for exploration; ease only during the final half-second.\n[SCENE] 0–2s: Jihoon releases the already-open door and crosses the threshold, with Doto close beside him and Ipsae flying ahead. 2–6s: they walk into the room toward the workbench, taking visible, natural steps. 6–8s: Jihoon reaches the workbench and turns his attention to the two pots while Ipsae hovers by them and Doto arrives at his feet. Sunlight through the glass dome reveals jars, growing plants and observation tools. No instant plant growth, no magical experiment result and no additional props appear.\n[CONSTRAINTS] Keep a real, continuous walking journey with visible foot contact and changing location, not walking in place or a frozen picture with digital zoom. Stable anatomy, no sliding feet, teleporting, duplicated limbs or characters. No new text, titles, interface, reward cards, montage, transitions inside the shot, dialogue, sound or music. Keep the lower subtitle margin free of new important details.",
+      "pageReference": "library-file:fde1_bGliZmlsZV9xb0JuUGhDaHlRQ2Q2N2F5SVlOdnZB_FileDrive_faad31a6e6d081919fa7e2e772abebf0"
+    },
+    {
+      "id": "outro-01-leave-laboratory",
+      "title": "발견을 품고 밖으로",
+      "scene": "0–3s: Jihoon walks toward the doorway with his completed green field book and rolled certificate securely carried as shown; Ipsae leads and Doto follows at his side. 3–7s: the group crosses the threshold into golden afternoon light, with several clear steps and natural backpack movement. 7–10s: they follow the village lane toward the bridge. The restored clock has its glowing leaf hand, water flows and the garden moves in the breeze. The seedling left inside remains rooted in its pot. Their pride is expressed by purposeful relaxed movement, never by presenting a certificate to the camera.",
+      "duration": 10,
+      "range": "00:00–00:10",
+      "size": "풀샷 · 실내에서 마을로",
+      "angle": "지훈 뒤 눈높이",
+      "movement": "팔로우 트래킹",
+      "travel": "연구실 안에서 문밖 골목까지 약 5m",
+      "end": "친구들이 다리 쪽으로 오른쪽 방향을 잡는 순간",
+      "connect": "O-2의 왼쪽→오른쪽 다리 횡단으로 연결",
+      "layers": "작업대·문틀이 빠르게 뒤로 / 인물은 중경 유지 / 문밖 마을이 계속 넓게 드러남",
+      "subs": [
+        [
+          0.3,
+          4.7,
+          "나비의 한살이를 살펴보고,\n씨앗이 싹트는 조건을 찾았지."
+        ],
+        [
+          5,
+          9.7,
+          "물과 빛을 살펴 돌보고,\n계절 속 변화도 기록했어."
+        ]
+      ],
+      "camera": "10 seconds, 16:9, full-body rear following shot at child eye level. ONE movement: follow tracking forward, about 5 meters, from inside the laboratory through the open door onto the village lane. Keep a fixed lens and stay behind the trio. The close seedling and table edge slide rapidly out of view, the door frame passes the camera, and the village opens beyond with increasing depth. End outside with the trio turning gently toward the bridge on screen-right. Keep their forward progress alive through the final frame, no long freeze.",
+      "imageFile": "assets/video-production/20261024-motion/outro-01-leave-laboratory.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a16986-8af7-76d2-87c6-291ab4cc090f\\exec-0fe6673b-7696-4e86-b2bd-711ce5527bdf.png",
+      "videoPrompt": "LOCK: Animate the supplied keyframe, preserving its exact storybook rendering, village architecture and character identities. Exactly one Jihoon (brown tousled hair, cream leaf-print jacket, olive shorts and backpack), one Ipsae (green leaf hair, leaf wings, brown satchel) and one Doto (striped brown chipmunk, curled tail, green neckerchief). Preserve their scale, clothes and props. Do not make them face or perform for the viewer.\n[CAMERA] 10 seconds, 16:9, full-body rear following shot at child eye level. ONE movement: follow tracking forward, about 5 meters, from inside the laboratory through the open door onto the village lane. Keep a fixed lens and stay behind the trio. The close seedling and table edge slide rapidly out of view, the door frame passes the camera, and the village opens beyond with increasing depth. End outside with the trio turning gently toward the bridge on screen-right. Keep their forward progress alive through the final frame, no long freeze.\n[SCENE] 0–3s: Jihoon walks toward the doorway with his completed green field book and rolled certificate securely carried as shown; Ipsae leads and Doto follows at his side. 3–7s: the group crosses the threshold into golden afternoon light, with several clear steps and natural backpack movement. 7–10s: they follow the village lane toward the bridge. The restored clock has its glowing leaf hand, water flows and the garden moves in the breeze. The seedling left inside remains rooted in its pot. Their pride is expressed by purposeful relaxed movement, never by presenting a certificate to the camera.\n[CONSTRAINTS] Keep a real, continuous walking journey with visible foot contact and changing location, not walking in place or a frozen picture with digital zoom. Stable anatomy, no sliding feet, teleporting, duplicated limbs or characters. No new text, titles, interface, reward cards, montage, transitions inside the shot, dialogue, sound or music. Keep the lower subtitle margin free of new important details.",
+      "pageReference": "library-file:fde1_bGliZmlsZV9JSW8ta3NYbFNNZFVwSEtXVTIyMS1B_FileDrive_faad31a6e6d081919fa7e2e772abebf0"
+    },
+    {
+      "id": "outro-02-living-village-bridge",
+      "title": "살아난 마을을 지나",
+      "scene": "0–4s: the companions continue their left-to-right crossing with clear footfalls, natural arm swing and gentle backpack movement. 4–7s: they reach the far side while water ripples below, the watermill turns and garden leaves move. 7–10s: Ipsae passes the gate and Jihoon and Doto follow onto the meadow path. Keep the green book secure and the rolled certificate attached to the backpack. The restored clock remains behind them. They look along the route, not toward the viewer. Show physical travel across the bridge; do not loop their walking animation in one position.",
+      "duration": 10,
+      "range": "00:10–00:20",
+      "size": "롱샷 · 옆모습 다리 횡단",
+      "angle": "강변의 낮은 앵글",
+      "movement": "사이드 트래킹",
+      "travel": "다리 중간에서 마을 바깥 나무문까지 약 6m",
+      "end": "오른쪽 나무문을 지나 바깥 오솔길에 첫발을 내딛는 순간",
+      "connect": "O-3에서 같은 방향으로 이어지는 언덕길을 걷는 발에 매치 컷",
+      "layers": "갈대·난간이 왼쪽으로 빠름 / 친구들은 중간 / 마을·시계탑은 느리게 뒤로",
+      "subs": [
+        [
+          10.2,
+          14.8,
+          "겨울을 난 같은 나무와\n씨앗에서 난 새 생명도 찾았어."
+        ],
+        [
+          15,
+          19.7,
+          "네가 모은 증거가\n마을의 시간을 다시 이었어."
+        ]
+      ],
+      "camera": "10 seconds, 16:9. Wide full-body side view from low on the riverbank. ONE movement: side track to the right parallel to the bridge, smoothly following the walking group over about 6 meters. Keep Jihoon's side profile and all three companions visible. Nearby reeds and bridge railing pass left quickly, the bridge piers move at a medium pace and the village drifts slowly in the distance. No orbit, zoom or change of shot. End at the far bank with the trio passing the open wooden gate on screen-right and stepping onto the outward path.",
+      "imageFile": "assets/video-production/20261024-motion/outro-02-living-village-bridge.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a16986-8af7-76d2-87c6-291ab4cc090f\\exec-63d0533e-17a5-4149-832a-8de8ae6f0f16.png",
+      "videoPrompt": "LOCK: Animate the supplied keyframe, preserving its exact storybook rendering, village architecture and character identities. Exactly one Jihoon (brown tousled hair, cream leaf-print jacket, olive shorts and backpack), one Ipsae (green leaf hair, leaf wings, brown satchel) and one Doto (striped brown chipmunk, curled tail, green neckerchief). Preserve their scale, clothes and props. Do not make them face or perform for the viewer.\n[CAMERA] 10 seconds, 16:9. Wide full-body side view from low on the riverbank. ONE movement: side track to the right parallel to the bridge, smoothly following the walking group over about 6 meters. Keep Jihoon's side profile and all three companions visible. Nearby reeds and bridge railing pass left quickly, the bridge piers move at a medium pace and the village drifts slowly in the distance. No orbit, zoom or change of shot. End at the far bank with the trio passing the open wooden gate on screen-right and stepping onto the outward path.\n[SCENE] 0–4s: the companions continue their left-to-right crossing with clear footfalls, natural arm swing and gentle backpack movement. 4–7s: they reach the far side while water ripples below, the watermill turns and garden leaves move. 7–10s: Ipsae passes the gate and Jihoon and Doto follow onto the meadow path. Keep the green book secure and the rolled certificate attached to the backpack. The restored clock remains behind them. They look along the route, not toward the viewer. Show physical travel across the bridge; do not loop their walking animation in one position.\n[CONSTRAINTS] Keep a real, continuous walking journey with visible foot contact and changing location, not walking in place or a frozen picture with digital zoom. Stable anatomy, no sliding feet, teleporting, duplicated limbs or characters. No new text, titles, interface, reward cards, montage, transitions inside the shot, dialogue, sound or music. Keep the lower subtitle margin free of new important details.",
+      "pageReference": "library-file:fde1_bGliZmlsZV8xZFZLcllocldhaTFjY2kxWUdsWUFB_FileDrive_faad31a6e6d081919fa7e2e772abebf0"
+    },
+    {
+      "id": "outro-03-world-beyond",
+      "title": "마을 밖 더 넓은 세계",
+      "scene": "0–3s: Jihoon, Ipsae and Doto continue away along the winding meadow path, taking natural visible steps; nobody turns around. 3–7s: as the camera rises, the familiar village becomes one part of a much larger living world: fields, orchards, flowing rivers and distant homes. 7–10s: the group advances farther along the path, small against the vast landscape, while clouds drift gently and a few distant birds cross the sky. A soft warm glimmer gradually flows across the existing distant clock face. At this wide distance its hand does not need to be distinguishable; do not invent a new hand, change the face geometry or enlarge the clock. Preserve Jihoon's green book, backpack and secured rolled certificate. The mood is an open-ended discovery journey, not a victory poster.",
+      "duration": 10,
+      "range": "00:20–00:30",
+      "size": "익스트림 롱샷 · 마을 밖 계곡 전체",
+      "angle": "언덕 위 하이 앵글",
+      "movement": "크레인 업",
+      "travel": "인물은 오솔길 4~5m 전진, 카메라는 약 8m 수직 상승",
+      "end": "작아진 세 친구·계곡의 강·먼 마을·산맥을 한 프레임에 품은 구도",
+      "connect": "움직이는 풍경 위 마지막 자막 후 0.8초 페이드아웃",
+      "layers": "전경 풀·울타리가 아래로 크게 / 언덕·친구들은 중간 / 강·정착지·산맥은 넓게 펼쳐짐",
+      "subs": [
+        [
+          20.2,
+          24.8,
+          "이제 너는 생명 탐험가!\n기록책과 탐험 기록증은 네 보상이야."
+        ],
+        [
+          25.1,
+          29.6,
+          "다음 발견은 바로 우리 곁에 있어.\n주변의 생명을 관찰해 보자!"
+        ]
+      ],
+      "camera": "10 seconds, 16:9, extreme-wide landscape shot from the hillside. ONE movement: a smooth vertical crane up by approximately 8 meters, with a fixed lens and a constant gently downward camera angle. No backward dolly, zoom, pan or orbit. Nearby grasses and the low fence drop below frame rapidly; the small travelling trio stays in the lower third, while the river, orchards, distant homes and mountains unfold in depth. End at the higher viewpoint with the full valley visible and the trio still progressing along the path. Only a very gentle deceleration during the final second, no posed freeze.",
+      "imageFile": "assets/video-production/20261024-motion/outro-03-world-beyond.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a16986-8af7-76d2-87c6-291ab4cc090f\\exec-be1fb201-c8ce-4588-9934-b73dcdad4596.png",
+      "videoPrompt": "LOCK: Animate the supplied keyframe, preserving its exact storybook rendering, village architecture and character identities. Exactly one Jihoon (brown tousled hair, cream leaf-print jacket, olive shorts and backpack), one Ipsae (green leaf hair, leaf wings, brown satchel) and one Doto (striped brown chipmunk, curled tail, green neckerchief). Preserve their scale, clothes and props. Do not make them face or perform for the viewer.\n[CAMERA] 10 seconds, 16:9, extreme-wide landscape shot from the hillside. ONE movement: a smooth vertical crane up by approximately 8 meters, with a fixed lens and a constant gently downward camera angle. No backward dolly, zoom, pan or orbit. Nearby grasses and the low fence drop below frame rapidly; the small travelling trio stays in the lower third, while the river, orchards, distant homes and mountains unfold in depth. End at the higher viewpoint with the full valley visible and the trio still progressing along the path. Only a very gentle deceleration during the final second, no posed freeze.\n[SCENE] 0–3s: Jihoon, Ipsae and Doto continue away along the winding meadow path, taking natural visible steps; nobody turns around. 3–7s: as the camera rises, the familiar village becomes one part of a much larger living world: fields, orchards, flowing rivers and distant homes. 7–10s: the group advances farther along the path, small against the vast landscape, while clouds drift gently and a few distant birds cross the sky. A soft warm glimmer gradually flows across the existing distant clock face. At this wide distance its hand does not need to be distinguishable; do not invent a new hand, change the face geometry or enlarge the clock. Preserve Jihoon's green book, backpack and secured rolled certificate. The mood is an open-ended discovery journey, not a victory poster.\n[CONSTRAINTS] Keep a real, continuous walking journey with visible foot contact and changing location, not walking in place or a frozen picture with digital zoom. Stable anatomy, no sliding feet, teleporting, duplicated limbs or characters. No new text, titles, interface, reward cards, montage, transitions inside the shot, dialogue, sound or music. Keep the lower subtitle margin free of new important details.",
+      "pageReference": "library-file:fde1_bGliZmlsZV9oQ1lRR2ZnV1k2dUFfSE5qZmZVWTd3_FileDrive_faad31a6e6d081919fa7e2e772abebf0"
+    }
+  ]
+}

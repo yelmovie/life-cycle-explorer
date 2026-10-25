@@ -1,0 +1,11 @@
+#boot-screen{position:fixed;inset:0;z-index:200;background:#244d39;color:#fffbed;display:grid;place-content:center;justify-items:center;gap:20px;padding:24px;text-align:center;font:22px/1.5 'Malgun Gothic',sans-serif}
+#boot-screen[hidden],#connection-status[hidden]{display:none}
+#boot-screen h1{font-size:clamp(30px,5vw,52px);margin:0;color:#e6c77d}
+#boot-message{max-width:540px;margin:0}
+#boot-progress{width:min(360px,70vw);height:16px;accent-color:#e6c77d}
+#boot-retry,#connection-status button{min-height:48px;border:2px solid #e6c77d;border-radius:12px;background:#fffbed;color:#244d39;padding:10px 18px;font:inherit;cursor:pointer}
+#connection-status{position:fixed;bottom:8px;left:50%;transform:translateX(-50%);z-index:150;max-width:min(760px,calc(100vw - 32px));display:flex;align-items:center;gap:12px;border:1px solid #d4bf83;border-radius:14px;background:#fffbed;color:#244d39;box-shadow:0 3px 15px #102d2840;padding:10px 18px;font:16px/1.4 'Malgun Gothic',sans-serif}
+#connection-status{pointer-events:none}
+#connection-status button{pointer-events:auto}
+#connection-status[data-offline=true]{border-color:#9b7336}
+@media(max-width:700px){#connection-status{width:calc(100vw - 32px);padding:8px 12px}}

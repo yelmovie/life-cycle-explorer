@@ -1,0 +1,54 @@
+import {createRequire} from 'node:module';
+import {mkdir,readFile,writeFile} from 'node:fs/promises';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import {fileURLToPath} from 'node:url';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),out=path.join(root,'.tmp/ui-acceptance');
+await mkdir(out,{recursive:true});process.env.TEMP=out;process.env.TMP=out;
+const require=createRequire(import.meta.url),{chromium}=require('C:/Users/bongb/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const s=JSON.parse(await readFile(path.join(root,'.tmp/recovery-play/earned-state.json'),'utf8'));
+s.fieldView='room';s.field.active=0;s.field.completed=[];s.field.chapters[0].generation='';s.audio={bgm:false,sfx:false,volume:.2};s.settings.reducedMotion=true;
+const browser=await chromium.launch({channel:'chrome',headless:true}),context=await browser.newContext({viewport:{width:873,height:580},hasTouch:true}),page=await context.newPage(),errors=[],checks=[];
+page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400)errors.push(`${r.status()} ${r.url()}`);});
+try{
+ await page.addInitScript(value=>{localStorage.setItem('life-clock-lab.phaser.4',JSON.stringify(value));let phaser;Object.defineProperty(window,'Phaser',{configurable:true,get:()=>phaser,set(value){phaser=value;const Game=value.Game;value.Game=class extends Game{constructor(...args){super(...args);window.__qaGame=this;}};}});},s);
+ await page.goto(process.env.BASE_URL||'http://127.0.0.1:4186',{waitUntil:'domcontentloaded'});await page.locator('.boot').waitFor({state:'detached'});
+ const b=await page.locator('canvas').boundingBox(),scale=b.width/1280;
+ // Begin 22 physical pixels off center, beyond the tiny egg picture but inside its 48px target.
+ await page.mouse.move(b.x+650*scale+22,b.y+440*scale);await page.mouse.down();await page.mouse.move(b.x+915*scale,b.y+440*scale,{steps:12});await page.mouse.up();
+ await page.waitForFunction(()=>JSON.parse(localStorage.getItem('life-clock-lab.phaser.4')).field.chapters[0].generation==='next-egg');checks.push('Tiny egg can be dragged from the expanded 48px touch target.');
+ const before=await page.evaluate(()=>localStorage.getItem('life-clock-lab.phaser.4'));
+ await page.setViewportSize({width:768,height:1024});await page.waitForTimeout(180);
+ assert.equal(await page.locator('.portrait').isVisible(),true);await page.screenshot({path:path.join(out,'portrait.png')});
+ await page.setViewportSize({width:1280,height:800});await page.waitForTimeout(180);
+ assert.equal(await page.locator('.portrait').isVisible(),false);assert.equal(await page.evaluate(()=>localStorage.getItem('life-clock-lab.phaser.4')),before);
+ checks.push('Portrait guidance appears; rotating back keeps the exact saved exploration state.');
+ await page.setViewportSize({width:375,height:812});await page.reload({waitUntil:'domcontentloaded'});await page.locator('.boot').waitFor({state:'detached'});
+ await page.waitForTimeout(250);await page.screenshot({path:path.join(out,'phone-orientation.png')});
+ const phone=await page.locator('.portrait').evaluate(el=>({visible:!!el.getClientRects().length,blocking:getComputedStyle(el).pointerEvents==='auto',covered:el.contains(document.elementFromPoint(200,400))}));
+ assert.deepEqual(phone,{visible:true,blocking:true,covered:true});const phoneState=await page.evaluate(()=>localStorage.getItem('life-clock-lab.phaser.4'));
+ await page.screenshot({path:path.join(out,'phone-orientation.png')});await page.setViewportSize({width:812,height:375});await page.waitForTimeout(180);
+ assert.equal(await page.locator('.portrait').isVisible(),false);assert.equal(await page.evaluate(()=>localStorage.getItem('life-clock-lab.phaser.4')),phoneState);
+ checks.push('A fresh phone portrait load blocks the game with rotation guidance; landscape restores access without changing stored work.');
+ await page.setViewportSize({width:1280,height:800});await page.waitForTimeout(180);
+ const token=await page.evaluate(()=>{
+  const scene=window.__qaGame.scene.getScene('field-world'),root=document.documentElement;
+  root.style.setProperty('--forest-900','#123456');scene.refresh();
+  return {dom:getComputedStyle(document.body).color,canvas:scene.children.list.filter(o=>o.type==='Text').map(o=>o.style.color)};
+ });
+ assert.equal(token.dom,'rgb(18, 52, 86)');assert.ok(token.canvas.includes('#123456'));checks.push('A single shared ink token changes DOM text and Phaser labels.');
+ await page.evaluate(()=>{document.documentElement.style.removeProperty('--forest-900');window.__qaGame.scene.getScene('field-world').refresh();});
+ await page.locator('#app [data-action=settings]').click();
+ await page.locator('summary').filter({hasText:'앱 정보 · 배움과 보상'}).click();
+ const boxes=await page.evaluate(()=>{const el=document.querySelector('.settings-section-body p');if(!el)return null;const saved=el.textContent;el.textContent='짧은 안내';const short=el.getBoundingClientRect().height;el.textContent='관찰한 특징을 기록하고 다음 생물의 모습과 비교해 봐. '.repeat(12);const long=el.getBoundingClientRect().height;el.textContent='짧은 안내';const reduced=el.getBoundingClientRect().height;el.textContent=saved;return {short,long,reduced};});
+ assert.ok(boxes?.long>boxes?.short);assert.equal(boxes.reduced,boxes.short);checks.push('Copy boxes grow with long content and shrink again for short content.');
+ await page.locator('summary').filter({hasText:'교사용 가이드'}).first().click();await page.locator('summary').filter({hasText:'교사용 도구'}).first().click();await page.locator('[data-action=teacher-preview]').click();
+ await page.waitForTimeout(350);await page.locator('#map-doors [data-chapter="0"]').click();await page.locator('.teacher-phase').waitFor({state:'visible'});
+ const chooser=page.locator('.teacher-phase');await chooser.click();
+ assert.equal(await chooser.evaluate(el=>el.matches(':open')),true);await page.screenshot({path:path.join(out,'teacher-mouse-picker.png')});await page.keyboard.press('Home');await page.keyboard.press('Enter');
+ assert.equal(await chooser.inputValue(),'search');const control=await chooser.boundingBox();await page.touchscreen.tap(control.x+control.width/2,control.y+control.height/2);
+ assert.equal(await chooser.evaluate(el=>el.matches(':open')),true);await page.keyboard.press('End');await page.keyboard.press('Enter');assert.equal(await chooser.inputValue(),'discovery');
+ checks.push('The teacher native picker opens from actual mouse and touch input, then switches activities.');
+ assert.deepEqual(errors,[]);
+ await writeFile(path.join(out,'result.json'),JSON.stringify({checks,token,boxes,errors},null,2));console.log(JSON.stringify({checks,errors}));
+}finally{await browser.close();}

@@ -1,0 +1,110 @@
+{
+  "page": "https://chatgpt.com/space/page_460460032f588191b5ef86b6e3b246d6",
+  "verifiedAt": "2026-10-24",
+  "images": [
+    {
+      "id": "intro-01-stopped-clock",
+      "page_id": "page_460460032f588191b5ef86b6e3b246d6",
+      "reference": "library-file:fde1_bGliZmlsZV9pRGJ5ZUxlcEh4ZGY0NFpZTkhFamJ3_FileDrive_faad31a6e6d081919fa7e2e772abebf0",
+      "file_name": "intro-01-stopped-clock-72c24eeb49cf42e9928696923da8186b.png",
+      "mime_type": "image/png",
+      "byte_size": 3277879,
+      "sha256": "1289499b1a7a1d8e6da2f38712bccdcc803ec3ec8d86b5fb8afdaebda7f5085a",
+      "file_access_confirmed": true,
+      "is_image": true,
+      "markdown": "![intro-01-stopped-clock](library-file:fde1_bGliZmlsZV9pRGJ5ZUxlcEh4ZGY0NFpZTkhFamJ3_FileDrive_faad31a6e6d081919fa7e2e772abebf0)",
+      "inserted": false,
+      "next_step": "Read the Page and use edit_page with its fresh guards to insert markdown."
+    },
+    {
+      "id": "intro-02-seed-question",
+      "page_id": "page_460460032f588191b5ef86b6e3b246d6",
+      "reference": "library-file:fde1_bGliZmlsZV9HTE9SUzdOVWdPQUx4X3ZaRG5ib3JR_FileDrive_faad31a6e6d081919fa7e2e772abebf0",
+      "file_name": "intro-02-seed-question-d4d47e1e99354061b3f10e4b5f9e36ff.png",
+      "mime_type": "image/png",
+      "byte_size": 2485450,
+      "sha256": "9ca7598bc11ab5623cbd8d07d987d5d6f682e80dc0ef1833401ba78e4e607eb1",
+      "file_access_confirmed": true,
+      "is_image": true,
+      "markdown": "![intro-02-seed-question](library-file:fde1_bGliZmlsZV9HTE9SUzdOVWdPQUx4X3ZaRG5ib3JR_FileDrive_faad31a6e6d081919fa7e2e772abebf0)",
+      "inserted": false,
+      "next_step": "Read the Page and use edit_page with its fresh guards to insert markdown."
+    },
+    {
+      "id": "intro-03-invitation",
+      "page_id": "page_460460032f588191b5ef86b6e3b246d6",
+      "reference": "library-file:fde1_bGliZmlsZV84VC1mLW1zclBKSnd5OXNPdDZpRXFB_FileDrive_faad31a6e6d081919fa7e2e772abebf0",
+      "file_name": "intro-03-invitation-6a872649d93349d2b39cb7c00ce12179.png",
+      "mime_type": "image/png",
+      "byte_size": 3085722,
+      "sha256": "775d8dcba1e19623e9d9e7b1419304af898f06db198a175931d52a34afe33f1d",
+      "file_access_confirmed": true,
+      "is_image": true,
+      "markdown": "![intro-03-invitation](library-file:fde1_bGliZmlsZV84VC1mLW1zclBKSnd5OXNPdDZpRXFB_FileDrive_faad31a6e6d081919fa7e2e772abebf0)",
+      "inserted": false,
+      "next_step": "Read the Page and use edit_page with its fresh guards to insert markdown."
+    },
+    {
+      "id": "finale-01-evidence-book",
+      "page_id": "page_460460032f588191b5ef86b6e3b246d6",
+      "reference": "library-file:fde1_bGliZmlsZV93cnUtZXp5aEJuVFRwV2dyalhzOG5R_FileDrive_faad31a6e6d081919fa7e2e772abebf0",
+      "file_name": "finale-01-evidence-book-a359fe7c63f34f35ae3f0b83136056ac.png",
+      "mime_type": "image/png",
+      "byte_size": 2407656,
+      "sha256": "2d1c55e0ffc97e2f9ae4584e2d1425526c53b90f33484c1cc07f829c8cca34b4",
+      "file_access_confirmed": true,
+      "is_image": true,
+      "markdown": "![finale-01-evidence-book](library-file:fde1_bGliZmlsZV93cnUtZXp5aEJuVFRwV2dyalhzOG5R_FileDrive_faad31a6e6d081919fa7e2e772abebf0)",
+      "inserted": false,
+      "next_step": "Read the Page and use edit_page with its fresh guards to insert markdown."
+    },
+    {
+      "id": "finale-02-clock-restored",
+      "page_id": "page_460460032f588191b5ef86b6e3b246d6",
+      "reference": "library-file:fde1_bGliZmlsZV8zR2NYX0lXUnRJcld3M2hma3J1emp3_FileDrive_faad31a6e6d081919fa7e2e772abebf0",
+      "file_name": "finale-02-clock-restored-360cfecda9a24fcb9d2116c1cb902306.png",
+      "mime_type": "image/png",
+      "byte_size": 3183763,
+      "sha256": "7694059c7731efd2e42bf5681f3b3c602f49aa27812e8249fd881ca777f224a6",
+      "file_access_confirmed": true,
+      "is_image": true,
+      "markdown": "![finale-02-clock-restored](library-file:fde1_bGliZmlsZV8zR2NYX0lXUnRJcld3M2hma3J1emp3_FileDrive_faad31a6e6d081919fa7e2e772abebf0)",
+      "inserted": false,
+      "next_step": "Read the Page and use edit_page with its fresh guards to insert markdown."
+    },
+    {
+      "id": "finale-03-explorer-certificate",
+      "page_id": "page_460460032f588191b5ef86b6e3b246d6",
+      "reference": "library-file:fde1_bGliZmlsZV91NmI4aG9ackFORjJDNGs1N1NlamRB_FileDrive_faad31a6e6d081919fa7e2e772abebf0",
+      "file_name": "finale-03-explorer-certificate-a53ec592fe774c59a32d21697833ced1.png",
+      "mime_type": "image/png",
+      "byte_size": 2789903,
+      "sha256": "04dc5742a8117db4cb44cdff6e03ed158f21e1ed4f4e9c692dd15170fb0d02af",
+      "file_access_confirmed": true,
+      "is_image": true,
+      "markdown": "![finale-03-explorer-certificate](library-file:fde1_bGliZmlsZV91NmI4aG9ackFORjJDNGs1N1NlamRB_FileDrive_faad31a6e6d081919fa7e2e772abebf0)",
+      "inserted": false,
+      "next_step": "Read the Page and use edit_page with its fresh guards to insert markdown."
+    }
+  ],
+  "characterSheet": {
+    "page_id": "page_460460032f588191b5ef86b6e3b246d6",
+    "reference": "library-file:fde1_bGliZmlsZV8zYUgwQlFoWTRqbDJzOWpEV2hDdnp3_FileDrive_faad31a6e6d081919fa7e2e772abebf0",
+    "file_name": "jihoon-identity-abe3a8cdc80c419da3d7ac763ccd426c.png",
+    "mime_type": "image/png",
+    "byte_size": 2018969,
+    "sha256": "cc76591bd526fe2a45ed8604c8e2d6e6c7642baebc8f2c7ff139c3b658a917f5",
+    "file_access_confirmed": true,
+    "is_image": true,
+    "markdown": "![지훈 캐릭터 일관성 · 3패널](library-file:fde1_bGliZmlsZV8zYUgwQlFoWTRqbDJzOWpEV2hDdnp3_FileDrive_faad31a6e6d081919fa7e2e772abebf0)",
+    "inserted": false,
+    "next_step": "Read the Page and use edit_page with its fresh guards to insert markdown."
+  },
+  "verification": {
+    "page": "https://chatgpt.com/space/page_460460032f588191b5ef86b6e3b246d6",
+    "images": 7,
+    "prompts": 6,
+    "srtBlocks": 2,
+    "shots": 6
+  }
+}

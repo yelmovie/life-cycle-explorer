@@ -1,0 +1,80 @@
+{
+  "date": "2026-10-24",
+  "version": "motion-v2",
+  "tool": "OpenAI built-in image_gen",
+  "generationCalls": 6,
+  "assets": [
+    {
+      "id": "intro-01-valley-village",
+      "file": "assets/video-production/20261024-motion/intro-01-valley-village.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a16986-8af7-76d2-87c6-291ab4cc090f\\exec-ab2a9aca-12cd-4353-8fe7-25221925fd01.png",
+      "bytes": 3473631,
+      "width": 1672,
+      "height": 941,
+      "sha256": "c72d915c0143ac7ff8f016095c1b892cad7c22f4408de32feca43cdb8b4d9781",
+      "sourceHashMatches": true,
+      "visuallyReviewed": true,
+      "pageReference": "library-file:fde1_bGliZmlsZV8yUGpScUFaTGN6YlJtRlZRVGxWNUhn_FileDrive_faad31a6e6d081919fa7e2e772abebf0"
+    },
+    {
+      "id": "intro-02-village-lane",
+      "file": "assets/video-production/20261024-motion/intro-02-village-lane.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a16986-8af7-76d2-87c6-291ab4cc090f\\exec-1ebdd02e-6dfd-4c16-bef4-e0da791ce33b.png",
+      "bytes": 3057332,
+      "width": 1672,
+      "height": 941,
+      "sha256": "c76473143b81fca05dd88a2efd4ab541ffce0f4999090bed4857cecc9214d665",
+      "sourceHashMatches": true,
+      "visuallyReviewed": true,
+      "pageReference": "library-file:fde1_bGliZmlsZV9wa3FwZEhJZnV0VEpWV1Zva3hnTVJB_FileDrive_faad31a6e6d081919fa7e2e772abebf0"
+    },
+    {
+      "id": "intro-03-enter-laboratory",
+      "file": "assets/video-production/20261024-motion/intro-03-enter-laboratory.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a16986-8af7-76d2-87c6-291ab4cc090f\\exec-e30ad4da-44c1-4408-bdca-1322fe0444ac.png",
+      "bytes": 2545164,
+      "width": 1672,
+      "height": 941,
+      "sha256": "6b6510a23d7cee1afc39a1732dc8a80f9b4b8990c2b02040f986c6faaf9dfe7b",
+      "sourceHashMatches": true,
+      "visuallyReviewed": true,
+      "pageReference": "library-file:fde1_bGliZmlsZV9xb0JuUGhDaHlRQ2Q2N2F5SVlOdnZB_FileDrive_faad31a6e6d081919fa7e2e772abebf0"
+    },
+    {
+      "id": "outro-01-leave-laboratory",
+      "file": "assets/video-production/20261024-motion/outro-01-leave-laboratory.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a16986-8af7-76d2-87c6-291ab4cc090f\\exec-0fe6673b-7696-4e86-b2bd-711ce5527bdf.png",
+      "bytes": 2665044,
+      "width": 1672,
+      "height": 941,
+      "sha256": "a79277c7175a0536873eaa167a8b1e1fc9fd71d6878811b2c148aa631a8047d5",
+      "sourceHashMatches": true,
+      "visuallyReviewed": true,
+      "pageReference": "library-file:fde1_bGliZmlsZV9JSW8ta3NYbFNNZFVwSEtXVTIyMS1B_FileDrive_faad31a6e6d081919fa7e2e772abebf0"
+    },
+    {
+      "id": "outro-02-living-village-bridge",
+      "file": "assets/video-production/20261024-motion/outro-02-living-village-bridge.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a16986-8af7-76d2-87c6-291ab4cc090f\\exec-63d0533e-17a5-4149-832a-8de8ae6f0f16.png",
+      "bytes": 3378102,
+      "width": 1672,
+      "height": 941,
+      "sha256": "e4b36d9011ea78559034cde7465a3b55068f0eeb639d77b128a2a65c45ba2d9c",
+      "sourceHashMatches": true,
+      "visuallyReviewed": true,
+      "pageReference": "library-file:fde1_bGliZmlsZV8xZFZLcllocldhaTFjY2kxWUdsWUFB_FileDrive_faad31a6e6d081919fa7e2e772abebf0"
+    },
+    {
+      "id": "outro-03-world-beyond",
+      "file": "assets/video-production/20261024-motion/outro-03-world-beyond.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a16986-8af7-76d2-87c6-291ab4cc090f\\exec-be1fb201-c8ce-4588-9934-b73dcdad4596.png",
+      "bytes": 3297348,
+      "width": 1672,
+      "height": 941,
+      "sha256": "660fe9a71433967aca7afce0ac328b533ab2e8f9798cdea189587b29ee2b159a",
+      "sourceHashMatches": true,
+      "visuallyReviewed": true,
+      "pageReference": "library-file:fde1_bGliZmlsZV9oQ1lRR2ZnV1k2dUFfSE5qZmZVWTd3_FileDrive_faad31a6e6d081919fa7e2e772abebf0"
+    }
+  ]
+}

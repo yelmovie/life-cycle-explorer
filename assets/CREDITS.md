@@ -1,5 +1,37 @@
 # 에셋 출처 · 저작권 기록
 
+## 2026-10-24 · 마을 여행 인트로·아웃트로 새 버전
+
+- 사용자 요청에 따라 정면 정적 구도를 마을 전경·골목 이동·연구소 입퇴장·다리 횡단·넓은 계곡으로 바꾼 초기 이미지 6장을 내장 OpenAI image_gen으로 새로 생성했다.
+- `video-production/20261024-motion/`에 원본 PNG를 보관한다. 사용한 참조와 실제 생성 프롬프트는 `../docs/video-production/20261024-motion/image-prompts.json`, 생성 출력·치수·SHA-256은 같은 폴더 `asset-manifest.json`에 기록했다. 기존 지훈·잎새·도토와 마을 자산을 외형·세계관 참조로 사용했다.
+- 영상 프롬프트 6개·장면 연결·자막·기존 음악 편집안은 같은 폴더 README/production.json/SRT에 있다. 실제 동영상은 생성하지 않았으며 이 PNG들은 게임 런타임에 연결하지 않은 제작 자료다. 이전 `20261024/` 버전은 보존했다.
+
+## 2026-10-24 · 관찰 도구·생물·영상 제작 자료
+
+- 관찰 돋보기·연구노트, 같은 품종의 개 3단계는 기존 중단 작업에서 내장 OpenAI image_gen으로 생성했다. `field/observation-notebook-generation.json`, `field/dog-life-generation.json`에 생성 기록을 보관한다. 원본은 `field/source/`, 실행 WebP는 알파를 유지한다.
+- 온전한 잎 참고 모형·목질 줄기가 있는 장미는 `field/science-recovery-generation.json`의 프롬프트로 생성했다. 각각 `leaf-isolated-v1.webp`, `rose-shrub-v1.webp`이며 불투명 배경 및 잘못 연결된 배경 그림을 대신한다.
+- 연구노트 글씨는 Nanum Pen Script, SIL OFL이다. 로컬 WOFF2와 `fonts/NanumPenScript-OFL.txt`를 배포한다.
+- 인트로·파이널 기준 이미지 6장과 지훈 3패널은 이전 생성 결과를 복구했다. `../docs/video-production/20261024/asset-manifest.json`에 원본 해시와 대응 경로를 보관한다. 영상 생성 프롬프트·자막은 같은 폴더 README/SRT에 있다. 실제 인트로·파이널 동영상 파일은 생성하지 않았다.
+- care/seasons 개념 영상은 같은 개체와 새잎·다음 세대 구분을 반영해 재렌더했다. 검증: `../docs/reviews/SCIENCE-RECOVERY-20261024.md`.
+
+## 2026-10-24 · 사용자 제공 메인·엔딩 테마
+
+- 사용자가 Suno로 제작해 제공한 `Main_The Garden Blooms.mp3`와 `Final_Rising Motif.mp3`를 각각 `audio/music/main-theme.mp3`, `audio/music/ending-theme.mp3`로 정리했다. 재인코딩하지 않았으며 이동 전후 SHA-256이 일치한다.
+- 메인 곡은 67.88초, 엔딩 곡은 172.8초다. 두 곡 모두 스테레오 48kHz MP3이며 길이·원래 파일명·해시는 `audio/music/manifest.json`에 기록했다. 기존 Kenney 효과음의 CC0 고지와 별도로 관리한다.
+- 2026-10-24 사용자 확인: 두 곡 모두 생성 당시 유료 요금제를 사용했다. 이 기록은 사용자의 확인에 근거하며, 계정을 직접 열람하거나 영수증을 검증한 기록은 아니다.
+
+## 2026-10-23 · 시작 화면 제목 로고
+
+- ‘생명 시계 연구실’ 두 줄 제목은 내장 OpenAI image_gen으로 생성했다. 원문 프롬프트와 출력 ID는 `field/title-logo-generation.json`, 투명 배경 PNG 원본은 `field/source/title-logo-v1-20261023.png`에 보존한다.
+- 실행용 `field/title-logo-v1.webp`는 1200×668, 201,540 bytes다. 글자를 다시 그리거나 배경을 합성하지 않고 알파를 유지하며 크기와 형식을 최적화했다. 기존 지도·지훈·잎새·도토는 그대로 재사용한다.
+
+## 2026-10-22 · 0.7.0 영상·소리·조력자
+
+- 효과음 10개: [Kenney Interface Sounds](https://kenney.nl/assets/interface-sounds), [Impact Sounds](https://kenney.nl/assets/impact-sounds), CC0 1.0. 공식 다운로드의 고지 원문을 `audio/KENNEY-INTERFACE-LICENSE.txt`, `audio/KENNEY-IMPACT-LICENSE.txt`에 동봉한다. OGG를 mono 44.1kHz WAV로 변환하고 피크를 제한했다. `audio/manifest.json`에 원본 이름과 출력 해시를 기록한다. 외부 재생 요청 없이 로컬 제공하며, Kenney의 CC0 자료에는 프로젝트 자체 자료의 재배포 제한을 적용하지 않는다.
+- 도토: 내장 OpenAI image_gen으로 새로 만든 투명 배경 다람쥐. `field/doto-generation.json`에 프롬프트·출력 ID·해시, `field/source/doto-20261022.png`에 원본을 보존한다. 실행용 WebP는 420×440, 알파 보존이다.
+- 개념 영상 5편: 기존 프로젝트 생물·도구 그림과 자체 작성 SVG 모션을 sharp와 로컬 FFmpeg로 조합했다. 각 12초, 무음, H.264 MP4·VP9 WebM·포스터. 영상 내 한국어는 `field-concepts.js`의 DOM 자막과 범례다. `scripts/render-concepts.mjs`로 재제작할 수 있다. 도구 실행 파일과 원본은 배포하지 않는다.
+- 이전 기록의 “영상·음원 파일 없음”은 당시 버전에 대한 설명이다. 현재 빌드에는 위 영상과 효과음이 포함된다.
+
 ## 도구·라이선스 검토 (2026-10-21)
 
 | 도구·자료 | 쓰는 곳 | 라이선스·확인 근거 | 판정·조치 |

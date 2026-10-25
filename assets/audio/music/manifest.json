@@ -1,0 +1,31 @@
+{
+  "date": "2026-10-24",
+  "source": "User-provided Suno recordings",
+  "processing": "Renamed and moved without re-encoding; SHA-256 verified before and after relocation.",
+  "files": [
+    {
+      "id": "main",
+      "title": "The Garden Blooms",
+      "originalName": "Main_The Garden Blooms.mp3",
+      "file": "assets/audio/music/main-theme.mp3",
+      "durationSeconds": 67.88,
+      "sampleRate": 48000,
+      "channels": 2,
+      "bytes": 1625599,
+      "loop": true,
+      "sha256": "ae89f37b7d2882f4e1c840f16726fc1e37941a2e1457a301f20968da9478bd5a"
+    },
+    {
+      "id": "ending",
+      "title": "Rising Motif",
+      "originalName": "Final_Rising Motif.mp3",
+      "file": "assets/audio/music/ending-theme.mp3",
+      "durationSeconds": 172.8,
+      "sampleRate": 48000,
+      "channels": 2,
+      "bytes": 4126542,
+      "loop": false,
+      "sha256": "eecc69efcbacf44cb5b8823807b269ee4aaf1193e33bbbe184a6f59c2fd1e34c"
+    }
+  ]
+}

@@ -12,7 +12,7 @@ async function point(x,y){const b=await page.locator('canvas').boundingBox();ret
 async function drag(x,y,tx,ty){const a=await point(x,y),b=await point(tx,ty);await page.mouse.move(a.x,a.y);await page.mouse.down();await page.mouse.move(b.x,b.y,{steps:15});await page.mouse.up();await pause();}
 async function range(label,value){const l=page.getByRole('slider',{name:label,exact:true});await l.focus();await l.press('Home');for(let i=0;i<value;i++)await page.getByRole('slider',{name:label,exact:true}).press('ArrowRight');await pause();}
 async function enter(c){await click('#next');await page.waitForFunction(c=>document.querySelector('#app').dataset.view==='room'&&JSON.parse(localStorage.getItem('life-clock-lab.phaser.4')).field.active===c,c);await page.waitForTimeout(400);}
-async function complete(c){await click('#next');assert.deepEqual((await state()).field.completed,Array.from({length:c+1},(_,i)=>i));checks.push('chapter-'+c);console.log('PASS chapter',c);}
+async function complete(c){await click('#next');assert.deepEqual((await state()).field.completed,Array.from({length:c+1},(_,i)=>i));await page.locator('#concept-video').waitFor();await page.waitForFunction(()=>document.querySelector('#concept-video').readyState>=2);assert.equal(await page.locator('#concept-caption').isVisible(),true);await snap('concept-'+c);await click('#concept-finish');checks.push('chapter-'+c,'concept-'+c);console.log('PASS chapter + concept',c);}
 try{
  await page.goto(process.env.BASE_URL||'http://127.0.0.1:4202');await page.locator('.boot').waitFor({state:'detached'});await click('[data-action=start]');await click('[data-action=begin]');await enter(0);
  const forms=[['egg',325,250,160],['larva',460,445,215],['pupa',970,260,180],['adult',885,505,235]];

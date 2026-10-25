@@ -1,0 +1,1758 @@
+{
+  "date": "2026-10-22",
+  "base": "http://127.0.0.1:4207",
+  "pageErrors": [],
+  "requestFailures": [
+    {
+      "url": "http://127.0.0.1:4207/assets/concepts/butterfly.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/concepts/butterfly.webm",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/concepts/butterfly.mp4",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/concepts/butterfly.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/game/bg2.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/game/vessel.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/game/soil.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/game/seed0.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/game/pot0.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/game/pot1.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/game/pot2.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/game/pot3.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/game/watercan.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/game/lamp.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/expedition/plantSensor.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/game/bg2.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/game/vessel.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/game/soil.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/game/seed0.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/game/pot0.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/game/pot1.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/game/pot2.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/game/pot3.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/game/watercan.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/game/lamp.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/expedition/plantSensor.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/game/bg2.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/game/vessel.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/game/soil.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/game/seed0.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/game/pot0.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/game/pot1.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/game/pot2.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/game/pot3.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/game/watercan.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/game/lamp.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/assets/expedition/plantSensor.webp",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    },
+    {
+      "url": "http://127.0.0.1:4207/",
+      "error": "net::ERR_INTERNET_DISCONNECTED",
+      "offline": true
+    }
+  ],
+  "offline": {
+    "active": false,
+    "notice": {
+      "online": false,
+      "status": "",
+      "guide": "도토의 탐구 단서돋보기를 잡고 생물 가까이 끌어 봐.조작 위치다음 단서"
+    },
+    "currentActivity": true,
+    "savedNote": "연결이 끊긴 동안에도 애벌레의 마디와 작은 다리를 관찰했어.",
+    "conceptFallback": "영상 대신 핵심 장면을 함께 살펴봐.\n\n알에서 깨어난 애벌레가 먹이를 먹으며 자라.\n번데기를 거쳐 날개가 있는 어른벌레가 돼.\n어른벌레가 낳은 알은 다음 세대의 새 생명이야.",
+    "nextChapter": {
+      "active": 1,
+      "status": "일부 그림을 불러오지 못했어. 연결을 확인한 뒤 다시 열어 줘.",
+      "failures": [
+        "http://127.0.0.1:4207/assets/concepts/butterfly.webp",
+        "http://127.0.0.1:4207/assets/concepts/butterfly.webp",
+        "http://127.0.0.1:4207/assets/game/bg2.webp",
+        "http://127.0.0.1:4207/assets/game/vessel.webp",
+        "http://127.0.0.1:4207/assets/game/soil.webp",
+        "http://127.0.0.1:4207/assets/game/seed0.webp",
+        "http://127.0.0.1:4207/assets/game/pot0.webp",
+        "http://127.0.0.1:4207/assets/game/pot1.webp",
+        "http://127.0.0.1:4207/assets/game/pot2.webp",
+        "http://127.0.0.1:4207/assets/game/pot3.webp",
+        "http://127.0.0.1:4207/assets/game/watercan.webp",
+        "http://127.0.0.1:4207/assets/game/lamp.webp",
+        "http://127.0.0.1:4207/assets/expedition/plantSensor.webp",
+        "http://127.0.0.1:4207/assets/game/bg2.webp",
+        "http://127.0.0.1:4207/assets/game/vessel.webp",
+        "http://127.0.0.1:4207/assets/game/soil.webp",
+        "http://127.0.0.1:4207/assets/game/seed0.webp",
+        "http://127.0.0.1:4207/assets/game/pot0.webp",
+        "http://127.0.0.1:4207/assets/game/pot1.webp",
+        "http://127.0.0.1:4207/assets/game/pot2.webp",
+        "http://127.0.0.1:4207/assets/game/pot3.webp",
+        "http://127.0.0.1:4207/assets/game/watercan.webp",
+        "http://127.0.0.1:4207/assets/game/lamp.webp",
+        "http://127.0.0.1:4207/assets/expedition/plantSensor.webp",
+        "http://127.0.0.1:4207/assets/game/bg2.webp",
+        "http://127.0.0.1:4207/assets/game/vessel.webp",
+        "http://127.0.0.1:4207/assets/game/soil.webp",
+        "http://127.0.0.1:4207/assets/game/seed0.webp",
+        "http://127.0.0.1:4207/assets/game/pot0.webp",
+        "http://127.0.0.1:4207/assets/game/pot1.webp",
+        "http://127.0.0.1:4207/assets/game/pot2.webp",
+        "http://127.0.0.1:4207/assets/game/pot3.webp",
+        "http://127.0.0.1:4207/assets/game/watercan.webp",
+        "http://127.0.0.1:4207/assets/game/lamp.webp",
+        "http://127.0.0.1:4207/assets/expedition/plantSensor.webp"
+      ]
+    },
+    "reload": {
+      "loadedApp": 0,
+      "error": "page.reload: net::ERR_INTERNET_DISCONNECTED"
+    },
+    "recovered": {
+      "sameField": true,
+      "note": "연결이 끊긴 동안에도 애벌레의 마디와 작은 다리를 관찰했어.",
+      "active": 1
+    }
+  },
+  "build": {
+    "generatedAt": "2026-10-22T09:57:39.467Z",
+    "totalBytes": 11022132,
+    "files": 128,
+    "sourceDifferences": []
+  },
+  "cold": {
+    "requests": 38,
+    "encodedBytes": 3249065,
+    "external": [],
+    "resources": [
+      {
+        "url": "http://127.0.0.1:4207/",
+        "type": "Document",
+        "encodedBytes": 1595,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Cache-Control": "no-cache",
+          "Connection": "keep-alive",
+          "Content-Length": "1043",
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Content-Type": "text/html; charset=utf-8",
+          "Date": "Thu, 22 Oct 2026 11:56:56 GMT",
+          "ETag": "W/\"413-1a15a01a660\"",
+          "Keep-Alive": "timeout=5",
+          "Last-Modified": "Tue, 20 Oct 2026 15:50:20 GMT",
+          "Referrer-Policy": "no-referrer",
+          "X-Content-Type-Options": "nosniff"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/game.css",
+        "type": "Stylesheet",
+        "encodedBytes": 31826,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"7a29-1a16301c1f0\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "31273",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:56 GMT",
+          "Content-Type": "text/css; charset=utf-8",
+          "Last-Modified": "Thu, 22 Oct 2026 09:47:02 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/vendor/phaser-3.90.0.min.js",
+        "type": "Script",
+        "encodedBytes": 1196686,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"12405a-1a14ed22f80\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "1196122",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:56 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Sun, 18 Oct 2026 11:42:40 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/game-app.js",
+        "type": "Script",
+        "encodedBytes": 28364,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"6c9c-1a16301ba20\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "27804",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:56 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Thu, 22 Oct 2026 09:47:00 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/game-model.js",
+        "type": "Script",
+        "encodedBytes": 7183,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"19e0-1a159e9d0d0\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "6624",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Tue, 20 Oct 2026 15:24:18 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/field-model.js",
+        "type": "Script",
+        "encodedBytes": 35650,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"8912-1a159f99fb0\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "35090",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Tue, 20 Oct 2026 15:41:34 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/field-content.js",
+        "type": "Script",
+        "encodedBytes": 3177,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"a3b-1a159e5a280\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "2619",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Tue, 20 Oct 2026 15:19:44 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/field-flow.js",
+        "type": "Script",
+        "encodedBytes": 8587,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"1f5c-1a15a0a0ad0\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "8028",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Tue, 20 Oct 2026 15:59:30 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/field-scenes.js",
+        "type": "Script",
+        "encodedBytes": 11564,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"2afc-1a162fcd050\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "11004",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Thu, 22 Oct 2026 09:41:38 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/game-metadata.js",
+        "type": "Script",
+        "encodedBytes": 1729,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"493-1a14f4f0870\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "1171",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Sun, 18 Oct 2026 13:59:02 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/ui-icons.js",
+        "type": "Script",
+        "encodedBytes": 2083,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"5f5-1a15b511190\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "1525",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Tue, 20 Oct 2026 21:56:42 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/game-settings.js",
+        "type": "Script",
+        "encodedBytes": 5211,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"122c-1a159ebf3b0\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "4652",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Tue, 20 Oct 2026 15:26:38 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/game-audio.js",
+        "type": "Script",
+        "encodedBytes": 7162,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"19cb-1a162f3b060\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "6603",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Thu, 22 Oct 2026 09:31:40 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/game-records.js",
+        "type": "Script",
+        "encodedBytes": 4399,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"f01-1a162fb3240\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "3841",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Thu, 22 Oct 2026 09:39:52 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/field-dialogs.js",
+        "type": "Script",
+        "encodedBytes": 9717,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"23c6-1a16301ba20\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "9158",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Thu, 22 Oct 2026 09:47:00 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/game-info.js",
+        "type": "Script",
+        "encodedBytes": 642,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"57-1a1630b7650\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "87",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Thu, 22 Oct 2026 09:57:38 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/field-concepts.js",
+        "type": "Script",
+        "encodedBytes": 7149,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"19be-1a1630b10c0\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "6590",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Thu, 22 Oct 2026 09:57:12 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/field-companion.js",
+        "type": "Script",
+        "encodedBytes": 5769,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"145a-1a162eefd40\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "5210",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Thu, 22 Oct 2026 09:26:32 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/inquiry-core.js",
+        "type": "Script",
+        "encodedBytes": 16470,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"3e26-1a142a39820\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "15910",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Fri, 16 Oct 2026 02:56:20 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/expedition.js",
+        "type": "Script",
+        "encodedBytes": 12272,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"2dc0-1a14f4a6cc0\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "11712",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Sun, 18 Oct 2026 13:54:00 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/game-assets.js",
+        "type": "Script",
+        "encodedBytes": 3704,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"c4a-1a159f78c70\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "3146",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Tue, 20 Oct 2026 15:39:18 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/settings-content.js",
+        "type": "Script",
+        "encodedBytes": 5600,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"13b1-1a162f3c7d0\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "5041",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Thu, 22 Oct 2026 09:31:46 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/field-record-art.js",
+        "type": "Script",
+        "encodedBytes": 3403,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"b1d-1a159f8ec00\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "2845",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Tue, 20 Oct 2026 15:40:48 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/field-room-scenes.js",
+        "type": "Script",
+        "encodedBytes": 16582,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"3e96-1a162fc0d00\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "16022",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Thu, 22 Oct 2026 09:40:48 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/field-certificate.js",
+        "type": "Script",
+        "encodedBytes": 3129,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"a0b-1a15a00a490\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "2571",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Tue, 20 Oct 2026 15:49:14 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/adventure-export.js",
+        "type": "Script",
+        "encodedBytes": 14074,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"34ca-1a13fafa4b0\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "13514",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Thu, 15 Oct 2026 13:10:38 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/adventure-core.js",
+        "type": "Script",
+        "encodedBytes": 15581,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"3aad-1a13fb8bcd0\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "15021",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Thu, 15 Oct 2026 13:20:34 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/assets/fonts/jua-korean-400.woff2",
+        "type": "Font",
+        "encodedBytes": 368743,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "public, max-age=3600, must-revalidate",
+          "ETag": "W/\"59e2c-1a0c94fcf70\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "368172",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "font/woff2",
+          "Last-Modified": "Tue, 22 Sep 2026 13:30:46 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/assets/fonts/jua-latin-400.woff2",
+        "type": "Font",
+        "encodedBytes": 17189,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "public, max-age=3600, must-revalidate",
+          "ETag": "W/\"40ec-1a0c94fcf70\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "16620",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "font/woff2",
+          "Last-Modified": "Tue, 22 Sep 2026 13:30:46 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/assets/expedition/guideStory.webp",
+        "type": "Image",
+        "encodedBytes": 97988,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "public, max-age=3600, must-revalidate",
+          "ETag": "W/\"17c8a-1a14f580150\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "97418",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "image/webp",
+          "Last-Modified": "Sun, 18 Oct 2026 14:08:50 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/assets/game/ipsae.webp",
+        "type": "Image",
+        "encodedBytes": 53225,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "public, max-age=3600, must-revalidate",
+          "ETag": "W/\"cdb0-1a14ee00a60\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "52656",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "image/webp",
+          "Last-Modified": "Sun, 18 Oct 2026 11:57:48 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/assets/field/doto.webp",
+        "type": "Image",
+        "encodedBytes": 52707,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "public, max-age=3600, must-revalidate",
+          "ETag": "W/\"cbaa-1a162f30c50\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "52138",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "image/webp",
+          "Last-Modified": "Thu, 22 Oct 2026 09:30:58 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/assets/expedition/forest-world.webp",
+        "type": "XHR",
+        "encodedBytes": 727945,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "public, max-age=3600, must-revalidate",
+          "ETag": "W/\"b194e-1a14f1199e0\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "727374",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "image/webp",
+          "Last-Modified": "Sun, 18 Oct 2026 12:51:56 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/assets/game/ipsae.webp",
+        "type": "XHR",
+        "encodedBytes": 0,
+        "status": 200,
+        "cache": true,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "public, max-age=3600, must-revalidate",
+          "ETag": "W/\"cdb0-1a14ee00a60\"",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "52656",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "image/webp",
+          "Last-Modified": "Sun, 18 Oct 2026 11:57:48 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/assets/field/doto.webp",
+        "type": "XHR",
+        "encodedBytes": 0,
+        "status": 200,
+        "cache": true,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "public, max-age=3600, must-revalidate",
+          "ETag": "W/\"cbaa-1a162f30c50\"",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "52138",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "image/webp",
+          "Last-Modified": "Thu, 22 Oct 2026 09:30:58 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/assets/expedition/guideLook.webp",
+        "type": "XHR",
+        "encodedBytes": 103123,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "public, max-age=3600, must-revalidate",
+          "ETag": "W/\"19098-1a14f5774b0\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "102552",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "image/webp",
+          "Last-Modified": "Sun, 18 Oct 2026 14:08:14 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/assets/expedition/guideStory.webp",
+        "type": "XHR",
+        "encodedBytes": 0,
+        "status": 200,
+        "cache": true,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "public, max-age=3600, must-revalidate",
+          "ETag": "W/\"17c8a-1a14f580150\"",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "97418",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "image/webp",
+          "Last-Modified": "Sun, 18 Oct 2026 14:08:50 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/assets/game/walk.webp",
+        "type": "XHR",
+        "encodedBytes": 368837,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "public, max-age=3600, must-revalidate",
+          "ETag": "W/\"59e8a-1a14ee06820\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "368266",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "image/webp",
+          "Last-Modified": "Sun, 18 Oct 2026 11:58:12 GMT"
+        }
+      }
+    ]
+  },
+  "pwa": {
+    "manifest": false,
+    "registrations": 0,
+    "secureContext": true,
+    "online": true
+  },
+  "warm": {
+    "requests": 38,
+    "encodedBytes": 14748,
+    "external": [],
+    "resources": [
+      {
+        "url": "http://127.0.0.1:4207/",
+        "type": "Document",
+        "encodedBytes": 540,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Cache-Control": "no-cache",
+          "Content-Length": "1043",
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Content-Type": "text/html; charset=utf-8",
+          "Date": "Thu, 22 Oct 2026 11:56:59 GMT",
+          "ETag": "W/\"413-1a15a01a660\"",
+          "Last-Modified": "Tue, 20 Oct 2026 15:50:20 GMT",
+          "Referrer-Policy": "no-referrer",
+          "X-Content-Type-Options": "nosniff"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/game.css",
+        "type": "Stylesheet",
+        "encodedBytes": 540,
+        "status": 304,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"7a29-1a16301c1f0\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:59 GMT",
+          "Content-Type": "text/css; charset=utf-8",
+          "Last-Modified": "Thu, 22 Oct 2026 09:47:02 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/vendor/phaser-3.90.0.min.js",
+        "type": "Script",
+        "encodedBytes": 549,
+        "status": 304,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"12405a-1a14ed22f80\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:59 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Sun, 18 Oct 2026 11:42:40 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/game-app.js",
+        "type": "Script",
+        "encodedBytes": 547,
+        "status": 304,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"6c9c-1a16301ba20\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:59 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Thu, 22 Oct 2026 09:47:00 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/assets/fonts/jua-korean-400.woff2",
+        "type": "Font",
+        "encodedBytes": 0,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "public, max-age=3600, must-revalidate",
+          "ETag": "W/\"59e2c-1a0c94fcf70\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "368172",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "font/woff2",
+          "Last-Modified": "Tue, 22 Sep 2026 13:30:46 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/assets/fonts/jua-latin-400.woff2",
+        "type": "Font",
+        "encodedBytes": 0,
+        "status": 200,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "public, max-age=3600, must-revalidate",
+          "ETag": "W/\"40ec-1a0c94fcf70\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "16620",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "font/woff2",
+          "Last-Modified": "Tue, 22 Sep 2026 13:30:46 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/game-model.js",
+        "type": "Script",
+        "encodedBytes": 547,
+        "status": 304,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"19e0-1a159e9d0d0\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:59 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Tue, 20 Oct 2026 15:24:18 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/field-model.js",
+        "type": "Script",
+        "encodedBytes": 547,
+        "status": 304,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"8912-1a159f99fb0\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:59 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Tue, 20 Oct 2026 15:41:34 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/field-content.js",
+        "type": "Script",
+        "encodedBytes": 546,
+        "status": 304,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"a3b-1a159e5a280\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:59 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Tue, 20 Oct 2026 15:19:44 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/field-flow.js",
+        "type": "Script",
+        "encodedBytes": 547,
+        "status": 304,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"1f5c-1a15a0a0ad0\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:59 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Tue, 20 Oct 2026 15:59:30 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/field-scenes.js",
+        "type": "Script",
+        "encodedBytes": 547,
+        "status": 304,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"2afc-1a162fcd050\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:59 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Thu, 22 Oct 2026 09:41:38 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/game-metadata.js",
+        "type": "Script",
+        "encodedBytes": 546,
+        "status": 304,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"493-1a14f4f0870\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:59 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Sun, 18 Oct 2026 13:59:02 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/ui-icons.js",
+        "type": "Script",
+        "encodedBytes": 546,
+        "status": 304,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"5f5-1a15b511190\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:59 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Tue, 20 Oct 2026 21:56:42 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/game-settings.js",
+        "type": "Script",
+        "encodedBytes": 547,
+        "status": 304,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"122c-1a159ebf3b0\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:59 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Tue, 20 Oct 2026 15:26:38 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/game-audio.js",
+        "type": "Script",
+        "encodedBytes": 547,
+        "status": 304,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"19cb-1a162f3b060\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:59 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Thu, 22 Oct 2026 09:31:40 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/game-records.js",
+        "type": "Script",
+        "encodedBytes": 546,
+        "status": 304,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"f01-1a162fb3240\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:59 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Thu, 22 Oct 2026 09:39:52 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/field-dialogs.js",
+        "type": "Script",
+        "encodedBytes": 547,
+        "status": 304,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"23c6-1a16301ba20\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:59 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Thu, 22 Oct 2026 09:47:00 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/game-info.js",
+        "type": "Script",
+        "encodedBytes": 545,
+        "status": 304,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"57-1a1630b7650\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:59 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Thu, 22 Oct 2026 09:57:38 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/field-concepts.js",
+        "type": "Script",
+        "encodedBytes": 547,
+        "status": 304,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"19be-1a1630b10c0\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:59 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Thu, 22 Oct 2026 09:57:12 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/field-companion.js",
+        "type": "Script",
+        "encodedBytes": 547,
+        "status": 304,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"145a-1a162eefd40\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:59 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Thu, 22 Oct 2026 09:26:32 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/inquiry-core.js",
+        "type": "Script",
+        "encodedBytes": 547,
+        "status": 304,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"3e26-1a142a39820\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:59 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Fri, 16 Oct 2026 02:56:20 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/expedition.js",
+        "type": "Script",
+        "encodedBytes": 547,
+        "status": 304,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"2dc0-1a14f4a6cc0\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:59 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Sun, 18 Oct 2026 13:54:00 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/game-assets.js",
+        "type": "Script",
+        "encodedBytes": 546,
+        "status": 304,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"c4a-1a159f78c70\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:59 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Tue, 20 Oct 2026 15:39:18 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/field-room-scenes.js",
+        "type": "Script",
+        "encodedBytes": 547,
+        "status": 304,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"3e96-1a162fc0d00\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:59 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Thu, 22 Oct 2026 09:40:48 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/settings-content.js",
+        "type": "Script",
+        "encodedBytes": 547,
+        "status": 304,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"13b1-1a162f3c7d0\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:59 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Thu, 22 Oct 2026 09:31:46 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/field-record-art.js",
+        "type": "Script",
+        "encodedBytes": 546,
+        "status": 304,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"b1d-1a159f8ec00\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:59 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Tue, 20 Oct 2026 15:40:48 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/field-certificate.js",
+        "type": "Script",
+        "encodedBytes": 546,
+        "status": 304,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"a0b-1a15a00a490\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:59 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Tue, 20 Oct 2026 15:49:14 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/adventure-export.js",
+        "type": "Script",
+        "encodedBytes": 547,
+        "status": 304,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"34ca-1a13fafa4b0\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:59 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Thu, 15 Oct 2026 13:10:38 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/adventure-core.js",
+        "type": "Script",
+        "encodedBytes": 547,
+        "status": 304,
+        "cache": false,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "no-cache",
+          "ETag": "W/\"3aad-1a13fb8bcd0\"",
+          "Connection": "keep-alive",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Keep-Alive": "timeout=5",
+          "Date": "Thu, 22 Oct 2026 11:56:59 GMT",
+          "Content-Type": "text/javascript; charset=utf-8",
+          "Last-Modified": "Thu, 15 Oct 2026 13:20:34 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/assets/expedition/guideStory.webp",
+        "type": "Image",
+        "encodedBytes": 0,
+        "status": 200,
+        "cache": true,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "public, max-age=3600, must-revalidate",
+          "ETag": "W/\"17c8a-1a14f580150\"",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "97418",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "image/webp",
+          "Last-Modified": "Sun, 18 Oct 2026 14:08:50 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/assets/game/ipsae.webp",
+        "type": "Image",
+        "encodedBytes": 0,
+        "status": 200,
+        "cache": true,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "public, max-age=3600, must-revalidate",
+          "ETag": "W/\"cdb0-1a14ee00a60\"",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "52656",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "image/webp",
+          "Last-Modified": "Sun, 18 Oct 2026 11:57:48 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/assets/field/doto.webp",
+        "type": "Image",
+        "encodedBytes": 0,
+        "status": 200,
+        "cache": true,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "public, max-age=3600, must-revalidate",
+          "ETag": "W/\"cbaa-1a162f30c50\"",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "52138",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "image/webp",
+          "Last-Modified": "Thu, 22 Oct 2026 09:30:58 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/assets/expedition/forest-world.webp",
+        "type": "XHR",
+        "encodedBytes": 0,
+        "status": 200,
+        "cache": true,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "public, max-age=3600, must-revalidate",
+          "ETag": "W/\"b194e-1a14f1199e0\"",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "727374",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "image/webp",
+          "Last-Modified": "Sun, 18 Oct 2026 12:51:56 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/assets/game/ipsae.webp",
+        "type": "XHR",
+        "encodedBytes": 0,
+        "status": 200,
+        "cache": true,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "public, max-age=3600, must-revalidate",
+          "ETag": "W/\"cdb0-1a14ee00a60\"",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "52656",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "image/webp",
+          "Last-Modified": "Sun, 18 Oct 2026 11:57:48 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/assets/field/doto.webp",
+        "type": "XHR",
+        "encodedBytes": 0,
+        "status": 200,
+        "cache": true,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "public, max-age=3600, must-revalidate",
+          "ETag": "W/\"cbaa-1a162f30c50\"",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "52138",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "image/webp",
+          "Last-Modified": "Thu, 22 Oct 2026 09:30:58 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/assets/expedition/guideLook.webp",
+        "type": "XHR",
+        "encodedBytes": 0,
+        "status": 200,
+        "cache": true,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "public, max-age=3600, must-revalidate",
+          "ETag": "W/\"19098-1a14f5774b0\"",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "102552",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "image/webp",
+          "Last-Modified": "Sun, 18 Oct 2026 14:08:14 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/assets/expedition/guideStory.webp",
+        "type": "XHR",
+        "encodedBytes": 0,
+        "status": 200,
+        "cache": true,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "public, max-age=3600, must-revalidate",
+          "ETag": "W/\"17c8a-1a14f580150\"",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "97418",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "image/webp",
+          "Last-Modified": "Sun, 18 Oct 2026 14:08:50 GMT"
+        }
+      },
+      {
+        "url": "http://127.0.0.1:4207/assets/game/walk.webp",
+        "type": "XHR",
+        "encodedBytes": 0,
+        "status": 200,
+        "cache": true,
+        "headers": {
+          "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'",
+          "Cache-Control": "public, max-age=3600, must-revalidate",
+          "ETag": "W/\"59e8a-1a14ee06820\"",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "no-referrer",
+          "Content-Length": "368266",
+          "Date": "Thu, 22 Oct 2026 11:56:57 GMT",
+          "Content-Type": "image/webp",
+          "Last-Modified": "Sun, 18 Oct 2026 11:58:12 GMT"
+        }
+      }
+    ]
+  },
+  "storage": {
+    "utf8Bytes": 5045,
+    "utf16Bytes": 9890,
+    "initialBytes": 2897
+  },
+  "allExternalRequests": []
+}

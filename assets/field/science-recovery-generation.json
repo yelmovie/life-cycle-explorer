@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-24",
+  "tool": "built-in image_gen",
+  "assets": [
+    {
+      "key": "leaf",
+      "mode": "background-extraction",
+      "reference": "assets/game/leaf.webp",
+      "source": "assets/field/source/leaf-isolated-v1.png",
+      "output": "assets/field/leaf-isolated-v1.webp",
+      "prompt": "Use case: background-extraction. Asset type: transparent sprite for a primary-school plant observation game. Edit the provided leaf photo by removing the entire forest, tree trunk, flowers, wood, sunlight and background. Preserve only the single large green leaf with its natural veins, edges and attached short petiole at the right. Keep the leaf in the same broadside horizontal view and realistic botanical detail. No other leaves, no insects or eggs, no objects, no floor, no cast shadow, no text. Place the intact leaf with a small transparent margin on all four sides, and preserve its green color. Output true transparent alpha background."
+    },
+    {
+      "key": "rose",
+      "mode": "scientific-educational",
+      "source": "assets/field/source/rose-shrub-v1.png",
+      "output": "assets/field/rose-shrub-v1.webp",
+      "prompt": "Use case: scientific-educational. Asset type: transparent botanical cutout sprite for a Korean primary-school plant life-cycle game. Show one complete healthy rose shrub, front three-quarter view, with realistic small woody brown branching stems emerging from one shared base, green compound leaves with serrated leaflets, several pink rose flowers and one bud. This represents a perennial plant whose woody stem and roots can survive between years. Photorealistic natural botanical illustration consistent with realistic classroom observation sprites. Entire shrub visible, centered with generous transparent margin, compact rounded silhouette, no pot and no ground surface, roots not exposed, no garden or background, no people, no text, no labels, no watermark. True transparent alpha background."
+    }
+  ],
+  "processing": "PNG originals copied into project; resized inside 900×900 and encoded as WebP quality 90, alphaQuality 100. No pixel masking or background-removal postprocessing.",
+  "inspection": "Both outputs visually inspected, alpha channels present, isOpaque false. Original leaf and rose files preserved; original rose file is actually the scene-08 laboratory background."
+}

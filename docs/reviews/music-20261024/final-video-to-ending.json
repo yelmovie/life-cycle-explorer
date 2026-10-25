@@ -1,0 +1,10 @@
+{
+  "duration": 172.8,
+  "error": null,
+  "loop": false,
+  "paused": false,
+  "players": 1,
+  "src": "http://127.0.0.1:4208/assets/audio/music/ending-theme.mp3",
+  "theme": "ending",
+  "time": 35.621333
+}

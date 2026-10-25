@@ -1,0 +1,51 @@
+{
+  "date": "2026-10-24",
+  "mode": "builtin-imagegen",
+  "prompts": [
+    [
+      "dog-newborn",
+      "Use case: scientific-educational. Asset type: single transparent cutout sprite for Korean elementary science game 'Life Clock Lab'. Warm high quality naturalistic storybook rendering, soft painted 3D volume, clear anatomy, muted golden-brown palette. No text, no frame, no ground, no background, no border, no duplicate dogs, no accessories. Entire body fully inside image with 10% transparent margin. Exactly one individual golden retriever, same honey-golden fur family throughout life stages. Do not include a mother alongside a puppy. True alpha transparent background. A genuinely NEWBORN golden retriever puppy, only a few days old. Its eyes are closed, ears closed and folded close to head, very short legs tucked underneath a small plump curled body, tiny soft rounded muzzle, small paws. Resting safely on its belly in a three-quarter side view. Fine short golden cream newborn fur. Clearly anatomically neonatal, NOT a smiling open-eyed older puppy. No umbilical cord, no blood, no distress."
+    ],
+    [
+      "dog-juvenile",
+      "Use case: scientific-educational. Asset type: single transparent cutout sprite for Korean elementary science game 'Life Clock Lab'. Warm high quality naturalistic storybook rendering, soft painted 3D volume, clear anatomy, muted golden-brown palette. No text, no frame, no ground, no background, no border, no duplicate dogs, no accessories. Entire body fully inside image with 10% transparent margin. Exactly one individual golden retriever, same honey-golden fur family throughout life stages. Do not include a mother alongside a puppy. True alpha transparent background. A juvenile golden retriever, about four months old, clearly one young dog. Sitting in a three-quarter front view with full body and all paws visible; medium-short golden fur, floppy ears, open brown eyes, puppy proportions with relatively big paws, small friendly muzzle, youthful physique, naturally small relaxed mouth. NOT adult, NOT newborn. No second dog."
+    ],
+    [
+      "dog-adult",
+      "Use case: scientific-educational. Asset type: single transparent cutout sprite for Korean elementary science game 'Life Clock Lab'. Warm high quality naturalistic storybook rendering, soft painted 3D volume, clear anatomy, muted golden-brown palette. No text, no frame, no ground, no background, no border, no duplicate dogs, no accessories. Entire body fully inside image with 10% transparent margin. Exactly one individual golden retriever, same honey-golden fur family throughout life stages. Do not include a mother alongside a puppy. True alpha transparent background. A mature adult golden retriever, about three years old, clearly one adult dog. Standing in three-quarter side view looking gently forward with a relaxed friendly face, strong adult body, developed chest, full feathered tail, long honey-golden coat and floppy ears. Exact breed continuity with golden retriever puppy. All four paws visible. No second dog."
+    ]
+  ],
+  "assets": [
+    {
+      "key": "puppy",
+      "file": "assets/field/dog-newborn-v1.webp",
+      "source": "source/dog-newborn-v1.png",
+      "generation": "exec-b0afa890-4e28-4ba4-a2a2-9f07bf86cee1",
+      "note": "Neonatal puppy with closed eyes; generated alpha includes soft edge haze."
+    },
+    {
+      "key": "dogYoung",
+      "file": "assets/field/dog-juvenile-v1.webp",
+      "source": "source/dog-juvenile-v1.png",
+      "generation": "exec-25ec963f-208d-41ff-9718-974be59f78fa"
+    },
+    {
+      "key": "dog",
+      "file": "assets/field/dog-adult-v1.webp",
+      "source": "source/dog-adult-v1.png",
+      "generation": "exec-96414fdc-0bfa-47cc-9c5d-9f8c9b85d59d"
+    }
+  ],
+  "discarded": [
+    {
+      "generation": "exec-1bd16c46-8d89-4212-91c5-4a00b879bcfa",
+      "prompt": "Edit this newborn golden retriever cutout. Preserve the entire puppy exactly: closed eyes, folded ears, curled neonatal anatomy, golden cream fur, pose, proportions, lighting and soft scientific illustration style. Remove ALL brown glow, haze, aura, vignette, shadow and gradient around the puppy, including underneath it. The outer silhouette must be a clean true-alpha cutout of the puppy itself, fully opaque fur inside, naturally antialiased fur edges, immediately fully transparent empty background outside the fur. Do not change or crop the animal. No floor, no cast shadow, no added objects. The result will be placed over a colorful greenhouse scene, so no colored border can remain.",
+      "reason": "Repeated surrounding haze; no improvement."
+    },
+    {
+      "generation": "exec-aea695de-8570-4997-94df-bd7ff5abc5f0",
+      "prompt": "Scientific-educational game sprite. Exactly ONE newborn golden retriever puppy, 2 days old, eyes tightly closed, short folded ears, tiny short legs tucked under the belly, short round muzzle, pale honey cream fur. Full body from nose to curled tail. Lying on belly, side three-quarter view, biologically accurate neonatal anatomy. Crisp naturalistic illustrated cutout with clear fur silhouette, same soft realistic educational illustration style as a golden retriever juvenile sprite. Uniform neutral illumination on the puppy only. REAL FULLY TRANSPARENT background. NO background, NO ambient haze, NO glow, NO brown or beige vignette, NO aura, NO light spill, NO shadow, NO floor, NO surrounding soft gradients. Only opaque puppy fur pixels and antialiased silhouette edges; everything else empty transparent. Every corner and the entire space beyond the fur is zero alpha. Center animal with 10% empty transparent margin. No mother, no second animal, no text, no frame.",
+      "reason": "Repeated surrounding haze; retained first generation."
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "generatedAt": "2026-10-24",
+  "mode": "built-in image_gen",
+  "assets": [
+    {
+      "key": "observationLens",
+      "path": "assets/field/observation-lens-v1.webp",
+      "source": "assets/field/source/observation-lens-v1.png",
+      "generation": "exec-cad07cec-2e03-4052-a1af-b01933cd4e07",
+      "prompt": "Use case: stylized-concept. Create ONE polished game inventory sprite of a child explorer magnifying glass for a warm forest science adventure, inspired by the brass magnifier held by the supplied boy, but show ONLY the object, no character. Warm antique brass circular rim with a tiny carved leaf emblem, moss green wood handle angled down right, soft realistic painted 3D storybook materials. Perfect front view circular glass with a mostly clear pale blue lens, subtle tiny glints at upper left, no opaque scene reflection. Object entirely inside image, generous transparent padding, no ground or shadow plane, no words, no UI, no duplicate objects. Truly transparent background, alpha outside object. This will be dragged as an observation tool.",
+      "width": 1024,
+      "height": 1024,
+      "alpha": true
+    },
+    {
+      "key": "researchNotebook",
+      "path": "assets/field/research-notebook-v1.webp",
+      "source": "assets/field/source/research-notebook-v1.png",
+      "generation": "exec-875b1f32-351e-415e-b8d1-d82b27d39af6",
+      "prompt": "Use case: stylized-concept. Create a polished open child naturalist research notebook game UI background for a warm forest science adventure. Nearly front-facing flat open landscape notebook, ratio 3:2. Cream cotton paper, lightly worn rounded corners, subtle ruled lines on right page, thin green sewn central binding, a tiny pressed fern in upper left margin, two small masking tape pieces, restrained moss green and brass accent details. The pages must be 90 percent blank usable light writing surface, especially right page. Illustrate only the open notebook isolated with a soft subtle shadow immediately under it. No writing, no letters, no title, no photograph, no icons, no pencil crossing the writing area, no character, no table, no scene. Truly transparent alpha outside the notebook. Warm painted storybook 3D asset, crisp at tablet resolution.",
+      "width": 1200,
+      "height": 800,
+      "alpha": true
+    }
+  ],
+  "handwritingFont": {
+    "name": "Nanum Pen Script",
+    "alias": "Research Hand",
+    "path": "assets/fonts/research-hand-400.woff2",
+    "source": "https://github.com/google/fonts/tree/main/ofl/nanumpenscript",
+    "license": "SIL Open Font License 1.1",
+    "licensePath": "assets/fonts/NanumPenScript-OFL.txt",
+    "converted": "Lossless TTF→WOFF2 container conversion with fontTools; no glyph or naming edits",
+    "sha256": "3e32b2afe22e5414c14a2e5c3075a59f5fbe4c822d075667b5204c4f2fbcb109"
+  }
+}

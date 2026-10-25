@@ -1,0 +1,74 @@
+{
+  "date": "2026-10-24",
+  "tool": "OpenAI built-in image_gen (recovered prior-session outputs)",
+  "newGenerationCalls": 0,
+  "excludedVariant": "exec-78f748ac-4052-4d4f-9dd6-cdb53d7009de.png: superseded by elongated-egg correction",
+  "assets": [
+    {
+      "id": "intro-01-stopped-clock",
+      "file": "assets/video-production/20261024/intro-01-stopped-clock.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a16582-e33a-7a13-8352-1441ab4302f8\\exec-e8902c16-f95a-44e0-a1a4-dd98fed9c794.png",
+      "bytes": 3277879,
+      "width": 1672,
+      "height": 941,
+      "sha256": "1289499b1a7a1d8e6da2f38712bccdcc803ec3ec8d86b5fb8afdaebda7f5085a",
+      "sourceHashMatches": true,
+      "visuallyReviewed": true
+    },
+    {
+      "id": "intro-02-seed-question",
+      "file": "assets/video-production/20261024/intro-02-seed-question.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a16582-e33a-7a13-8352-1441ab4302f8\\exec-5bd34f90-3e03-4b13-81d7-13c7b36d96a9.png",
+      "bytes": 2485450,
+      "width": 1672,
+      "height": 941,
+      "sha256": "9ca7598bc11ab5623cbd8d07d987d5d6f682e80dc0ef1833401ba78e4e607eb1",
+      "sourceHashMatches": true,
+      "visuallyReviewed": true
+    },
+    {
+      "id": "intro-03-invitation",
+      "file": "assets/video-production/20261024/intro-03-invitation.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a16582-e33a-7a13-8352-1441ab4302f8\\exec-ea9f3e13-325d-43a8-8edb-81b3df720e69.png",
+      "bytes": 3085722,
+      "width": 1672,
+      "height": 941,
+      "sha256": "775d8dcba1e19623e9d9e7b1419304af898f06db198a175931d52a34afe33f1d",
+      "sourceHashMatches": true,
+      "visuallyReviewed": true
+    },
+    {
+      "id": "finale-01-evidence-book",
+      "file": "assets/video-production/20261024/finale-01-evidence-book.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a16582-e33a-7a13-8352-1441ab4302f8\\exec-4323e8b8-4898-4e96-8c01-251e5641df9c.png",
+      "bytes": 2407656,
+      "width": 1672,
+      "height": 941,
+      "sha256": "2d1c55e0ffc97e2f9ae4584e2d1425526c53b90f33484c1cc07f829c8cca34b4",
+      "sourceHashMatches": true,
+      "visuallyReviewed": true
+    },
+    {
+      "id": "finale-02-clock-restored",
+      "file": "assets/video-production/20261024/finale-02-clock-restored.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a16582-e33a-7a13-8352-1441ab4302f8\\exec-5c299f84-6d16-4dfa-b265-5382bb87ec75.png",
+      "bytes": 3183763,
+      "width": 1672,
+      "height": 941,
+      "sha256": "7694059c7731efd2e42bf5681f3b3c602f49aa27812e8249fd881ca777f224a6",
+      "sourceHashMatches": true,
+      "visuallyReviewed": true
+    },
+    {
+      "id": "finale-03-explorer-certificate",
+      "file": "assets/video-production/20261024/finale-03-explorer-certificate.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a16582-e33a-7a13-8352-1441ab4302f8\\exec-8b675823-4566-46ee-9ef6-efedd866bfbe.png",
+      "bytes": 2789903,
+      "width": 1672,
+      "height": 941,
+      "sha256": "04dc5742a8117db4cb44cdff6e03ed158f21e1ed4f4e9c692dd15170fb0d02af",
+      "sourceHashMatches": true,
+      "visuallyReviewed": true
+    }
+  ]
+}

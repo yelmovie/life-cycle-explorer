@@ -1,0 +1,2212 @@
+{
+  "date": "2026-10-24",
+  "summary": {
+    "images": {
+      "count": 223,
+      "bytes": 142539939,
+      "largest": "assets/expedition/source/forest-world.png"
+    },
+    "audio": {
+      "count": 12,
+      "bytes": 6061079,
+      "largest": "assets/audio/music/ending-theme.mp3"
+    },
+    "video": {
+      "count": 10,
+      "bytes": 1226445,
+      "largest": "assets/concepts/evidence.mp4"
+    },
+    "fonts": {
+      "count": 2,
+      "bytes": 384792,
+      "largest": "assets/fonts/jua-korean-400.woff2"
+    },
+    "models": {
+      "count": 0,
+      "bytes": 0,
+      "largest": null
+    }
+  },
+  "files": [
+    {
+      "path": "assets/scene-01.png",
+      "kind": "images",
+      "bytes": 2354179,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/scene-02.png",
+      "kind": "images",
+      "bytes": 2400152,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/scene-03.png",
+      "kind": "images",
+      "bytes": 2516658,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/scene-04.png",
+      "kind": "images",
+      "bytes": 2367053,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/scene-05.png",
+      "kind": "images",
+      "bytes": 2487232,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/scene-06.png",
+      "kind": "images",
+      "bytes": 2279986,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/scene-07.png",
+      "kind": "images",
+      "bytes": 2418339,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/scene-08.png",
+      "kind": "images",
+      "bytes": 1908765,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/scene-09.png",
+      "kind": "images",
+      "bytes": 2707138,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/scene-10.png",
+      "kind": "images",
+      "bytes": 2794374,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/title.png",
+      "kind": "images",
+      "bytes": 2336857,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/characters.png",
+      "kind": "images",
+      "bytes": 2190863,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/raw-png/08ba68a0-e485-48b9-aae1-ed18c752da27.png",
+      "kind": "images",
+      "bytes": 892441,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/raw-png/1181e293-93ab-4718-be43-8da4ce33e17e.png",
+      "kind": "images",
+      "bytes": 803306,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/raw-png/15add942-3c04-4095-8220-1e81fb0358f1.png",
+      "kind": "images",
+      "bytes": 382858,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/raw-png/245c6746-7ddb-49b3-b522-1bdb85c8d1eb.png",
+      "kind": "images",
+      "bytes": 865154,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/raw-png/3543334d-9fd4-4f06-95d6-a94a12348e07.png",
+      "kind": "images",
+      "bytes": 704958,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/raw-png/543de4ec-6c24-4c3a-83d4-fe484a254254.png",
+      "kind": "images",
+      "bytes": 332215,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/raw-png/785f1e6c-678f-449c-b716-3ba671151bbf.png",
+      "kind": "images",
+      "bytes": 98628,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/raw-png/8a06fc08-ae4a-4af9-aa70-393364f0bb16.png",
+      "kind": "images",
+      "bytes": 88428,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/raw-png/91297860-1d64-4fb4-8d0d-52b92b451716.png",
+      "kind": "images",
+      "bytes": 704958,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/raw-png/a759c441-5cce-4547-987e-a794140a3717.png",
+      "kind": "images",
+      "bytes": 463153,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/raw-png/ac942879-0065-4547-a0ba-573c766b0a39.png",
+      "kind": "images",
+      "bytes": 88428,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/raw-png/c1c75f63-7d7c-466b-9b84-d1764daaface.png",
+      "kind": "images",
+      "bytes": 463153,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/raw-png/ca5c3f7f-0eb8-417a-8e1f-da089c6eaaae.png",
+      "kind": "images",
+      "bytes": 803306,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/raw-png/ea03a81b-c79c-466d-aa97-648e410cd812.png",
+      "kind": "images",
+      "bytes": 865154,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/raw-png/f3053833-6c62-4e87-aea4-36c27f442767.png",
+      "kind": "images",
+      "bytes": 78968,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/m04-vessel.png",
+      "kind": "images",
+      "bytes": 1037973,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/m04-soil.png",
+      "kind": "images",
+      "bytes": 1273612,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/m04-bean-s0.png",
+      "kind": "images",
+      "bytes": 809330,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/m05-light-sensor.png",
+      "kind": "images",
+      "bytes": 866419,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/m04-bean-s3.png",
+      "kind": "images",
+      "bytes": 680020,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/m05-grow-lamp.png",
+      "kind": "images",
+      "bytes": 657626,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/m04-bean-s2.png",
+      "kind": "images",
+      "bytes": 532228,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/m04-bean-s1.png",
+      "kind": "images",
+      "bytes": 840721,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/m05-moisture-sensor.png",
+      "kind": "images",
+      "bytes": 469207,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/m05-shade-panel.png",
+      "kind": "images",
+      "bytes": 1350106,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/m04-time-lever.png",
+      "kind": "images",
+      "bytes": 944523,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/m10-clock-body.png",
+      "kind": "images",
+      "bytes": 1390888,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/m10-clock-ring.png",
+      "kind": "images",
+      "bytes": 1091700,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/m10-clock-core.png",
+      "kind": "images",
+      "bytes": 1135839,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/butterfly-egg.png",
+      "kind": "images",
+      "bytes": 1209715,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/butterfly-larva.png",
+      "kind": "images",
+      "bytes": 996640,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/butterfly-pupa.png",
+      "kind": "images",
+      "bytes": 648694,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/butterfly-adult.png",
+      "kind": "images",
+      "bytes": 1887899,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/species-frog.png",
+      "kind": "images",
+      "bytes": 1324067,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/species-dog.png",
+      "kind": "images",
+      "bytes": 1339312,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/species-chicken.png",
+      "kind": "images",
+      "bytes": 941425,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/species-balsam.png",
+      "kind": "images",
+      "bytes": 1356225,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/species-apple.png",
+      "kind": "images",
+      "bytes": 2100302,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/forest-map.png",
+      "kind": "images",
+      "bytes": 3719104,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/m04-bean-s0.webp",
+      "kind": "images",
+      "bytes": 45894,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/m04-bean-s1.webp",
+      "kind": "images",
+      "bytes": 46088,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/m04-bean-s2.webp",
+      "kind": "images",
+      "bytes": 45258,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/m04-bean-s3.webp",
+      "kind": "images",
+      "bytes": 67386,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/m04-soil.webp",
+      "kind": "images",
+      "bytes": 103482,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/m04-vessel.webp",
+      "kind": "images",
+      "bytes": 32396,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/m05-grow-lamp.webp",
+      "kind": "images",
+      "bytes": 37110,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/m05-light-sensor.webp",
+      "kind": "images",
+      "bytes": 35578,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/m05-moisture-sensor.webp",
+      "kind": "images",
+      "bytes": 29048,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/m05-shade-panel.webp",
+      "kind": "images",
+      "bytes": 51496,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/m04-time-lever.webp",
+      "kind": "images",
+      "bytes": 45728,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/m10-clock-body.webp",
+      "kind": "images",
+      "bytes": 64886,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/m10-clock-core.webp",
+      "kind": "images",
+      "bytes": 48446,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/m10-clock-ring.webp",
+      "kind": "images",
+      "bytes": 59466,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/butterfly-adult.webp",
+      "kind": "images",
+      "bytes": 147220,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/butterfly-egg.webp",
+      "kind": "images",
+      "bytes": 85846,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/butterfly-larva.webp",
+      "kind": "images",
+      "bytes": 81744,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/butterfly-pupa.webp",
+      "kind": "images",
+      "bytes": 51892,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/species-balsam.webp",
+      "kind": "images",
+      "bytes": 166816,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/species-chicken.webp",
+      "kind": "images",
+      "bytes": 68570,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/species-dog.webp",
+      "kind": "images",
+      "bytes": 98380,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/species-frog.webp",
+      "kind": "images",
+      "bytes": 113894,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/forest-map.webp",
+      "kind": "images",
+      "bytes": 552710,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/species-apple.webp",
+      "kind": "images",
+      "bytes": 213432,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/optimized/scene-01.webp",
+      "kind": "images",
+      "bytes": 237456,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/optimized/scene-02.webp",
+      "kind": "images",
+      "bytes": 255500,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/optimized/scene-03.webp",
+      "kind": "images",
+      "bytes": 295302,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/optimized/scene-04.webp",
+      "kind": "images",
+      "bytes": 265350,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/optimized/scene-05.webp",
+      "kind": "images",
+      "bytes": 295428,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/optimized/scene-06.webp",
+      "kind": "images",
+      "bytes": 244854,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/optimized/scene-07.webp",
+      "kind": "images",
+      "bytes": 249620,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/optimized/scene-08.webp",
+      "kind": "images",
+      "bytes": 153812,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/optimized/scene-09.webp",
+      "kind": "images",
+      "bytes": 339578,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/optimized/scene-10.webp",
+      "kind": "images",
+      "bytes": 378222,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/optimized/title.webp",
+      "kind": "images",
+      "bytes": 230820,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/optimized/characters.webp",
+      "kind": "images",
+      "bytes": 255292,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/source/jihoon-think.png",
+      "kind": "images",
+      "bytes": 1819305,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/jihoon-explore.png",
+      "kind": "images",
+      "bytes": 2031071,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/jihoon-cheer.png",
+      "kind": "images",
+      "bytes": 1960461,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/leaf-world.png",
+      "kind": "images",
+      "bytes": 2995471,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/ipsae-guide.png",
+      "kind": "images",
+      "bytes": 1172050,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/pot-seed.png",
+      "kind": "images",
+      "bytes": 1470276,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/ipsae-cheer.png",
+      "kind": "images",
+      "bytes": 1154035,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/pot-root.png",
+      "kind": "images",
+      "bytes": 1478798,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/map-walk-sheet.png",
+      "kind": "images",
+      "bytes": 1757470,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/pot-sprout.png",
+      "kind": "images",
+      "bytes": 1871850,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/pot-pale.png",
+      "kind": "images",
+      "bytes": 1122195,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/pot-dry.png",
+      "kind": "images",
+      "bytes": 1769105,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/pot-healthy.png",
+      "kind": "images",
+      "bytes": 1777034,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/magnifier.png",
+      "kind": "images",
+      "bytes": 960239,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/watering-can.png",
+      "kind": "images",
+      "bytes": 1288175,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/season-lens.png",
+      "kind": "images",
+      "bytes": 2469416,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/field-camera.png",
+      "kind": "images",
+      "bytes": 1871833,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/storybook.png",
+      "kind": "images",
+      "bytes": 2832518,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/apple-winter.png",
+      "kind": "images",
+      "bytes": 1343339,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/balsam-dry.png",
+      "kind": "images",
+      "bytes": 1480165,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/dog-puppy.png",
+      "kind": "images",
+      "bytes": 1596767,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/apple-spring.png",
+      "kind": "images",
+      "bytes": 2052826,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/balsam-sprout.png",
+      "kind": "images",
+      "bytes": 1095461,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/dog-young.png",
+      "kind": "images",
+      "bytes": 1247165,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/apple-summer.png",
+      "kind": "images",
+      "bytes": 2099725,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/balsam-seeds.png",
+      "kind": "images",
+      "bytes": 1471312,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/ipsae-cheer.webp",
+      "kind": "images",
+      "bytes": 75372,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/ipsae-guide.webp",
+      "kind": "images",
+      "bytes": 70700,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/jihoon-cheer.webp",
+      "kind": "images",
+      "bytes": 66310,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/jihoon-explore.webp",
+      "kind": "images",
+      "bytes": 77096,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/jihoon-think.webp",
+      "kind": "images",
+      "bytes": 62986,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/leaf-world.webp",
+      "kind": "images",
+      "bytes": 334602,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/magnifier.webp",
+      "kind": "images",
+      "bytes": 85372,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/map-walk-sheet.webp",
+      "kind": "images",
+      "bytes": 1415176,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/pot-dry.webp",
+      "kind": "images",
+      "bytes": 163498,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/pot-healthy.webp",
+      "kind": "images",
+      "bytes": 162208,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/pot-pale.webp",
+      "kind": "images",
+      "bytes": 105794,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/pot-root.webp",
+      "kind": "images",
+      "bytes": 117068,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/pot-seed.webp",
+      "kind": "images",
+      "bytes": 106354,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/pot-sprout.webp",
+      "kind": "images",
+      "bytes": 156236,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/watering-can.webp",
+      "kind": "images",
+      "bytes": 76152,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/apple-winter.webp",
+      "kind": "images",
+      "bytes": 183246,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/balsam-dry.webp",
+      "kind": "images",
+      "bytes": 159024,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/dog-puppy.webp",
+      "kind": "images",
+      "bytes": 107586,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/field-camera.webp",
+      "kind": "images",
+      "bytes": 98462,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/season-lens.webp",
+      "kind": "images",
+      "bytes": 178504,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/storybook.webp",
+      "kind": "images",
+      "bytes": 271782,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/apple-spring.webp",
+      "kind": "images",
+      "bytes": 256652,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/apple-summer.webp",
+      "kind": "images",
+      "bytes": 236638,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/balsam-seeds.webp",
+      "kind": "images",
+      "bytes": 187286,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/balsam-sprout.webp",
+      "kind": "images",
+      "bytes": 109302,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/adventure/dog-young.webp",
+      "kind": "images",
+      "bytes": 96622,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/vessel.webp",
+      "kind": "images",
+      "bytes": 24984,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/soil.webp",
+      "kind": "images",
+      "bytes": 69004,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/seed0.webp",
+      "kind": "images",
+      "bytes": 32762,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/seed1.webp",
+      "kind": "images",
+      "bytes": 32030,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/seed2.webp",
+      "kind": "images",
+      "bytes": 34172,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/seed3.webp",
+      "kind": "images",
+      "bytes": 50780,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/lever.webp",
+      "kind": "images",
+      "bytes": 33852,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/lightSensor.webp",
+      "kind": "images",
+      "bytes": 26110,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/moistureSensor.webp",
+      "kind": "images",
+      "bytes": 22136,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/lamp.webp",
+      "kind": "images",
+      "bytes": 28828,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/shade.webp",
+      "kind": "images",
+      "bytes": 39680,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/clock.webp",
+      "kind": "images",
+      "bytes": 47994,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/ring.webp",
+      "kind": "images",
+      "bytes": 41462,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/core.webp",
+      "kind": "images",
+      "bytes": 34132,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/egg.webp",
+      "kind": "images",
+      "bytes": 60250,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/caterpillar.webp",
+      "kind": "images",
+      "bytes": 57598,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/chrysalis.webp",
+      "kind": "images",
+      "bytes": 36830,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/butterfly.webp",
+      "kind": "images",
+      "bytes": 103680,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/frog.webp",
+      "kind": "images",
+      "bytes": 80926,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/chicken.webp",
+      "kind": "images",
+      "bytes": 50440,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/dog.webp",
+      "kind": "images",
+      "bytes": 70494,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/balsam.webp",
+      "kind": "images",
+      "bytes": 124432,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/apple.webp",
+      "kind": "images",
+      "bytes": 154510,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/forestMap.webp",
+      "kind": "images",
+      "bytes": 528776,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/jihoon.webp",
+      "kind": "images",
+      "bytes": 57660,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/think.webp",
+      "kind": "images",
+      "bytes": 46624,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/cheer.webp",
+      "kind": "images",
+      "bytes": 49194,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/ipsae.webp",
+      "kind": "images",
+      "bytes": 52656,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/ipsaeCheer.webp",
+      "kind": "images",
+      "bytes": 56330,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/walk.webp",
+      "kind": "images",
+      "bytes": 368266,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/leaf.webp",
+      "kind": "images",
+      "bytes": 75426,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/pot0.webp",
+      "kind": "images",
+      "bytes": 71498,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/pot1.webp",
+      "kind": "images",
+      "bytes": 79522,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/pot2.webp",
+      "kind": "images",
+      "bytes": 107836,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/pot3.webp",
+      "kind": "images",
+      "bytes": 113638,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/pale.webp",
+      "kind": "images",
+      "bytes": 74590,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/dry.webp",
+      "kind": "images",
+      "bytes": 112756,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/magnifier.webp",
+      "kind": "images",
+      "bytes": 61652,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/watercan.webp",
+      "kind": "images",
+      "bytes": 54248,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/season.webp",
+      "kind": "images",
+      "bytes": 121710,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/camera.webp",
+      "kind": "images",
+      "bytes": 67266,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/book.webp",
+      "kind": "images",
+      "bytes": 44930,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/puppy.webp",
+      "kind": "images",
+      "bytes": 74486,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/balsamDry.webp",
+      "kind": "images",
+      "bytes": 114788,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/winter.webp",
+      "kind": "images",
+      "bytes": 136374,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/rose.webp",
+      "kind": "images",
+      "bytes": 46670,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/appleSpring.webp",
+      "kind": "images",
+      "bytes": 188158,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/appleSummer.webp",
+      "kind": "images",
+      "bytes": 170542,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/balsamSprout.webp",
+      "kind": "images",
+      "bytes": 79240,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/balsamSeeds.webp",
+      "kind": "images",
+      "bytes": 138522,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/dogYoung.webp",
+      "kind": "images",
+      "bytes": 69214,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/bg0.webp",
+      "kind": "images",
+      "bytes": 170238,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/bg1.webp",
+      "kind": "images",
+      "bytes": 183648,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/bg2.webp",
+      "kind": "images",
+      "bytes": 201584,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/bg3.webp",
+      "kind": "images",
+      "bytes": 187852,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/bg4.webp",
+      "kind": "images",
+      "bytes": 205978,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/bg5.webp",
+      "kind": "images",
+      "bytes": 177894,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/bg6.webp",
+      "kind": "images",
+      "bytes": 157654,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/bg8.webp",
+      "kind": "images",
+      "bytes": 227070,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/game/bg9.webp",
+      "kind": "images",
+      "bytes": 259942,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/expedition/source/forest-world.png",
+      "kind": "images",
+      "bytes": 3893242,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/expedition/source/jihoon-actions.png",
+      "kind": "images",
+      "bytes": 1974210,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/expedition/source/explorer-tools.png",
+      "kind": "images",
+      "bytes": 1877568,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/expedition/forest-world.webp",
+      "kind": "images",
+      "bytes": 727374,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/expedition/guideLook.webp",
+      "kind": "images",
+      "bytes": 102552,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/expedition/guideCare.webp",
+      "kind": "images",
+      "bytes": 106208,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/expedition/guideTime.webp",
+      "kind": "images",
+      "bytes": 96452,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/expedition/guideStory.webp",
+      "kind": "images",
+      "bytes": 97418,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/expedition/timeWheel.webp",
+      "kind": "images",
+      "bytes": 64798,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/expedition/plantSensor.webp",
+      "kind": "images",
+      "bytes": 41288,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/expedition/seasonCompass.webp",
+      "kind": "images",
+      "bytes": 74998,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/expedition/storyCamera.webp",
+      "kind": "images",
+      "bytes": 68648,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/fonts/jua-latin-400.woff2",
+      "kind": "fonts",
+      "bytes": 16620,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/fonts/jua-korean-400.woff2",
+      "kind": "fonts",
+      "bytes": 368172,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/field/source/observation-clearing-20261021.png",
+      "kind": "images",
+      "bytes": 3134046,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/field/source/guide-alpha-inspection.jpg",
+      "kind": "images",
+      "bytes": 35161,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/field/source/doto-20261022.png",
+      "kind": "images",
+      "bytes": 1820783,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/field/source/title-logo-v1-20261023.png",
+      "kind": "images",
+      "bytes": 1781386,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/field/observation-clearing.webp",
+      "kind": "images",
+      "bytes": 438524,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/field/doto.webp",
+      "kind": "images",
+      "bytes": 52138,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/field/title-logo-v1.webp",
+      "kind": "images",
+      "bytes": 201540,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/concepts/butterfly.mp4",
+      "kind": "video",
+      "bytes": 84511,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/concepts/butterfly.webp",
+      "kind": "images",
+      "bytes": 17836,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/concepts/butterfly.webm",
+      "kind": "video",
+      "bytes": 60848,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/concepts/seed.mp4",
+      "kind": "video",
+      "bytes": 82947,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/concepts/seed.webp",
+      "kind": "images",
+      "bytes": 24724,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/concepts/seed.webm",
+      "kind": "video",
+      "bytes": 86883,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/concepts/care.mp4",
+      "kind": "video",
+      "bytes": 167098,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/concepts/care.webp",
+      "kind": "images",
+      "bytes": 26862,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/concepts/care.webm",
+      "kind": "video",
+      "bytes": 130378,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/concepts/seasons.mp4",
+      "kind": "video",
+      "bytes": 173351,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/concepts/seasons.webp",
+      "kind": "images",
+      "bytes": 27594,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/concepts/seasons.webm",
+      "kind": "video",
+      "bytes": 141888,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/concepts/evidence.mp4",
+      "kind": "video",
+      "bytes": 176173,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/concepts/evidence.webp",
+      "kind": "images",
+      "bytes": 20702,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/concepts/evidence.webm",
+      "kind": "video",
+      "bytes": 122368,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/audio/click.wav",
+      "kind": "audio",
+      "bytes": 706,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/audio/select.wav",
+      "kind": "audio",
+      "bytes": 33582,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/audio/place.wav",
+      "kind": "audio",
+      "bytes": 16676,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/audio/inspect.wav",
+      "kind": "audio",
+      "bytes": 8856,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/audio/photo.wav",
+      "kind": "audio",
+      "bytes": 53708,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/audio/success.wav",
+      "kind": "audio",
+      "bytes": 47618,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/audio/reward.wav",
+      "kind": "audio",
+      "bytes": 43332,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/audio/error.wav",
+      "kind": "audio",
+      "bytes": 43356,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/audio/time.wav",
+      "kind": "audio",
+      "bytes": 1870,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/audio/step.wav",
+      "kind": "audio",
+      "bytes": 59234,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/audio/music/main-theme.mp3",
+      "kind": "audio",
+      "bytes": 1625599,
+      "packed": true,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/audio/music/ending-theme.mp3",
+      "kind": "audio",
+      "bytes": 4126542,
+      "packed": true,
+      "sourceOnly": false
+    }
+  ],
+  "duplicates": [
+    {
+      "sha256": "0511e2cc77ac1e1765dd2376295cb0ba75619314ba1cab9827c15604daad564e",
+      "paths": [
+        "assets/raw-png/1181e293-93ab-4718-be43-8da4ce33e17e.png",
+        "assets/raw-png/ca5c3f7f-0eb8-417a-8e1f-da089c6eaaae.png"
+      ]
+    },
+    {
+      "sha256": "1ac1f0d7a69dc71ac12c7ffe9c440b89e238f321f31d9983181d9d1c800a6373",
+      "paths": [
+        "assets/raw-png/245c6746-7ddb-49b3-b522-1bdb85c8d1eb.png",
+        "assets/raw-png/ea03a81b-c79c-466d-aa97-648e410cd812.png"
+      ]
+    },
+    {
+      "sha256": "e60b354f46614c4c7b3f5a527912d383ec0cd1caa450c6c5f0a0d215d2ffcd78",
+      "paths": [
+        "assets/raw-png/3543334d-9fd4-4f06-95d6-a94a12348e07.png",
+        "assets/raw-png/91297860-1d64-4fb4-8d0d-52b92b451716.png"
+      ]
+    },
+    {
+      "sha256": "6605a31cacf0819ab6c4e0ec70f36b7f8e40b7c4c56c38cb8219d9eb93b81617",
+      "paths": [
+        "assets/raw-png/8a06fc08-ae4a-4af9-aa70-393364f0bb16.png",
+        "assets/raw-png/ac942879-0065-4547-a0ba-573c766b0a39.png"
+      ]
+    },
+    {
+      "sha256": "d59a9837d3cc6ffab250e8d39c3866f10123e4c5b45e61c3a1b298d293da9a32",
+      "paths": [
+        "assets/raw-png/a759c441-5cce-4547-987e-a794140a3717.png",
+        "assets/raw-png/c1c75f63-7d7c-466b-9b84-d1764daaface.png"
+      ]
+    }
+  ],
+  "largeFiles": [
+    {
+      "path": "assets/scene-01.png",
+      "kind": "images",
+      "bytes": 2354179,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/scene-02.png",
+      "kind": "images",
+      "bytes": 2400152,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/scene-03.png",
+      "kind": "images",
+      "bytes": 2516658,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/scene-04.png",
+      "kind": "images",
+      "bytes": 2367053,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/scene-05.png",
+      "kind": "images",
+      "bytes": 2487232,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/scene-06.png",
+      "kind": "images",
+      "bytes": 2279986,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/scene-07.png",
+      "kind": "images",
+      "bytes": 2418339,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/scene-08.png",
+      "kind": "images",
+      "bytes": 1908765,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/scene-09.png",
+      "kind": "images",
+      "bytes": 2707138,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/scene-10.png",
+      "kind": "images",
+      "bytes": 2794374,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/title.png",
+      "kind": "images",
+      "bytes": 2336857,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/characters.png",
+      "kind": "images",
+      "bytes": 2190863,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/generated/source/m04-soil.png",
+      "kind": "images",
+      "bytes": 1273612,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/m05-shade-panel.png",
+      "kind": "images",
+      "bytes": 1350106,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/m10-clock-body.png",
+      "kind": "images",
+      "bytes": 1390888,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/m10-clock-ring.png",
+      "kind": "images",
+      "bytes": 1091700,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/m10-clock-core.png",
+      "kind": "images",
+      "bytes": 1135839,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/butterfly-egg.png",
+      "kind": "images",
+      "bytes": 1209715,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/butterfly-adult.png",
+      "kind": "images",
+      "bytes": 1887899,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/species-frog.png",
+      "kind": "images",
+      "bytes": 1324067,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/species-dog.png",
+      "kind": "images",
+      "bytes": 1339312,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/species-balsam.png",
+      "kind": "images",
+      "bytes": 1356225,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/species-apple.png",
+      "kind": "images",
+      "bytes": 2100302,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/generated/source/forest-map.png",
+      "kind": "images",
+      "bytes": 3719104,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/jihoon-think.png",
+      "kind": "images",
+      "bytes": 1819305,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/jihoon-explore.png",
+      "kind": "images",
+      "bytes": 2031071,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/jihoon-cheer.png",
+      "kind": "images",
+      "bytes": 1960461,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/leaf-world.png",
+      "kind": "images",
+      "bytes": 2995471,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/ipsae-guide.png",
+      "kind": "images",
+      "bytes": 1172050,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/pot-seed.png",
+      "kind": "images",
+      "bytes": 1470276,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/ipsae-cheer.png",
+      "kind": "images",
+      "bytes": 1154035,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/pot-root.png",
+      "kind": "images",
+      "bytes": 1478798,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/map-walk-sheet.png",
+      "kind": "images",
+      "bytes": 1757470,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/pot-sprout.png",
+      "kind": "images",
+      "bytes": 1871850,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/pot-pale.png",
+      "kind": "images",
+      "bytes": 1122195,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/pot-dry.png",
+      "kind": "images",
+      "bytes": 1769105,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/pot-healthy.png",
+      "kind": "images",
+      "bytes": 1777034,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/watering-can.png",
+      "kind": "images",
+      "bytes": 1288175,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/season-lens.png",
+      "kind": "images",
+      "bytes": 2469416,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/field-camera.png",
+      "kind": "images",
+      "bytes": 1871833,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/storybook.png",
+      "kind": "images",
+      "bytes": 2832518,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/apple-winter.png",
+      "kind": "images",
+      "bytes": 1343339,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/balsam-dry.png",
+      "kind": "images",
+      "bytes": 1480165,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/dog-puppy.png",
+      "kind": "images",
+      "bytes": 1596767,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/apple-spring.png",
+      "kind": "images",
+      "bytes": 2052826,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/balsam-sprout.png",
+      "kind": "images",
+      "bytes": 1095461,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/dog-young.png",
+      "kind": "images",
+      "bytes": 1247165,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/apple-summer.png",
+      "kind": "images",
+      "bytes": 2099725,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/source/balsam-seeds.png",
+      "kind": "images",
+      "bytes": 1471312,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/adventure/map-walk-sheet.webp",
+      "kind": "images",
+      "bytes": 1415176,
+      "packed": false,
+      "sourceOnly": false
+    },
+    {
+      "path": "assets/expedition/source/forest-world.png",
+      "kind": "images",
+      "bytes": 3893242,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/expedition/source/jihoon-actions.png",
+      "kind": "images",
+      "bytes": 1974210,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/expedition/source/explorer-tools.png",
+      "kind": "images",
+      "bytes": 1877568,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/field/source/observation-clearing-20261021.png",
+      "kind": "images",
+      "bytes": 3134046,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/field/source/doto-20261022.png",
+      "kind": "images",
+      "bytes": 1820783,
+      "packed": false,
+      "sourceOnly": true
+    },
+    {
+      "path": "assets/field/source/title-logo-v1-20261023.png",
+      "kind": "images",
+      "bytes": 1781386,
+      "packed": false,
+      "sourceOnly": true
+    }
+  ],
+  "missingImports": [],
+  "badResponses": [],
+  "checkedResponses": 131,
+  "media": [
+    {
+      "name": "main-theme.mp3",
+      "status": 206,
+      "type": "audio/mpeg",
+      "range": "bytes 0-31/1625599",
+      "bytes": 32
+    },
+    {
+      "name": "ending-theme.mp3",
+      "status": 206,
+      "type": "audio/mpeg",
+      "range": "bytes 0-31/4126542",
+      "bytes": 32
+    }
+  ],
+  "buildBytes": 16985935
+}

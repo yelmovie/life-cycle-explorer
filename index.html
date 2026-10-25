@@ -5,15 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="description" content="관찰하고, 실험하고, 비교하며 생물의 한살이를 탐구하는 초등 과학 학습 게임. 다섯 연구 구역에서 나만의 생명 기록을 완성해 보세요.">
   <meta name="theme-color" content="#244d39">
+  <link rel="manifest" href="manifest.webmanifest">
   <title>생명 시계 연구실 · Life Clock Lab</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%23244d39'/%3E%3Cpath d='M10 29Q7 10 31 8Q32 30 10 29M11 29L26 13' stroke='%23e6c77d' fill='%2385aa69'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="game-shell.css">
   <link rel="stylesheet" href="game.css">
+  <link rel="preload" href="vendor/phaser-3.90.0.min.js" as="script">
 </head>
 <body>
+  <section id="boot-screen" role="status" aria-live="polite" aria-label="탐험 준비">
+    <h1>생명 시계 연구실</h1>
+    <p id="boot-message">숲의 시간을 펼칠 준비를 하고 있어…</p>
+    <progress id="boot-progress" value="0" max="100" aria-label="불러오기 진행률"></progress>
+    <button id="boot-retry" hidden>다시 열기</button>
+    <noscript>탐험하려면 브라우저에서 자바스크립트를 켜 줘.</noscript>
+  </section>
   <div id="app"></div>
   <div id="toast" role="status" aria-live="polite"></div>
   <dialog id="modal"></dialog>
-  <script src="vendor/phaser-3.90.0.min.js"></script>
-  <script type="module" src="game-app.js"></script>
+  <aside id="connection-status" role="status" aria-live="polite" hidden><span></span><button hidden>준비 다시 하기</button></aside>
+  <script type="module" src="game-bootstrap.js"></script>
 </body>
 </html>

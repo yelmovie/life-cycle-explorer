@@ -1,5 +1,7 @@
 // Resized copies of existing project illustrations. Sources: assets/game/manifest.json
 export const ART={
+  "observationLens": "assets/field/observation-lens-v1.webp",
+  "researchNotebook": "assets/field/research-notebook-v1.webp",
   "fieldClearing": "assets/field/observation-clearing.webp",
   "vessel": "assets/game/vessel.webp",
   "soil": "assets/game/soil.webp",
@@ -21,7 +23,7 @@ export const ART={
   "butterfly": "assets/game/butterfly.webp",
   "frog": "assets/game/frog.webp",
   "chicken": "assets/game/chicken.webp",
-  "dog": "assets/game/dog.webp",
+  "dog": "assets/field/dog-adult-v1.webp",
   "balsam": "assets/game/balsam.webp",
   "apple": "assets/game/apple.webp",
   "forestMap": "assets/expedition/forest-world.webp",
@@ -42,7 +44,7 @@ export const ART={
   "ipsae": "assets/game/ipsae.webp",
   "ipsaeCheer": "assets/game/ipsaeCheer.webp",
   "walk": "assets/game/walk.webp",
-  "leaf": "assets/game/leaf.webp",
+  "leaf": "assets/field/leaf-isolated-v1.webp",
   "pot0": "assets/game/pot0.webp",
   "pot1": "assets/game/pot1.webp",
   "pot2": "assets/game/pot2.webp",
@@ -53,17 +55,17 @@ export const ART={
   "watercan": "assets/game/watercan.webp",
   "season": "assets/game/season.webp",
   "camera": "assets/game/camera.webp",
-  "book": "assets/game/book.webp",
-  "puppy": "assets/game/puppy.webp",
+  "book": "assets/field/research-notebook-v1.webp",
+  "puppy": "assets/field/dog-newborn-v1.webp",
   "balsamDry": "assets/game/balsamDry.webp",
   "winter": "assets/game/winter.webp",
   "plant": "assets/game/pot3.webp",
-  "rose": "assets/game/rose.webp",
+  "rose": "assets/field/rose-shrub-v1.webp",
   "appleSpring": "assets/game/appleSpring.webp",
   "appleSummer": "assets/game/appleSummer.webp",
   "balsamSprout": "assets/game/balsamSprout.webp",
   "balsamSeeds": "assets/game/balsamSeeds.webp",
-  "dogYoung": "assets/game/dogYoung.webp"
+  "dogYoung": "assets/field/dog-juvenile-v1.webp"
 };
 export const SCENES=[
   "assets/game/bg0.webp",

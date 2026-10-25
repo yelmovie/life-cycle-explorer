@@ -19,9 +19,104 @@ export function restore(raw){
  s.audio={bgm:parsed.audio?.bgm===true,sfx:parsed.audio?.sfx!==false,volume:Number.isFinite(parsed.audio?.volume)?Math.max(0,Math.min(1,parsed.audio.volume)):.2};
  return s;
 }
-export function loadGame(storage){try{const raw=storage.getItem(GAME_KEY);if(raw)return restore(raw);return restore(storage.getItem(inquiry.STORAGE_KEY)||storage.getItem(inquiry.LEGACY_KEY));}catch{return fresh();}}
+const saveSessions=new WeakMap(),saveKeys=[GAME_KEY,inquiry.STORAGE_KEY,inquiry.LEGACY_KEY];
+const savedObject=value=>value!==null&&typeof value==='object'&&!Array.isArray(value);
+const coreShape=inquiry.fresh(),fieldShape=initialField();
+// Discovery quests were added to the same field version; their absence is a
+// supported older save, while losing a whole chapter/record container is not.
+for(const chapter of fieldShape.chapters)delete chapter.discovery;
+function sameShape(value,shape){
+ if(shape===null)return value===null||typeof value==='string'||Number.isFinite(value)||savedObject(value);
+ if(Array.isArray(shape))return Array.isArray(value)&&(!shape.length||value.length===shape.length&&shape.every((item,i)=>sameShape(value[i],item)));
+ if(savedObject(shape))return savedObject(value)&&Object.keys(shape).every(key=>sameShape(value[key],shape[key]));
+ return typeof value===typeof shape&&(typeof value!=='number'||Number.isFinite(value));
+}
+function savedDataIssue(value){
+ if(!savedObject(value)||!Number.isInteger(value.version))return 'invalid-structure';
+ if(![2,3].includes(value.version))return 'unsupported-version';
+ const keys=Object.keys(coreShape).filter(key=>key!=='inquiry');
+ if(!keys.every(key=>sameShape(value[key],coreShape[key]))||value.version===3&&!sameShape(value.inquiry,coreShape.inquiry))return 'invalid-structure';
+ for(const[key,shape]of [['field',fieldShape],['expedition',initialExpedition()]]){
+  if(!Object.hasOwn(value,key))continue;
+  if(!savedObject(value[key])||!Number.isInteger(value[key].version))return 'invalid-structure';
+  if(value[key].version!==shape.version)return 'unsupported-version';
+  if(!sameShape(value[key],shape))return 'invalid-structure';
+ }
+ if(value.field){
+  const chapters=[...value.field.chapters,...Object.values(value.field.snapshots)];
+  if(chapters.some(chapter=>!savedObject(chapter)||Object.hasOwn(chapter,'discovery')&&!Array.isArray(chapter.discovery)))return 'invalid-structure';
+  if(Object.entries(value.field.snapshots).some(([index,chapter])=>!/^[0-4]$/.test(index)||!sameShape(chapter,fieldShape.chapters[Number(index)])))return 'invalid-structure';
+ }
+ return null;
+}
+function statusSource(session,snapshot){
+ const key=saveKeys.find(key=>Object.hasOwn(snapshot,key)&&snapshot[key]!==null)||GAME_KEY;
+ session.sourceKey=key;session.raw=snapshot[key]??null;
+}
+function checkSavedRaw(storage,session){
+ const snapshot={};
+ try{
+  for(const key of session.keys)snapshot[key]=storage.getItem(key);
+ }catch{session.reason='read-failed';session.blocked=true;session.snapshot=null;return false;}
+ session.snapshot=snapshot;statusSource(session,snapshot);
+ if(session.keys.some(key=>!Object.hasOwn(session.expectedRaw,key)||snapshot[key]!==session.expectedRaw[key])){
+  session.reason='conflict';session.blocked=true;return false;
+ }
+ return true;
+}
+export function loadGame(storage){
+ if(!savedObject(storage))return fresh();
+ const session={keys:[],expectedRaw:{},snapshot:null,sourceKey:GAME_KEY,raw:null,reason:'new',blocked:false};saveSessions.set(storage,session);
+ try{
+  for(const key of saveKeys){
+   session.keys.push(key);const raw=storage.getItem(key);session.expectedRaw[key]=raw;
+   if(raw===null)continue;
+   session.sourceKey=key;session.raw=raw;session.snapshot={...session.expectedRaw};
+   let parsed;try{parsed=JSON.parse(raw);}catch{session.reason='invalid-json';session.blocked=true;return fresh();}
+   const issue=savedDataIssue(parsed);
+   if(issue){session.reason=issue;session.blocked=true;return fresh();}
+   session.reason=key===GAME_KEY?'ready':'migrated';return restore(raw);
+  }
+  session.snapshot={...session.expectedRaw};return fresh();
+ }catch{session.reason='read-failed';session.blocked=true;session.snapshot=null;return fresh();}
+}
+/** raw is the last readable source, for preservation only, not a validated backup. */
+export function getSaveStatus(storage){
+ if(!savedObject(storage))return {ok:false,reason:'read-failed',sourceKey:GAME_KEY,raw:null,expectedRaw:null};
+ if(!saveSessions.has(storage))loadGame(storage);
+ const session=saveSessions.get(storage);checkSavedRaw(storage,session);
+ return {ok:!session.blocked&&['new','ready','migrated'].includes(session.reason),reason:session.reason,sourceKey:session.sourceKey,raw:session.raw,expectedRaw:session.snapshot?{...session.snapshot}:null};
+}
+function writeGame(storage,s,session){
+ try{
+  if(savedDataIssue(s))throw new Error('Invalid game state');
+  const raw=JSON.stringify(s);storage.setItem(GAME_KEY,raw);
+  Object.assign(session,{keys:[GAME_KEY],expectedRaw:{[GAME_KEY]:raw},snapshot:{[GAME_KEY]:raw},sourceKey:GAME_KEY,raw,reason:'ready',blocked:false});return true;
+ }catch{session.reason='write-failed';return false;}
+}
+// Compare before writing to detect another tab's changes. localStorage does
+// not offer an atomic compare-and-swap, so this is not a cross-tab lock.
+export function saveGame(storage,s){
+ if(!savedObject(storage))return false;
+ if(!saveSessions.has(storage))loadGame(storage);
+ const session=saveSessions.get(storage);
+ if(!checkSavedRaw(storage,session)||session.blocked)return false;
+ return writeGame(storage,s,session);
+}
+/** Pass the expectedRaw snapshot captured when the reset confirmation opened. */
+export function resetGame(storage,s,expectedRaw){
+ if(!savedObject(storage))return false;
+ if(!saveSessions.has(storage))loadGame(storage);
+ const session=saveSessions.get(storage);
+ if(!savedObject(expectedRaw)||!Object.hasOwn(expectedRaw,GAME_KEY)||!session.keys.every(key=>Object.hasOwn(expectedRaw,key))||Object.keys(expectedRaw).some(key=>!saveKeys.includes(key)||expectedRaw[key]!==null&&typeof expectedRaw[key]!=='string'))return false;
+ const snapshot={};
+ try{for(const key of Object.keys(expectedRaw))snapshot[key]=storage.getItem(key);}
+ catch{session.reason='read-failed';session.blocked=true;session.snapshot=null;return false;}
+ session.snapshot=snapshot;statusSource(session,snapshot);
+ if(Object.keys(expectedRaw).some(key=>snapshot[key]!==expectedRaw[key])){session.reason='conflict';session.blocked=true;return false;}
+ return writeGame(storage,s,session);
+}
 export function complete(s,n){if(n%2===1&&!questSolved(s,Math.floor(n/2)))return false;return inquiry.complete(s,n);}
-export function saveGame(storage,s){try{storage.setItem(GAME_KEY,JSON.stringify(s));return true;}catch{return false;}}
 // Repeated inspection replaces the same notebook slot; it cannot consume every
 // evidence slot and block later required observations. Experiment runs stay immutable.
 export function addEvidence(s,data){const old=s.inquiry.evidence.find(e=>e.type===data.type&&(['compare','care','season'].includes(e.type)||e.type==='observation'&&e.species===data.species));if(old){Object.assign(old,JSON.parse(JSON.stringify(data)));return old;}return inquiry.addEvidence(s,data);}

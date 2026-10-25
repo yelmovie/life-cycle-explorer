@@ -1,3 +1,11 @@
+import {careTimeLabels} from './field-model.js';
+
+// New leaves attach to the three shoot tips of the unchanged pale-plant image.
+// The coordinates use its square, contain-fit display box in records and clips.
+export function lightRecoveryLeaves(x,y,size,opacity=1){
+ return [[.385,.075],[.56,.25],[.725,.33]].map(([dx,dy])=>`<g transform="translate(${x+size*dx} ${y+size*dy}) scale(${size/310})" opacity="${opacity}" fill="#78a34c" stroke="#547e3c" stroke-width="1.2"><path d="M0 1C-3-11-16-13-23-9C-19 1-8 5 0 1Z"/><path d="M0 1C3-11 16-13 23-9C19 1 8 5 0 1Z"/><path d="M0 6V-2" fill="none"/></g>`).join('');
+}
+
 // Render the learner's captured conditions, dates, marks and drawing, not a stock reward image.
 export async function fieldRecordArt(r,{img,text,parts}){
  const e=r.fieldEvidence;
@@ -11,11 +19,14 @@ export async function fieldRecordArt(r,{img,text,parts}){
   for(const[side,i]of ['a','b'].map((k,i)=>[k,i])){const c=e.conditions[side],x=180+i*360;await img('pot'+growth(c),x-155,50,310,290);text(x,35,'화분 '+side.toUpperCase());text(x,365,'물 '+(c.water?'있음':'없음')+' · '+(c.warm?'따뜻함':'차가움'));}
   text(360,410,'바꾼 조건: '+(e.variable==='water'?'물':'온도')+' 하나');text(360,448,'직접 찍은 날: '+e.photos.map(d=>d+'일').join(' · '),21);text(360,480,'내 예상: '+({a:'A만',b:'B만',both:'둘 다',neither:'둘 다 안 틈',unsure:'아직 모름'}[e.prediction]),20);
  }else if(e.type==='care'){
-  await img(e.variable==='water'?'dry':'pale',25,45,310,310);await img('pot3',385,45,310,310);text(180,395,'돌봄 전 · 0일');text(540,395,'돌봄 뒤 · 이틀 뒤');text(360,440,'확인한 센서: 물 + 빛');text(360,475,'도운 조건: '+(e.tool==='water'?'물':'빛'));
+  const light=e.variable==='light',labels=careTimeLabels(e);
+  await img(light?'pale':'dry',25,45,310,310);await img(light?'pale':'pot3',385,45,310,310);
+  if(light)parts.push(lightRecoveryLeaves(385,45,310));
+  text(180,395,labels[0]);text(540,395,labels[2]);text(360,435,light?'길어진 줄기는 그대로 · 새잎의 초록빛 비교':'물 조건을 돌본 전후 모습');text(360,470,'물기와 빛을 모두 확인 · 실제 회복 시간은 달라',19);
  }else if(e.type==='comparison'){
-  const forms=e.animal==='butterfly'?['egg','larva','pupa','adult']:['puppy','dogYoung','dog'];
-  for(let i=0;i<forms.length;i++)await img(forms[i],25+i*680/forms.length,75,660/forms.length,270);
-  text(360,400,'직접 기록한 모습: '+e.photos.map(n=>forms[n]?({egg:'알',larva:'애벌레',pupa:'번데기',adult:'어른벌레',puppy:'갓 태어난 강아지',dogYoung:'어린 개',dog:'다 자란 개'}[forms[n]]):'').join(' · '),21);text(360,455,'다음 세대는 부모와 다른 새로운 개체야.');
+  const forms=e.animal==='butterfly'?['egg','larva','pupa','adult']:['puppy','dogYoung','dog'],photos=[...new Set(e.photos)].filter(n=>Number.isInteger(n)&&forms[n]).sort((a,b)=>a-b),names={egg:'알',larva:'애벌레',pupa:'번데기',adult:'어른벌레',puppy:'갓 태어난 강아지',dogYoung:'어린 개',dog:'다 자란 개'};
+  for(let i=0;i<photos.length;i++)await img(forms[photos[i]],25+i*680/photos.length,75,660/photos.length,270);
+  text(360,400,'직접 기록한 모습: '+photos.map(n=>names[forms[n]]).join(' · '),21);text(360,455,'다음 세대는 부모와 다른, 새로 태어난 생명이야.');
  }else if(e.type==='season'){
   const apple=e.plant==='apple',forms=apple?['appleSpring','winter','appleSpring']:['balsamSprout','balsamDry','balsamSprout'];
   for(let i=0;i<3;i++){await img(forms[i],25+i*230,60,210,300);text(130+i*230,400,['첫봄','겨울','다음 봄'][i]);}
