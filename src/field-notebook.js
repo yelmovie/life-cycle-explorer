@@ -13,12 +13,12 @@ export function photoNotebookEntry(s,type,p={}){
  const f=s.field;
  if(type==='seed-photo'){
   const r=f.chapters[1].rounds[f.chapters[1].round];if(!r.run)return null;
-  const cards=['a','b'].map(side=>{const observed=seedObservation(r,side),c=observed.condition;return {art:'pot'+observed.level,label:`화분 ${side.toUpperCase()} · ${r.day}일`,detail:`물 ${c.water?'있음':'없음'} · ${c.warm?'알맞은 온도':'낮은 온도'}`};});
+  const cards=['a','b'].map(side=>{const observed=seedObservation(r,side),c=observed.condition;return {art:'pot'+observed.level,label:`화분 ${side.toUpperCase()} · ${r.day}일`,detail:`물 ${c.water?'있음':'없음'} · ${c.warm?'22°C 따뜻함':'5°C 차가움'}`};});
   const complete=[d=>d===0,d=>d>=2&&d<=4,d=>d>=6].every(test=>r.photos.some(test));
   return {title:`씨앗 비교 · ${r.day}일`,cards,note:r.day===0?'두 화분의 처음 모습을 남겼다. 며칠 뒤 모습과 비교해 보자.':cards.every(c=>c.art==='pot0')?'아직 싹이 보이지 않는다. 같은 조건을 유지하고 더 관찰해 보자.':'두 화분에서 싹이 보이는지 살펴보았다. 바꾼 조건과 함께 비교해 보자.',next:complete?'사진을 닫고 결과를 바꾼 조건을 연결해 줘.':'사진을 닫고 시간을 돌려 다음 모습을 찍어 줘.',stamp:'비교 사진 기록'};
  }
  if(type==='care-photo'){
-  const r=f.chapters[2].cases[f.chapters[2].case],when=careTimeLabels(r)[r.day],recovered=r.day===2&&!!r.tool,art=r.variable==='light'?'pale':recovered?'pot3':'dry';
+  const r=f.chapters[2].cases[f.chapters[2].case],when=careTimeLabels(r)[r.day],recovered=r.day===2&&!!r.tool,art=r.variable==='light'?['pale','paleRecover1','paleRecover2'][r.tool?r.day:0]:['dry','dryRecover1','pot3'][r.tool?r.day:0];
   return {title:`식물 돌봄 · ${when}`,cards:[{art,newLeaves:recovered&&r.variable==='light',label:when,detail:`흙 속 물: ${r.variable==='water'?'부족':'충분'} · 빛: ${r.variable==='light'?'부족':'충분'}${r.day?' (돌봄 전 측정)':''}`}],note:r.day===0?'돌보기 전 모습을 남겼다. 물기와 빛을 잰 결과에 맞게 도와주자.':recovered&&r.variable==='light'?'길어진 줄기는 그대로다. 빛을 받은 뒤 자란 새잎의 초록빛을 살펴보자.':r.day===2?'돌본 뒤 새잎의 모습을 기록했다. 돌보기 전 사진과 비교해 보자.':'돌본 뒤의 모습을 살펴보았다. 더 시간이 흐른 뒤 변화도 기록하자.',next:r.day===0?'사진을 닫고 알맞은 돌봄 도구를 골라 줘.':r.day===2?'사진을 닫고 돌봄 전후 사진을 비교해 줘.':'사진을 닫고 다음 시간의 모습을 살펴봐.',stamp:'돌봄 관찰 기록'};
  }
  if(type==='animal-photo'){
@@ -59,7 +59,7 @@ export function createFieldNotebook(ctx){
  }
  function capture(type,payload){
   const entry=photoNotebookEntry(ctx.s,type,payload);if(!entry)return;
-  return mount({title:entry.title,body:`<div class="notebook-capture-camera" aria-hidden="true">${img('storyCamera')}<span>찰칵!</span></div><div class="notebook-flash" aria-hidden="true"></div><div class="notebook-book notebook-capture"><div class="notebook-photo-sheet"><div class="notebook-photo-grid ${entry.cards.length===2?'paired':''}">${entry.cards.map(c=>`<figure><div class="notebook-photo-art">${img(c.art,c.label)}${c.newLeaves?`<svg class="notebook-new-leaves" viewBox="0 0 310 310" role="img" aria-label="긴 줄기는 유지되고 초록 새잎이 자란 모형">${lightRecoveryLeaves(0,0,310)}</svg>`:''}</div><figcaption>${esc(c.label)}</figcaption><small>${esc(c.detail)}</small></figure>`).join('')}</div><p class="notebook-photo-caption">지금 관찰한 모습을 붙였다!</p></div><section class="notebook-page"><p class="notebook-kicker">촬영한 모형 · 자동 정리 메모</p><h3>${esc(entry.title)}</h3><p class="notebook-hand notebook-entry" data-handwriting="${esc(entry.note)}">${esc(entry.note)}</p><p class="notebook-stamp">✓ ${esc(entry.stamp)}</p><p class="notebook-next">${esc(entry.next)}</p></section></div>`,actions:'<button type="button" data-notebook-skip>글 바로 보기</button><button type="button" class="primary" data-notebook-close>기록하고 계속 탐구</button>'});
+  return mount({title:entry.title,body:`<div class="notebook-capture-camera" aria-hidden="true">${img('fieldCamera')}<span>찰칵!</span></div><div class="notebook-viewfinder" aria-hidden="true"><b></b><b></b><b></b><b></b></div><div class="notebook-shutter" aria-hidden="true"><i></i><i></i></div><div class="notebook-flash" aria-hidden="true"></div><div class="notebook-book notebook-capture"><div class="notebook-photo-sheet"><div class="notebook-photo-grid ${entry.cards.length===2?'paired':''}">${entry.cards.map(c=>`<figure><div class="notebook-photo-art">${img(c.art,c.label)}</div><figcaption>${esc(c.label)}</figcaption><small>${esc(c.detail)}</small></figure>`).join('')}</div><p class="notebook-photo-caption">지금 관찰한 모습을 붙였다!</p></div><section class="notebook-page"><p class="notebook-kicker">촬영한 모형 · 자동 정리 메모</p><h3>${esc(entry.title)}</h3><p class="notebook-hand notebook-entry" data-handwriting="${esc(entry.note)}">${esc(entry.note)}</p><p class="notebook-stamp">✓ ${esc(entry.stamp)}</p><p class="notebook-next">${esc(entry.next)}</p></section></div>`,actions:'<button type="button" data-notebook-skip>글 바로 보기</button><button type="button" class="primary" data-notebook-close>기록하고 계속 탐구</button>'});
  }
  return {observe,capture,cleanup};
 }

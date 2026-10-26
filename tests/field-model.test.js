@@ -1,3 +1,4 @@
+import {SORT_CARDS} from '../src/field-content.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {initialField,restoreField,fieldAction,fieldReady,fieldPhase,fieldRecords,fieldUnlocked,fieldCompletedCount,fieldBookReady,FIELD_FORMS} from '../src/field-model.js';
@@ -47,7 +48,7 @@ function finishComparison(field) {
   }
   act(field,'plant-classify',{plant:'apple',answer:'same'});
   act(field,'plant-classify',{plant:'balsam',answer:'new'});
-  act(field,'transfer',{subject:'rose',answer:'same'});act(field,'transfer',{subject:'dog',answer:'live'});
+  for (const c of SORT_CARDS) act(field,'transfer',{card:c.id,bin:c.bin});
 }
 const finishers=[finishObservation,finishSeeds,finishCare,finishComparison];
 function completedThrough(chapter) {
@@ -57,14 +58,14 @@ function completedThrough(chapter) {
 }
 function composeBook(field) {
   act(field,'chapter-enter',{chapter:4});
-  for (const id of ['field-observation-larva','field-seed-water','field-care-water']) act(field,'book-record',{id});
+  for (const id of ['field-observation-larva','field-seed-water','field-care-water','field-animal-butterfly']) act(field,'book-record',{id});
   act(field,'book-title',{text:'생명 탐사책'});
   act(field,'book-caption',{id:'field-observation-larva',text:'애벌레의 다리와 몸을 살펴봤다.'});
   act(field,'book-caption',{id:'field-seed-water',text:'물을 다르게 주니 싹이 달라졌다.'});
   act(field,'book-summary',{text:'생명은 자라며 모습이 달라지고 다음 세대로 이어진다.'});
 }
 
-test('field notebook requires distinct inspections, a real drawing, text, order and next generation',() => {
+test('field notebook requires distinct inspections, a written note, order and next generation',() => {
   const field=initialField();
   assert.equal(fieldUnlocked(field,1),false);
   assert.equal(fieldAction(field,'chapter-complete').ok,false);
@@ -74,9 +75,10 @@ test('field notebook requires distinct inspections, a real drawing, text, order 
   for (const form of FIELD_FORMS) for (const spot of [0,1]) act(field,'inspect',{form,spot});
   assert.equal(fieldPhase(field),'draw');
   assert.equal(fieldAction(field,'observation-draw',{stroke:[[.2,.2],[.2,.2]]}).ok,false);
-  act(field,'observation-draw',{stroke:[[.1,.2],[.4,.3]]});act(field,'observation-note',{text:'긴 몸과 짧은 다리를 관찰했어.'});
+  act(field,'observation-note',{text:'긴'});
   assert.equal(fieldPhase(field),'draw');
-  act(field,'observation-draw',{stroke:[[.1,.3],[.4,.5]]});
+  act(field,'observation-note',{text:'긴 몸과 짧은 다리를 관찰했어.'});
+  assert.equal(fieldPhase(field),'film');
   FIELD_FORMS.forEach((form,to) => act(field,'film-move',{from:field.chapters[0].order.indexOf(form),to}));
   assert.equal(fieldAction(field,'generation',{target:'same-egg'}).ok,false);
   act(field,'generation',{target:'next-egg'});assert.equal(fieldReady(field),true);
@@ -94,9 +96,11 @@ test('seed rounds require equal preparation, one changed variable and three date
   assert.equal(fieldAction(field,'seed-condition',{key:'water'}).ok,false);
   assert.equal(fieldAction(field,'seed-prepare',{side:'b',seeds:1}).ok,false);
   assert.deepEqual(field.chapters[1].rounds[0].run,original);
-  act(field,'seed-day',{day:7});act(field,'seed-photo');
+  // Start, middle and end photos are saved automatically as the dial moves.
+  assert.deepEqual(field.chapters[1].rounds[0].photos,[0]);
   assert.equal(fieldAction(field,'seed-report',{reason:'water'}).ok,false);
-  for (const day of [0,2]) {act(field,'seed-day',{day});act(field,'seed-photo');}
+  act(field,'seed-day',{day:7});
+  assert.deepEqual(field.chapters[1].rounds[0].photos,[0,3,7]);
   assert.equal(fieldAction(field,'seed-report',{reason:'warm'}).ok,false);
   act(field,'seed-report',{reason:'water',result:'b',expectation:'unsure'});assert.equal(fieldReady(field),false);
   act(field,'seed-next');assert.equal(field.chapters[1].rounds[1].variable,'warm');
@@ -136,9 +140,9 @@ test('animal clocks are independent and next generation is not the same individu
   for (const step of [0,3]) {act(field,'season',{step});for (const plant of ['apple','balsam']) act(field,'season-photo',{plant});}
   assert.equal(fieldAction(field,'plant-classify',{plant:'apple',answer:'new'}).ok,false);
   act(field,'plant-classify',{plant:'apple',answer:'same'});act(field,'plant-classify',{plant:'balsam',answer:'new'});
-  assert.equal(fieldAction(field,'transfer',{subject:'dog',answer:'egg'}).ok,false);
+  assert.equal(fieldAction(field,'transfer',{card:'whale',bin:'egg'}).ok,false);
   assert.equal(fieldReady(field),false);
-  act(field,'transfer',{subject:'rose',answer:'same'});act(field,'transfer',{subject:'dog',answer:'live'});assert.equal(fieldReady(field),true);
+  for (const c of SORT_CARDS) act(field,'transfer',{card:c.id,bin:c.bin});assert.equal(fieldReady(field),true);
 });
 
 test('final book uses real records, both life kinds, reasoning and three evidence-based help requests',() => {
@@ -147,6 +151,7 @@ test('final book uses real records, both life kinds, reasoning and three evidenc
   assert.equal(fieldBookReady(field),true);
   assert.equal(fieldAction(field,'help-match',{request:'care',recordId:'field-observation-larva'}).ok,false);
   for (const [request,recordId] of [['observation','field-observation-larva'],['retry','field-seed-water'],['care','field-care-water']]) act(field,'help-match',{request,recordId});
+  act(field,'tower-run');
   assert.equal(fieldAction(field,'chapter-complete').ok,false);
   assert.equal(fieldAction(field,'observation-plan',{subject:'',when:'',what:''}).ok,false);
   assert.deepEqual(field.chapters[4].plan,{subject:'',when:'',what:''});
@@ -202,6 +207,7 @@ test('teacher preview unlocks entry while requiring genuine work and is discarde
 test('chapter restart clears only the active challenge and preserves earned records, rewards and published book',() => {
   const field=completedThrough(3);composeBook(field);
   for (const [request,recordId] of [['observation','field-observation-larva'],['retry','field-seed-water'],['care','field-care-water']]) act(field,'help-match',{request,recordId});
+  act(field,'tower-run');
   act(field,'observation-plan',{subject:'학교 봉선화',when:'매주 월요일',what:'잎과 줄기를 그림으로 남기기'});act(field,'chapter-complete');
   const records=fieldRecords(field),book=structuredClone(field.chapters[4]);
   for (const chapter of [0,1,2,3,4]) {

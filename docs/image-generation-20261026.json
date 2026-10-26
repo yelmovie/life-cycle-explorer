@@ -1,0 +1,258 @@
+{
+  "created_date": "2026-10-26",
+  "generator": "built-in image_gen",
+  "output_format": "PNG",
+  "output_size": [
+    1024,
+    1024
+  ],
+  "transparent_background": true,
+  "reference_assets": [
+    "assets/game/pale.webp",
+    "assets/game/pot3.webp",
+    "assets/game/dry.webp",
+    "assets/game/watercan.webp"
+  ],
+  "images": [
+    {
+      "filename": "pale-recover-1.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-65857991-eec3-433e-92af-6bbcb9f10da2.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/game/pale-recover-1.png",
+      "verified": {
+        "size": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "center_alpha": 253,
+        "bytes": 708445
+      }
+    },
+    {
+      "filename": "dry-recover-1.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-7f925800-06aa-4aab-b34d-2b8aaea43629.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/game/dry-recover-1.png",
+      "verified": {
+        "size": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "center_alpha": 253,
+        "bytes": 1144978
+      }
+    },
+    {
+      "filename": "thermometer.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-4afd5919-c114-4451-8228-d375713c5bc0.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/game/thermometer.png",
+      "verified": {
+        "size": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "center_alpha": 254,
+        "bytes": 295752
+      }
+    },
+    {
+      "filename": "pale-recover-2.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-a29af527-7e73-4d77-8847-aab0e3ef3b4b.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/game/pale-recover-2.png",
+      "verified": {
+        "size": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "center_alpha": 253,
+        "bytes": 883017
+      }
+    },
+    {
+      "filename": "heat-mat.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-5f7aaeba-ebfe-484a-b3f2-8ae228738204.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/game/heat-mat.png",
+      "verified": {
+        "size": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "center_alpha": 253,
+        "bytes": 877237
+      }
+    },
+    {
+      "filename": "field-camera.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-b333d3ba-cf00-4000-bc31-812082297141.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/game/field-camera.png",
+      "verified": {
+        "size": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "center_alpha": 252,
+        "bytes": 1369063
+      }
+    },
+    {
+      "filename": "watercan-pour.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-a1e01786-cc03-460b-af14-ab86a06d6fa1.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/game/watercan-pour.png",
+      "verified": {
+        "size": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "center_alpha": 0,
+        "bytes": 782790
+      }
+    },
+    {
+      "filename": "photo-frame.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-dc3b22e8-d3ab-432d-a9e9-ba787f5d7835.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/game/photo-frame.png",
+      "verified": {
+        "size": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "center_alpha": 0,
+        "bytes": 670836
+      }
+    }
+  ],
+  "prompts": [
+    {
+      "filename": "pale-recover-1.png",
+      "referenced_image_paths": [
+        "C:/Users/bongb/.codex/generated_images/01a1788a-2278-7602-b993-2cac9674fc8a/exec-23c00170-fb3a-4a2b-9b8c-7d22c286c3fe.png",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/game/pale.webp"
+      ],
+      "transparent_background": true,
+      "prompt": "Use case: precise-object-edit. Deliver pale-recover-1.png, one square 1024x1024 transparent PNG.\nImage 1 is the edit target. Image 2 shows the original pot and pale old leaves.\nMake ONLY the SIX new GREEN leaves in Image 1 much SMALLER: reduce their length and width to one quarter of their current dimensions, tiny fresh buds just unfolding at each of the three shoot tips, two per shoot. The pale-yellow old leaves remain large and drooping and completely unchanged. Early recovery, very modest new growth.\nKeep absolutely everything else identical to Image 1, especially the exact glass pot, gold rim, dark soil and white root details, object scale, pot location, camera viewpoint, three stem heights, pale color and arrangement. Do not shorten the stretched stems. Do not remove the older yellow leaves. Maintain the reference's detailed painterly 3D material rendering. Genuine transparent background, no text."
+    },
+    {
+      "filename": "dry-recover-1.png",
+      "referenced_image_paths": [
+        "D:/iscreammedia_sc34/4 lifecycle/assets/game/dry.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/game/pot3.webp"
+      ],
+      "transparent_background": true,
+      "prompt": "Use case: precise-object-edit. Deliver dry-recover-1.png as one square 1024x1024 transparent PNG sprite for a children's science game.\nImage 1 is the EDIT TARGET. Image 2 is ONLY the leaf material and healthy color style reference, NOT the composition.\nSame glass pot with gold rim and the same THREE bean seedlings as Image 1: IDENTICAL pot size and position, root patterns, framing, camera angle, and seedling arrangement, middle tallest, outer two lower.\nChange ONLY to halfway recovery after watering: soil dark brown and moist, cracks softened/closed into moist clumps; the previously wilted drooping leaves lifted about halfway, stems slightly straighter, leaves a little greener and less shrivelled but still visibly partially drooping and not fully healthy. No extra seedlings, no new mature leaves, no watering can. Retain visible white roots through the glass.\nMatch reference's detailed soft painterly 3D illustration, clean studio lighting, centered whole object with same transparent padding as Image 1. Genuine alpha transparent background, no text."
+    },
+    {
+      "filename": "thermometer.png",
+      "referenced_image_paths": [
+        "D:/iscreammedia_sc34/4 lifecycle/assets/game/pale.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/game/pot3.webp"
+      ],
+      "transparent_background": true,
+      "prompt": "Use case: scientific-educational. Deliver thermometer.png as one square 1024x1024 transparent PNG game prop.\nThe two input images are STYLE REFERENCES only. Match their softly painterly, realistic detailed 3D materials, brass accents, natural textures and clean studio lighting.\nA classic glass laboratory thermometer standing upright on a small round wooden base, brass cap on top, red bulb at bottom. Critical functional constraint: the narrow GLASS CAPILLARY TUBE above the bulb is COMPLETELY EMPTY and clear, with NO colored or red liquid column inside it. Software will draw the column later. Red is confined to the bottom bulb only.\nCream backing plate behind the glass capillary, accurate printed Celsius scale 0 to 30 increasing from bottom to top. Tick every 5 degrees: 0,5,10,15,20,25,30. Print only the four numerals \"0\", \"10\", \"20\", \"30\", plus a small \"°C\" near the top. One subtle small green band spanning between 20 and 25 degrees. No other text.\nStraight front view, perfectly vertical, tall narrow thermometer centered within square canvas, whole base and top visible, transparent padding. No seedlings or glass pot. Genuine alpha transparent background."
+    },
+    {
+      "filename": "pale-recover-2.png",
+      "referenced_image_paths": [
+        "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-65857991-eec3-433e-92af-6bbcb9f10da2.png",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/game/pale.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/game/pot3.webp"
+      ],
+      "transparent_background": true,
+      "prompt": "Use case: precise-object-edit. Deliver pale-recover-2.png, one square 1024x1024 transparent PNG.\nImage 1 is the EDIT TARGET: the first recovery stage with tiny green leaves. Image 2 is the original pale seedling composition, image 3 only shows healthy deep-green leaf color and texture.\nLater stage: change ONLY the new leaves at the top of EACH of the three stems. Replace the tiny fresh green buds with several LARGE healthy DEEP-GREEN broad open glossy leaves, three to four green leaves per shoot, clearly bigger and greener than the old pale leaves. The OLD LOWER PALE YELLOW LEAVES stay visible and unchanged. The stretched stems REMAIN LONG AND THIN and never shrink.\nKeep exactly the same glass pot with gold rim, pot position and size, dark soil, white root patterns, composition, viewpoint and three seedlings' arrangement of Image 1 (left tallest, middle medium, right shortest). No changing pot proportions or moving the pot. Allow the enlarged leaves in the space surrounding the original shoot tips, keeping everything inside the canvas.\nMatch the detailed soft painterly 3D illustration and studio lighting of the input. Whole object visible, true transparent alpha background. No text or additional props."
+    },
+    {
+      "filename": "heat-mat.png",
+      "referenced_image_paths": [
+        "D:/iscreammedia_sc34/4 lifecycle/assets/game/pale.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/game/pot3.webp"
+      ],
+      "transparent_background": true,
+      "prompt": "Use case: stylized-concept. Deliver heat-mat.png, one square 1024x1024 transparent PNG sprite.\nInput images are STYLE REFERENCES ONLY. Match their realistic softly painterly 3D materials, fine details and clean studio lighting.\nA flat rectangular seedling heat mat used in real gardening, dark green rubber surface with a subtle grid pattern, a cable leading from one side to a small white controller box with a clear digital display showing EXACTLY \"22°C\" and a small orange heat icon (three rising heat waves). Subtle soft warm orange glow ONLY along the edges of the mat. Real gardening tool, not a hotplate or mattress.\nThree-quarter top view, centered, wide horizontal composition within a square canvas. Entire rectangular mat, cord and controller visible with ample padding, one connected tool, no pot or plant placed on it. No other objects or text. Genuine alpha transparent background, no floor or backdrop."
+    },
+    {
+      "filename": "field-camera.png",
+      "referenced_image_paths": [
+        "D:/iscreammedia_sc34/4 lifecycle/assets/game/pale.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/game/pot3.webp"
+      ],
+      "transparent_background": true,
+      "prompt": "Use case: stylized-concept. Deliver field-camera.png as one square 1024x1024 transparent PNG sprite.\nThe input images are STYLE REFERENCES ONLY: match their detailed soft painterly 3D rendering, natural materials, warm brass accents, clean studio light.\nA friendly vintage field camera for a young nature explorer. STRICT STRAIGHT FRONT VIEW, facing the viewer, symmetrical camera front, lens optical axis facing straight out at viewer with no camera yaw. Cream and forest-green leather body with brass trim, one large round glass lens in the center with a soft reflection, a shutter button on top, a small green leaf charm and a brown leather strap. Cute rounded proportions but sophisticated enough for elementary pupils. No words, letters, brand name or logo.\nOne camera, centered, whole camera and strap visible with padding, true alpha transparent background. No pot, plants, scene or extra props."
+    },
+    {
+      "filename": "watercan-pour.png",
+      "revision": false,
+      "referenced_image_paths": [
+        "D:/iscreammedia_sc34/4 lifecycle/assets/game/watercan.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/game/pot3.webp"
+      ],
+      "transparent_background": true,
+      "prompt": "Use case: precise-object-edit. Deliver watercan-pour.png as a single square 1024x1024 transparent PNG.\nImage 1 is the edit target and exact watering-can identity reference; Image 2 is a style reference only.\nThe SAME small dark-green aged metal watering can with brass perforated round rose spout, same distinctive handle, seams, materials and proportions as Image 1. Tilt the can FORWARD about 35 degrees toward the LEFT so the spout is lowered toward the lower left and water can flow out. Show a gentle stream of numerous clear light-blue water droplets pouring from the holes of the rose spout DOWN TOWARD THE LOWER LEFT. Clearly visible short falling stream, realistic thin streams breaking into droplets. Keep the whole can and the entire water stream inside the square canvas with transparent padding. Side view, centered.\nMatch detailed soft painterly 3D illustration and clean studio light. Genuine alpha transparent background, no pot, no floor, no plants, no text or logo."
+    },
+    {
+      "filename": "photo-frame.png",
+      "revision": false,
+      "referenced_image_paths": [
+        "D:/iscreammedia_sc34/4 lifecycle/assets/game/pale.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/game/pot3.webp"
+      ],
+      "transparent_background": true,
+      "prompt": "Use case: stylized-concept. Deliver photo-frame.png as one square 1024x1024 transparent PNG UI sprite.\nInput images are references ONLY for soft lighting, painterly 3D material quality and natural color warmth; DO NOT include the plants or pots.\nOne classic instant-photo PAPER FRAME, slightly warm off-white paper with subtle fine paper texture, narrow left/right/top margins and a much thicker bottom margin, with one strip of light-green semi-opaque washi tape placed horizontally across the center of the top edge. Straight front view without tilt or perspective. Whole paper frame centered within a square canvas with modest transparent padding.\nCRITICAL: the LARGE SQUARE PHOTO WINDOW in the middle is a COMPLETELY TRANSPARENT EMPTY CUTOUT, genuine alpha zero, showing nothing at all. Software will insert a photograph there later. Do not fill it with white, gray, checkers, a picture, glass or a plant. The outside of the frame is also transparent. Only the paper border and tape are visible. Very soft subtle drop shadow around the paper. No text, no logo, no extra props."
+    },
+    {
+      "filename": "thermometer.png",
+      "revision": true,
+      "referenced_image_paths": [
+        "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-c2afb9e1-09f4-4fb7-be18-7ae240124e44.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Use case: precise-object-edit. Edit this thermometer to match the required scientific scale. Deliver one square 1024x1024 transparent PNG.\nPreserve the same brass-capped thermometer, wooden round base, glass, cream backing, empty clear capillary and red bottom bulb, front-facing viewpoint, materials, and composition.\nCHANGE ONLY THE PRINTED SCALE to EXACTLY SEVEN horizontal marks, evenly spaced vertically at 0,5,10,15,20,25,30 degrees Celsius. NO intermediate one-degree marks. Four longer ticks with printed labels on the left \"0\",\"10\",\"20\",\"30\"; three short ticks at 5,15,25 with no printed number. Label 0 at bottom, 30 at top. Small \"°C\" at top.\nGreen band EXACTLY spans the interval from the 20 mark up to the 25 mark, starting at 20, not above it.\nKeep the capillary above the bottom bulb EMPTY CLEAR: no red liquid column. Red only in the bottom bulb and its short neck below the zero scale point.\nEntire top finial and entire base must be visible with at least 4% padding at top and bottom, no cropping. Genuine alpha transparent background. No other changes."
+    },
+    {
+      "filename": "dry-recover-1.png",
+      "revision": true,
+      "referenced_image_paths": [
+        "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-84526c79-27b9-44ce-927f-67ec8461c147.png",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/game/dry.webp"
+      ],
+      "transparent_background": true,
+      "prompt": "Use case: precise-object-edit. Deliver dry-recover-1.png as one square 1024x1024 transparent PNG.\nImage 1 is the edit target, Image 2 the originally wilted plant for comparison.\nChange ONLY the pose of the drooping leaf blades in Image 1 to show HALFWAY RECOVERY after watering: each of the six large leaf blades must lift outward away from the stem so the leaves angle only about 25-35 degrees BELOW the horizontal instead of hanging nearly vertically downward. The three upper stems may become a little less hooked, but this must remain an INTERMEDIATE state with softly drooping leaf tips, not fully upright healthy plants. Keep their color as the slightly greener still-muted green of Image 1.\nPreserve EXACTLY the glass pot, gold rim, pot position, size, perspective, dark moist soil, exposed white roots, root patterns and the three seedlings' arrangement from Image 1. Do not add new leaves or seedlings. Left and right shorter than the middle.\nMatch the reference's detailed softly painterly 3D style and lighting. Whole object inside the same square composition, genuine alpha transparent background, no other objects or text."
+    }
+  ]
+}

@@ -45,3 +45,30 @@
 @media(max-width:760px){.notebook-book{gap:24px;padding-inline:32px}.notebook-page h3{font-size:29px}.notebook-capture-camera{width:65px;top:0;left:8px}.notebook-capture-camera img{width:55px;height:50px}.notebook-photo-caption{font-size:24px}}
 @media(max-width:600px){.notebook-book{grid-template-columns:minmax(0,1fr);gap:28px;padding:48px 24px;background-size:200% 100%;background-position:left center}.notebook-specimen>img,.specimen-3d{height:180px;max-width:230px}.notebook-page{padding:0}.notebook-photo-grid.paired{grid-template-columns:1fr 1fr}.notebook-photo-grid img{height:150px}.notebook-capture-camera{display:none}.notebook-own-writing{min-height:160px}}
 @media(prefers-reduced-motion:reduce){.field-notebook-dialog *{animation:none!important}.notebook-flash{display:none}.notebook-hand.writing:after{display:none}}
+
+/* Capture sequence: frame the shot -> shutter closes -> flash -> photo develops -> taped into the notebook. */
+.field-notebook-dialog .notebook-viewfinder{position:absolute;inset:14px;z-index:3;pointer-events:none;animation:notebook-frame .75s both}
+.notebook-viewfinder b{position:absolute;width:42px;height:42px;border:4px solid #fffbed;filter:drop-shadow(0 1px 2px #1d2f2580)}
+.notebook-viewfinder b:nth-child(1){top:0;left:0;border-right:0;border-bottom:0;border-top-left-radius:10px}
+.notebook-viewfinder b:nth-child(2){top:0;right:0;border-left:0;border-bottom:0;border-top-right-radius:10px}
+.notebook-viewfinder b:nth-child(3){bottom:0;left:0;border-right:0;border-top:0;border-bottom-left-radius:10px}
+.notebook-viewfinder b:nth-child(4){bottom:0;right:0;border-left:0;border-top:0;border-bottom-right-radius:10px}
+.field-notebook-dialog .notebook-shutter{position:absolute;inset:0;z-index:5;pointer-events:none;overflow:hidden}
+.notebook-shutter i{position:absolute;left:0;right:0;height:50%;background:#1b2a22;transform:scaleY(0);animation:notebook-shutter .32s .55s both}
+.notebook-shutter i:first-child{top:0;transform-origin:top}
+.notebook-shutter i:last-child{bottom:0;transform-origin:bottom}
+.field-notebook-dialog .notebook-flash{animation:notebook-flash .5s .78s both}
+.field-notebook-dialog .notebook-capture-camera{width:auto;animation:notebook-camera-in .9s both}
+.field-notebook-dialog .notebook-capture-camera img{width:96px;height:86px}
+.field-notebook-dialog .notebook-capture-camera span{animation:notebook-click .4s .7s both}
+.field-notebook-dialog .notebook-photo-grid{animation:notebook-photo-stick .7s 1.15s both}
+.field-notebook-dialog .notebook-photo-grid img{animation:notebook-develop 1.1s 1.05s both}
+@keyframes notebook-frame{0%{opacity:0;transform:scale(1.08)}35%{opacity:1;transform:scale(1)}80%{opacity:1}100%{opacity:0}}
+@keyframes notebook-shutter{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(0)}}
+@keyframes notebook-camera-in{0%{opacity:0;transform:translate(-30px,-20px) rotate(-14deg)}40%{opacity:1;transform:rotate(-7deg)}70%{transform:rotate(-7deg) scale(.9)}85%{transform:rotate(-7deg) scale(1.05)}100%{transform:rotate(-7deg) scale(1)}}
+@keyframes notebook-click{0%{opacity:0;transform:scale(.4)}60%{opacity:1;transform:scale(1.2)}100%{opacity:1;transform:scale(1)}}
+@keyframes notebook-develop{0%{filter:grayscale(1) brightness(1.7) blur(3px)}60%{filter:grayscale(.4) brightness(1.15) blur(.5px)}100%{filter:none}}
+@media(prefers-reduced-motion:reduce){.notebook-viewfinder,.notebook-shutter{display:none}}
+
+.notebook-photo-grid figure{background:url(../assets/game/photo-frame.webp) center/100% 100% no-repeat;box-shadow:none;padding:17% 17% 7%}
+.notebook-photo-grid figure:before{display:none}

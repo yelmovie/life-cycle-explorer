@@ -116,19 +116,19 @@ export function renderQuestRoom(v,ctx){
   return;
  }
  if(c===1&&step===0){
-  for(const[side,x]of [['A',385],['B',855]]){panel(x,365,270,255);sprite('vessel',x,365,180);label(x,280,'화분 '+side,25,200);label(x,487,side==='A'?`물 없음 · ${e.aWarm?'알맞은 온도':'낮은 온도'}`:'물 있음 · 알맞은 온도',22,355);}
-  label(640,530,'알아볼 것: 물의 영향\n씨앗·흙·빛·공기는 두 화분이 같아.',22,700);
-  button(350,590,230,'A에도 물 주기',{kind:'repair',setting:'water'});
-  button(615,590,270,'A의 온도를 B와 같게',{kind:'repair',setting:'warm'},e.aWarm);
-  button(945,590,275,'수리한 실험 설계 저장',{kind:'verify'});
+  for(const[side,x]of [['A',420],['B',860]]){panel(x,385,320,240);label(x,295,'화분 '+side,25,200);sprite('vessel',x,375,140);label(x,470,side==='A'?`물 없음 · ${e.aWarm?'22°C':'5°C'}`:'물 있음 · 22°C',22,290);}
+  label(640,550,'알아볼 것: 물의 영향 · 씨앗·흙·빛·공기는 두 화분이 같아.',22,1000);
+  button(330,630,250,'A에도 물 주기',{kind:'repair',setting:'water'});
+  button(640,630,300,'A도 22°C로 맞추기',{kind:'repair',setting:'warm'},e.aWarm);
+  button(960,630,290,'수리한 실험 설계 저장',{kind:'verify'});
   return;
  }
  if(c===1&&step===1){
-  panel(380,385,280,280);sprite('pot0',380,385,230);label(380,535,'아직 싹이 보이지 않는 콩',23,340);
-  const checks=[['water','물은 알맞게 주었을까?','물: 알맞게 주고 있어'],['temperature','온도는 알맞을까?','온도: 싹트기에 알맞아'],['time','충분히 관찰했을까?','기간: 관찰을 시작한 지 얼마 안 됐어']];
+  panel(380,385,300,270);sprite('pot0',380,365,190);label(380,485,'아직 싹이 보이지 않는 콩',22,280);
+  const checks=[['water','물은 알맞게 주었을까?','물: 알맞게 주고 있어'],['temperature','온도는 알맞을까?','온도: 22°C, 싹트기에 알맞아'],['time','충분히 관찰했을까?','기간: 관찰을 시작한 지 얼마 안 됐어']];
   checks.forEach(([clue,text,result],i)=>button(850,315+i*91,425,e.checks?.includes(clue)?result:text,{kind:'check',clue},e.checks?.includes(clue)));
-  button(385,590,300,'싹이 안 보이면 죽은 것',{kind:'decide',choice:'dead'});
-  button(860,590,425,'조건을 확인하며 관찰 이어가기',{kind:'decide',choice:'observe'});
+  button(380,630,300,'싹이 안 보이면 죽은 것',{kind:'decide',choice:'dead'});
+  button(850,630,425,'조건을 확인하며 관찰 이어가기',{kind:'decide',choice:'observe'});
   return;
  }
  if(c===2&&step===0){

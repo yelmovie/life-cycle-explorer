@@ -3,6 +3,7 @@ import {ART,SCENES} from './game-assets.js';
 import {POINTS,EDGES,DOORS,nearest,route} from './game-model.js';
 import {FIELD_CHAPTERS} from './field-content.js';
 import {renderFieldRoom,fieldRoomAssets} from './field-room-scenes.js';
+import {towerBackdrop} from './field-story-scenes.js';
 import {lightRestoredLandmarks} from './field-world-effects.js';
 import {renderLifeClock} from './field-clock.js';
 import {COMPANION_ART} from './field-companion.js';
@@ -97,6 +98,15 @@ export function createFieldGame(context){
    return resize();
   }
   pic(key,x,y,w,h=w){const texture=this.textures.exists(key)?key:'__MISSING',o=this.add.image(x,y,texture);return o.setScale(Math.min(w/o.width,h/o.height));}
+  dashed(g,points){for(let i=0;i<points.length-1;i+=2)g.lineBetween(...points[i],...points[i+1]);return g;}
+  // Small items vanish on detailed art; a cream disc and dashed ring set them apart.
+  marker(object,r,text){
+   const ring=[...Array(48)].map((_,i)=>[Math.cos(i/24*Math.PI)*r,Math.sin(i/24*Math.PI)*r]);
+   const halo=this.add.container(object.x,object.y,[this.add.circle(0,0,r,0xfffbed,.95),this.dashed(this.add.graphics().lineStyle(4,0x337b63),ring)]);
+   object.setDepth(Math.max(object.depth,1));this.time.addEvent({delay:16,loop:true,callback:()=>halo.setPosition(object.x,object.y)});
+   if(text)this.label(object.x,object.y+r+24,text,22,160);return halo;
+  }
+  dashedBox(x,y,w,h){const p=[],l=x-w/2,t=y-h/2;for(let i=0;i<=40;i++)p.push([l+w*i/40,t]);for(let i=0;i<=24;i++)p.push([l+w,t+h*i/24]);for(let i=0;i<=40;i++)p.push([l+w-w*i/40,t+h]);for(let i=0;i<=24;i++)p.push([l,t+h-h*i/24]);return this.dashed(this.add.graphics().lineStyle(4,0x337b63,.8),p);}
   shadow(x,y,w=210){return this.add.ellipse(x,y,w,25,0x173d2e,.20);}
   // Nine-slice paper card (Canvas has no NineSlice object): taped corners keep their size, edges stretch.
   paper(x,y,w,h){
@@ -134,7 +144,7 @@ export function createFieldGame(context){
     hit.setTo(hit.x-(w-hit.width)/2,hit.y-(h-hit.height)/2,w,h);
    }
   }
-  dial(key,x,y,value,max,event,labels){return renderLifeClock(this,context,key,x,y,value,max,event,labels);}
+  dial(key,x,y,value,max,event,labels,size){return renderLifeClock(this,context,key,x,y,value,max,event,labels,size);}
   showHint(pattern,items=this.focusTargets){
    this.hintMarks?.forEach(o=>o.destroy());this.hintMarks=[];
    const targets=items.filter(item=>pattern.test(item.label)).slice(0,4);
@@ -152,7 +162,7 @@ export function createFieldGame(context){
    const unavailable=[...new Set(keys)].filter(key=>!this.textures.exists(key));
    const missing=unavailable.filter(key=>this.paths[key]&&(this.assetAttempts.get(key)||0)<2);
    if(missing.length){this.loading=true;this.input.enabled=false;context.focusTargets([]);context.emit('assets-loading');this.load.once('complete',()=>{this.loading=false;this.refresh();});for(const key of missing)key==='walker'?this.load.spritesheet(key,this.paths[key],{frameWidth:256,frameHeight:256}):this.load.image(key,this.paths[key]);this.load.start();return;}
-   this.renderToken++;this.walking=false;this.focusTargets=[];this.tweens.killAll();this.time.removeAllEvents();this.input.removeAllListeners();this.input.keyboard?.removeAllListeners();
+   this.renderToken++;this.walking=false;this.focusTargets=[];context.noteBox?.(null);this.tweens.killAll();this.time.removeAllEvents();this.input.removeAllListeners();this.input.keyboard?.removeAllListeners();
    this.children.removeAll(true);for(const key of this.recordTextures||[])if(this.textures.exists(key))this.textures.remove(key);this.recordTextures=[];
    for(const mask of this.worldMasks||[])mask.destroy();this.worldMasks=[];
    if(this.lensMask){this.lensMask.destroy();this.lensMask=null;}
@@ -166,7 +176,7 @@ export function createFieldGame(context){
    }
    this.assetFailure=null;
    if(mode==='room'){
-    this.backdrop(ROOM_BACKDROPS[chapter]);
+    this.backdrop(chapter===4?towerBackdrop(context.s.field):ROOM_BACKDROPS[chapter]);
     renderFieldRoom(this,context);
    }else this.map(mode==='title');
    // Place map doors now, not on the next frame, so they never flash at the corner.
@@ -177,8 +187,10 @@ export function createFieldGame(context){
    const s=context.s,completed=s.field.completed;
    if(title&&!this.textures.exists('forestMap'))return;
    // Mirrored strips above and below let the camera lift edge paths clear of the floating HUD.
-   for(const j of title?[0]:[-1,0,1])this.pic('forestMap',640,400+j*H,W,H).setDisplaySize(W,H).setFlipY(j!==0);
-   this.add.rectangle(640,400,W,H*3,0x173d36,title?.12:Math.max(0,.35-completed.length*.065));
+   // Canvas mode has no tint, so a dim, greyed copy of the map stands for the sleeping forest.
+   if(!title&&!this.textures.exists('forestMapSleep')){const src=this.textures.get('forestMap').getSourceImage(),t=this.textures.createCanvas('forestMapSleep',src.width,src.height),c=t.getContext();c.filter='grayscale(.7) brightness(.72)';c.drawImage(src,0,0);t.refresh();}
+   for(const j of title?[0]:[-1,0,1])this.pic(title?'forestMap':'forestMapSleep',640,400+j*H,W,H).setDisplaySize(W,H).setFlipY(j!==0);
+   this.add.rectangle(640,400,W,H*3,0x173d36,title?.12:.18);
    if(title)return;
    lightRestoredLandmarks(this,context);
    const pos=nearest([s.avatar.x,s.avatar.y]),point=POINTS[pos];

@@ -7,8 +7,8 @@ export function clockFace(key,width,height,size=204){
 }
 export const clockAngle=(value,max)=>-Math.PI/2+Math.max(0,Math.min(max,value))/max*Math.PI*2;
 
-export function renderLifeClock(v,ctx,key,x,y,value,max,event,labels){
- const image=v.pic(key,x,y,204).setInteractive({useHandCursor:true});
+export function renderLifeClock(v,ctx,key,x,y,value,max,event,labels,size=204){
+ const k=size/204,image=v.pic(key,x,y,size).setInteractive({useHandCursor:true});
  const face=clockFace(key,image.width,image.height);
  image.setOrigin(...face.origin);const radius=face.radius;
  const facePaint=v.add.graphics(),ticks=v.add.graphics(),hand=v.add.graphics();
@@ -20,8 +20,8 @@ export function renderLifeClock(v,ctx,key,x,y,value,max,event,labels){
   const a=i*Math.PI/12,r1=radius*(i%2?.87:.80),r2=radius*.94;
   ticks.lineBetween(x+Math.cos(a)*r1,y+Math.sin(a)*r1,x+Math.cos(a)*r2,y+Math.sin(a)*r2);
  }
- const caption=v.label(x,y+128,labels?.[value]??`${value}일째`,22,225);
- const instruction=event.startsWith('animal-')?null:v.text(x,y-126,'시간 손잡이를 돌려 봐',18,245);
+ const caption=v.label(x,y+128*k,labels?.[value]??`${value}일째`,22,225);
+ const instruction=event.startsWith('animal-')?null:v.text(x,y-126*k,'시간 손잡이를 돌려 봐',18,245);
  let next=value,moved=false;const draw=n=>{
   const a=clockAngle(n,max),long=radius*.72,short=radius*.40;
   hand.clear().lineStyle(5,0x285b45,1).lineBetween(x,y,x+Math.cos(a)*long,y+Math.sin(a)*long);
@@ -45,11 +45,11 @@ export function renderLifeClock(v,ctx,key,x,y,value,max,event,labels){
  image.on('dragend',()=>commit(next));
  image.on('pointerup',()=>{if(!moved)commit(value===max?0:value+1);});
  const step=(dx,delta,label)=>{
-  const bg=v.add.circle(x+dx,y+86,23,0xfffbec).setStrokeStyle(2,0x3f735c);
-  v.text(x+dx,y+84,delta<0?'−':'+',28,45);v.click(x+dx,y+86,48,48,()=>commit(value+delta),label);
+  const bg=v.add.circle(x+dx,y+86*k,23,0xfffbec).setStrokeStyle(2,0x3f735c);
+  v.text(x+dx,y+84*k,delta<0?'−':'+',28,45);v.click(x+dx,y+86*k,48,48,()=>commit(value+delta),label);
   return bg;
  };
- step(-61,-1,'시간 한 단계 이전');step(61,1,'시간 한 단계 다음');
+ step(-61*k,-1,'시간 한 단계 이전');step(61*k,1,'시간 한 단계 다음');
  v.focusTargets.push({x,y,w:125,h:125,label:'시간 손잡이 한 단계 앞으로',fn:()=>commit(value===max?0:value+1)});
  return {image,caption,hand,instruction};
 }

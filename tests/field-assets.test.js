@@ -20,7 +20,7 @@ function assets(chapter=1){
 for(const chapter of [1,2,3,4])test(`${chapter+1}단계는 배경과 도구를 불러온 뒤에만 활동을 연다`,()=>{
  const a=assets(chapter);a.scene.refresh();
  assert.equal(a.scene.loading,true);assert.equal(a.scene.input.enabled,false);
- assert.ok(a.queued.includes(['fieldClearing','bg2','bg4','gardenSeasons','bg8'][chapter]));assert.ok(a.queued.length>1);
+ assert.ok(a.queued.includes(['fieldClearing','bg2','bg4','gardenSeasons','towerRoomSleep'][chapter]));assert.ok(a.queued.length>1);
  assert.deepEqual(a.events,['assets-loading']);
 });
 

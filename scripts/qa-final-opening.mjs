@@ -12,7 +12,7 @@ try{
  await page.locator('[data-action=start]').click();await capture('opening');await page.waitForTimeout(20000);
  await page.locator('[data-action=begin]').click();await capture('map');await page.waitForTimeout(15000);
  await page.locator('#next').click();await page.waitForFunction(()=>document.querySelector('#app').dataset.view==='room');await page.locator('.boot').waitFor({state:'detached'});await capture('first-mission');
- for(const form of ['알','애벌레','번데기','어른벌레']){await page.getByRole('button',{name:form+' 확대해서 보기',exact:true}).press('Enter');await capture('observe-'+form);await page.waitForTimeout(30000);await page.getByRole('button',{name:'관찰한 모습 기록',exact:true}).press('Enter');await page.locator('[data-notebook-close]').click();}
+ for(const form of ['알','애벌레','번데기','어른벌레']){await page.getByRole('button',{name:form+' 확대해서 보기',exact:true}).press('Enter');await capture('observe-'+form);await page.waitForTimeout(30000);await page.getByRole('button',{name:'관찰 마치기',exact:true}).press('Enter');await page.locator('[data-notebook-close]').click();}
  await page.waitForTimeout(Math.max(0,180000-(Date.now()-started)));await capture('three-minutes');
  await page.locator('[data-action=settings]').click();await capture('settings');
  const settings={collapsed:await page.locator('#modal details[open]').count(),summary:await page.locator('#modal summary').allTextContents(),endingLocked:await page.locator('#modal [data-action=ending]').isDisabled(),certificateLocked:await page.locator('#modal [data-action=certificate]').isDisabled()};

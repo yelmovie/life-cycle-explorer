@@ -1,3 +1,4 @@
+import {SORT_CARDS} from '../src/field-content.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {initialField,fieldAction,fieldReady,fieldRecords,restoreField,FIELD_FORMS} from '../src/field-model.js';
@@ -27,11 +28,11 @@ function readyField(){
   }else if(c===3){
    for(const animal of ['butterfly','dog'])for(const step of [0,animal==='butterfly'?3:2]){act(f,'animal-time',{animal,step});act(f,'animal-photo',{animal});}act(f,'animal-generation',{answer:'different'});
    for(const plant of ['apple','balsam'])act(f,'plant-tag',{plant});for(const step of [0,3,4]){act(f,'season',{step});for(const plant of ['apple','balsam'])act(f,'season-photo',{plant});}
-   for(const [plant,answer]of [['apple','same'],['balsam','new']])act(f,'plant-classify',{plant,answer});act(f,'transfer',{subject:'rose',answer:'same'});act(f,'transfer',{subject:'dog',answer:'live'});
+   for(const [plant,answer]of [['apple','same'],['balsam','new']])act(f,'plant-classify',{plant,answer});for(const c of SORT_CARDS)act(f,'transfer',{card:c.id,bin:c.bin});
   }else{
-   for(const id of ['field-observation-larva','field-seed-water','field-care-water'])act(f,'book-record',{id});act(f,'book-title',{text:'나의 생명 탐험'});
+   for(const id of ['field-observation-larva','field-seed-water','field-care-water','field-animal-butterfly'])act(f,'book-record',{id});act(f,'book-title',{text:'나의 생명 탐험'});
    for(const id of f.chapters[4].records.slice(0,2))act(f,'book-caption',{id,text:'직접 관찰한 모습을 비교해 기록했다.'});act(f,'book-summary',{text:'조건과 생물에 따라 자라며 달라지는 모습이 다르다는 것을 발견했다.'});
-   for(const [request,recordId]of [['observation','field-observation-larva'],['retry','field-seed-water'],['care','field-care-water']])act(f,'help-match',{request,recordId});act(f,'observation-plan',{subject:'학교 화단의 봉선화',when:'매주 월요일',what:'같은 자리에서 잎과 꽃이 달라지는 모습을 찍기'});
+   for(const [request,recordId]of [['observation','field-observation-larva'],['retry','field-seed-water'],['care','field-care-water']])act(f,'help-match',{request,recordId});act(f,'tower-run');act(f,'observation-plan',{subject:'학교 화단의 봉선화',when:'매주 월요일',what:'같은 자리에서 잎과 꽃이 달라지는 모습을 찍기'});
   }
   assert.equal(fieldReady(f),true);act(f,'chapter-complete');
  }

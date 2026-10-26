@@ -15,9 +15,9 @@ export const FIELD_CHAPTERS=[
     "question": "같은 씨앗인데 왜 하나만 싹이 틀까?",
     "goal": "잠든 씨앗에게 필요한 조건을 찾아 줘.",
     "start": "같은 흙과 씨앗을 준비하고, 알아볼 조건 하나만 바꿔 비교해 보자.",
-    "reward": "물·빛 탐사 도구",
+    "reward": "흙 수분·빛 측정기",
     "art": "plantSensor",
-    "use": "햇살 온실에서 보이지 않는 물과 빛을 조사할 수 있어.",
+    "use": "실제 원예에서 쓰는 측정기야. 흙에 꽂으면 바늘이 흙 속 물기와 받는 빛의 양을 알려 줘. 햇살 온실에서 눈으로 안 보이는 물기와 빛을 재 보자.",
     "guide": "guideTime"
   },
   {
@@ -45,8 +45,8 @@ export const FIELD_CHAPTERS=[
     "question": "네가 찾은 기록으로 숲의 시간을 이을 수 있을까?",
     "goal": "내 기록으로 생명의 시간을 되살려 줘.",
     "start": "네가 실제로 남긴 동물과 식물 기록을 골라, 친구에게 들려줄 이야기를 만들자.",
-    "reward": "생명 탐험가",
-    "art": "core",
+    "reward": "생명 시계 연구원 메달",
+    "art": "towerMedal",
     "use": "내 이야기 PNG와 수행 기록을 가지고 주변 생물도 직접 관찰해!",
     "guide": "guideStory"
   }

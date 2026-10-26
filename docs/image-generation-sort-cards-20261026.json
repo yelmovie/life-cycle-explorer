@@ -1,0 +1,294 @@
+{
+  "created_date": "2026-10-26",
+  "generator": "built-in image_gen",
+  "output_format": "PNG",
+  "output_size": [
+    1024,
+    1024
+  ],
+  "transparent_background": true,
+  "export_note": "Uniform downscaling with transparent padding; preserve the generated alpha channel.",
+  "reference_assets": [
+    "assets/game/dog.webp",
+    "assets/game/frog.webp",
+    "assets/field/rose-shrub-v1.webp",
+    "assets/game/apple.webp",
+    "assets/game/balsam.webp"
+  ],
+  "images": [
+    {
+      "number": 9,
+      "filename": "sort-turtle.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-cd4f68e7-fe36-4b93-8451-ad43e55c8f2c.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/game/sort-turtle.png",
+      "verified": {
+        "size": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "visible_bbox": [
+          131,
+          272,
+          901,
+          778
+        ],
+        "transparent_outer_margin_px": 96,
+        "bytes": 728545
+      }
+    },
+    {
+      "number": 10,
+      "filename": "sort-whale.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-ecaf6ae4-7c20-4d51-9682-7e2337c5ef4f.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/game/sort-whale.png",
+      "verified": {
+        "size": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "visible_bbox": [
+          111,
+          337,
+          922,
+          780
+        ],
+        "transparent_outer_margin_px": 96,
+        "bytes": 424403
+      }
+    },
+    {
+      "number": 11,
+      "filename": "sort-cat.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-2acc395d-40f1-44ad-a426-11ff6cb6ee28.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/game/sort-cat.png",
+      "verified": {
+        "size": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "visible_bbox": [
+          298,
+          120,
+          787,
+          870
+        ],
+        "transparent_outer_margin_px": 96,
+        "bytes": 604849
+      }
+    },
+    {
+      "number": 12,
+      "filename": "sort-snake.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-6558ab51-4e9d-41cc-8485-6f760837521c.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/game/sort-snake.png",
+      "verified": {
+        "size": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "visible_bbox": [
+          162,
+          212,
+          911,
+          851
+        ],
+        "transparent_outer_margin_px": 96,
+        "bytes": 608878
+      }
+    },
+    {
+      "number": 13,
+      "filename": "sort-forsythia.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-e198b8fa-695d-44c0-b7df-426659ba0dbe.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/game/sort-forsythia.png",
+      "verified": {
+        "size": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "visible_bbox": [
+          116,
+          110,
+          913,
+          905
+        ],
+        "transparent_outer_margin_px": 96,
+        "bytes": 1067016
+      }
+    },
+    {
+      "number": 14,
+      "filename": "sort-persimmon.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-8a7110d3-9b79-4f63-95b9-992e104c9c69.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/game/sort-persimmon.png",
+      "verified": {
+        "size": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "visible_bbox": [
+          131,
+          105,
+          915,
+          918
+        ],
+        "transparent_outer_margin_px": 96,
+        "bytes": 944883
+      }
+    },
+    {
+      "number": 15,
+      "filename": "sort-rice.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-a8c1cfcd-5d5e-415b-b5b3-a6ba1352bc26.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/game/sort-rice.png",
+      "verified": {
+        "size": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "visible_bbox": [
+          170,
+          103,
+          862,
+          912
+        ],
+        "transparent_outer_margin_px": 96,
+        "bytes": 846239
+      }
+    },
+    {
+      "number": 16,
+      "filename": "sort-sunflower.png",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-89743e76-fe9a-4cc6-bed0-9e1bd1e9541b.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/game/sort-sunflower.png",
+      "verified": {
+        "size": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "alpha_range": [
+          0,
+          255
+        ],
+        "visible_bbox": [
+          267,
+          112,
+          756,
+          917
+        ],
+        "transparent_outer_margin_px": 96,
+        "bytes": 642744
+      }
+    }
+  ],
+  "prompts": [
+    {
+      "filename": "sort-turtle.png",
+      "referenced_image_paths": [
+        "D:/iscreammedia_sc34/4 lifecycle/assets/game/dog.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/game/frog.webp"
+      ],
+      "transparent_background": true,
+      "prompt": "Use case: scientific-educational. One isolated classification-card illustration for a children's science game, 1024x1024 transparent PNG. The two input images (dog and frog) are STYLE REFERENCES ONLY: match their detailed softly painterly 3D illustration, realistic anatomy, natural colors and materials, gentle studio lighting, friendly but not babyish look. Do not include the dog or frog. A SINGLE animal, entire body and all extremities visible, centered, roughly 75-80% of the canvas's longest dimension with generous clear padding on ALL four sides. Simple readable silhouette recognizable at small card size. GENUINE alpha transparent background, no colored backdrop, no card border, no lettering, no logo, no labels, no eggs, no offspring, no extra animals or props. \nPrimary request: A single friendly SEA TURTLE crawling on a tiny low patch of sand, full body in three-quarter side view, green-brown patterned shell, calm expression. Anatomically correct marine turtle with broad flattened swimming flippers rather than walking feet. Show the entire shell, head, small tail and four anatomically placed flippers with their tips uncropped. Only a minimal small patch of sand underneath its body; no beach scenery.\nOutput asset filename: sort-turtle.png"
+    },
+    {
+      "filename": "sort-whale.png",
+      "referenced_image_paths": [
+        "D:/iscreammedia_sc34/4 lifecycle/assets/game/dog.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/game/frog.webp"
+      ],
+      "transparent_background": true,
+      "prompt": "Use case: scientific-educational. One isolated classification-card illustration for a children's science game, 1024x1024 transparent PNG. The two input images (dog and frog) are STYLE REFERENCES ONLY: match their detailed softly painterly 3D illustration, realistic anatomy, natural colors and materials, gentle studio lighting, friendly but not babyish look. Do not include the dog or frog. A SINGLE animal, entire body and all extremities visible, centered, roughly 75-80% of the canvas's longest dimension with generous clear padding on ALL four sides. Simple readable silhouette recognizable at small card size. GENUINE alpha transparent background, no colored backdrop, no card border, no lettering, no logo, no labels, no eggs, no offspring, no extra animals or props. \nPrimary request: A single gentle HUMPBACK WHALE swimming, full body in side view, blue-grey body with pale belly grooves, small dorsal fin, characteristic throat pleats, and long pectoral fins, anatomically correct horizontal tail flukes. Entire nose, tail and fin tips visible. A tiny sparse bubble trail only. No water surface, no surrounding ocean, no calf, no splash. Broad flowing side silhouette with the face and pale underside readable.\nOutput asset filename: sort-whale.png"
+    },
+    {
+      "filename": "sort-cat.png",
+      "referenced_image_paths": [
+        "D:/iscreammedia_sc34/4 lifecycle/assets/game/dog.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/game/frog.webp"
+      ],
+      "transparent_background": true,
+      "prompt": "Use case: scientific-educational. One isolated classification-card illustration for a children's science game, 1024x1024 transparent PNG. The two input images (dog and frog) are STYLE REFERENCES ONLY: match their detailed softly painterly 3D illustration, realistic anatomy, natural colors and materials, gentle studio lighting, friendly but not babyish look. Do not include the dog or frog. A SINGLE animal, entire body and all extremities visible, centered, roughly 75-80% of the canvas's longest dimension with generous clear padding on ALL four sides. Simple readable silhouette recognizable at small card size. GENUINE alpha transparent background, no colored backdrop, no card border, no lettering, no logo, no labels, no eggs, no offspring, no extra animals or props. \nPrimary request: A single orange tabby cat sitting upright, full body front three-quarter view, tail wrapped around its front paws, alert friendly face. Natural orange striped fur, realistic cat proportions, soft detailed fur. Both ears, all paws and entire curled tail completely within the frame. No collar or accessories, no kittens.\nOutput asset filename: sort-cat.png"
+    },
+    {
+      "filename": "sort-snake.png",
+      "referenced_image_paths": [
+        "D:/iscreammedia_sc34/4 lifecycle/assets/game/dog.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/game/frog.webp"
+      ],
+      "transparent_background": true,
+      "prompt": "Use case: scientific-educational. One isolated classification-card illustration for a children's science game, 1024x1024 transparent PNG. The two input images (dog and frog) are STYLE REFERENCES ONLY: match their detailed softly painterly 3D illustration, realistic anatomy, natural colors and materials, gentle studio lighting, friendly but not babyish look. Do not include the dog or frog. A SINGLE animal, entire body and all extremities visible, centered, roughly 75-80% of the canvas's longest dimension with generous clear padding on ALL four sides. Simple readable silhouette recognizable at small card size. GENUINE alpha transparent background, no colored backdrop, no card border, no lettering, no logo, no labels, no eggs, no offspring, no extra animals or props. \nPrimary request: A single small harmless GREEN GRASS SNAKE coiled loosely on the ground, whole slender body loosely arranged in one or two open coils, clearly visible tapering tail, head gently raised, smooth subtly detailed green scales, friendly natural round eyes, pale cream underside. Not scary: closed mouth, no visible fangs, no threatening strike pose or cobra hood. Only one snake with natural legless anatomy. No ground patch or vegetation, genuine transparent space between the coils.\nOutput asset filename: sort-snake.png"
+    },
+    {
+      "filename": "sort-forsythia.png",
+      "referenced_image_paths": [
+        "D:/iscreammedia_sc34/4 lifecycle/assets/field/rose-shrub-v1.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/game/apple.webp"
+      ],
+      "transparent_background": true,
+      "prompt": "Use case: scientific-educational. A single plant for a small classification card in a children's science game, one square 1024x1024 transparent PNG. Input images are STYLE REFERENCES ONLY: match their softly painterly realistic 3D botanical illustration, fine natural plant materials, natural colors, softly lit studio quality, clean isolated silhouette. Do not reproduce the reference plants. Show the COMPLETE plant from its highest tip down to its small soil mound, with all outer leaves and branches fully visible. Center with generous clear padding on ALL four sides, max plant extent about 75-80% of canvas. One plant only (rice is one clump). Genuine alpha transparent background, no scene, no pot, no card border, no text, no labels, no logo, no people or animals. \nPrimary request: A single FORSYTHIA SHRUB in EARLY SPRING, many graceful arching WOODY BROWN branches covered with small bright YELLOW FOUR-PETAL flowers, only a few tiny green leaf buds. The bare perennial woody branches must remain CLEARLY VISIBLE among the flowers, including several sturdy brown stems emerging from a small mound of soil at the base. A low wide woody shrub with branching structure, not a single herbaceous flower stem or a ball of foliage. Flowers characteristic four slender yellow petals each, no pink flowers. Whole shrub and soil base visible.\nOutput asset filename: sort-forsythia.png"
+    },
+    {
+      "filename": "sort-persimmon.png",
+      "referenced_image_paths": [
+        "D:/iscreammedia_sc34/4 lifecycle/assets/game/apple.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/field/rose-shrub-v1.webp"
+      ],
+      "transparent_background": true,
+      "prompt": "Use case: scientific-educational. A single plant for a small classification card in a children's science game, one square 1024x1024 transparent PNG. Input images are STYLE REFERENCES ONLY: match their softly painterly realistic 3D botanical illustration, fine natural plant materials, natural colors, softly lit studio quality, clean isolated silhouette. Do not reproduce the reference plants. Show the COMPLETE plant from its highest tip down to its small soil mound, with all outer leaves and branches fully visible. Center with generous clear padding on ALL four sides, max plant extent about 75-80% of canvas. One plant only (rice is one clump). Genuine alpha transparent background, no scene, no pot, no card border, no text, no labels, no logo, no people or animals. \nPrimary request: A single small PERSIMMON TREE in autumn. Sturdy grey-brown woody trunk, branching crown, only a FEW remaining yellow-orange broad leaves and MANY round orange PERSIMMON fruits. Distinctive ripe orange persimmons with a small four-lobed green-brown leafy calyx at the top, not apples or citrus. The mostly exposed brown branches and trunk are clearly visible, with fruit distributed among them. Small mound of soil at the base. Whole tree crown, trunk and base in frame, no basket or fallen fruit.\nOutput asset filename: sort-persimmon.png"
+    },
+    {
+      "filename": "sort-rice.png",
+      "referenced_image_paths": [
+        "D:/iscreammedia_sc34/4 lifecycle/assets/game/balsam.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/game/apple.webp"
+      ],
+      "transparent_background": true,
+      "prompt": "Use case: scientific-educational. A single plant for a small classification card in a children's science game, one square 1024x1024 transparent PNG. Input images are STYLE REFERENCES ONLY: match their softly painterly realistic 3D botanical illustration, fine natural plant materials, natural colors, softly lit studio quality, clean isolated silhouette. Do not reproduce the reference plants. Show the COMPLETE plant from its highest tip down to its small soil mound, with all outer leaves and branches fully visible. Center with generous clear padding on ALL four sides, max plant extent about 75-80% of canvas. One plant only (rice is one clump). Genuine alpha transparent background, no scene, no pot, no card border, no text, no labels, no logo, no people or animals. \nPrimary request: A SINGLE CLUMP of ripe RICE PLANTS in autumn, slender golden stalks with multiple heavy DROOPING RICE PANICLES bending downward under their grain, many small golden oval rice grains hanging along branching panicle stems. A few long narrow green-yellow blade leaves, visible golden lower stems emerging from one small mound of MUDDY SOIL. Rice, not wheat: loose drooping branching grain panicles, no dense wheat ears and no long bristly awns. Whole clump, all upper grain tips and muddy base visible. Grain heads should be prominent and easy to recognize at small size.\nOutput asset filename: sort-rice.png"
+    },
+    {
+      "filename": "sort-sunflower.png",
+      "referenced_image_paths": [
+        "D:/iscreammedia_sc34/4 lifecycle/assets/game/balsam.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/field/rose-shrub-v1.webp"
+      ],
+      "transparent_background": true,
+      "prompt": "Use case: scientific-educational. A single plant for a small classification card in a children's science game, one square 1024x1024 transparent PNG. Input images are STYLE REFERENCES ONLY: match their softly painterly realistic 3D botanical illustration, fine natural plant materials, natural colors, softly lit studio quality, clean isolated silhouette. Do not reproduce the reference plants. Show the COMPLETE plant from its highest tip down to its small soil mound, with all outer leaves and branches fully visible. Center with generous clear padding on ALL four sides, max plant extent about 75-80% of canvas. One plant only (rice is one clump). Genuine alpha transparent background, no scene, no pot, no card border, no text, no labels, no logo, no people or animals. \nPrimary request: A SINGLE TALL SUNFLOWER plant, green upright stem and several broad heart-shaped green leaves, ONE large yellow-petaled sunflower head tilted slightly forward toward the viewer. The large dark central flower disk faces the viewer clearly and is densely packed with visible DARK SEEDS in a natural spiral pattern; the dark seed center is broad and easy to read at small card size. Small mound of soil at the base. One complete plant with exactly one flower head, not a bouquet. Show all yellow petals, stem, leaves and soil base, no cropping.\nOutput asset filename: sort-sunflower.png"
+    }
+  ]
+}

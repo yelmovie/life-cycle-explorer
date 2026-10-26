@@ -14,8 +14,8 @@ test('capture depicts actual current seed day and both controlled conditions',()
 test('light care capture does not promise recovery in two days or show future leaves',()=>{
  const s=state();s.field.chapters[2].case=1;const r=s.field.chapters[2].cases[1];
  assert.equal(photoNotebookEntry(s,'care-photo').cards[0].art,'pale');
- r.tool='light';r.day=1;assert.equal(photoNotebookEntry(s,'care-photo').cards[0].art,'pale');
- r.day=2;const entry=photoNotebookEntry(s,'care-photo');assert.equal(entry.cards[0].art,'pale');assert.equal(entry.cards[0].newLeaves,true);assert.match(entry.note,/줄기는 그대로/);assert.match(entry.title,/새잎이 자란 뒤/);assert.doesNotMatch(entry.title,/이틀/);
+ r.tool='light';r.day=1;assert.equal(photoNotebookEntry(s,'care-photo').cards[0].art,'paleRecover1');
+ r.day=2;const entry=photoNotebookEntry(s,'care-photo');assert.equal(entry.cards[0].art,'paleRecover2');assert.equal(entry.cards[0].newLeaves,true);assert.match(entry.note,/줄기는 그대로/);assert.match(entry.title,/새잎이 자란 뒤/);assert.doesNotMatch(entry.title,/이틀/);
 });
 test('animal capture shows only the selected individual at selected life stage',()=>{
  const s=state();assert.equal(photoNotebookEntry(s,'animal-photo',{animal:'dog'}).cards[0].art,'puppy');

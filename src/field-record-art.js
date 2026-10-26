@@ -20,8 +20,7 @@ export async function fieldRecordArt(r,{img,text,parts}){
   text(360,410,'바꾼 조건: '+(e.variable==='water'?'물':'온도')+' 하나');text(360,448,'직접 찍은 날: '+e.photos.map(d=>d+'일').join(' · '),21);text(180,480,'내 예상: '+({a:'A만',b:'B만',both:'둘 다',neither:'둘 다 안 틈',unsure:'아직 모름'}[e.prediction]),18);text(540,480,e.legacyReport?'이전 기록 · 비교 응답 없음':'사진 B만 · '+({same:'예상과 같음',changed:'생각을 수정함',unsure:'처음엔 몰랐음'}[e.report?.expectation]||''),18);
  }else if(e.type==='care'){
   const light=e.variable==='light',labels=careTimeLabels(e);
-  await img(light?'pale':'dry',25,45,310,310);await img(light?'pale':'pot3',385,45,310,310);
-  if(light)parts.push(lightRecoveryLeaves(385,45,310));
+  await img(light?'pale':'dry',25,45,310,310);await img(light?'paleRecover2':'pot3',385,45,310,310);
   text(180,395,labels[0]);text(540,395,labels[2]);text(360,435,light?'길어진 줄기는 그대로 · 새잎의 초록빛 비교':'물 조건을 돌본 전후 모습');text(360,470,'물기와 빛을 모두 확인 · 실제 회복 시간은 달라',19);
  }else if(e.type==='comparison'){
   const forms=e.animal==='butterfly'?['egg','larva','pupa','adult']:['puppy','dogYoung','dog'],photos=[...new Set(e.photos)].filter(n=>Number.isInteger(n)&&forms[n]).sort((a,b)=>a-b),names={egg:'알',larva:'애벌레',pupa:'번데기',adult:'어른벌레',puppy:'갓 태어난 강아지',dogYoung:'어린 개',dog:'다 자란 개'};

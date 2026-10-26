@@ -1,3 +1,4 @@
+import {SORT_CARDS} from './field-content.js';
 import {initialField,FIELD_FORMS,fieldRecords} from './field-model.js';
 
 // Examples exist only in the teacher's in-memory copy. No completed chapters,
@@ -9,8 +10,8 @@ export function previewFieldForPhase(source,chapter,phase){
  a.inspected=Object.fromEntries(FIELD_FORMS.map(id=>[id,[0,1]]));a.drawing=[[[.2,.4],[.4,.2],[.6,.4]]];a.note='시연용 예시: 몸에 여러 마디가 보여.';a.order=[...FIELD_FORMS];a.generation='next-egg';
  for(const r of b.rounds){r.prepared={a:{soil:true,seeds:3},b:{soil:true,seeds:3}};r.prediction='both';r.b={water:true,warm:true};r.run={variable:r.variable,prepared:structuredClone(r.prepared),prediction:r.prediction,a:{water:r.variable!=='water',warm:r.variable!=='warm'},b:{water:true,warm:true}};r.day=7;r.photos=[0,3,7];r.reason=r.variable;r.report={result:'b',expectation:'changed'};}
  for(const r of c.cases){r.measured=['water','light'];r.symptom=r.variable==='water'?'dry':'pale';r.tool=r.variable;r.day=2;r.photos=[0,2];}
- d.animals={butterfly:{step:3,photos:[0,3]},dog:{step:2,photos:[0,2]}};d.generation='different';d.tags=['apple','balsam'];d.season=4;d.plantPhotos=['apple','balsam'].flatMap(id=>[0,3,4].map(n=>id+'-'+n));d.classifications={apple:'same',balsam:'new'};d.transfers={rose:'same',dog:'live'};
- e.records=['field-observation-egg','field-seed-water','field-care-water'];e.title='교사 시연용 발견 이야기';e.summary='시연용 예시: 특징을 관찰하고 물의 조건을 비교했어.';e.captions=Object.fromEntries(e.records.map(id=>[id,'시연용 예시 기록이에요.']));e.matches={observation:e.records[0],retry:e.records[1],care:e.records[2]};e.plan={subject:'교실 식물',when:'매주 같은 날',what:'같은 자리에서 잎과 줄기를 관찰하기'};
+ d.animals={butterfly:{step:3,photos:[0,3]},dog:{step:2,photos:[0,2]}};d.generation='different';d.tags=['apple','balsam'];d.season=4;d.plantPhotos=['apple','balsam'].flatMap(id=>[0,3,4].map(n=>id+'-'+n));d.classifications={apple:'same',balsam:'new'};d.transfers=Object.fromEntries(SORT_CARDS.map(c=>[c.id,c.bin]));
+ e.records=['field-observation-egg','field-seed-water','field-care-water','field-animal-butterfly'];e.towerRun=true;e.title='교사 시연용 발견 이야기';e.summary='시연용 예시: 특징을 관찰하고 물의 조건을 비교했어.';e.captions=Object.fromEntries(e.records.map(id=>[id,'시연용 예시 기록이에요.']));e.matches={observation:e.records[0],retry:e.records[1],care:e.records[2]};e.plan={subject:'교실 식물',when:'매주 같은 날',what:'같은 자리에서 잎과 줄기를 관찰하기'};
  if(chapter===0){
   if(phase==='search')f.chapters[0]=initialField().chapters[0];
   else if(phase==='draw'){a.drawing=[];a.note='';}
@@ -37,12 +38,14 @@ export function previewFieldForPhase(source,chapter,phase){
   else if(phase==='plant-identity')d.classifications={};
   else if(phase==='transfer')d.transfers={};
  }else if(chapter===4){
-  if(phase==='story-pick'){e.records=[];e.captions={};e.title='';e.summary='';e.matches={};e.plan={subject:'',when:'',what:''};}
-  else if(phase==='story-edit'){e.title='';e.summary='';e.captions={};e.matches={};e.plan={subject:'',when:'',what:''};}
-  else if(phase==='story-help'){e.matches={};e.plan={subject:'',when:'',what:''};}
+  const empty={subject:'',when:'',what:''};
+  if(phase==='tower-slots')Object.assign(e,{records:[],matches:{},title:'',summary:'',towerRun:false,plan:empty});
+  else if(phase==='tower-evidence')Object.assign(e,{matches:{},title:'',summary:'',towerRun:false,plan:empty});
+  else if(phase==='tower-note')Object.assign(e,{title:'',summary:'',towerRun:false,plan:empty});
+  else if(phase==='tower-run')Object.assign(e,{towerRun:false,plan:empty});
   else if(phase==='plan')e.plan={subject:'',when:'',what:''};
  }
  // Fail immediately if a later code change disconnects sample evidence.
- if(chapter===4&&phase!=='story-pick'&&!e.records.every(id=>fieldRecords(f).some(r=>r.id===id)))throw new Error('시연용 증거를 준비하지 못했어.');
+ if(chapter===4&&phase!=='tower-slots'&&!e.records.every(id=>fieldRecords(f).some(r=>r.id===id)))throw new Error('시연용 증거를 준비하지 못했어.');
  return f;
 }

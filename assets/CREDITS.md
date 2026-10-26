@@ -97,3 +97,29 @@
 ## 3D 모델 (2026-10-26)
 
 `assets/models/*.glb` 5개는 Meshy Image to 3D 생성 결과다. 기본 이미지는 `assets/models/source/`(출처는 `source/generation.json`과 `docs/3d/3D-MODEL-BRIEF.md`). 받은 원본은 `assets/models/raw/`(git 제외)이고, 게임용은 텍스처만 1024 WebP로 줄였다(알은 삼각형도 줄임). 대응표는 `assets/models/README.md`. 실행 엔진 three.js 0.170.0은 MIT(`vendor/THREE-LICENSE.md`)이며 모델의 이용 조건과 섞지 않는다. 공개 배포 전에 Meshy 요금제의 상업·배포 이용 조건을 프로젝트 소유자가 확인해야 한다.
+
+## 2차 그림 주문 (2026-10-26) — 1~24번
+
+사용자가 `docs/image-prompts-greenhouse.html`의 프롬프트로 AI 이미지 생성 도구에서 만들어 넣은 그림이다. 원본 PNG(1024×1024, 투명 배경)는 `_source/original-png/`(git 제외)에 두고, 게임용은 WebP로 줄여 `assets/game/`에 넣었다. 공개 배포 전에 생성 도구의 상업 이용 조건을 프로젝트 소유자가 확인해야 한다.
+
+| 주문 번호 | 원본 | 게임용 (ART 키) | 크기 | 쓰는 곳 |
+|---|---|---|---|---|
+| 1 | pale-recover-1.png | pale-recover-1.webp (`paleRecover1`) | 640px · 59KB | 햇살 온실 빛 사례 · 며칠 뒤 |
+| 2 | pale-recover-2.png | pale-recover-2.webp (`paleRecover2`) | 640px · 80KB | 빛 사례 · 새잎이 자란 뒤, 돌봄 기록 |
+| 3 | dry-recover-1.png | dry-recover-1.webp (`dryRecover1`) | 640px · 84KB | 물 사례 · 하루 뒤 |
+| 4 | thermometer.png | thermometer.webp (`thermometer`) | 640px · 18KB | 씨앗 연구소 온도 조건 (빨간 기둥은 코드) |
+| 5 | heat-mat.png | heat-mat.webp (`heatMat`) | 640px · 38KB | 따뜻하게 둔 화분 B 밑 |
+| 6 | watercan-pour.png | watercan-pour.webp (`watercanPour`) | 640px · 71KB | 물 주기 연출 |
+| 7 | field-camera.png | field-camera.webp (`fieldCamera`) | 512px · 61KB | 노트 촬영 연출 |
+| 8 | photo-frame.png | photo-frame.webp (`photoFrame`) | 512px · 27KB | 노트 사진 테두리 |
+| 9~16 | sort-turtle/whale/cat/snake/forsythia/persimmon/rice/sunflower.png | sort-*.webp (`sortTurtle` 등) | 400px · 16~66KB | 사계절 정원 생물 탐정 분류 카드 |
+| 17 | tower-room-sleep.png | tower-room-sleep.webp (`towerRoomSleep`) | 1600×1000(16:10 가운데 자름) · 310KB | 시계탑 배경 · 잠든 모습 |
+| 18 | tower-room-awake.png | tower-room-awake.webp (`towerRoomAwake`) | 1600×1000 · 362KB | 시계탑 배경 · 깨어난 모습 |
+| 19 | tower-emblems.png | tower-emblem-0~3.webp (`towerEmblem0`~`3`) | 4장으로 자름 · 256px | 시계 네 칸 지역 문장 |
+| 20 | tower-gears.png | tower-gear-large/medium/small.webp | 3장으로 자름 | 기록을 끼울 때 도는 톱니 |
+| 21 | tower-evidence-board.png | tower-evidence-board.webp (`towerEvidenceBoard`) | 1600×1000 · 330KB | 증거 잇기 배경 |
+| 22 | tower-bell.png | tower-bell.webp (`towerBell`) | 360px · 27KB | 관찰 약속 종 |
+| 23 | tower-medal.png | tower-medal.webp (`towerMedal`) | 400px · 25KB | 마지막 보상 메달 |
+| 24 | ending-forest.png | ending-forest.webp (`endingForest`) + `assets/concepts/ending.mp4` | 1280×720 · 361KB / 영상 12초 1.1MB | 엔딩 장면 |
+
+엔딩 영상 `assets/concepts/ending.mp4`는 18번(깨어난 시계탑)과 24번(숲 전경)을 ffmpeg로 천천히 확대·축소하며 이어 붙인 12초 무음 영상이다(960×540, H.264). 시험 삼아 만든 WebM은 `_unused/ending-webm-20261026/`에 옮겨 두었다.

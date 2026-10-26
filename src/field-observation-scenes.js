@@ -3,30 +3,29 @@ import {FORM_NAMES,FORM_TRAITS} from './field-content.js';
 
 const FORMS=['egg','larva','pupa','adult'];
 const PARTS={egg:['표면 보기','모양 보기'],larva:['몸마디 보기','다리 보기'],pupa:['겉모습 보기','모양 보기'],adult:['날개 보기','더듬이 보기']};
-const POSITIONS={egg:[310,310,160/3],larva:[960,310,170],pupa:[310,535,145],adult:[960,535,170]};
+const POSITIONS={egg:[310,310,160/3],larva:[960,310,170],pupa:[310,535,145],adult:[960,535,128]};
 // Feature centres in the actual square illustrations (0..1 coordinates).
 const SPOTS={egg:[[.50,.42],[.50,.22]],larva:[[.36,.43],[.56,.57]],pupa:[[.54,.52],[.68,.18]],adult:[[.23,.33],[.63,.26]]};
-const INK=0x285846;
 
 /** Chapter 1 has visible, tappable steps as well as optional magnifier dragging. */
 export function renderObservationRoom(v,ctx,phase){
  const q=ctx.s.field.chapters[0],act=(type,payload={})=>ctx.emit('act',{type,payload});
  const open=(form,spot)=>ctx.emit('observe',{form,spot});
- const button=(x,y,w,h,label,fn,done=false)=>{
-  const text=v.text(x,y,(done?'✓ ':'')+label,22,w-14,done?'#356c47':'#244d3d').setDepth(51);h=Math.max(h,text.height+12);
-  const plate=v.add.graphics().fillStyle(done?0xdcebd5:0xfffcf0,.98).fillRoundedRect(x-w/2,y-h/2,w,h,14).setDepth(50);
-  v.click(x,y,w,h,fn,label).setDepth(52);return plate;
+ const button=(x,y,w,h,label,fn,done=false,z=50)=>{
+  const text=v.text(x,y,(done?'✓ ':'')+label,22,w-14,done?'#356c47':'#244d3d').setDepth(z+1);h=Math.max(h,text.height+12);
+  const plate=v.add.graphics().fillStyle(done?0xdcebd5:0xfffcf0,.98).fillRoundedRect(x-w/2,y-h/2,w,h,14).setDepth(z);
+  return [plate,text,v.click(x,y,w,h,fn,label).setDepth(z+2)];
  };
  if(phase==='search'){
   const next=FORMS.flatMap(form=>[0,1].map(spot=>({form,spot}))).find(({form,spot})=>!q.inspected[form].includes(spot));
-  const total=FORMS.reduce((n,id)=>n+q.inspected[id].length,0),spots=[],specimens=[];
+  const spots=[],specimens=[];
   // A quiet specimen mat, number and name separate each organism from the busy forest.
   for(const [i,id] of FORMS.entries()){
    const [x,y,size]=POSITIONS[id];
    v.paper(x-3,y+10,354,216);
    v.text(x,y-72,`${i+1}  ${FORM_NAMES[id]}${q.inspected[id].length===2?' · 기록 완료':''}`,26,320);
    // The egg remains one third its old displayed size; the whole mat is a large touch target.
-   const specimenY=y+(id==='egg'?7:-3);
+   const specimenY=y+(id==='egg'?7:id==='adult'?-5:-3);
    specimens.push({id,x,y:specimenY,size});v.pic(id,x,specimenY,size,size);
    v.click(x,y-2,330,90,()=>{const spot=[0,1].find(n=>!q.inspected[id].includes(n))??0;focusSpot(id,spot);},FORM_NAMES[id]+' 확대해서 보기');
    for(const spot of [0,1]){
@@ -46,7 +45,7 @@ export function renderObservationRoom(v,ctx,phase){
   const lens=v.add.container(640,350,[lensArt]).setSize(220,220).setDepth(40).setInteractive({useHandCursor:true});v.input.setDraggable(lens);
   const maskShape=v.make.graphics({add:false});maskShape.fillStyle(0xffffff).fillCircle(0,0,43);v.lensMask=maskShape;
   const mask=maskShape.createGeometryMask();let zoom=null,zoomId=null,nearest=null,viewed=null;
-  const feedback=v.label(640,535,'돋보기를 생물 위로\n옮겨서 살펴봐.',22,250);
+  const feedback=v.label(640,590,'돋보기를 생물 위로\n옮겨서 살펴봐.',22,250);
   const inspect=(x,y)=>{
    lens.setPosition(x,y);maskShape.setPosition(x,y);
    nearest=spots.map(a=>({...a,d:Math.hypot(a.x-x,a.y-y)})).sort((a,b)=>a.d-b.d)[0];
@@ -58,17 +57,27 @@ export function renderObservationRoom(v,ctx,phase){
    zoom.setPosition(x+(base.x-x)*factor,y+(base.y-y)*factor);
    feedback.setText(PARTS[base.id][nearest.spot].replace(' 보기','')+' 확대 관찰\n놓으면 노트에 남아.');
   };
-  // View buttons reveal the actual specimen before recording an observation.
+  // View buttons open a large centred observation window before recording.
   // Previewing alone must not add a clue or immediately open the notebook.
+  let popup=null;
+  const closePopup=()=>{if(!popup)return;popup.items.forEach(o=>o.destroy());v.focusTargets=popup.targets;ctx.focusTargets?.(v.focusTargets);popup=null;};
   const focusSpot=(form,spot)=>{
-   const point=spots.find(a=>a.form===form&&a.spot===spot);if(!point)return;
-   v.tweens.killTweensOf(lens);inspect(point.x,point.y);
-   feedback.setText(PARTS[form][spot].replace(' 보기','')+' 확대 관찰\n살핀 뒤 기록해 줘.');
+   closePopup();
+   const [px,py]=SPOTS[form][spot],S=340,lx=420,ly=420,zx=860,zy=420,R=165,factor=2.6;
+   const targets=v.focusTargets,items=[];v.focusTargets=[];
+   items.push(v.add.rectangle(640,400,1280,800,0x0d2a20,.6).setDepth(100).setInteractive());
+   items.push(v.paper(640,415,920,580).setDepth(101));
+   items.push(v.text(640,172,`${FORM_NAMES[form]} · ${PARTS[form][spot].replace(' 보기','')} 확대 관찰`,30,800).setDepth(102));
+   items.push(v.pic(form,lx,ly,S).setDepth(102));
+   items.push(v.add.circle(lx+(px-.5)*S,ly+(py-.5)*S,S/factor/2).setStrokeStyle(4,0xd39b36).setDepth(103));
+   const maskShape=v.make.graphics({add:false}).fillStyle(0xffffff).fillCircle(zx,zy,R);items.push(maskShape);
+   items.push(v.add.circle(zx,zy,R,0xfffbed).setDepth(102));
+   items.push(v.pic(form,zx-(px-.5)*S*factor,zy-(py-.5)*S*factor,S*factor).setDepth(103).setMask(maskShape.createGeometryMask()));
+   items.push(v.add.circle(zx,zy,R).setStrokeStyle(8,0xb88a3a).setDepth(104));
+   // Finishing the look is the record; no separate save step.
+   items.push(...button(640,650,260,58,'관찰 마치기',()=>{closePopup();open(form,spot);},false,105));
+   popup={items,targets};ctx.focusTargets?.(v.focusTargets);
   };
-  button(640,615,254,56,'관찰한 모습 기록',()=>{
-   if(viewed&&zoom){open(viewed.form,viewed.spot);return;}
-   feedback.setText('보기 버튼을 먼저 눌러\n확대한 모습을 살펴봐.');
-  });
   lens.on('drag',(_,x,y)=>inspect(x,y));
   lens.on('dragend',()=>{
    if(nearest&&nearest.d<75){open(nearest.form,nearest.spot);return;}
@@ -76,20 +85,15 @@ export function renderObservationRoom(v,ctx,phase){
    feedback.setText('생물 가까이에서 놓아 봐.\n보기 버튼도 눌러 봐.');
    v.tweens.add({targets:lens,x:640,y:350,duration:reducedMotion(ctx.s.settings)?1:180});
   });
-  v.label(640,695,`${total}/8 단서 기록  ·  다음: ${next?FORM_NAMES[next.form]+'의 '+PARTS[next.form][next.spot]:'내 관찰 그림 그리기'}`,24,950);
   return;
  }
  if(phase==='draw'){
   const id=q.drawingForm||'larva';v.paper(347,407,355,355);
   v.pic(id,345,365,id==='egg'?160/3:240);v.label(345,550,'내가 본 '+FORM_NAMES[id],26,300);
   const x=610,y=230,w=470,h=305;v.paper(x+w/2,y+h/2,w,h);
-  v.text(x+w/2,y-28,'① 특징을 직접 그려 줘',26,460);
-  const ink=v.add.graphics().lineStyle(4,INK,1);
-  for(const a of q.drawing){ink.beginPath();a.forEach((p,i)=>i?ink.lineTo(x+p[0]*w,y+p[1]*h):ink.moveTo(x+p[0]*w,y+p[1]*h));ink.strokePath();}
-  let stroke=null;const area=v.add.zone(x+w/2,y+h/2,w,h).setInteractive();area.on('pointerdown',p=>{const point=v.pointerWorld?.(p)||p;stroke=[[Math.max(0,Math.min(1,(point.x-x)/w)),Math.max(0,Math.min(1,(point.y-y)/h))]];ink.beginPath().moveTo(point.x,point.y);});
-  v.input.on('pointermove',p=>{if(!stroke||!p.isDown)return;const point=v.pointerWorld?.(p)||p,nx=Math.max(x,Math.min(x+w,point.x)),ny=Math.max(y,Math.min(y+h,point.y));stroke.push([(nx-x)/w,(ny-y)/h]);ink.lineTo(nx,ny).strokePath();});
-  v.input.on('pointerup',()=>{if(stroke){const a=stroke;stroke=null;act('observation-draw',{stroke:a});}});
-  v.text(845,585,q.note||'② 아래 「특징 쓰기」에서 내 말로 적어 줘.',24,480);
+  v.text(x+w/2,y-28,'본 특징을 내 말로 적어 줘',26,460);
+  // A real textarea sits over the paper; leaving it saves the note.
+  ctx.noteBox?.({x:x+w/2,y:y+h/2,w:w-36,h:h-36});
   FORMS.forEach((form,i)=>{const bx=225+i*85;v.pic(form,bx,625,form==='egg'?40:65);v.click(bx,625,76,68,()=>act('observation-reference',{form}),FORM_NAMES[form]+' 보며 그리기');});return;
  }
  if(phase==='film'){
@@ -105,20 +109,7 @@ export function renderObservationRoom(v,ctx,phase){
  v.paper(390,400,360,320);v.pic('adult',390,370,260);
  v.paper(915,400,340,320);
  v.text(915,330,'새 잎에서\n새로운 생명이 시작돼',28,300);v.drop(915,440,280,170,'next-egg','다음 세대의 새 알을 놓을 자리',()=>ctx.emit('target','next-egg'));
- const egg=v.pic('egg',650,440,160/3);v.draggable(egg,'generation',{},'새 알을 고른 뒤 오른쪽 잎 자리 누르기');
+ v.dashedBox(915,455,280,150);
+ const egg=v.pic('egg',650,440,160/3);v.marker(egg,48,'새 알');v.draggable(egg,'generation',{},'새 알을 고른 뒤 오른쪽 잎 자리 누르기');
  v.label(390,590,'알을 낳는 어른벌레',25,330);v.label(915,590,'새 알을 여기에 놓기',25,330);v.text(640,655,'어른벌레가 알로 바뀌는 게 아니라, 새 개체가 태어나.',23,1000);
-}
-
-// This alternative records the learner's own lines through the same action as touch drawing.
-export function openKeyboardDrawing(ctx){
- const q=ctx.s.field.chapters[0];
- ctx.dialog({title:'키보드로 관찰 그림 그리기',body:'<p id="sketch-help">방향키로 커서를 움직여. Enter나 Space로 펜을 켜고 끌 수 있어. 선을 그린 뒤 특징 쓰기에서 네가 본 모습을 남겨 줘.</p><svg id="keyboard-sketch" class="keyboard-sketch" viewBox="0 0 470 305" tabindex="0" role="application" aria-label="키보드 그림판" aria-describedby="sketch-help"></svg><div class="sketch-buttons"><button id="sketch-pen" type="button" aria-pressed="false">펜 켜기</button><button type="button" data-sketch-direction="left">왼쪽</button><button type="button" data-sketch-direction="up">위</button><button type="button" data-sketch-direction="down">아래</button><button type="button" data-sketch-direction="right">오른쪽</button></div><p id="sketch-status" role="status">펜 꺼짐 · 방향키로 시작 위치를 골라 줘.</p>',actions:'<button data-action="close" class="primary">그림으로 돌아가기</button>'});
- const modal=document.getElementById('modal'),canvas=modal.querySelector('#keyboard-sketch'),penButton=modal.querySelector('#sketch-pen'),status=modal.querySelector('#sketch-status'),controller=new AbortController();
- let point=[.5,.5],pen=false;
- const paint=()=>{canvas.innerHTML=q.drawing.map(stroke=>`<polyline points="${stroke.map(p=>`${p[0]*470},${p[1]*305}`).join(' ')}" fill="none" stroke="#285e45" stroke-width="4" stroke-linecap="round"/>`).join('')+`<circle cx="${point[0]*470}" cy="${point[1]*305}" r="7" fill="${pen?'#d39b36':'#527963'}" stroke="white" stroke-width="2"/>`;};
- const toggle=()=>{pen=!pen;penButton.textContent=pen?'펜 끄기':'펜 켜기';penButton.setAttribute('aria-pressed',String(pen));status.textContent=pen?'펜 켜짐 · 방향키로 특징을 그려 줘.':'펜 꺼짐 · 방향키로 커서만 이동해.';paint();};
- const move=direction=>{const [dx,dy]={left:[-.05,0],right:[.05,0],up:[0,-.05],down:[0,.05]}[direction],next=[Math.max(.02,Math.min(.98,point[0]+dx)),Math.max(.02,Math.min(.98,point[1]+dy))];if(pen&&(next[0]!==point[0]||next[1]!==point[1]))ctx.emit('act',{type:'observation-draw',payload:{stroke:[point,next]}});point=next;paint();};
- canvas.addEventListener('keydown',event=>{const direction={ArrowLeft:'left',ArrowRight:'right',ArrowUp:'up',ArrowDown:'down'}[event.key];if(direction){event.preventDefault();event.stopPropagation();move(direction);}else if(event.key==='Enter'||event.key===' '){event.preventDefault();event.stopPropagation();toggle();}},{signal:controller.signal});
- penButton.addEventListener('click',toggle,{signal:controller.signal});modal.querySelectorAll('[data-sketch-direction]').forEach(button=>button.addEventListener('click',()=>move(button.dataset.sketchDirection),{signal:controller.signal}));
- modal.addEventListener('close',()=>controller.abort(),{signal:controller.signal});modal.addEventListener('modal-dismiss',()=>controller.abort(),{signal:controller.signal});paint();canvas.focus();
 }

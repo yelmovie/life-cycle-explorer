@@ -1,0 +1,287 @@
+{
+  "created_date": "2026-10-26",
+  "generator": "built-in image_gen",
+  "reference_asset": "assets/expedition/forest-world.webp",
+  "images": [
+    {
+      "number": 17,
+      "filename": "tower-room-sleep.png",
+      "kind": "background",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-4a332016-f63d-45a2-91f3-81194663c2f7.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/game/tower-room-sleep.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "verified": {
+        "size": [
+          1920,
+          1080
+        ],
+        "mode": "RGB",
+        "bytes": 3660139,
+        "opaque": true
+      }
+    },
+    {
+      "number": 18,
+      "filename": "tower-room-awake.png",
+      "kind": "background",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-410afaa4-4ef3-4470-8349-1edc6af8ceeb.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/game/tower-room-awake.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "verified": {
+        "size": [
+          1920,
+          1080
+        ],
+        "mode": "RGB",
+        "bytes": 3810160,
+        "opaque": true
+      }
+    },
+    {
+      "number": 19,
+      "filename": "tower-emblems.png",
+      "kind": "transparent",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-d4e45c89-a52b-469e-abe7-cb888bc7fb42.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/game/tower-emblems.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "verified": {
+        "size": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "bytes": 1336767,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "transparent_outer_margin_px": 64,
+        "four_occupied_quadrants": true
+      }
+    },
+    {
+      "number": 20,
+      "filename": "tower-gears.png",
+      "kind": "transparent",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-aa6e29fa-be10-42b3-a4c4-5edb1ac5f8aa.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/game/tower-gears.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "verified": {
+        "size": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "bytes": 817338,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "transparent_outer_margin_px": 64
+      }
+    },
+    {
+      "number": 21,
+      "filename": "tower-evidence-board.png",
+      "kind": "background",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-d5500093-d10b-48fb-97ef-f4bbef015e1b.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/game/tower-evidence-board.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "verified": {
+        "size": [
+          1920,
+          1080
+        ],
+        "mode": "RGB",
+        "bytes": 3858687,
+        "opaque": true
+      }
+    },
+    {
+      "number": 22,
+      "filename": "tower-bell.png",
+      "kind": "transparent",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-436d612b-e9b5-4164-b08e-bd6f87597ee9.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/game/tower-bell.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "verified": {
+        "size": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "bytes": 728087,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "transparent_outer_margin_px": 64
+      }
+    },
+    {
+      "number": 23,
+      "filename": "tower-medal.png",
+      "kind": "transparent",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-16e2396b-2184-4845-9d97-a3b60abdaac1.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/game/tower-medal.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "verified": {
+        "size": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "bytes": 877067,
+        "alpha_range": [
+          0,
+          255
+        ],
+        "transparent_outer_margin_px": 64
+      }
+    },
+    {
+      "number": 24,
+      "filename": "ending-forest.png",
+      "kind": "background",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-fb1683c5-3ec0-4cd0-bd77-43c82c795a25.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/game/ending-forest.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "verified": {
+        "size": [
+          1920,
+          1080
+        ],
+        "mode": "RGB",
+        "bytes": 4433991,
+        "opaque": true
+      }
+    }
+  ],
+  "prompts": [
+    {
+      "filename": "tower-room-sleep.png",
+      "kind": "background",
+      "referenced_image_paths": [
+        "D:/iscreammedia_sc34/4 lifecycle/assets/expedition/forest-world.webp"
+      ],
+      "transparent_background": false,
+      "prompt": "Use case: stylized-concept. Asset tower-room-sleep.png. OPAQUE WIDESCREEN BACKGROUND, landscape 16:9, 1920x1080.\nThe input forest map is a STYLE AND ARCHITECTURE REFERENCE. Create the INSIDE of its CENTRAL LIFE CLOCK TOWER, recognizably belonging to that same mossy stone, natural wood and ornate brass astrolabe-like clock tower with green leaf motifs. This is a circular clock-tower observatory, not a normal study room.\nSTATIC FRONT CAMERA, symmetrical wide room with a gently curved rear wall. Center back wall: ONE enormous circular clock face, diameter about 45% of total image height, with dull dim blue glass and STOPPED brass hands, twelve plain unlabeled ticks. EXACTLY FOUR round EMPTY brass sockets around the clock rim at 12, 3, 6, 9 o'clock, their interiors dark and empty, clearly separated from clock hands.\nEXACTLY FOUR tall arched windows total, two to left and two to right of central clock: far left faint butterfly forest silhouette, inner left faint seed laboratory silhouette, inner right faint sunny greenhouse silhouette, far right faint seasonal garden silhouette. All windows dim blue and inactive.\nExpose brass gears and curved wooden roof beams, stone tower walls, moss and hanging vines. Soft blue moonlight with a little drifting dust. A long wooden research desk spans the FOREGROUND; leave its broad center completely EMPTY and uncluttered for game UI, tiny tools allowed only at extreme desk edges. Keep clock, sockets and all four windows unobscured above the desk. Fill entire 16:9 frame, no framing border. Cozy detailed painterly fantasy illustration matching the reference forest world: warm aged brass, carved natural wood, mossy pale stone, leafy vines, rich hand-painted textures. No people, no characters, no writing, no letters, no numerals, no logos."
+    },
+    {
+      "filename": "tower-emblems.png",
+      "kind": "transparent",
+      "referenced_image_paths": [
+        "D:/iscreammedia_sc34/4 lifecycle/assets/expedition/forest-world.webp"
+      ],
+      "transparent_background": true,
+      "prompt": "Use case: stylized-concept. Asset tower-emblems.png. One square 1024x1024 TRUE TRANSPARENT PNG SPRITE SHEET.\nFOUR and only four ROUND BRASS EMBLEM MEDALLIONS in a precise neat 2 by 2 grid, front-facing orthographic, same outer diameter, evenly spaced and entirely separated by generous transparent gutters. Position one centered in each quadrant; generous transparent outer margins; each medallion fits entirely inside its quadrant without overlaps. Engraved brass rim, enamel colors and subtle soft inner glow.\nTop LEFT medallion: one butterfly with ONE small oval insect egg beside it.\nTop RIGHT: one bean seed sprouting, clear split bean with a small root and two fresh green sprout leaves.\nBottom LEFT: one sun above ONE potted green plant.\nBottom RIGHT: one apple blossom branch with a small leaf.\nNo other medallions, nothing between them. All four circular rims complete and equal size; colorful readable simple symbols at small UI sizes. Transparent alpha between and outside the emblems, no background scene or drop shadow. Cozy detailed painterly fantasy illustration matching the reference forest world: warm aged brass, carved natural wood, mossy pale stone, leafy vines, rich hand-painted textures. No people, no characters, no writing, no letters, no numerals, no logos."
+    },
+    {
+      "filename": "tower-gears.png",
+      "kind": "transparent",
+      "referenced_image_paths": [
+        "D:/iscreammedia_sc34/4 lifecycle/assets/expedition/forest-world.webp"
+      ],
+      "transparent_background": true,
+      "prompt": "Use case: stylized-concept. Asset tower-gears.png. One square 1024x1024 genuine alpha transparent PNG.\nEXACTLY THREE SEPARATE brass CLOCKWORK GEARS in different sizes, small, medium, large. All are front-facing ORTHOGRAPHIC flat circles, not angled, with accurately round central shaft holes, clear evenly formed gear teeth and clean circular outlines. Subtle engraved leaf patterns on flat metal spokes, slightly worn warm brass, matching the clock tower reference.\nArrange large gear in upper-left, medium gear in upper-right, small gear in lower center, each completely isolated with large transparent space between every pair and clear outer padding. NO OVERLAPS, NO MESHING, NO JOINING RODS. Every entire gear and every tooth visible, easy to cut out as three individual sprites and rotate around their centers. No shadows, no ground plane, no extra gear fragments. Cozy detailed painterly fantasy illustration matching the reference forest world: warm aged brass, carved natural wood, mossy pale stone, leafy vines, rich hand-painted textures. No people, no characters, no writing, no letters, no numerals, no logos."
+    },
+    {
+      "filename": "tower-bell.png",
+      "kind": "transparent",
+      "referenced_image_paths": [
+        "D:/iscreammedia_sc34/4 lifecycle/assets/expedition/forest-world.webp"
+      ],
+      "transparent_background": true,
+      "prompt": "Use case: stylized-concept. Asset tower-bell.png, one square 1024x1024 genuine alpha transparent PNG.\nA SINGLE brass clock tower BELL hanging from a SHORT WOODEN BEAM with a leafy vine wrapped around that beam. FRONT VIEW, bell upright and still, one small visible clapper inside its bottom opening. Polished gold-brass with soft highlights and one subtle small engraved leaf on the bell, matching the reference tower. Keep the supporting beam short and self-contained, not attached to a wall or roof. Entire wooden beam, vine, suspension loop, bell mouth and clapper visible, centered with generous transparent padding. One bell only, no rope extending outside the frame, no swinging motion streaks, no frame or building background. Cozy detailed painterly fantasy illustration matching the reference forest world: warm aged brass, carved natural wood, mossy pale stone, leafy vines, rich hand-painted textures. No people, no characters, no writing, no letters, no numerals, no logos."
+    },
+    {
+      "filename": "tower-room-awake.png",
+      "kind": "background",
+      "revision": false,
+      "referenced_image_paths": [
+        "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-4a332016-f63d-45a2-91f3-81194663c2f7.png",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/expedition/forest-world.webp"
+      ],
+      "transparent_background": false,
+      "prompt": "Use case: lighting-weather / precise-object-edit. Deliver tower-room-awake.png, OPAQUE WIDESCREEN 16:9, 1920x1080.\nImage 1 is the EDIT TARGET: the sleeping clock-tower observatory. Image 2 is the outside world reference only.\nCRITICAL: preserve Image 1's EXACT camera, framing, perspective, architecture, clock diameter and center, clock hand pose, four sockets at 12/3/6/9, every beam, all four windows' outlines, stonework, vines, desk edges, tool positions and decorations. No zoom, pan, crop, relocation or redesign. Treat this as the SAME photograph after switching the magical lights on. ONLY lighting, emitted glow, window contents and living foliage color change. Pixel-aligned silhouettes wherever possible.\nAwakened state: the large clock face glows WARM GOLD through its glass. ALL FOUR brass socket interiors shine gold; keep them circular and at identical positions. Four slender, soft golden energy light beams connect the four sockets to the four windows, visible but not covering the clock dial or desk UI area.\nSame windows now show bright colorful scenes: far left butterfly forest with butterflies, inner left seed laboratory with sprouts, inner right sunny greenhouse, far right blooming seasonal garden. Preserve each window frame exactly.\nMake brass gears gleam with warm highlights, moss lush green, warm sunlight replacing cool blue moonlight. A few tiny leaves and petals float near upper edges only. Celebratory but calm; do not flood the entire image with featureless white glare. Keep desk center completely empty and unobscured. Cozy detailed painterly fantasy illustration matching the reference forest world, natural hand-painted textures, warm brass and carved wood, botanical motifs. No human characters, no writing, no lettering, no numerals, no logos."
+    },
+    {
+      "filename": "tower-evidence-board.png",
+      "kind": "background",
+      "revision": false,
+      "referenced_image_paths": [
+        "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-4a332016-f63d-45a2-91f3-81194663c2f7.png",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/expedition/forest-world.webp"
+      ],
+      "transparent_background": false,
+      "prompt": "Use case: stylized-concept. Asset tower-evidence-board.png. OPAQUE WIDESCREEN 16:9, 1920x1080.\nInput images are STYLE AND ENVIRONMENT REFERENCES only, for the same wooden, brass, vine-decorated mossy stone clock-tower interior.\nONE large CORK EVIDENCE BOARD in a sturdy wooden frame mounted on a clock tower stone wall, straight-on front orthographic view, board occupying almost all of the 16:9 composition with only a narrow surrounding wall margin. Warm lamp lighting, fine visible cork texture, matching carved wood and small aged-brass fittings.\nCRITICAL: the central cork surface is COMPLETELY EMPTY, flat, clear and unobstructed, at least 85% of the usable cork area available for software to place cards. Only a few brass push pins and a short LOOSE RED STRING coiled together in ONE BOTTOM CORNER, not stretched across the board. One small brass plate at top left with an engraved magnifying-glass ICON only. No other objects on the cork. No cards, photos, papers, charts, printed lines, grids, symbols or words on the central board. Whole rectangular wooden frame visible, no perspective skew. Cozy detailed painterly fantasy illustration matching the reference forest world, natural hand-painted textures, warm brass and carved wood, botanical motifs. No human characters, no writing, no lettering, no numerals, no logos."
+    },
+    {
+      "filename": "tower-medal.png",
+      "kind": "transparent",
+      "revision": false,
+      "referenced_image_paths": [
+        "D:/iscreammedia_sc34/4 lifecycle/assets/expedition/forest-world.webp"
+      ],
+      "transparent_background": true,
+      "prompt": "Use case: stylized-concept. Asset tower-medal.png. Single square 1024x1024 GENUINE ALPHA TRANSPARENT PNG.\nONE round GOLD AWARD MEDAL with a GREEN neck ribbon, front view. Entire ribbon and medal visible, centered with generous transparent padding. The ribbon forms a neat folded loop above the medal, green fabric with soft texture, not extending outside the canvas.\nMedal face: ONE SMALL CLOCK with brass clock hands at center, whose dial has FOUR LIFE-CYCLE ICONS instead of numbers: an egg, a sprout, a sun, an apple blossom, one in each quadrant. Keep all four icons distinct and readable. Engraved laurel leaves around the circular medal rim, gentle polished gold shine, calm premium reward for a children's science game.\nNo writing, no letters, no numerals, no ribbons with printed slogans, no other medals, no background. Match the cozy painterly fantasy clock-tower brass and botanical style of the reference. Cozy detailed painterly fantasy illustration matching the reference forest world, natural hand-painted textures, warm brass and carved wood, botanical motifs. No human characters, no writing, no lettering, no numerals, no logos."
+    },
+    {
+      "filename": "ending-forest.png",
+      "kind": "background",
+      "revision": false,
+      "referenced_image_paths": [
+        "D:/iscreammedia_sc34/4 lifecycle/assets/expedition/forest-world.webp"
+      ],
+      "transparent_background": false,
+      "prompt": "Use case: stylized-concept. Asset ending-forest.png. One OPAQUE WIDESCREEN 16:9 illustration, 1920x1080, intended as the FINAL STILL IMAGE of an ending sequence; no video or text.\nThe input image is the WORLD AND BUILDING IDENTITY REFERENCE. Depict the SAME forest world and the SAME distinctive life clock tower in a wide 16:9 view at GOLDEN HOUR. Preserve the central mossy-stone clock tower's sloped blue roof, circular brass clock face and surrounding brass astrolabe rings, leaf emblem and tree-root-clad walls. Keep the same recognizable world layout: butterfly forest with leafy pavilion to left, round seed laboratory above/behind the tower, large curved glass greenhouse upper right, flowering seasonal garden with apple tree lower right, winding sandy paths and stream/waterfall along right.\nThe life clock tower at the CENTER is FULLY AWAKENED, clock face glowing gold and sending a few broad SOFT GOLDEN RINGS OF LIGHT gently outward across the forest and paths. All buildings, regions and tower stay readable; no blinding explosion.\nEvery region alive and colorful: small butterflies over the forest, healthy sprouts visible by the seed lab, bright glowing greenhouse, blooming garden. A FEW small birds, a few floating petals, warm honey-colored light and a softly warm far-horizon sky at upper edge. Wide welcoming finale with rich detailed foliage, no human characters or words. Extend the surrounding forest horizontally as needed to fit the widescreen canvas while retaining the map's landmark buildings. Cozy detailed painterly fantasy illustration matching the reference forest world, natural hand-painted textures, warm brass and carved wood, botanical motifs. No human characters, no writing, no lettering, no numerals, no logos."
+    },
+    {
+      "filename": "tower-gears.png",
+      "kind": "transparent",
+      "revision": true,
+      "referenced_image_paths": [
+        "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-98de888f-67ec-4988-8639-cb2db0f81e09.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Use case: precise-object-edit. Deliver tower-gears.png, one square 1024x1024 GENUINE ALPHA TRANSPARENT PNG sprite sheet.\nImage 1 is the edit target. Keep EXACTLY THREE separate circular clockwork gears, large upper-left, medium upper-right, small lower-center, all front orthographic with clean gear teeth and transparent center shaft holes.\nMake this single targeted material correction: REMOVE ALL real vines, leaves, flowers, moss, wood and stone pieces from these gears. The ENTIRE GEARS must be made ONLY OF slightly worn WARM BRASS METAL. Replace brown wooden spokes with brass spokes, and replace stone/wood fills between spokes with OPEN TRANSPARENT CUTOUTS. Retain only small subtle ENGRAVED LEAF PATTERNS cut into the BRASS surfaces themselves. Simple functional brass clock mechanisms, not miniature garden buildings.\nReduce the group scale slightly so EVERY tooth of all three gears is fully inside the square with ample transparent outer padding; keep each gear fully separated with clear transparent space between all pairs, no overlap, no mesh. Clean even circular symmetry and consistent metal rendering suitable for rotation. No shadows, no background, no extra objects, no text."
+    }
+  ],
+  "room_pair_verification": {
+    "source_dimensions_equal": true,
+    "source_size": [
+      1672,
+      941
+    ],
+    "export_size": [
+      1920,
+      1080
+    ],
+    "same_resize_without_crop": true,
+    "visual_check": "Clock, four socket centers, four window frames, desk and camera framing match in the source pair."
+  }
+}

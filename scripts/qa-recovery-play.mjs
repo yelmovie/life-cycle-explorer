@@ -34,7 +34,7 @@ try{
  if(start){const fixture=JSON.parse(await readFile(path.join(root,'.tmp/recovery-play',`checkpoint-${start}.json`),'utf8'));await page.addInitScript(value=>{if(!sessionStorage.getItem('seeded')){localStorage.setItem('life-clock-lab.phaser.4',JSON.stringify(value));sessionStorage.setItem('seeded','1');}},fixture);}
  await page.goto(process.env.BASE_URL||'http://127.0.0.1:4186');await page.locator('.boot').waitFor({state:'detached'});if(start===0){await click('[data-action=start]');await click('[data-action=begin]');await enter(0);}
  if(start===0){
- for(const form of ['알','애벌레','번데기','어른벌레'])for(let i=0;i<2;i++){await key(form+' 확대해서 보기');assert.equal(await page.locator('dialog[open]').count(),0);await key('관찰한 모습 기록');}
+ for(const form of ['알','애벌레','번데기','어른벌레'])for(let i=0;i<2;i++){await key(form+' 확대해서 보기');assert.equal(await page.locator('dialog[open]').count(),0);await key('관찰 마치기');}
  await drag(720,310,880,440);await drag(880,440,980,290);await click('[data-field-action=note]');await page.locator('#observation-note').fill('애벌레 몸에는 여러 마디와 작은 다리가 보여.');await click('[data-action=save-note]');
  for(let to=0;to<4;to++){const order=(await state()).field.chapters[0].order,from=order.indexOf(['egg','larva','pupa','adult'][to]);if(from!==to)await drag(300+from*225,385,300+to*225,390);}
  await key('새 알을 고른 뒤 오른쪽 잎 자리 누르기');await key('다음 세대의 새 알을 놓을 자리');await discoveries(0);await complete(0);await enter(1);}

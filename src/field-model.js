@@ -1,5 +1,6 @@
 import {TEXT_LIMITS,PLAN_LIMITS,preserveText,meaningfulText} from './field-writing.js';
 import {normalizeDiscovery} from './field-quest-state.js';
+import {SORT_CARDS} from './field-content.js';
 
 // The field notebook is independent of the earlier inquiry and expedition saves.
 // It contains observations made by the learner, never inferred chapter rewards.
@@ -31,7 +32,7 @@ export function initialField() {
       {round:0, rounds:[seedRound('water'), seedRound('warm')],discovery:[]},
       {case:0, cases:[careCase('water'), careCase('light')],discovery:[]},
       {animals:{butterfly:{step:0, photos:[]}, dog:{step:0, photos:[]}}, generation:'', tags:[], season:0, plantPhotos:[], classifications:{}, transfers:{},discovery:[]},
-      {records:[], title:'', captions:{}, drafts:{captions:{},story:{},plan:{}},summary:'', matches:{}, plan:{subject:'', when:'', what:''},discovery:[]},
+      {records:[], title:'', captions:{}, drafts:{captions:{},story:{},plan:{}},summary:'', matches:{}, towerRun:false, plan:{subject:'', when:'', what:''},discovery:[]},
     ],
   };
 }
@@ -59,12 +60,12 @@ export const seedReportDone=round=>round.legacyReport===true||(round.report?.res
 const seedDone = round => !!round.run && seedPhotosDone(round) && round.reason === round.variable && seedReportDone(round);
 const careDone = task => task.measured.includes('water') && task.measured.includes('light') && task.symptom === (task.variable === 'water' ? 'dry' : 'pale') && task.tool === task.variable && task.photos.includes(0) && task.photos.includes(2);
 const observed = chapter => FIELD_FORMS.every(form => chapter.inspected[form].includes(0) && chapter.inspected[form].includes(1));
-const drawingDone = chapter => meaningfulText(chapter.note) >= 4 && chapter.drawing.reduce((count, stroke) => count + stroke.slice(1).filter((point, i) => point[0] !== stroke[i][0] || point[1] !== stroke[i][1]).length, 0) >= 2;
+const drawingDone = chapter => meaningfulText(chapter.note) >= 4;
 const filmDone = chapter => FIELD_FORMS.every((form,i) => chapter.order[i] === form);
 const animalDone = chapter => chapter.animals.butterfly.photos.includes(0) && chapter.animals.butterfly.photos.includes(3) && chapter.animals.dog.photos.includes(0) && chapter.animals.dog.photos.includes(2) && chapter.generation === 'different';
 const plantsSeen = chapter => ['apple','balsam'].every(plant => chapter.tags.includes(plant) && [0,3,4].every(step => chapter.plantPhotos.includes(`${plant}-${step}`)));
 const classificationsDone = chapter => chapter.classifications.apple === 'same' && chapter.classifications.balsam === 'new';
-const transfersDone = chapter => chapter.transfers.rose === 'same' && chapter.transfers.dog === 'live';
+const transfersDone = chapter => SORT_CARDS.every(card => chapter.transfers[card.id] === card.bin);
 
 export function fieldUnlocked(field, chapter) {
   return numberIn(chapter,0,4) && (field.preview === true || chapter === 0 || Array.from({length:chapter},(_,i) => i).every(i => field.completed.includes(i)));
@@ -72,16 +73,27 @@ export function fieldUnlocked(field, chapter) {
 
 export function fieldCompletedCount(field) { return unique(field.completed).filter(i => numberIn(i,0,4)).length; }
 
-export function fieldBookReady(field) {
-  const book = field.chapters[4], bank = fieldRecords(field);
-  const selected = book.records.map(id => bank.find(record => record.id === id));
-  return selected.length >= 3 && selected.length <= 6 && unique(book.records).length === selected.length && selected.every(Boolean)
-    && selected.some(record => record.kind === 'animal') && selected.some(record => record.kind === 'plant')
-    && meaningfulText(book.title) >= 2 && meaningfulText(book.summary) >= 8
-    && selected.filter(record => meaningfulText(book.captions[record.id]) >= 4).length >= 2;
+// Life clock tower: one record from each of the four regions sits in its socket.
+export const TOWER_REGIONS=['나비의 숲','씨앗 연구소','햇살 온실','사계절 정원'];
+// Claims the learner proves with their own records; the request ids stay stable for saved books.
+export const TOWER_CLAIMS=[
+  {request:'observation',text:'동물은 자라면서 몸의 생김새가 달라져.',accept:['observation','comparison'],clue:'이 사진에서 몸의 생김새가 바뀌는 모습이 보일까? 동물이 자라는 기록을 찾아봐.'},
+  {request:'retry',text:'씨앗이 싹트려면 물과 알맞은 온도가 필요해.',accept:['retry'],clue:'조건 하나만 바꿔 싹을 비교한 기록이어야 증거가 돼.'},
+  {request:'care',text:'식물은 물이나 빛이 부족하면 겉모습으로 신호를 보내.',accept:['care'],clue:'물기와 빛을 재고 돌본 뒤 달라진 기록을 찾아봐.'},
+];
+const slotsDone = field => {
+  const bank = fieldRecords(field), slots = field.chapters[4].records.map(id => bank.find(record => record.id === id));
+  return slots.length === 4 && slots.every(Boolean) && [0,1,2,3].every(c => slots.filter(record => record.fieldEvidence.chapter === c).length === 1);
+};
+const noteDone = book => meaningfulText(book.title) >= 2 && meaningfulText(book.summary) >= 8;
+export function fieldBookReady(field) { return slotsDone(field) && noteDone(field.chapters[4]); }
+const claimFits = (request,record) => !!record && !!TOWER_CLAIMS.find(claim => claim.request === request)?.accept.includes(record.fieldEvidence.type);
+export function towerStep(field) {
+  const book = field.chapters[4];
+  return !slotsDone(field) ? 'tower-slots' : !matchesDone(field) ? 'tower-evidence' : !noteDone(book) ? 'tower-note' : !book.towerRun ? 'tower-run' : !planDone(book) ? 'plan' : 'ready';
 }
 
-const matchesDone = field => ['observation','retry','care'].every(request => fieldRecords(field).some(record => record.id === field.chapters[4].matches[request] && record.fieldEvidence.type === request));
+const matchesDone = field => {const book=field.chapters[4],bank=fieldRecords(field);return TOWER_CLAIMS.every(({request}) => book.records.includes(book.matches[request]) && claimFits(request,bank.find(record => record.id === book.matches[request])));};
 const planDone = book => meaningfulText(book.plan.subject) >= 2 && meaningfulText(book.plan.when) >= 2 && meaningfulText(book.plan.what) >= 4;
 
 export function fieldReady(field, chapter=field.active) {
@@ -91,7 +103,7 @@ export function fieldReady(field, chapter=field.active) {
   if (chapter === 1) return data.rounds.every(seedDone);
   if (chapter === 2) return data.cases.every(careDone);
   if (chapter === 3) return animalDone(data) && plantsSeen(data) && classificationsDone(data) && transfersDone(data);
-  return (field.preview===true || [0,1,2,3].every(i => field.completed.includes(i))) && fieldBookReady(field) && matchesDone(field) && planDone(data);
+  return (field.preview===true || [0,1,2,3].every(i => field.completed.includes(i))) && towerStep(field) === 'ready';
 }
 
 // Phases are derived, so an old or damaged save cannot jump ahead using a phase number.
@@ -108,7 +120,7 @@ export function fieldPhase(field, chapter=field.active) {
     return task.measured.length < 2 ? 'measure' : !task.symptom ? 'pin' : !task.photos.includes(0) ? 'before-photo' : !task.tool ? 'tool' : !careDone(task) ? 'recover' : data.case === 0 ? 'case-done' : 'ready';
   }
   if (chapter === 3) return !animalDone(data) ? 'animals' : data.tags.length < 2 ? 'tag' : !plantsSeen(data) ? 'seasons' : !classificationsDone(data) ? 'classify' : !transfersDone(data) ? 'transfer' : 'ready';
-  return !fieldBookReady(field) ? 'book' : !matchesDone(field) ? 'help' : !planDone(data) ? 'plan' : 'ready';
+  return towerStep(field);
 }
 
 export function fieldRecords(field) {
@@ -140,7 +152,7 @@ export function fieldRecords(field) {
   return records;
 }
 
-const actionChapter = type => type.startsWith('seed-') ? 1 : type.startsWith('care-') ? 2 : ['animal-time','animal-photo','animal-generation','plant-tag','season','season-photo','plant-classify','transfer'].includes(type) ? 3 : type.startsWith('book-') || ['help-match','observation-plan'].includes(type) ? 4 : ['inspect','observation-draw','observation-note','observation-reference','film-move','generation'].includes(type) ? 0 : -1;
+const actionChapter = type => type.startsWith('seed-') ? 1 : type.startsWith('care-') ? 2 : ['animal-time','animal-photo','animal-generation','plant-tag','season','season-photo','plant-classify','transfer'].includes(type) ? 3 : type.startsWith('book-') || ['help-match','observation-plan','tower-run'].includes(type) ? 4 : ['inspect','observation-draw','observation-note','observation-reference','film-move','generation'].includes(type) ? 0 : -1;
 
 export function fieldAction(field, type, payload={}) {
   const done = message => ({ok:true,message});
@@ -205,7 +217,7 @@ export function fieldAction(field, type, payload={}) {
     return done('눈으로 찾은 특징을 글로 남겼어.');
   }
   if (type === 'film-move') {
-    if (!observed(data) || !drawingDone(data)) return fail('관찰 그림과 특징을 먼저 기록해 보자.');
+    if (!observed(data) || !drawingDone(data)) return fail('관찰한 특징을 먼저 기록해 보자.');
     if (!numberIn(p.from,0,3) || !numberIn(p.to,0,3)) return fail('필름 네 장을 끌어서 순서대로 놓아 줘.');
     const [form] = data.order.splice(p.from,1); data.order.splice(p.to,0,form);
     return done(filmDone(data) ? '알에서 어른벌레까지 이어졌어!' : '몸의 모습이 어떻게 달라지는지 비교해 보자.');
@@ -244,20 +256,26 @@ function seedAction(data,type,p,done,fail) {
     if (!['water','warm'].includes(p.key)) return fail('물과 온도 중 알아볼 조건을 골라 줘.');
     if(p.key!==round.variable) return fail(`이번에는 ${round.variable==='water'?'물':'온도'}만 바꿔 비교해. ${round.variable==='water'?'온도':'물의 양'}는 두 화분을 같게 두자.`);
     const next=typeof p.value==='boolean'?p.value:!round.b[p.key];
-    round.b[p.key] = next; return done(`화분 B: ${p.key==='water'?(next?'물을 주었어. A는 물 없음, B는 물 있음이야.':'물을 주지 않는 조건이야. 두 화분이 같은 상태인지 확인해.'):(next?'싹트기에 알맞은 온도로 옮겼어. A의 낮은 온도와 비교하자.':'낮은 온도 조건으로 바꿨어. A와 다른 조건인지 확인해.')} 예상을 남기고 실험을 시작하자.`);
+    round.b[p.key] = next; return done(`화분 B: ${p.key==='water'?(next?'물을 주었어. A는 물 없음, B는 물 있음이야.':'물을 주지 않는 조건이야. 두 화분이 같은 상태인지 확인해.'):(next?'B를 22°C로 따뜻하게 맞췄어. 콩은 20~25°C에서 싹이 잘 터. A는 5°C 그대로야.':'낮은 온도 조건으로 바꿨어. A와 다른 조건인지 확인해.')} 예상을 남기고 실험을 시작하자.`);
   }
   if (type === 'seed-run') {
     if (!validPrep(round)) return fail('A와 B 모두 같은 흙에 씨앗 세 개를 준비해 줘.');
     if (!round.prediction) return fail('실험하기 전에 예상부터 남겨 줘. 아직 모르겠다고 해도 괜찮아.');
-    if (!validSeedChange(round)) return fail(`아직 두 화분의 조건이 같아. B 옆의 '${round.variable === 'water' ? 'B에 물 주기' : 'B를 알맞은 온도로'}'를 눌러 한 조건만 다르게 두자.`);
+    if (!validSeedChange(round)) return fail(`아직 두 화분의 조건이 같아. B 옆의 '${round.variable === 'water' ? 'B에 물 주기' : 'B를 22°C로 올리기'}'를 눌러 한 조건만 다르게 두자.`);
     if (round.run) return done('시작한 실험의 조건은 그대로 보관하고 있어.');
     round.run = {a:baseline(round.variable),b:copy(round.b),prepared:copy(round.prepared),prediction:round.prediction};
-    round.day = 0; return done('조건을 고정했어. 먼저 0일 모습을 사진으로 남기자.');
+    round.day = 0; round.photos = unique([...round.photos,0]); return done('실험 시작! 0일 모습이 노트에 남았어. 시간 손잡이를 돌려 봐.');
   }
   if (!round.run) return fail('화분을 준비하고 실험을 시작해 줘.');
   if (type === 'seed-day') {
     if (!numberIn(p.day,0,7)) return fail('0일부터 7일 사이의 시간을 살펴보자.');
-    round.day = p.day; return done(`관찰 모형 ${p.day}일: A와 B에서 무엇이 달라졌는지 보자.`);
+    round.day = p.day;
+    const before = round.photos.length, mid = d => d >= 2 && d <= 4, end = d => d >= 6;
+    if (p.day === 0 || mid(p.day) && !round.photos.some(mid) || end(p.day) && !round.photos.some(end)) round.photos.push(p.day);
+    // Jumping straight to the end still leaves a middle page to compare.
+    if (end(p.day) && !round.photos.some(mid)) round.photos.push(3);
+    round.photos = unique(round.photos).sort((a,b) => a-b);
+    return done(round.photos.length > before ? `${p.day}일 모습이 노트에 자동으로 남았어.` : `관찰 모형 ${p.day}일: A와 B에서 무엇이 달라졌는지 보자.`);
   }
   if (type === 'seed-photo') {round.photos = unique([...round.photos,round.day]).sort((a,b) => a-b); return done(`${round.day}일 사진을 기록했어.`);}
   if (type === 'seed-report') {
@@ -349,10 +367,10 @@ function comparisonAction(data,type,p,done,fail) {
   }
   if (type === 'transfer') {
     if (!classificationsDone(data)) return fail('사과나무와 봉선화의 이름표 기록을 먼저 비교해 보자.');
-    if (!['rose','dog'].includes(p.subject)) return fail('새로운 생물의 기록을 가져가 보자.');
-    const answer = p.subject === 'rose' ? 'same' : 'live';
-    if (p.answer !== answer) return fail(p.subject === 'rose' ? '장미도 여러 해 같은 줄기와 뿌리에서 자라. 사과나무의 기록을 연결해 보자.' : '개는 새끼를 낳아. 나비가 알을 낳는 모습과 비교해 보자.');
-    data.transfers[p.subject] = p.answer; return done('관찰에서 찾은 생각을 다른 생물에도 적용했어.');
+    const card = SORT_CARDS.find(c => c.id === p.card);
+    if (!card) return fail('분류할 생물 카드를 골라 줘.');
+    if (p.bin !== card.bin) return fail(`'${card.name}' 카드는 다른 상자야. 단서: ${card.clue}`);
+    data.transfers[card.id] = card.bin; return done(`맞아! ${card.why}`);
   }
   return fail('생명의 시간을 비교할 활동을 다시 골라 줘.');
 }
@@ -360,12 +378,16 @@ function comparisonAction(data,type,p,done,fail) {
 function bookAction(field,data,type,p,done,fail) {
   const bank = fieldRecords(field);
   if (type === 'book-record') {
-    if (!bank.some(record => record.id === p.id)) return fail('직접 탐사해서 만든 기록만 책에 넣을 수 있어.');
-    const index = data.records.indexOf(p.id);
-    if (index >= 0) data.records.splice(index,1);
-    else if (data.records.length < 6) data.records.push(p.id);
-    else return fail('책에는 최대 여섯 장을 넣을 수 있어. 다른 기록을 먼저 꺼내 줘.');
-    return done('내가 모은 탐사 기록으로 책을 만들고 있어.');
+    const record = bank.find(item => item.id === p.id);
+    if (!record) return fail('직접 탐사해서 만든 기록만 시계탑에 끼울 수 있어.');
+    const chapter = record.fieldEvidence.chapter;
+    if (p.slot !== undefined && p.slot !== chapter) return fail(`이 사진은 ${TOWER_REGIONS[chapter]}에서 모은 기록이야. 같은 지역 칸을 찾아봐.`);
+    // One record per region: a new pick replaces that socket's old record.
+    data.records = data.records.filter(id => bank.find(item => item.id === id)?.fieldEvidence.chapter !== chapter);
+    data.records.push(p.id);
+    data.records.sort((a,b) => bank.find(item => item.id === a).fieldEvidence.chapter - bank.find(item => item.id === b).fieldEvidence.chapter);
+    for (const key of Object.keys(data.matches)) if (!data.records.includes(data.matches[key])) delete data.matches[key];
+    return done(`${TOWER_REGIONS[chapter]} 칸에 기록을 끼웠어. 톱니가 맞물렸어!`);
   }
   if (type === 'book-move') {
     if (!numberIn(p.from,0,data.records.length-1) || !numberIn(p.to,0,data.records.length-1)) return fail('책에 넣은 기록을 끌어서 순서를 바꿔 줘.');
@@ -378,14 +400,20 @@ function bookAction(field,data,type,p,done,fail) {
     data.captions[p.id]=textValue(p.text,TEXT_LIMITS.caption);if(data.drafts?.captions)delete data.drafts.captions[p.id]; return done('기록 옆에 내 설명을 남겼어.');
   }
   if (type === 'help-match') {
-    if (!fieldBookReady(field)) return fail('동물·식물 기록과 설명을 담은 책을 먼저 마무리해 보자.');
-    if (!['observation','retry','care'].includes(p.request)) return fail('도움을 요청한 친구의 이야기를 살펴봐.');
+    if (!slotsDone(field)) return fail('시계탑 네 칸에 기록을 먼저 끼워 줘.');
+    const claim = TOWER_CLAIMS.find(item => item.request === p.request);
+    if (!claim) return fail('증명할 주장 쪽지를 먼저 골라 줘.');
     const record = bank.find(item => item.id === p.recordId);
-    if (!record || record.fieldEvidence.type !== p.request) return fail({observation:'생김새를 자세히 관찰한 기록이 이 친구에게 도움이 될 거야.',retry:'한 가지 조건만 다르게 비교한 씨앗 실험 기록을 찾아보자.',care:'물기와 빛을 재고 돌본 뒤 변화를 살펴본 기록을 찾아보자.'}[p.request]);
-    data.matches[p.request]=record.id;return done('내 탐사 기록으로 친구가 해결할 방법을 찾았어.');
+    if (!record || !data.records.includes(record.id)) return fail('시계탑에 끼운 내 사진 중에서 골라 줘.');
+    if (!claimFits(p.request,record)) return fail(claim.clue);
+    data.matches[p.request]=record.id;return done('주장과 증거를 실로 이었어!');
+  }
+  if (type === 'tower-run') {
+    if (!slotsDone(field) || !matchesDone(field) || !noteDone(data)) return fail('기록 끼우기, 증거 잇기, 연구 노트를 먼저 마쳐 줘.');
+    data.towerRun = true; return done('생명 시계탑이 다시 움직여! 네 기록이 차례로 빛났어.');
   }
   if (type === 'observation-plan') {
-    if (!matchesDone(field)) return fail('세 친구에게 도움이 되는 탐사 기록을 먼저 연결해 보자.');
+    if (!data.towerRun) return fail('시곗바늘을 돌려 시계탑을 먼저 깨워 줘.');
     const plan=Object.fromEntries(['subject','when','what'].map(key => [key,textValue(typeof p[key] === 'string' ? p[key] : data.plan[key],PLAN_LIMITS[key])]));
     if (meaningfulText(plan.subject) < 2 || meaningfulText(plan.when) < 2 || meaningfulText(plan.what) < 4) return fail('관찰할 생물과 언제 볼지 각각 두 글자 이상, 무엇을 기록할지 네 글자 이상으로 세 칸을 모두 써 줘.');
     data.plan=plan;if(data.drafts)data.drafts.plan={};
@@ -472,8 +500,10 @@ export function restoreField(raw) {
     if (object(c3.classifications).balsam === 'new') comparison.classifications.balsam='new';
   }
   if (classificationsDone(comparison)) {
-    if (object(c3.transfers).rose === 'same') comparison.transfers.rose='same';
-    if (object(c3.transfers).dog === 'live') comparison.transfers.dog='live';
+    const saved = object(c3.transfers);
+    // Saves from the old two-question version count as a finished sort.
+    const legacy = saved.rose === 'same' && saved.dog === 'live';
+    for (const card of SORT_CARDS) if (legacy || saved[card.id] === card.bin) comparison.transfers[card.id] = card.bin;
   }
 
   if (archived) {
@@ -481,20 +511,27 @@ export function restoreField(raw) {
     field.snapshots=copy(archived.snapshots);
   }
   const c4=object(saved[4]), bank=fieldRecords(field);
-  book.records=unique(array(c4.records).filter(id => bank.some(record => record.id === id))).slice(0,6);
+  // Old saves held 3~6 free picks; keep at most one per region.
+  const savedIds=array(c4.records);
+  for (const c of [0,1,2,3]) {const id=savedIds.find(x => bank.find(record => record.id === x)?.fieldEvidence.chapter === c);if(id)book.records.push(id);}
   book.title=textValue(c4.title,TEXT_LIMITS.title);book.summary=textValue(c4.summary,TEXT_LIMITS.summary);
   for (const id of book.records) if (typeof object(c4.captions)[id] === 'string') book.captions[id]=textValue(c4.captions[id],TEXT_LIMITS.caption);
   const drafts=object(c4.drafts);
   for(const record of bank)if(typeof object(drafts.captions)[record.id]==='string')book.drafts.captions[record.id]=textValue(drafts.captions[record.id],TEXT_LIMITS.caption);
   for(const key of ['title','summary'])if(typeof object(drafts.story)[key]==='string')book.drafts.story[key]=textValue(drafts.story[key],TEXT_LIMITS[key]);
   for(const key of ['subject','when','what'])if(typeof object(drafts.plan)[key]==='string')book.drafts.plan[key]=textValue(drafts.plan[key],PLAN_LIMITS[key]);
-  if (fieldBookReady(field)) {
-    for (const request of ['observation','retry','care']) {
-      const id=object(c4.matches)[request];
-      if (bank.some(record => record.id === id && record.fieldEvidence.type === request)) book.matches[request]=id;
+  // Finished books from the earlier version keep their completion: fill the empty sockets.
+  const legacy=c4.towerRun===undefined&&['observation','retry','care'].every(request => bank.some(record => record.id === object(c4.matches)[request]));
+  if (legacy) for (const c of [0,1,2,3]) if (!book.records.some(id => bank.find(record => record.id === id).fieldEvidence.chapter === c)) {const record=bank.find(item => item.fieldEvidence.chapter === c);if(record)book.records.push(record.id);}
+  book.records.sort((a,b) => bank.find(record => record.id === a).fieldEvidence.chapter - bank.find(record => record.id === b).fieldEvidence.chapter);
+  if (slotsDone(field)) {
+    for (const {request} of TOWER_CLAIMS) {
+      const id=legacy?bank.find(record => book.records.includes(record.id) && claimFits(request,record))?.id:object(c4.matches)[request];
+      if (book.records.includes(id) && claimFits(request,bank.find(record => record.id === id))) book.matches[request]=id;
     }
   }
-  if (matchesDone(field)) for (const key of ['subject','when','what']) book.plan[key]=textValue(object(c4.plan)[key],PLAN_LIMITS[key]);
+  book.towerRun=matchesDone(field)&&noteDone(book)&&(c4.towerRun===true||legacy);
+  if (book.towerRun) for (const key of ['subject','when','what']) book.plan[key]=textValue(object(c4.plan)[key],PLAN_LIMITS[key]);
 
   // Completed flags alone are not evidence. Keep only a contiguous, supported path.
   const claimed=integerList(parsed.completed,0,4);

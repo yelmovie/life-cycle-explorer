@@ -22,3 +22,6 @@ HANDOFF.md
 
 # 3D model originals from Meshy (~70MB); see assets/models/README.md
 assets/models/raw/
+
+# Original AI image exports (converted copies live in assets/)
+_source/

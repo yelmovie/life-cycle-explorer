@@ -1,0 +1,232 @@
+<title>생명 시계 그림 주문서</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one column of order slips, each with the file name, where it shows up, and a copy-ready prompt. */
+:root{
+ --bg:#eef2ea;--paper:#fbfcf7;--ink:#1f3a2e;--muted:#5d7065;--line:#cfd9cb;--accent:#2f6b4c;--chip:#e2ecdf;
+ --font-body:"Gowun Dodum","Malgun Gothic",sans-serif;--font-mono:"IBM Plex Mono",Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121c17;--paper:#1a2620;--ink:#e3ece5;--muted:#9fb3a7;--line:#2e3f36;--accent:#7cc39b;--chip:#24342b;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121c17;--paper:#1a2620;--ink:#e3ece5;--muted:#9fb3a7;--line:#2e3f36;--accent:#7cc39b;--chip:#24342b;color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.6;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 48px}
+main{max-width:860px;margin:0 auto;display:grid;gap:20px}
+h1{font-size:1.9rem;margin:0;text-wrap:balance}
+.lead{color:var(--muted);margin:0}
+.rules{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px 20px}
+.rules ul{margin:6px 0 0;padding-left:20px}
+.slip{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:grid;gap:10px;min-width:0}
+.slip header{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 12px}
+.slip h2{font-size:1.2rem;margin:0}
+.file{font-family:var(--font-mono);font-size:.85rem;background:var(--chip);border-radius:6px;padding:2px 8px}
+.tag{font-size:.8rem;color:var(--accent);border:1px solid var(--accent);border-radius:99px;padding:0 8px}
+.where{margin:0;color:var(--muted)}
+pre{margin:0;white-space:pre-wrap;word-break:break-word;font-family:var(--font-mono);font-size:.86rem;line-height:1.55;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+button{justify-self:start;font:inherit;font-size:.9rem;color:var(--paper);background:var(--accent);border:0;border-radius:8px;padding:6px 14px;cursor:pointer}
+button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+</style>
+<main>
+ <h1>생명 시계 그림 주문서</h1>
+ <p class="lead">지금 코드로 대충 그린 부분을 진짜 그림으로 바꾸기 위한 목록이야. 프롬프트는 영어가 결과가 안정적이라 영어로 썼어.</p>
+ <section class="rules">
+  <strong>공통 규칙</strong>
+  <ul>
+   <li>같은 화풍을 위해 기존 그림을 참조 이미지로 같이 넣어 줘: <span class="file">assets/game/pale.webp</span>, <span class="file">assets/game/pot3.webp</span></li>
+   <li>1024×1024, 투명 배경 PNG. 받은 파일은 아래 파일명으로 <span class="file">assets/game/</span>에 넣으면 내가 webp로 줄이고 연결할게.</li>
+   <li>회복 단계 그림(1~3번)은 화분 크기·위치·카메라 각도가 기존 그림과 똑같아야 전환할 때 안 튀어.</li>
+  </ul>
+ </section>
+
+ <article class="slip">
+  <header><h2>1. 빛 부족 화분 · 며칠 뒤</h2><span class="file">pale-recover-1.png</span><span class="tag">햇살 온실 · 빛 사례</span></header>
+  <p class="where">시간 손잡이 ‘며칠 뒤’. 웃자란 줄기는 그대로, 줄기 끝에 작은 초록 새잎이 막 나온 모습.</p>
+  <pre id="p1">Same glass pot with gold rim, same dark soil, same three tall thin pale-yellow leggy bean seedlings as the reference image, identical framing, camera angle and scale. Change only this: at the tip of each stretched stem, two small fresh bright-green leaves are just unfolding, clearly greener than the old pale leaves. The long stems stay long and thin. Visible white roots in the soil through the glass. Soft painterly 3D illustration for a children's science game, clean studio lighting, centered, transparent background, no text.</pre>
+  <button type="button" data-copy="p1">프롬프트 복사</button>
+ </article>
+
+ <article class="slip">
+  <header><h2>2. 빛 부족 화분 · 새잎이 자란 뒤</h2><span class="file">pale-recover-2.png</span><span class="tag">햇살 온실 · 빛 사례</span></header>
+  <p class="where">‘새잎이 자란 뒤’와 전후 비교. 줄기는 여전히 길지만 새잎이 크고 진한 초록이라 회복이 한눈에 보여야 해.</p>
+  <pre id="p2">Same glass pot with gold rim, same dark soil, same three tall thin leggy bean seedlings as the reference image, identical framing, camera angle and scale. The old lower leaves are still pale yellow, but the top of every stem now has several large, healthy, deep-green leaves, wide open and glossy, clearly much greener and bigger than the old leaves. Stems remain long (they do not shrink). Visible white roots through the glass. Soft painterly 3D illustration for a children's science game, clean studio lighting, centered, transparent background, no text.</pre>
+  <button type="button" data-copy="p2">프롬프트 복사</button>
+ </article>
+
+ <article class="slip">
+  <header><h2>3. 물 부족 화분 · 며칠 뒤</h2><span class="file">dry-recover-1.png</span><span class="tag">햇살 온실 · 물 사례</span></header>
+  <p class="where">지금은 ‘며칠 뒤’에도 시든 그림이 그대로 나와. 처진 잎이 반쯤 다시 일어선 중간 단계가 필요해.</p>
+  <pre id="p3">Same glass pot with gold rim and the same bean seedlings as the reference image (assets/game/dry.webp), identical framing, camera angle and scale. Halfway recovery after watering: the soil is now dark and moist, the drooping leaves are lifting back up about halfway, stems slightly straighter, leaves a little greener but not fully healthy yet. Visible white roots through the glass. Soft painterly 3D illustration for a children's science game, clean studio lighting, centered, transparent background, no text.</pre>
+  <button type="button" data-copy="p3">프롬프트 복사</button>
+ </article>
+
+ <article class="slip">
+  <header><h2>4. 온도계 (빈 눈금관)</h2><span class="file">thermometer.png</span><span class="tag">씨앗 연구소 · 온도 조건</span></header>
+  <p class="where">빨간 기둥은 코드로 올라가게 할 거라 유리관 안은 비워 둬야 해. 5°C → 22°C로 올라가는 애니메이션에 씀.</p>
+  <pre id="p4">A classic glass laboratory thermometer standing upright on a small round wooden base, brass cap on top, red bulb at the bottom, the glass tube itself is EMPTY and clear (no liquid column inside), printed scale on a cream backing plate from 0 to 30 degrees Celsius with a tick every 5 degrees and the numbers 0, 10, 20, 30, and a small green band marked between 20 and 25. Front view, perfectly vertical, tall narrow composition centered in a square canvas. Soft painterly 3D illustration for a children's science game matching the reference images, transparent background.</pre>
+  <button type="button" data-copy="p4">프롬프트 복사</button>
+ </article>
+
+ <article class="slip">
+  <header><h2>5. 새싹 온열 매트</h2><span class="file">heat-mat.png</span><span class="tag">씨앗 연구소 · 온도 조건</span></header>
+  <p class="where">화분 B 밑에 깔아서 “B만 따뜻하게 했다”를 실제 도구로 보여 주는 용도. 원예용으로 실제 쓰는 물건이야.</p>
+  <pre id="p5">A flat rectangular seedling heat mat used in real gardening, dark green rubber surface with a subtle grid pattern, a cable leading to a small white controller box with a digital display showing "22°C" and a small orange heat icon, soft warm orange glow along the edges of the mat. Three-quarter top view, centered, wide composition inside a square canvas. Soft painterly 3D illustration for a children's science game matching the reference images, transparent background.</pre>
+  <button type="button" data-copy="p5">프롬프트 복사</button>
+ </article>
+
+ <article class="slip">
+  <header><h2>6. 물 붓는 물뿌리개 (선택)</h2><span class="file">watercan-pour.png</span><span class="tag">씨앗 연구소 · 물 조건</span></header>
+  <p class="where">지금은 기존 물뿌리개를 기울이고 물방울을 코드로 떨어뜨려. 이 그림이 있으면 붓는 순간이 더 확실해져.</p>
+  <pre id="p6">The same small dark-green metal watering can as the reference (assets/game/watercan.webp), tilted forward about 35 degrees, a gentle stream of clear blue water droplets pouring from the rose spout down toward the lower left, side view, centered. Soft painterly 3D illustration for a children's science game, transparent background, no text.</pre>
+  <button type="button" data-copy="p6">프롬프트 복사</button>
+ </article>
+
+ <article class="slip">
+  <header><h2>7. 탐사 카메라 (정면)</h2><span class="file">field-camera.png</span><span class="tag">모든 사진 찍기</span></header>
+  <p class="where">사진 찍기 연출에서 카메라가 들어와 ‘찰칵’ 하는 주인공. 지금은 작은 기존 그림을 임시로 써. 렌즈가 정면을 보는 그림이 필요해.</p>
+  <pre id="p7">A friendly vintage field camera for a young nature explorer, front view facing the viewer, cream and forest-green leather body with brass trim, one large round glass lens in the center with a soft reflection, a shutter button on top, a small leaf charm and a brown leather strap. Cute, rounded proportions, not childish. Soft painterly 3D illustration for a children's science game matching the reference images, centered, transparent background, no text, no logo.</pre>
+  <button type="button" data-copy="p7">프롬프트 복사</button>
+ </article>
+
+ <article class="slip">
+  <header><h2>8. 즉석 사진 테두리 (선택)</h2><span class="file">photo-frame.png</span><span class="tag">관찰 노트</span></header>
+  <p class="where">찍힌 사진이 노트에 붙을 때 쓰는 종이 테두리. 가운데는 투명하게 비워 두면 사진을 안에 끼워 넣을게.</p>
+  <pre id="p8">An instant photo paper frame, slightly warm off-white paper with subtle texture, thicker bottom margin like a classic instant photo, a strip of light green washi tape across the top edge, very soft drop shadow. The photo window in the middle is completely transparent and empty. Straight front view, square canvas, transparent background, no text.</pre>
+  <button type="button" data-copy="p8">프롬프트 복사</button>
+ </article>
+
+ <section class="rules">
+  <strong>생물 탐정 분류 카드 (9~16번)</strong>
+  <ul>
+   <li>사계절 정원 ‘새 상황’ 단계의 분류 카드야. 카드 안에 작게 들어가니까 한 생물만, 몸 전체가 잘 보이게 그려야 해.</li>
+   <li>화풍 참조 이미지: <span class="file">assets/game/dog.webp</span>, <span class="file">assets/game/rose.webp</span>, <span class="file">assets/game/frog.webp</span></li>
+   <li>그림이 오기 전까지는 카드에 이름만 크게 써 둘게. 파일이 들어오면 바로 그림으로 바뀌어.</li>
+  </ul>
+ </section>
+
+ <article class="slip">
+  <header><h2>9. 거북</h2><span class="file">sort-turtle.png</span><span class="tag">알을 낳아</span></header>
+  <p class="where">물과 땅을 오가지만 알을 낳는 동물. 물에 사니까 새끼를 낳을 거라고 헷갈리기 쉬워.</p>
+  <pre id="p9">A single friendly sea turtle crawling on sand, full body in three-quarter side view, green-brown patterned shell, calm expression. Soft painterly 3D illustration for a children's science game matching the reference images, centered with generous padding, transparent background, no eggs, no text.</pre>
+  <button type="button" data-copy="p9">프롬프트 복사</button>
+ </article>
+
+ <article class="slip">
+  <header><h2>10. 고래</h2><span class="file">sort-whale.png</span><span class="tag">새끼를 낳아</span></header>
+  <p class="where">물속에 살지만 새끼를 낳아 젖을 먹이는 동물. 이 활동의 핵심 함정 카드야.</p>
+  <pre id="p10">A single gentle humpback whale swimming, full body in side view, blue-grey body with pale belly grooves and long pectoral fins, a tiny bubble trail. Soft painterly 3D illustration for a children's science game matching the reference images, centered with generous padding, transparent background, no water surface, no calf, no text.</pre>
+  <button type="button" data-copy="p10">프롬프트 복사</button>
+ </article>
+
+ <article class="slip">
+  <header><h2>11. 고양이</h2><span class="file">sort-cat.png</span><span class="tag">새끼를 낳아</span></header>
+  <p class="where">개와 같은 무리. 쉬운 기준 카드라서 한 장만 넣어.</p>
+  <pre id="p11">A single orange tabby cat sitting upright, full body front three-quarter view, tail wrapped around its paws, alert friendly face. Soft painterly 3D illustration for a children's science game matching the reference images, centered with generous padding, transparent background, no kittens, no text.</pre>
+  <button type="button" data-copy="p11">프롬프트 복사</button>
+ </article>
+
+ <article class="slip">
+  <header><h2>12. 뱀</h2><span class="file">sort-snake.png</span><span class="tag">알을 낳아</span></header>
+  <p class="where">다리가 없어 무엇과 같은 무리인지 헷갈리는 동물. 무섭지 않게, 순한 느낌으로.</p>
+  <pre id="p12">A single small harmless green grass snake coiled loosely on the ground, head raised gently, smooth scales, friendly round eyes, not scary. Soft painterly 3D illustration for a children's science game matching the reference images, centered with generous padding, transparent background, no eggs, no text.</pre>
+  <button type="button" data-copy="p12">프롬프트 복사</button>
+ </article>
+
+ <article class="slip">
+  <header><h2>13. 개나리</h2><span class="file">sort-forsythia.png</span><span class="tag">여러 해 같은 줄기로 살아</span></header>
+  <p class="where">작은 키라 풀처럼 보이지만 줄기가 겨울을 나는 나무. 이른 봄 모습으로.</p>
+  <pre id="p13">A single forsythia shrub in early spring, many arching woody brown branches covered with small bright yellow four-petal flowers, a few green leaf buds, small mound of soil at the base. Soft painterly 3D illustration for a children's science game matching the rose and apple tree reference images, centered with generous padding, transparent background, no text.</pre>
+  <button type="button" data-copy="p13">프롬프트 복사</button>
+ </article>
+
+ <article class="slip">
+  <header><h2>14. 감나무</h2><span class="file">sort-persimmon.png</span><span class="tag">여러 해 같은 줄기로 살아</span></header>
+  <p class="where">사과나무와 같은 무리. 가을 열매가 달린 모습이라 한 해만 사는 것처럼 헷갈릴 수 있어.</p>
+  <pre id="p14">A single small persimmon tree in autumn, sturdy grey-brown trunk, branches with a few remaining yellow-orange leaves and many round orange persimmons, small mound of soil at the base. Soft painterly 3D illustration for a children's science game matching the apple tree reference image, centered with generous padding, transparent background, no text.</pre>
+  <button type="button" data-copy="p14">프롬프트 복사</button>
+ </article>
+
+ <article class="slip">
+  <header><h2>15. 벼</h2><span class="file">sort-rice.png</span><span class="tag">한 해 살고 씨를 남겨</span></header>
+  <p class="where">한 해 자라 낟알(씨)을 남기고 끝나는 식물. 이삭이 고개 숙인 가을 모습으로.</p>
+  <pre id="p15">A single clump of ripe rice plants in autumn, golden stalks with heavy drooping grain heads, a few green-yellow leaves, small mound of muddy soil at the base. Soft painterly 3D illustration for a children's science game matching the balsam reference images, centered with generous padding, transparent background, no text.</pre>
+  <button type="button" data-copy="p15">프롬프트 복사</button>
+ </article>
+
+ <article class="slip">
+  <header><h2>16. 해바라기</h2><span class="file">sort-sunflower.png</span><span class="tag">한 해 살고 씨를 남겨</span></header>
+  <p class="where">키가 커서 여러 해 사는 것처럼 보이지만 한 해 살고 씨를 남겨. 씨가 박힌 꽃판이 보여야 해.</p>
+  <pre id="p16">A single tall sunflower plant, green stem and broad leaves, one large flower head tilted slightly forward showing a center packed with dark seeds, small mound of soil at the base. Soft painterly 3D illustration for a children's science game matching the balsam reference images, centered with generous padding, transparent background, no text.</pre>
+  <button type="button" data-copy="p16">프롬프트 복사</button>
+ </article>
+
+ <section class="rules">
+  <strong>생명 시계탑 · 파이널 스테이지 (17~24번)</strong>
+  <ul>
+   <li>지금 배경(<span class="file">assets/game/bg8.webp</span>)은 평범한 공부방이라 시계탑 느낌이 없어서 새로 만들어.</li>
+   <li>화풍 참조: <span class="file">assets/expedition/forest-world.webp</span>의 시계탑과 같은 건물 안쪽이어야 해. 같이 넣어 줘.</li>
+   <li>배경(17·18번)은 16:9, 1920×1080, 투명 배경 아님. 둘은 구도·카메라가 완전히 같아야 ‘잠든 탑 → 깨어난 탑’ 전환이 자연스러워.</li>
+  </ul>
+ </section>
+
+ <article class="slip">
+  <header><h2>17. 시계탑 관측실 · 잠든 모습</h2><span class="file">tower-room-sleep.png</span><span class="tag">배경</span></header>
+  <p class="where">파이널 스테이지 시작 화면. 가운데 큰 시계 문자판이 멈춰 있고, 네 지역 창문은 어두워.</p>
+  <pre id="p17">Interior of the magical life clock tower from the reference forest map, a round observatory room seen from the front, wide 16:9 composition. In the center of the back wall a giant clock face about 45 percent of the image height, its glass dim and the hands stopped, four round empty brass sockets placed around the dial at 12, 3, 6 and 9 o'clock. On the left and right walls four tall arched windows showing faint silhouettes of a butterfly forest, a seed lab, a sunny greenhouse and a seasonal garden, all dim and bluish. Exposed brass gears and wooden beams, vines and moss, dust in soft blue moonlight, a long wooden research desk in the foreground with empty space in the middle for game UI. Cozy painterly fantasy illustration matching the reference, no characters, no text.</pre>
+  <button type="button" data-copy="p17">프롬프트 복사</button>
+ </article>
+
+ <article class="slip">
+  <header><h2>18. 시계탑 관측실 · 깨어난 모습</h2><span class="file">tower-room-awake.png</span><span class="tag">배경 · 완성</span></header>
+  <p class="where">마지막에 시계가 다시 움직일 때 바뀌는 배경. 17번과 구도가 같아야 해.</p>
+  <pre id="p18">Exactly the same room, composition, camera and objects as the previous image (life clock tower observatory), now fully awakened: the giant clock face glows warm gold, the four brass sockets shine, golden light beams run from each socket to the four arched windows, which now show bright, colourful scenes of a butterfly forest, a seed lab with sprouts, a sunny greenhouse and a blooming seasonal garden. Gears gleam, small leaves and petals float in warm sunlight, the moss is lush green. Celebratory but calm. Cozy painterly fantasy illustration, no characters, no text.</pre>
+  <button type="button" data-copy="p18">프롬프트 복사</button>
+ </article>
+
+ <article class="slip">
+  <header><h2>19. 지역 문장 4개 (한 장에)</h2><span class="file">tower-emblems.png</span><span class="tag">시계 칸 장식</span></header>
+  <p class="where">시계 네 칸에 아이 기록을 끼우면 켜지는 지역 문장. 한 장에 2×2로 그려 주면 내가 잘라서 쓸게.</p>
+  <pre id="p19">Four round brass emblem medallions arranged in a neat 2 by 2 grid with clear even spacing, same size, front view: top left a butterfly with a small egg, top right a bean seed sprouting, bottom left a sun over a potted plant, bottom right an apple blossom branch with a leaf. Engraved brass rim, enamel colours, soft inner glow. Cozy painterly fantasy illustration matching the reference, transparent background, no text.</pre>
+  <button type="button" data-copy="p19">프롬프트 복사</button>
+ </article>
+
+ <article class="slip">
+  <header><h2>20. 톱니바퀴 세트</h2><span class="file">tower-gears.png</span><span class="tag">상호작용 소품</span></header>
+  <p class="where">기록을 끼울 때마다 톱니가 맞물려 도는 연출용. 크기가 다른 톱니 3개를 따로 떨어뜨려서.</p>
+  <pre id="p20">Three separate brass clockwork gears, small, medium and large, each lying flat facing the viewer with clean circular outlines, spaced apart so they do not overlap, subtle engraved leaf patterns, slightly worn warm brass. Front orthographic view, transparent background, no shadow, no text.</pre>
+  <button type="button" data-copy="p20">프롬프트 복사</button>
+ </article>
+
+ <article class="slip">
+  <header><h2>21. 증거 탐정 보드</h2><span class="file">tower-evidence-board.png</span><span class="tag">증거 잇기 단계</span></header>
+  <p class="where">“물이 싹트는 데 필요하다는 증거는?” 같은 질문과 아이 사진을 실로 잇는 판. 가운데는 비어 있어야 해.</p>
+  <pre id="p21">A large cork evidence board in a wooden frame mounted on the clock tower wall, front view, 16:9, mostly empty cork surface for game cards, a few brass push pins and loose red string coiled in one corner, a small brass plate at the top left with an engraved magnifying glass icon. Warm lamp light. Cozy painterly illustration matching the reference, no text, no photos on the board.</pre>
+  <button type="button" data-copy="p21">프롬프트 복사</button>
+ </article>
+
+ <article class="slip">
+  <header><h2>22. 시계탑 종</h2><span class="file">tower-bell.png</span><span class="tag">관찰 약속 · 마무리</span></header>
+  <p class="where">마지막 ‘관찰 약속’을 하면 종이 흔들리며 울려. 흔들 수 있게 종만 따로.</p>
+  <pre id="p22">A single brass clock tower bell hanging from a short wooden beam with a leafy vine wrapped around it, front view, polished gold-brass with soft highlights and a small leaf engraving. Cozy painterly fantasy illustration matching the reference, transparent background, no text.</pre>
+  <button type="button" data-copy="p22">프롬프트 복사</button>
+ </article>
+
+ <article class="slip">
+  <header><h2>23. 연구 성과 메달</h2><span class="file">tower-medal.png</span><span class="tag">성취 보상</span></header>
+  <p class="where">시계탑이 완성되면 목에 걸어 주는 ‘생명 시계 연구원’ 메달. 인증서 옆에 같이 나와.</p>
+  <pre id="p23">A round gold medal with a green ribbon, the medal face shows a small clock whose dial is made of four life cycle icons (egg, sprout, sun, apple blossom), engraved laurel leaves around the rim. Front view, gentle shine. Cozy painterly illustration matching the reference, transparent background, no text, no letters.</pre>
+  <button type="button" data-copy="p23">프롬프트 복사</button>
+ </article>
+
+ <article class="slip">
+  <header><h2>24. 엔딩 장면 · 깨어난 숲 전경</h2><span class="file">ending-forest.png</span><span class="tag">ffmpeg 엔딩 영상</span></header>
+  <p class="where">ffmpeg로 만드는 12초 엔딩 영상의 마지막 장면. 시계탑에서 빛이 퍼져 숲 전체가 깨어나.</p>
+  <pre id="p24">The same forest world as the reference map, wide 16:9 view at golden hour, the life clock tower in the center glowing and sending soft golden rings of light outward, every region of the forest fully awake and colourful: butterflies over the forest, sprouts in the seed lab, a bright greenhouse, a blooming garden. A few small birds, floating petals, warm sky. Cozy painterly fantasy illustration matching the reference, no characters, no text.</pre>
+  <button type="button" data-copy="p24">프롬프트 복사</button>
+ </article>
+</main>
+<script>
+document.addEventListener('click',e=>{
+ const b=e.target.closest('[data-copy]');if(!b)return;
+ const pre=document.getElementById(b.dataset.copy),done=()=>{b.textContent='복사됨';setTimeout(()=>b.textContent='프롬프트 복사',1500);};
+ navigator.clipboard.writeText(pre.textContent).then(done,()=>{const r=document.createRange();r.selectNodeContents(pre);const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='선택됨 · Ctrl+C';});
+});
+</script>

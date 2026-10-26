@@ -1,4 +1,5 @@
-import {fieldReady,seedReportDone,fieldRecords,fieldPhase} from './field-model.js';
+import {SORT_CARDS} from './field-content.js';
+import {fieldReady,seedReportDone,fieldRecords,fieldPhase,towerStep} from './field-model.js';
 import {questReady,questInfo} from './field-quests.js';
 import {FIELD_CHAPTERS,FIELD_REPLAY_GOALS,FORM_NAMES} from './field-content.js';
 import {icon} from './ui-icons.js';
@@ -20,10 +21,7 @@ export function roomPhase(f){
   if(!['apple-3','balsam-3','apple-4','balsam-4'].every(k=>q.plantPhotos.includes(k)))return 'seasons';
   if(q.classifications.apple!=='same'||q.classifications.balsam!=='new')return 'plant-identity';return 'transfer';
  }
- const bank=fieldRecords(f).filter(r=>q.records.includes(r.id));
- if(q.records.length<3||new Set(bank.map(r=>r.kind)).size<2)return 'story-pick';
- if(q.title.trim().length<2||q.summary.trim().length<8||q.records.filter(id=>q.captions[id]?.trim().length>=4).length<2)return 'story-edit';
- if(['observation','retry','care'].some(k=>!q.matches[k]))return 'story-help';return 'plan';
+ {const step=towerStep(f);return step==='ready'?'plan':step;}
 }
 export function roomUI(s,ui){
  const f=s.field,c=f.active,q=f.chapters[c],phase=roomPhase(f),r=FIELD_CHAPTERS[c];let objective=r.goal,controls='',next='발견 기록',nextAction='hint';
@@ -31,16 +29,16 @@ export function roomUI(s,ui){
  if(phase==='discovery')return {phase,...questInfo(f)};
  if(phase==='ready')return {phase,objective:f.completed.includes(c)?FIELD_REPLAY_GOALS[c]:'네가 찾은 기록으로 숲을 깨울 준비가 됐어.',controls:f.completed.includes(c)?(!questReady(f,c)?fieldButton('새 발견 미션','discovery-enter',{chapter:c},'lens'):'')+fieldButton(c===4?'새 이야기 만들기':'다시 탐사하기','chapter-restart',{chapter:c},'reset'):'',next:c===4?'숲의 시간 잇기':f.completed.includes(c)?'숲으로 돌아가기':r.reward+' 받기',nextAction:'complete'};
  if(c===0){
-  if(phase==='search'){objective='돋보기를 움직여 나비의 네 모습을 살펴봐.';controls='<span class="tool-hint">몸 위로 옮기기 → 확대해서 보기 → 놓아서 기록</span>';next='관찰한 단서 보기';}
-  if(phase==='draw'){objective='직접 본 특징을 그림과 한 문장으로 남겨 줘.';controls=action('특징 쓰기','note',{},'pen')+action('키보드로 그리기','keyboard-drawing',{},'pen')+action('그림 지우기','clear-drawing',{},'reset');next='내 기록 확인';}
+  if(phase==='search'){objective='돋보기를 움직여 나비의 네 모습을 살펴봐.';next='관찰한 단서 보기';}
+  if(phase==='draw'){objective='직접 본 특징을 한 문장으로 남겨 줘.';controls='';next='내 기록 확인';}
   if(phase==='film'){objective='흩어진 사진을 자라는 순서로 이어 줘.';controls=action(ui.play?'재생 멈춤':'내 순서 재생','film-play',{},'play');next='시간길 확인';}
   if(phase==='generation'){objective='어른벌레가 낳은 알로 다음 세대를 이어 줘.';controls='';next='다음 세대 확인';}
  }
  if(c===1){const trial=q.rounds[q.round];
-  if(phase==='prepare'){objective='두 화분에 같은 흙과 씨앗 세 알을 놓아 줘.';controls='<span class="tool-hint">지훈의 흙 주머니와 씨앗을 화분에 놓아 봐.</span>';next='준비 확인';}
+  if(phase==='prepare'){objective='두 화분에 같은 흙과 씨앗 세 알을 놓아 줘.';next='준비 확인';}
   if(phase==='design'){objective=q.round===0?'A는 그대로, B에만 물을 주면 어떻게 될까?':'온도만 다르게 두면 씨앗은 어떻게 될까?';controls=action('내 예상 남기기','prediction',{},'pin');next='비교 실험 시작';nextAction='seed-run';}
-  if(phase==='grow'){objective='시간을 돌려 처음·중간·마지막 모습을 찍어 줘.';controls=action('흙 속 단면','cross-section',{},'lens');next=`${trial.day}일 비교 사진`;nextAction='seed-photo';}
-  if(phase==='reason'){objective='사진의 변화·바꾼 조건·처음 예상과의 비교를 남겨 줘.';next='비교 기록 확인';}
+  if(phase==='grow'){objective='시간 손잡이를 돌려 0일부터 7일까지 지켜봐.';controls=action('흙 속 단면','cross-section',{},'lens');}
+  if(phase==='reason'){objective='노트에 남은 사진을 비교해 보자.';next='비교 기록 확인';}
   if(phase==='seed-next'){objective='네가 바꾼 조건과 씨앗의 변화가 기록됐어.';next='다른 씨앗 돕기';nextAction='seed-next';}
  }
  if(c===2){const plant=q.cases[q.case];
@@ -57,12 +55,13 @@ export function roomUI(s,ui){
   if(phase==='tags'){objective='두 식물에 이름표를 달고 첫봄의 모습을 찍어 줘.';controls=action('사과나무 사진','season-photo',{plant:'apple'},'camera')+action('봉선화 사진','season-photo',{plant:'balsam'},'camera');next='이름표 확인';}
   if(phase==='seasons'){objective='겨울과 다음 봄에도 이름표과 씨앗을 찾아 찍어 줘.';controls=action('사과나무 사진','season-photo',{plant:'apple'},'camera')+action('봉선화 사진','season-photo',{plant:'balsam'},'camera');next='시간 기록 확인';}
   if(phase==='plant-identity'){objective='지난해 이름표과 새 씨앗의 이름표를 이어 줘.';next='작년 식물 확인';}
-  if(phase==='transfer'){objective=q.transfers.rose!=='same'?'새 장미 자료에도 네 판단 방법을 써 봐.':'갓 태어난 강아지에게 맞는 기록을 이어 줘.';next='새 상황 확인';}
+  if(phase==='transfer'){objective=SORT_CARDS.filter(x=>x.group==='animal').every(x=>q.transfers[x.id]===x.bin)?'생물 탐정 ② 식물 카드를 겨울나기 방법으로 나눠 줘.':'생물 탐정 ① 동물 카드를 태어나는 방법으로 나눠 줘.';next='분류 확인';}
  }
  if(c===4){
-  if(phase==='story-pick'){objective='내 동물·식물 기록을 이야기판에 담아 줘.';controls=action('이전 자료','record-page',{delta:-1},'left')+action('다음 자료','record-page',{delta:1},'right');next='내 이야기 확인';}
-  if(phase==='story-edit'){objective='내 발견에 이름과 설명을 붙여 줘.';controls=action('이야기 이름·생각','story-info',{},'pen')+action('사진 설명','story-caption',{},'pen')+action('다음 자료','record-page',{delta:1},'right');next='이야기 완성 확인';}
-  if(phase==='story-help'){objective='세 도움 요청에 알맞은 내 기록을 연결해 줘.';controls=action('이전 자료','record-page',{delta:-1},'left')+action('다음 자료','record-page',{delta:1},'right');next='기록 연결 확인';}
+  if(phase==='tower-slots'){objective='시계탑 네 칸에 지역마다 내 기록을 하나씩 끼워 줘.';controls=action('이전 기록','record-page',{delta:-1},'left')+action('다음 기록','record-page',{delta:1},'right');next='칸 확인';}
+  if(phase==='tower-evidence'){objective='주장 쪽지마다 그걸 증명하는 내 사진을 실로 이어 줘.';next='증거 확인';}
+  if(phase==='tower-note'){objective='연구 노트에 내 발견의 이름과 한 문장을 남겨 줘.';controls=action('연구 노트 쓰기','story-info',{},'pen');next='노트 확인';}
+  if(phase==='tower-run'){objective='큰 시곗바늘을 한 바퀴 돌려 시계탑을 깨워 줘.';next='시계 확인';}
   if(phase==='plan'){objective='모형 밖에서 직접 이어갈 관찰을 약속해 줘.';controls=action('내 이야기 재생','story-play',{},'play')+action('이야기 PNG','export',{},'camera');next='실제 관찰 약속';nextAction='plan';}
  }
  return {phase,objective,controls,next,nextAction,guide:r.guide};
