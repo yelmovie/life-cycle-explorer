@@ -1,9 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {initialField,fieldAction,fieldReady,fieldRecords,restoreField,FIELD_FORMS} from '../field-model.js';
-import {applyQuest,questReady,questInfo} from '../field-quests.js';
-import {roomPhase,roomUI} from '../field-flow.js';
-import {normalizeDiscovery} from '../field-quest-state.js';
+import {initialField,fieldAction,fieldReady,fieldRecords,restoreField,FIELD_FORMS} from '../src/field-model.js';
+import {applyQuest,questReady,questInfo} from '../src/field-quests.js';
+import {roomPhase,roomUI} from '../src/field-flow.js';
+import {normalizeDiscovery} from '../src/field-quest-state.js';
 
 const act=(f,type,p={})=>{const r=fieldAction(f,type,p);assert.equal(r.ok,true,`${type}: ${r.message}`);return r;};
 const quest=(f,step,p)=>{const r=applyQuest(f,{step,...p});assert.equal(r.ok,true,r.message);return r;};

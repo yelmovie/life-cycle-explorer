@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {fieldRecordArt} from '../field-record-art.js';
+import {fieldRecordArt} from '../src/field-record-art.js';
 
 async function render(fieldEvidence){
  const images=[],captions=[],parts=[];

@@ -1,7 +1,7 @@
-@font-face{font-family:'Research Hand';src:url('assets/fonts/research-hand-400.woff2') format('woff2');font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:'Research Hand';src:url('../assets/fonts/research-hand-400.woff2') format('woff2');font-style:normal;font-weight:400;font-display:swap}
 #modal.field-notebook-dialog{--modal-max-width:1040px;background:#f8f5e7;border-color:#54785d}
 .field-notebook-dialog>.modal-body{padding:0;position:relative}
-.notebook-book{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(24px,5vw,60px);min-width:0;background:url('assets/field/research-notebook-v1.webp') center/100% 100% no-repeat;padding:clamp(28px,5vw,64px) clamp(24px,6vw,72px);isolation:isolate;color:#2a513e}
+.notebook-book{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(24px,5vw,60px);min-width:0;background:url('../assets/field/research-notebook-v1.webp') center/100% 100% no-repeat;padding:clamp(28px,5vw,64px) clamp(24px,6vw,72px);isolation:isolate;color:#2a513e}
 .notebook-specimen,.notebook-photo-sheet{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:0;gap:8px}
 .notebook-specimen>img{width:85%;height:clamp(180px,22vw,260px);object-fit:contain;filter:drop-shadow(0 7px 5px #223d2420)}
 .specimen-3d{position:relative;width:85%;height:clamp(180px,22vw,260px)}

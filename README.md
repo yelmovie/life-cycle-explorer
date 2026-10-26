@@ -56,6 +56,8 @@ npm run preview
 
 ## 코드 안내
 
+실행 코드(JS·CSS)는 모두 `src/`에 있다(2026-10-26 루트에서 이동). 루트에는 `index.html`·`server.mjs`·설정 파일만 둔다. 아래 표와 문서의 `game-app.js` 같은 이름은 `src/game-app.js`를 뜻한다. CSS 안의 그림·글꼴 경로는 `../assets/…`로 쓰고, JS 안의 `assets/…` 경로는 index.html 기준이라 그대로 쓴다.
+
 | 파일 | 역할 |
 |---|---|
 | game-app.js / field-preview.js | 입력 연결, 지도·탐사·모달 흐름, 자동 저장, 임시 교사 시연 |
@@ -70,6 +72,8 @@ npm run preview
 | game-records.js / adventure-export.js | 실제 기록 이미지, 독립 PNG 출력 |
 | game-settings.js / settings-content.js / game-audio.js | 아이스크림 설정 규격, 문구, 단일 Web Audio 관리·CC0 효과음 |
 | game.css / ui-icons.js | 디자인 토큰, 로컬 Jua, 전체 화면·반응형, SVG 아이콘 |
+| field-specimen-3d.js | 관찰 노트의 3D 표본(돌려 보기). 모델 출처·최적화는 `assets/models/README.md` |
+| core.js | 예전 상태 함수. 실행에는 쓰지 않고 `tests/core.test.js`만 쓴다 |
 | scripts/build.mjs / check.mjs / sync-info.mjs | 실행 파일·필수 에셋만 패키징, 문법·버전 동기화 |
 
 기존 game-scenes.js·expedition-scenes.js와 app/adventure/inquiry의 예전 UI는 `archive/legacy-ui/`에 보관하며 현재 실행·배포 대상에서 제외한다. inquiry-core.js·expedition.js·adventure-core.js는 예전 저장 자료 검증 때문에 계속 필요하다. 구역명·질문·목표·보상 안내와 추가 발견 미션의 이름·안내 문장은 `content/field-missions.json`에서 수정한다. `npm start`, `npm run check`, `npm test`, `npm run build`가 `scripts/sync-info.mjs`로 데이터 형식을 검사하고 `field-mission-data.js`를 만든다. 생성 파일은 직접 고치지 않는다. 정답·완료 조건·모델은 로직 파일에 유지한다.

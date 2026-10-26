@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const destination = path.join(root, 'dist');
-const required = ['field-writing.js','game-motion.js','field-quests.js','field-quest-state.js','field-world-effects.js','field-clock.js','field-observation-scenes.js','field-plant-scenes.js','field-story-scenes.js','field-notebook.js','field-notebook.css','field-specimen-3d.js','vendor/three-gltf-0.170.0.min.js','vendor/THREE-LICENSE.md','assets/fonts/NanumPenScript-OFL.txt','index.html','game-app.js','game-model.js','game-records.js','game-assets.js','game-metadata.js','game.css','game-info.js','game-audio.js','game-settings.js','settings-content.js','ui-icons.js','field-concepts.js','field-companion.js','field-certificate.js','field-record-art.js','field-model.js','field-content.js','field-flow.js','field-scenes.js','field-room-scenes.js','field-dialogs.js','expedition.js','adventure-core.js','adventure-export.js','inquiry-core.js','vendor/phaser-3.90.0.min.js','vendor/PHASER-LICENSE.md','assets/fonts/Jua-OFL.txt','assets/audio/KENNEY-INTERFACE-LICENSE.txt','assets/audio/KENNEY-IMPACT-LICENSE.txt'];
+const required = ['src/field-writing.js','src/game-motion.js','src/field-quests.js','src/field-quest-state.js','src/field-world-effects.js','src/field-clock.js','src/field-observation-scenes.js','src/field-plant-scenes.js','src/field-story-scenes.js','src/field-notebook.js','src/field-notebook.css','src/field-specimen-3d.js','vendor/three-gltf-0.170.0.min.js','vendor/THREE-LICENSE.md','assets/fonts/NanumPenScript-OFL.txt','index.html','src/game-app.js','src/game-model.js','src/game-records.js','src/game-assets.js','src/game-metadata.js','src/game.css','src/game-info.js','src/game-audio.js','src/game-settings.js','src/settings-content.js','src/ui-icons.js','src/field-concepts.js','src/field-companion.js','src/field-certificate.js','src/field-record-art.js','src/field-model.js','src/field-content.js','src/field-flow.js','src/field-scenes.js','src/field-room-scenes.js','src/field-dialogs.js','src/expedition.js','src/adventure-core.js','src/adventure-export.js','src/inquiry-core.js','vendor/phaser-3.90.0.min.js','vendor/PHASER-LICENSE.md','assets/fonts/Jua-OFL.txt','assets/audio/KENNEY-INTERFACE-LICENSE.txt','assets/audio/KENNEY-IMPACT-LICENSE.txt'];
 const sourceOnly = new Set(['source','raw','raw-png','originals','original-downloads']);
 const assetExtension = /\.(?:png|webp|svg|jpe?g|gif|avif|ico|woff2|mp4|webm|wav|mp3|glb)$/i;
 const dryRun = process.argv.includes('--dry-run');
@@ -32,7 +32,7 @@ function patternFor(reference) {
   return new RegExp('^'+reference.split('*').map(part => part.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('[^/]*')+'$');
 }
 
-required.push('game-bootstrap.js','game-network.js','game-shell.css','field-preview.js','field-mission-data.js','offline-config.json','manifest.webmanifest');
+required.push('src/game-bootstrap.js','src/game-network.js','src/game-shell.css','src/field-preview.js','src/field-mission-data.js','offline-config.json','manifest.webmanifest');
 const generated=new Map([['offline-config.json',Buffer.from('{"enabled":true}\n')]]);
 const runtime = [...new Set(required)];
 for (const relative of required) if (!await exists(path.join(root,relative))) throw new Error(`Required runtime file missing: ${relative}`);
@@ -54,7 +54,8 @@ for (const relative of runtime) {
     if (!runtime.includes(match[1])) throw new Error(`Runtime file referenced by ${relative} is not packaged: ${match[1]}`);
   }
   for (const match of source.matchAll(/(?:from\s*|import\s*)["']\.\/([^"']+\.js)["']/g)) {
-    if (!runtime.includes(match[1])) throw new Error(`Module imported by ${relative} is not packaged: ${match[1]}`);
+    const module = path.posix.join(path.posix.dirname(relative), match[1]);
+    if (!runtime.includes(module)) throw new Error(`Module imported by ${relative} is not packaged: ${module}`);
   }
 }
 const selected = [...runtime,...selectedAssets].sort();

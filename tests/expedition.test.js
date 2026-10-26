@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import * as G from '../game-model.js';
+import * as G from '../src/game-model.js';
 import {preparedState} from './inquiry-fixture.js';
 
 function at(chapter){const s=G.restore(JSON.stringify(preparedState(chapter*2)));s.screen='mission';s.mission=chapter*2+1;s.phase[s.mission]=1;s.expedition=G.initialExpedition();assert.ok(G.startQuest(s,chapter));return s;}

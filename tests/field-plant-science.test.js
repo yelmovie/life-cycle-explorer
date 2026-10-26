@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {initialField,fieldAction,seedObservation,careTimeLabels,fieldRecords} from '../field-model.js';
+import {initialField,fieldAction,seedObservation,careTimeLabels,fieldRecords} from '../src/field-model.js';
 
 const act=(f,type,p={})=>fieldAction(f,type,p);
 function seedField(){const f=initialField();f.preview=true;f.active=1;for(const side of ['a','b'])act(f,'seed-prepare',{side,soil:true,seeds:3});return f;}

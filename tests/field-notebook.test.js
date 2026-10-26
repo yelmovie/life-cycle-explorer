@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {initialField} from '../field-model.js';
-import {photoNotebookEntry} from '../field-notebook.js';
+import {initialField} from '../src/field-model.js';
+import {photoNotebookEntry} from '../src/field-notebook.js';
 
 const state=()=>({field:initialField()});
 test('capture depicts actual current seed day and both controlled conditions',()=>{

@@ -1,10 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {POINTS,DOORS} from '../game-model.js';
+import {POINTS,DOORS} from '../src/game-model.js';
 
 // Exercise the actual scene's travel lifecycle with controlled animation callbacks.
 globalThis.Phaser={Scene:class{},CANVAS:1,Scale:{ENVELOP:1,CENTER_BOTH:2},Game:class{constructor(config){this.scene=new config.scene();}}};
-const {createFieldGame}=await import('../field-scenes.js');
+const {createFieldGame}=await import('../src/field-scenes.js');
 function navigation(){
  const events=[],s={avatar:{x:POINTS[0][0],y:POINTS[0][1]},settings:{reducedMotion:true}},context={s,mode:()=> 'map',modalOpen:()=>false,emit:(type,data)=>events.push({type,data})};
  const {scene}=createFieldGame(context),pending=[],timers=[];

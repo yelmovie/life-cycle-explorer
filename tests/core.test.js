@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {freshState,validExperiment,experimentIssue,seedLevel,growthLevel,ready,complete,restore,canEnter,species} from '../core.js';
+import {freshState,validExperiment,experimentIssue,seedLevel,growthLevel,ready,complete,restore,canEnter,species} from '../src/core.js';
 test('새 연구는 첫 미션만 열리고 기록 없이 완료할 수 없다',()=>{const s=freshState();assert.equal(canEnter(s,0),true);assert.equal(canEnter(s,1),false);for(let n=0;n<10;n++)assert.equal(ready(s,n),false);});
 test('실험 질문과 일치하는 단 하나의 조건만 달라야 한다',()=>{const s=freshState();assert.equal(validExperiment(s.seed,['water','warm']),false);s.seed.b.water=false;assert.equal(ready(s,2),true);s.seed.b.warm=false;assert.equal(ready(s,2),false);s.seed.b.water=true;assert.equal(ready(s,2),false);s.seed.question='warm';assert.equal(ready(s,2),true);});
 test('발아 모형은 물과 알맞은 온도를 함께 요구한다',()=>{assert.equal(seedLevel({water:true,warm:true},7),3);assert.equal(seedLevel({water:false,warm:true},7),0);assert.equal(seedLevel({water:true,warm:false},7),0);});

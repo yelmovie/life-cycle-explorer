@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 globalThis.Phaser={Scene:class{},CANVAS:1,Scale:{ENVELOP:1,CENTER_BOTH:2},Game:class{constructor(config){this.scene=new config.scene();}}};
-const {createFieldGame}=await import('../field-scenes.js');
+const {createFieldGame}=await import('../src/field-scenes.js');
 
 function assets(chapter=1){
  const events=[],textures=new Set(['forestMap','ipsae','guideLook','guideStory','walker','doto']),queued=[],handlers=new Map();

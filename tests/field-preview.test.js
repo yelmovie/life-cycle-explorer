@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {initialField} from '../field-model.js';
-import {previewFieldForPhase} from '../field-preview.js';
-import {roomPhase} from '../field-flow.js';
+import {initialField} from '../src/field-model.js';
+import {previewFieldForPhase} from '../src/field-preview.js';
+import {roomPhase} from '../src/field-flow.js';
 const phases=[['search','draw','film','generation','discovery'],['prepare','design','grow','reason','seed-next','discovery'],['measure','symptom','care-before','care','care-after','care-next','discovery'],['animals','animal-birth','tags','seasons','plant-identity','transfer','discovery'],['story-pick','story-edit','story-help','plan','discovery']];
 test('all teacher phase choices open the requested activity without completing any chapter',()=>{
  const source={...initialField(),preview:true};source.chapters[0].note='학생 원본에 있던 관찰';const before=structuredClone(source);

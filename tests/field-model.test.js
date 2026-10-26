@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {initialField,restoreField,fieldAction,fieldReady,fieldPhase,fieldRecords,fieldUnlocked,fieldCompletedCount,fieldBookReady,FIELD_FORMS} from '../field-model.js';
+import {initialField,restoreField,fieldAction,fieldReady,fieldPhase,fieldRecords,fieldUnlocked,fieldCompletedCount,fieldBookReady,FIELD_FORMS} from '../src/field-model.js';
 
 const act=(field,type,p={}) => {
   const result=fieldAction(field,type,p);

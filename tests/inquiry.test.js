@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {fresh,restore,ready,complete,phaseReady,startPair,draftRetry,retryIssue,startRetry,captureRetry,addEvidence,recordBank,STORAGE_KEY} from '../inquiry-core.js';
-import * as legacy from '../adventure-core.js';
+import {fresh,restore,ready,complete,phaseReady,startPair,draftRetry,retryIssue,startRetry,captureRetry,addEvidence,recordBank,STORAGE_KEY} from '../src/inquiry-core.js';
+import * as legacy from '../src/adventure-core.js';
 import {preparedState} from './inquiry-fixture.js';
 test('새 탐구는 빈 기록으로 열 활동을 완료할 수 없다',()=>{const s=fresh();assert.equal(STORAGE_KEY,'life-clock-lab.adventure.3');for(let n=0;n<10;n++)assert.equal(!!ready(s,n),false);});
 test('새 탐구의 열 활동과 다음 단계가 실제 엔딩까지 연결된다',()=>{const s=preparedState();for(let n=0;n<10;n++){assert.ok(phaseReady(s,n),'phase '+n);assert.equal(!!ready(s,n),n!==9,'ready '+n);if(n===9)assert.fail('should finish inside loop');assert.equal(complete(s,n),true);if(n===8)break;}assert.equal(ready(s,9),true);assert.equal(complete(s,9),true);assert.equal(s.completed.length,10);});

@@ -21,6 +21,6 @@ for key, relative in list(source['ART'].items()) + [('bg'+str(i), p) for i,p in 
     converted[relative] = target.relative_to(root).as_posix()
 art={k:converted[v] for k,v in source['ART'].items()}
 scenes=[converted[p] for p in source['SCENES']]
-(root / 'game-assets.js').write_text('// Resized copies of existing project illustrations. Sources: assets/game/manifest.json\nexport const ART='+json.dumps(art,ensure_ascii=False,indent=2)+';\nexport const SCENES='+json.dumps(scenes,ensure_ascii=False,indent=2)+';\n',encoding='utf-8')
+(root / 'src' / 'game-assets.js').write_text('// Resized copies of existing project illustrations. Sources: assets/game/manifest.json\nexport const ART='+json.dumps(art,ensure_ascii=False,indent=2)+';\nexport const SCENES='+json.dumps(scenes,ensure_ascii=False,indent=2)+';\n',encoding='utf-8')
 (destination / 'manifest.json').write_text(json.dumps(metadata,ensure_ascii=False,indent=2),encoding='utf-8')
 print(f'{len(metadata)} images, {sum(x["bytes"] for x in metadata):,} bytes; originals preserved.')

@@ -2,9 +2,9 @@ import {createRequire} from 'node:module';
 import {mkdir,readFile,writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {initialField} from '../field-model.js';
-import {applyQuest} from '../field-quests.js';
-import {roomPhase} from '../field-flow.js';
+import {initialField} from '../src/field-model.js';
+import {applyQuest} from '../src/field-quests.js';
+import {roomPhase} from '../src/field-flow.js';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),out=path.join(root,'.tmp/design-audit-'+(process.env.AUDIT_LABEL||'baseline'));
 await mkdir(out,{recursive:true});process.env.TEMP=out;process.env.TMP=out;

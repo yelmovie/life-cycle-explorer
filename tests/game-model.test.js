@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import * as G from '../game-model.js';
+import * as G from '../src/game-model.js';
 import {preparedState} from './inquiry-fixture.js';
 test('Phaser 저장은 이전 탐구를 읽어 오되 기존 키와 내용을 덮어쓰지 않는다',()=>{const old=JSON.stringify(preparedState(3)),data=new Map([[G.STORAGE_KEY,old]]),storage={getItem:k=>data.get(k)||null,setItem:(k,v)=>data.set(k,v)};const s=G.loadGame(storage);assert.deepEqual(s.completed,JSON.parse(old).completed);s.discovery.note='새 관찰';assert.ok(G.saveGame(storage,s));assert.equal(data.get(G.STORAGE_KEY),old);assert.equal(G.loadGame(storage).discovery.note,'새 관찰');});
 test('저장이 차단되면 실패를 돌려주고 새 관찰 상태를 제공한다',()=>{const storage={getItem(){throw Error('blocked');},setItem(){throw Error('quota');}};assert.deepEqual(G.loadGame(storage).completed,[]);assert.equal(G.saveGame(storage,G.fresh()),false);});

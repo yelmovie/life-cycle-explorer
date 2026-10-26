@@ -3,8 +3,8 @@ import {mkdir,readFile,writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import assert from 'node:assert/strict';
-import {initialField} from '../field-model.js';
-import {applyQuest} from '../field-quests.js';
+import {initialField} from '../src/field-model.js';
+import {applyQuest} from '../src/field-quests.js';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const out=path.join(root,'.tmp/recovery-layout');

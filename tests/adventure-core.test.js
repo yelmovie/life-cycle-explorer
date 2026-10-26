@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {STORAGE_KEY, CHAPTERS, fresh, restore, canEnter, ready, complete, experimentIssue, recordBank, progress} from '../adventure-core.js';
+import {STORAGE_KEY, CHAPTERS, fresh, restore, canEnter, ready, complete, experimentIssue, recordBank, progress} from '../src/adventure-core.js';
 
 function evidenceState() {
  const s = fresh();

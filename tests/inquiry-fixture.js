@@ -1,4 +1,4 @@
-import {fresh,capturePin,addEvidence,startPair,draftRetry,startRetry,captureSeed,captureRetry,complete,recordBank} from '../inquiry-core.js';
+import {fresh,capturePin,addEvidence,startPair,draftRetry,startRetry,captureSeed,captureRetry,complete,recordBank} from '../src/inquiry-core.js';
 export function preparedState(last=-1){const s=fresh(),p={x:.55,y:.45,zoom:2};s.intro=false;
 for(const id of ['egg','larva','pupa','adult'])capturePin(s,id,p);
 s.discovery.drawing=[[[.1,.2],[.3,.4],[.45,.3]]];s.discovery.note='애벌레의 몸에 마디가 보여요.';

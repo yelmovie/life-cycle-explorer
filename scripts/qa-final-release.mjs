@@ -11,7 +11,7 @@ for(const f of manifest.files){
  const dist=await readFile(new URL('dist/'+f.path,project));assert.equal(hash(dist),f.sha256,f.path+' manifest');result.manifestFiles++;
  if(f.path!=='offline-config.json'){const source=await readFile(new URL(f.path,project));assert.equal(hash(source),f.sha256,f.path+' source/dist');result.sourceFiles++;}
 }
-for(const f of ['index.html','game-app.js','game.css','field-preview.js','field-story-scenes.js','field-observation-scenes.js','field-mission-data.js','game-network.js','service-worker.js']){
+for(const f of ['index.html','src/game-app.js','src/game.css','src/field-preview.js','src/field-story-scenes.js','src/field-observation-scenes.js','src/field-mission-data.js','src/game-network.js','service-worker.js']){
  const response=await fetch(base+'/'+f);assert.equal(response.status,200,f);assert.equal(hash(Buffer.from(await response.arrayBuffer())),hash(await readFile(new URL('dist/'+f,project))),f+' HTTP');result.httpFiles++;
 }
 const require=createRequire(import.meta.url),{chromium}=require('C:/Users/bongb/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');

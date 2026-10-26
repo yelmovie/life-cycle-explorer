@@ -2,7 +2,7 @@ import {createRequire} from 'node:module';
 import {readFile,mkdir,writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import assert from 'node:assert/strict';
-import {initialField} from '../field-model.js';
+import {initialField} from '../src/field-model.js';
 const root=process.cwd(),out=path.join(root,'.tmp/fix-review-20261025/'+(process.env.FIX_LABEL||'targeted'));await mkdir(out,{recursive:true});process.env.TEMP=process.env.TMP='D:/DevTemp';
 const {chromium}=createRequire(import.meta.url)('C:/Users/bongb/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
 const browser=await chromium.launch({channel:'chrome',headless:true}),earned=JSON.parse(await readFile(path.join(root,'.tmp/recovery-play/earned-state.json'),'utf8')),base=process.env.BASE_URL||'http://127.0.0.1:4381',results=[],runtimeErrors=[],networkErrors=[];const key='life-clock-lab.phaser.4';

@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {initAudio,updateAudio,setMusicTheme,pauseAudio,resumeAudio,dispose,playSfx,MUSIC_TRACKS} from '../game-audio.js';
-import {createDialogs} from '../field-dialogs.js';
-import {initialField} from '../field-model.js';
+import {initAudio,updateAudio,setMusicTheme,pauseAudio,resumeAudio,dispose,playSfx,MUSIC_TRACKS} from '../src/game-audio.js';
+import {createDialogs} from '../src/field-dialogs.js';
+import {initialField} from '../src/field-model.js';
 
 const flush=()=>new Promise(resolve=>setImmediate(resolve));
 function environment(){

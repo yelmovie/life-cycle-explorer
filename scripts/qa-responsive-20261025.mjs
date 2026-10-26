@@ -3,9 +3,9 @@ import {mkdir,readFile,writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
-import {initialField} from '../field-model.js';
-import {applyQuest} from '../field-quests.js';
-import {roomPhase} from '../field-flow.js';
+import {initialField} from '../src/field-model.js';
+import {applyQuest} from '../src/field-quests.js';
+import {roomPhase} from '../src/field-flow.js';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),out=path.join(root,'.tmp/responsive-20261025-'+(process.env.RESPONSIVE_LABEL||'baseline'));
 await mkdir(out,{recursive:true});process.env.TEMP=out;process.env.TMP=out;
@@ -86,7 +86,7 @@ const representative=new Set([
 ]);
 const filter=process.env.RESPONSIVE_SCREENS?.split(',');
 const selected=specs.filter(s=>filter?filter.includes(s.name):representative.has(s.name));
-const sourceFiles=['game-app.js','game.css','game-shell.css','field-scenes.js','field-plant-scenes.js','field-room-scenes.js','field-story-scenes.js','field-quests.js'];
+const sourceFiles=['src/game-app.js','src/game.css','src/game-shell.css','src/field-scenes.js','src/field-plant-scenes.js','src/field-room-scenes.js','src/field-story-scenes.js','src/field-quests.js'];
 async function sourceStamp(){
  const rows=await Promise.all(sourceFiles.map(async file=>({file,sha256:createHash('sha256').update(await readFile(path.join(root,file))).digest('hex')})));
  return Object.fromEntries(rows.map(r=>[r.file,r.sha256]));

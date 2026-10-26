@@ -9,7 +9,7 @@ export const SPECIMEN_MODELS={
 };
 // Starting pose per model (radians): the side a child should see first.
 const POSES={egg:{x:.15,y:.5},larva:{x:.3,y:1.25},pupa:{x:.1,y:.6},adult:{x:.35,y:.3}};
-const ENGINE='./vendor/three-gltf-0.170.0.min.js';
+const ENGINE='../vendor/three-gltf-0.170.0.min.js';
 let engine=null;const scenes=new Map();
 
 function webglAvailable(){

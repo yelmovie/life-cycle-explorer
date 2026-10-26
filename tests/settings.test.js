@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {renderSettings,renderResetConfirm} from '../game-settings.js';
-import {DEFAULT_AUDIO,normaliseAudio,initAudio,updateAudio,playSfx,pauseAudio,resumeAudio,dispose} from '../game-audio.js';
+import {renderSettings,renderResetConfirm} from '../src/game-settings.js';
+import {DEFAULT_AUDIO,normaliseAudio,initAudio,updateAudio,playSfx,pauseAudio,resumeAudio,dispose} from '../src/game-audio.js';
 
 test('settings keep replay locked until real completion and teacher preview cannot award it',()=>{
   const locked=renderSettings({completed:[0,1,2,3],teacherPreview:true,version:'1.2.3'});

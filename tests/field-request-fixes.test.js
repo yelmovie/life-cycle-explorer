@@ -1,10 +1,10 @@
-import {applyQuest} from '../field-quests.js';
+import {applyQuest} from '../src/field-quests.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import * as G from '../game-model.js';
-import {initialField,fieldAction,fieldReady,fieldRecords,restoreField,storeFieldDraft} from '../field-model.js';
-import {previewFieldForPhase} from '../field-preview.js';
-import {TEXT_LIMITS} from '../field-writing.js';
+import * as G from '../src/game-model.js';
+import {initialField,fieldAction,fieldReady,fieldRecords,restoreField,storeFieldDraft} from '../src/field-model.js';
+import {previewFieldForPhase} from '../src/field-preview.js';
+import {TEXT_LIMITS} from '../src/field-writing.js';
 const act=(f,type,p={})=>{const r=fieldAction(f,type,p);assert.equal(r.ok,true,`${type}: ${r.message}`);return r;};
 function fixture(){const s=G.fresh();s.field=previewFieldForPhase({...initialField(),preview:true},4,'ready');delete s.field.preview;delete s.field.previewSample;s.field.completed=[0,1,2,3];s.fieldView='room';return s;}
 const writing=n=>'\n '+('한글과 공백\n줄바꿈을 함께 보관한다. '.repeat(20)).slice(0,n-4)+' \n';

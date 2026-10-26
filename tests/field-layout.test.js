@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 globalThis.Phaser={Scene:class{},CANVAS:1,Scale:{RESIZE:5,NO_CENTER:0},Game:class{constructor(config){this.scene=new config.scene();}}};
-const {createFieldGame}=await import('../field-scenes.js');
+const {createFieldGame}=await import('../src/field-scenes.js');
 const close=(actual,expected)=>assert.ok(Math.abs(actual-expected)<1e-7,`${actual} ≈ ${expected}`);
 
 function viewport(width,height,cssScale=1){
