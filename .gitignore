@@ -19,3 +19,6 @@ docs/reviews/expedition-20261018/initial.png
 graphify-out/
 HANDOFF.md
 .wrangler/
+
+# 3D model originals from Meshy (~70MB); see assets/models/README.md
+assets/models/raw/

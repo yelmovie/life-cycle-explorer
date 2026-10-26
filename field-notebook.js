@@ -2,6 +2,7 @@ import {ART,esc} from './game-metadata.js';
 import {FORM_NAMES,FORM_TRAITS} from './field-content.js';
 import {careTimeLabels,seedObservation} from './field-model.js';
 import {lightRecoveryLeaves} from './field-record-art.js';
+import {mountSpecimen3d} from './field-specimen-3d.js';
 
 const FORMS=['egg','larva','pupa','adult'];
 const img=(key,alt='')=>`<img src="${ART[key]}" alt="${esc(alt)}" draggable="false">`;
@@ -36,7 +37,7 @@ export function photoNotebookEntry(s,type,p={}){
 export function createFieldNotebook(ctx){
  let cleanup=()=>{};
  const reduced=()=>!!ctx.s.settings.reducedMotion||globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
- function mount({title,body,actions}){
+ function mount({title,body,actions,specimen}){
   cleanup();ctx.dialog({title,className:'field-notebook-dialog',body,actions});
   const modal=document.getElementById('modal'),controller=new AbortController(),timers=[];
   const stop=()=>{timers.forEach(clearTimeout);controller.abort();};cleanup=stop;
@@ -46,6 +47,7 @@ export function createFieldNotebook(ctx){
   const typeAll=()=>{modal.querySelectorAll('[data-handwriting]').forEach(el=>{el.textContent=el.dataset.handwriting;el.classList.remove('writing');});};
   modal.querySelector('[data-notebook-skip]')?.addEventListener('click',typeAll,{signal:controller.signal});
   modal.querySelectorAll('[data-handwriting]').forEach(el=>{const content=el.dataset.handwriting;el.setAttribute('aria-label',content);el.textContent='';if(reduced()){el.textContent=content;return;}el.classList.add('writing');Array.from(content).forEach((_,i)=>later(()=>{if(el.classList.contains('writing')){el.textContent=Array.from(content).slice(0,i+1).join('');if(i===Array.from(content).length-1)el.classList.remove('writing');}},280+i*34));});
+  if(specimen)mountSpecimen3d(modal.querySelector('[data-specimen-3d]'),specimen,{signal:controller.signal,reduced:reduced(),label:FORM_NAMES[specimen]});
   later(()=>modal.classList.add('notebook-developed'),380);return modal;
  }
  function observe(form,spot){
@@ -53,7 +55,7 @@ export function createFieldNotebook(ctx){
   const q=ctx.s.field.chapters[0],seen=q.inspected[form],next=FORMS.flatMap(id=>[0,1].map(n=>({id,n}))).find(a=>!q.inspected[a.id].includes(a.n)),total=FORMS.reduce((n,id)=>n+q.inspected[id].length,0);
   const nextText=next?`다음은 ${FORM_NAMES[next.id]}의 ${next.n+1}번째 특징을 살펴봐.`:'이제 네가 본 특징을 그림과 네 말로 남겨 줘.';
   const traits=seen.map(n=>`<li><span class="notebook-check">✓</span><span class="notebook-hand" data-handwriting="${esc(FORM_TRAITS[form][n])}">${esc(FORM_TRAITS[form][n])}</span></li>`).join('');
-  return mount({title:FORM_NAMES[form]+' 관찰 노트',body:`<div class="notebook-book"><div class="notebook-specimen">${img(form,FORM_NAMES[form]+' 확대 모습')}<span class="notebook-photo-caption">돋보기로 자세히 본 모습</span><span class="notebook-scale-note">확대한 모형 · 실제 크기와 달라</span></div><section class="notebook-page"><p class="notebook-kicker">화면에서 확인한 특징 · 자동 정리</p><h3>${FORM_NAMES[form]}의 관찰 단서</h3><ol class="notebook-findings">${traits}</ol><p class="notebook-stamp">새 단서 기록! ${total}/8</p><p class="notebook-next">${esc(nextText)}</p></section></div>`,actions:`<button type="button" data-notebook-skip>글 바로 보기</button><button type="button" class="primary" data-notebook-close>${next?'다음 특징 살피기':'내 글·그림 남기러 가기'}</button>`});
+  return mount({title:FORM_NAMES[form]+' 관찰 노트',body:`<div class="notebook-book"><div class="notebook-specimen"><div class="specimen-3d" data-specimen-3d>${img(form,FORM_NAMES[form]+' 확대 모습')}<span class="specimen-3d-hint" aria-hidden="true">끌어서 돌려 보기</span></div><span class="notebook-photo-caption">돋보기로 자세히 본 모습</span><span class="notebook-scale-note">확대한 모형 · 실제 크기와 달라</span></div><section class="notebook-page"><p class="notebook-kicker">화면에서 확인한 특징 · 자동 정리</p><h3>${FORM_NAMES[form]}의 관찰 단서</h3><ol class="notebook-findings">${traits}</ol><p class="notebook-stamp">새 단서 기록! ${total}/8</p><p class="notebook-next">${esc(nextText)}</p></section></div>`,actions:`<button type="button" data-notebook-skip>글 바로 보기</button><button type="button" class="primary" data-notebook-close>${next?'다음 특징 살피기':'내 글·그림 남기러 가기'}</button>`,specimen:form});
  }
  function capture(type,payload){
   const entry=photoNotebookEntry(ctx.s,type,payload);if(!entry)return;

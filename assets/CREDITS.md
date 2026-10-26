@@ -93,3 +93,7 @@
 숲 지도와 지훈의 관찰·돌봄·시간·이야기 동작, 시간 손잡이·관찰 센서·계절 나침반·이야기 카메라를 런타임에 연결했다. `manifest.json`과 `scripts/prepare-expedition-assets.py`가 원본/준비 사본을 대응한다. 도구는 생성 아틀라스의 칸 경계를 넘는 부분이 있어 연결된 알파 영역을 분리해 옆 도구의 조각을 제거했다. 이는 기존 생성 결과의 실행용 준비이며 새 그림 생성이 아니다. 원본의 투명도를 보존했다.
 
 현재 배포 빌드는 `assets/game/`와 `assets/expedition/`에서 실제 참조되는 68개 이미지를 포함한다. `source/`, 원본 PNG, 프롬프트, QA 자료는 실행 패키지에서 제외한다. 이전 60개 사본의 원본 대응은 기존 `assets/game/manifest.json`에 그대로 남아 있다.
+
+## 3D 모델 (2026-10-26)
+
+`assets/models/*.glb` 5개는 Meshy Image to 3D 생성 결과다. 기본 이미지는 `assets/models/source/`(출처는 `source/generation.json`과 `docs/3d/3D-MODEL-BRIEF.md`). 받은 원본은 `assets/models/raw/`(git 제외)이고, 게임용은 텍스처만 1024 WebP로 줄였다(알은 삼각형도 줄임). 대응표는 `assets/models/README.md`. 실행 엔진 three.js 0.170.0은 MIT(`vendor/THREE-LICENSE.md`)이며 모델의 이용 조건과 섞지 않는다. 공개 배포 전에 Meshy 요금제의 상업·배포 이용 조건을 프로젝트 소유자가 확인해야 한다.
