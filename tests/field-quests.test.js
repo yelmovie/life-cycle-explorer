@@ -32,7 +32,7 @@ function readyField(){
   }else{
    for(const id of ['field-observation-larva','field-seed-water','field-care-water','field-animal-butterfly'])act(f,'book-record',{id});act(f,'book-title',{text:'나의 생명 탐험'});
    for(const id of f.chapters[4].records.slice(0,2))act(f,'book-caption',{id,text:'직접 관찰한 모습을 비교해 기록했다.'});act(f,'book-summary',{text:'조건과 생물에 따라 자라며 달라지는 모습이 다르다는 것을 발견했다.'});
-   for(const [request,recordId]of [['observation','field-observation-larva'],['retry','field-seed-water'],['care','field-care-water']])act(f,'help-match',{request,recordId});act(f,'tower-run');act(f,'observation-plan',{subject:'학교 화단의 봉선화',when:'매주 월요일',what:'같은 자리에서 잎과 꽃이 달라지는 모습을 찍기'});
+   for(const [request,recordId]of [['observation','field-animal-butterfly'],['retry','field-seed-water'],['care','field-care-water']])act(f,'help-match',{request,recordId});act(f,'tower-run');act(f,'observation-plan',{subject:'학교 화단의 봉선화',when:'매주 월요일',what:'같은 자리에서 잎과 꽃이 달라지는 모습을 찍기'});
   }
   assert.equal(fieldReady(f),true);act(f,'chapter-complete');
  }

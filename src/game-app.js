@@ -1,9 +1,9 @@
 import {reducedMotion} from './game-motion.js';
 import * as G from './game-model.js';
-import {TEXT_LIMITS} from './field-writing.js';
+import {TEXT_LIMITS,objectParticle} from './field-writing.js';
 import {fieldAction,storeFieldDraft,fieldRecords,fieldUnlocked,careTimeLabels} from './field-model.js';
 import {FIELD_CHAPTERS,FORM_TRAITS} from './field-content.js';
-import {roomPhase,roomUI} from './field-flow.js';
+import {roomPhase,roomUI,holdObservation,releaseObservation} from './field-flow.js';
 import {applyQuest,questInfo} from './field-quests.js';
 import {createFieldGame} from './field-scenes.js';
 import {ART,esc} from './game-metadata.js';
@@ -111,7 +111,21 @@ noteBox.addEventListener('blur',()=>{if(!noteBox.hidden&&noteBox.value.trim()&&n
 // The game canvas swallows focus changes, so a tap anywhere else or Enter ends the note.
 document.addEventListener('pointerdown',e=>{if(e.target!==noteBox&&document.activeElement===noteBox)noteBox.blur();},true);noteBox.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();noteBox.blur();}});
 function placeNoteBox(rect){noteRect=rect;if(!noteBox.isConnected)$('stage').append(noteBox);noteBox.hidden=!rect;if(!rect)return;const q=s.field.chapters[0];noteBox.maxLength=TEXT_LIMITS.observation;if(document.activeElement!==noteBox)noteBox.value=q.noteDraft??q.note;const p=coordinates(rect);if(p)Object.assign(noteBox.style,{left:p.left+'px',top:p.top+'px',width:p.w+'px',height:p.h+'px'});}
-function positionFocus(){if(noteRect)placeNoteBox(noteRect);[...$('focus-targets').children].forEach((b,i)=>{const p=coordinates(focusItems[i]);if(p)Object.assign(b.style,{left:p.left+'px',top:p.top+'px',width:Math.max(48,p.w)+'px',height:Math.max(48,p.h)+'px'});});}
+// A tablet keyboard covers the lower half of the stage: lift the note and its done button into the visible area.
+const noteDone=Object.assign(document.createElement('button'),{type:'button',className:'primary field-note-done',textContent:'기록 완료',hidden:true});
+function fitNote(){const vv=window.visualViewport,active=document.activeElement===noteBox&&!noteBox.hidden;noteBox.style.transform='';noteBox.style.background='';noteDone.hidden=!active;if(!active)return;if(!noteDone.isConnected)$('stage').append(noteDone);
+ if(noteRect){const p=coordinates(noteRect);if(p)noteBox.style.height=p.h+'px';}
+ const top=vv?vv.offsetTop:0,bottom=vv?top+vv.height:innerHeight,room=64;let r=noteBox.getBoundingClientRect();
+ if(r.height+room+16>bottom-top){noteBox.style.height=Math.max(96,bottom-top-room-16)+'px';r=noteBox.getBoundingClientRect();}
+ const shift=r.bottom+room>bottom?Math.max(top+8,bottom-room-r.height)-r.top:0;noteBox.style.transform=shift?`translate(-50%,-50%) translateY(${shift}px)`:'';noteBox.style.background=shift?'#fffdf4':'';
+ const stage=$('stage').getBoundingClientRect();Object.assign(noteDone.style,{left:(r.right-stage.left-160)+'px',top:(r.bottom+shift-stage.top+8)+'px'});}
+noteBox.addEventListener('focus',()=>{fitNote();setTimeout(fitNote,350);});noteBox.addEventListener('blur',()=>setTimeout(fitNote,0));
+// Writing dialogs: keep the field and the action row inside what the keyboard leaves visible.
+function fitDialog(){const vv=window.visualViewport,field=document.activeElement,typing=modal.open&&vv&&modal.contains(field)&&/^(INPUT|TEXTAREA)$/.test(field?.tagName)&&vv.height<innerHeight*.85;
+ Object.assign(modal.style,typing?{top:vv.offsetTop+8+'px',bottom:'auto',marginTop:'0',maxHeight:vv.height-16+'px'}:{top:'',bottom:'',marginTop:'',maxHeight:''});if(typing)field.scrollIntoView({block:'nearest'});}
+const fitKeyboard=()=>{fitNote();fitDialog();};document.addEventListener('focusin',()=>setTimeout(fitKeyboard,350));
+window.visualViewport?.addEventListener('resize',fitKeyboard);window.visualViewport?.addEventListener('scroll',fitKeyboard);
+function positionFocus(){if(noteRect)placeNoteBox(noteRect);fitNote();[...$('focus-targets').children].forEach((b,i)=>{const p=coordinates(focusItems[i]);if(p)Object.assign(b.style,{left:p.left+'px',top:p.top+'px',width:Math.max(48,p.w)+'px',height:Math.max(48,p.h)+'px'});});}
 let layoutFrame=0;
 function syncLayout(){
  cancelAnimationFrame(layoutFrame);layoutFrame=requestAnimationFrame(()=>{
@@ -146,7 +160,7 @@ function finale(){if(s.field.completed.length<5)return;mediaCleanup=openCinema({
 function settings(){dialog(renderSettings({audio:s.audio,completed:s.field.completed,teacherPreview:!!previewOriginal,version:VERSION,audioAvailable:audio.isAudioAvailable()}));}
 function lockedDoor(chapter){
  const first=[0,1,2,3,4].find(i=>!s.field.completed.includes(i))??0,previous=FIELD_CHAPTERS[first];
- dialog({title:'앞 탐사를 먼저 마쳐 줘.',body:`<p>${FIELD_CHAPTERS[chapter].title}에 들어가려면 앞 탐사를 먼저 끝내야 해.</p><p>먼저 ${previous.title}에서 탐사를 마치고 ${previous.reward}를 받아 줘. 구역을 순서대로 탐사하면 다음 길이 열려.</p>`,actions:btn('닫기','close')+btn(previous.title+' 가기','door-next',`data-chapter="${first}"`,'primary')});
+ dialog({title:'앞 탐사를 먼저 마쳐 줘.',body:`<p>${FIELD_CHAPTERS[chapter].title}에 들어가려면 앞 탐사를 먼저 끝내야 해.</p><p>먼저 ${previous.title}에서 탐사를 마치고 ${objectParticle(previous.reward)} 받아 줘. 구역을 순서대로 탐사하면 다음 길이 열려.</p>`,actions:btn('닫기','close')+btn(previous.title+' 가기','door-next',`data-chapter="${first}"`,'primary')});
 }
 function requestDoor(chapter){
  if(!Number.isInteger(chapter)||chapter<0||chapter>4||mode()!=='map')return;
@@ -154,7 +168,7 @@ function requestDoor(chapter){
  if(previewOriginal){s.field=previewFieldForPhase(s.field,chapter,stageProgress(chapter,'',true).firstPhase);view('room');return;}
  ctx.scene?.walkDoor(chapter);
 }
-function act(type,payload={}){const before=roomPhase(s.field),result=type==='quest-answer'?applyQuest(s.field,payload):fieldAction(s.field,type,payload);ui.selection=null;if(result.ok&&type==='seed-condition'){if(payload.key==='water')ui.waterFx=true;if(payload.key==='warm')ui.tempFx=true;}announce(result.message,!result.ok);if(result.ok)audio.playSfx(type.includes('photo')?'photo':type==='inspect'?'inspect':roomPhase(s.field)!==before?'success':['seed-day','care-day','season','animal-time'].includes(type)?'time':'place');if(result.ok&&type==='inspect')ui.message=FORM_TRAITS[payload.form][payload.spot];if(result.ok&&roomPhase(s.field)!==before)Object.assign(ui,{guide:false,message:'',pending:false,recordPage:0,hintLevel:0});persist();render();ctx.scene?.refresh();if(result.ok&&type==='inspect'&&!payload.quiet)notebook.observe(payload.form,payload.spot);if(result.ok&&/^(seed|care|animal|season)-photo$/.test(type))notebook.capture(type,payload);return result;}
+function act(type,payload={}){const before=roomPhase(s.field),result=type==='quest-answer'?applyQuest(s.field,payload):fieldAction(s.field,type,payload);if(result.ok)holdObservation(s.field,before,type);ui.selection=null;if(result.ok&&type==='seed-condition'){if(payload.key==='water')ui.waterFx=true;if(payload.key==='warm')ui.tempFx=true;}announce(result.message,!result.ok);if(result.ok)audio.playSfx(type.includes('photo')?'photo':type==='inspect'?'inspect':roomPhase(s.field)!==before?'success':['seed-day','care-day','season','animal-time'].includes(type)?'time':'place');if(result.ok&&type==='inspect')ui.message=FORM_TRAITS[payload.form][payload.spot];if(result.ok&&roomPhase(s.field)!==before)Object.assign(ui,{guide:false,message:'',pending:false,recordPage:0,hintLevel:0});persist();render();ctx.scene?.refresh();if(result.ok&&type==='inspect'&&!payload.quiet)notebook.observe(payload.form,payload.spot);if(result.ok&&/^(seed|care|animal|season)-photo$/.test(type))notebook.capture(type,payload);return result;}
 function drop(data){const {kind,target}=data,q=s.field.chapters[s.field.active];let type,p={};
  if(kind==='film'&&target.startsWith('film-')){type='film-move';p={from:data.from,to:Number(target.slice(5))};}
  else if(kind==='generation'){type='generation';p={target};}
@@ -200,7 +214,7 @@ function action(name,b){void audio.initAudio(s.audio);audio.playSfx('click');
  if(name==='sound'){const on=s.audio.bgm||s.audio.sfx;if(on){ui.previousAudio={...s.audio};s.audio.bgm=false;s.audio.sfx=false;}else s.audio=ui.previousAudio||{...s.audio,sfx:true};audio.updateAudio(s.audio);persist();render();return;}
  if(name==='audio-bgm'||name==='audio-sfx'){const k=name==='audio-bgm'?'bgm':'sfx';s.audio[k]=!s.audio[k];audio.updateAudio(s.audio);persist();render();settings();return;}
  if(name==='guide'){if(ui.guide){closeGuide();return;}ui.hintReturn=b;ui.guide=true;if(!ui.pending)ui.message='';ui.pending=false;updateGuide();return;}if(name==='hint-close'){closeGuide();return;}if(name==='door'||name==='door-next'){if(name==='door-next')modal.close();requestDoor(Number(b.dataset.chapter));return;}if(name==='step'){ctx.scene?.step(Number(b.dataset.x),Number(b.dataset.y));return;}
- if(name==='next'){if(mode()==='map'){const c=[0,1,2,3,4].find(i=>!s.field.completed.includes(i));if(c===undefined)dialogs.story();else requestDoor(c);return;}if(previewOriginal){const chapter=s.field.active,phase=stageProgress(chapter,roomPhase(s.field),true).nextPhase;if(phase){s.field=previewFieldForPhase(s.field,chapter,phase);Object.assign(ui,{selection:null,play:false,guide:false,message:''});render();ctx.scene.refresh();}else if(chapter<4){s.field=previewFieldForPhase(s.field,chapter+1,stageProgress(chapter+1,'',true).firstPhase);view('room');}else view('map');return;}const next=roomUI(s,ui).nextAction;if(next==='complete'){const c=s.field.active;if(act('chapter-complete',{chapter:c}).ok){ui.pendingRestoreChapter=c;view('map');audio.playSfx('reward');dialogs.reward(c);}return;}if(next==='hint'){ui.hintReturn=b;ui.message='';ui.guide=true;updateGuide();ctx.scene?.showHint?.(hintTarget(roomPhase(s.field)));return;}if(next==='plan'){dialogs.plan();return;}act(next);return;}
+ if(name==='next'){if(mode()==='map'){const c=[0,1,2,3,4].find(i=>!s.field.completed.includes(i));if(c===undefined)dialogs.story();else requestDoor(c);return;}if(previewOriginal){const chapter=s.field.active,phase=stageProgress(chapter,roomPhase(s.field),true).nextPhase;if(phase){s.field=previewFieldForPhase(s.field,chapter,phase);Object.assign(ui,{selection:null,play:false,guide:false,message:''});render();ctx.scene.refresh();}else if(chapter<4){s.field=previewFieldForPhase(s.field,chapter+1,stageProgress(chapter+1,'',true).firstPhase);view('room');}else view('map');return;}const next=roomUI(s,ui).nextAction;if(next==='complete'){const c=s.field.active;if(act('chapter-complete',{chapter:c}).ok){ui.pendingRestoreChapter=c;view('map');audio.playSfx('reward');dialogs.reward(c);}return;}if(next==='hint'){ui.hintReturn=b;ui.message='';ui.guide=true;updateGuide();ctx.scene?.showHint?.(hintTarget(roomPhase(s.field)));return;}if(next==='plan'){dialogs.plan();return;}if(next==='observation-done'){releaseObservation(s.field);Object.assign(ui,{guide:false,message:'',pending:false,hintLevel:0});audio.playSfx('success');render();ctx.scene?.refresh();return;}act(next);return;}
  if(name==='clear-drawing'){s.field.chapters[0].drawing=[];persist();ctx.scene.refresh();return;}if(name==='film-play'){ui.play=!ui.play;render();ctx.scene.refresh();return;}if(name==='cross-section'){ui.crossSection=!ui.crossSection;ctx.scene.refresh();return;}if(name==='record-page'){ui.recordPage+=Number(JSON.parse(b.dataset.payload||'{}').delta)||0;ctx.scene.refresh();return;}
  if(name==='save-note'){act('observation-note',{text:$('observation-note').value});modal.close();return;}if(name==='predict'){act('seed-predict',{choice:b.dataset.choice});modal.close();return;}if(name==='save-story'){const title=$('story-title').value,summary=$('story-summary').value;act('book-title',{text:title});act('book-summary',{text:summary});modal.close();return;}
  if(name==='save-caption'){act('book-caption',{id:$('caption-record').value,text:$('story-caption').value});modal.close();return;}if(name==='remove-record'){act('book-record',{id:$('caption-record').value});modal.close();return;}

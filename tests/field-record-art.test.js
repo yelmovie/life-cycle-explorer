@@ -17,8 +17,9 @@ test('light care record preserves the elongated plant and marks later new leaves
  assert.doesNotMatch(r.captions.join(' '),/이틀/);
 });
 
-test('animal records render only the stages the learner actually photographed',async()=>{
- for(const [animal,photos,expected]of [['butterfly',[0,3],['egg','adult']],['dog',[0,2],['puppy','dog']],['dog',[2,0,2,-1,3],['puppy','dog']]]){
+// The butterfly record follows the four-stage film the learner ordered in the butterfly forest.
+test('animal records show a time series: the butterfly film and the photographed dog stages',async()=>{
+ for(const [animal,photos,expected]of [['butterfly',[0,3],['egg','larva','pupa','adult']],['dog',[0,2],['puppy','dog']],['dog',[2,0,2,-1,3],['puppy','dog']]]){
   const r=await render({type:'comparison',animal,photos});
   assert.deepEqual(r.images.map(x=>x.key),expected);
  }

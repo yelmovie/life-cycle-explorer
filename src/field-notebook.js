@@ -19,7 +19,7 @@ export function photoNotebookEntry(s,type,p={}){
  }
  if(type==='care-photo'){
   const r=f.chapters[2].cases[f.chapters[2].case],when=careTimeLabels(r)[r.day],recovered=r.day===2&&!!r.tool,art=r.variable==='light'?['pale','paleRecover1','paleRecover2'][r.tool?r.day:0]:['dry','dryRecover1','pot3'][r.tool?r.day:0];
-  return {title:`식물 돌봄 · ${when}`,cards:[{art,newLeaves:recovered&&r.variable==='light',label:when,detail:`흙 속 물: ${r.variable==='water'?'부족':'충분'} · 빛: ${r.variable==='light'?'부족':'충분'}${r.day?' (돌봄 전 측정)':''}`}],note:r.day===0?'돌보기 전 모습을 남겼다. 물기와 빛을 잰 결과에 맞게 도와주자.':recovered&&r.variable==='light'?'길어진 줄기는 그대로다. 빛을 받은 뒤 자란 새잎의 초록빛을 살펴보자.':r.day===2?'돌본 뒤 새잎의 모습을 기록했다. 돌보기 전 사진과 비교해 보자.':'돌본 뒤의 모습을 살펴보았다. 더 시간이 흐른 뒤 변화도 기록하자.',next:r.day===0?'사진을 닫고 알맞은 돌봄 도구를 골라 줘.':r.day===2?'사진을 닫고 돌봄 전후 사진을 비교해 줘.':'사진을 닫고 다음 시간의 모습을 살펴봐.',stamp:'돌봄 관찰 기록'};
+  return {title:`식물 돌봄 · ${when}`,cards:[{art,newLeaves:recovered&&r.variable==='light',label:when,detail:`흙 속 물: ${r.variable==='water'?'부족':'충분'} · 빛: ${r.variable==='light'?'부족':'충분'}${r.day?' (돌봄 전 측정) · 적용한 돌봄: '+(r.variable==='light'?'빛이 드는 곳으로':'물 주기'):''}`}],note:r.day===0?'돌보기 전 모습을 남겼다. 물기와 빛을 잰 결과에 맞게 도와주자.':recovered&&r.variable==='light'?'길어진 줄기는 그대로다. 빛을 받은 뒤 자란 새잎의 초록빛을 살펴보자.':r.day===2?'돌본 뒤 잎의 모습을 기록했다. 돌보기 전 사진과 비교해 보자.':'돌본 뒤의 모습을 살펴보았다. 더 시간이 흐른 뒤 변화도 기록하자.',next:r.day===0?'사진을 닫고 알맞은 돌봄 도구를 골라 줘.':r.day===2?'사진을 닫고 돌봄 전후 사진을 비교해 줘.':'사진을 닫고 다음 시간의 모습을 살펴봐.',stamp:'돌봄 관찰 기록'};
  }
  if(type==='animal-photo'){
   const animal=p.animal;if(!['butterfly','dog'].includes(animal))return null;
@@ -53,9 +53,9 @@ export function createFieldNotebook(ctx){
  function observe(form,spot){
   if(!FORMS.includes(form))return;
   const q=ctx.s.field.chapters[0],seen=q.inspected[form],next=FORMS.map(id=>({id})).find(a=>!q.inspected[a.id].length),total=FORMS.filter(id=>q.inspected[id].length>0).length;
-  const nextText=next?`다음은 ${FORM_NAMES[next.id]}의 특징을 살펴봐.`:'이제 네가 본 특징을 그림과 네 말로 남겨 줘.';
+  const nextText=next?`다음은 ${FORM_NAMES[next.id]}의 특징을 살펴봐.`:'이제 네가 본 특징을 그림을 보며 네 말로 남겨 줘.';
   const traits=seen.map(n=>`<li><span class="notebook-check">✓</span><span class="notebook-hand" data-handwriting="${esc(FORM_TRAITS[form][n])}">${esc(FORM_TRAITS[form][n])}</span></li>`).join('');
-  return mount({title:FORM_NAMES[form]+' 관찰 노트',body:`<div class="notebook-book"><div class="notebook-specimen"><div class="specimen-3d" data-specimen-3d>${img(form,FORM_NAMES[form]+' 확대 모습')}<span class="specimen-3d-hint" aria-hidden="true">끌어서 돌려 보기</span></div><span class="notebook-photo-caption">돋보기로 자세히 본 모습</span><span class="notebook-scale-note">확대한 모형 · 실제 크기와 달라</span></div><section class="notebook-page"><p class="notebook-kicker">화면에서 확인한 특징 · 자동 정리</p><h3>${FORM_NAMES[form]}의 관찰 단서</h3><ol class="notebook-findings">${traits}</ol><p class="notebook-stamp">모습 관찰! ${total}/4</p><p class="notebook-next">${esc(nextText)}</p></section></div>`,actions:`<button type="button" data-notebook-skip>글 바로 보기</button><button type="button" class="primary" data-notebook-close>${next?'다음 특징 살피기':'내 글·그림 남기러 가기'}</button>`,specimen:form});
+  return mount({title:FORM_NAMES[form]+' 관찰 노트',body:`<div class="notebook-book"><div class="notebook-specimen"><div class="specimen-3d" data-specimen-3d>${img(form,FORM_NAMES[form]+' 확대 모습')}<span class="specimen-3d-hint" aria-hidden="true">끌어서 돌려 보기</span></div><span class="notebook-photo-caption">돋보기로 자세히 본 모습</span><span class="notebook-scale-note">확대한 모형 · 실제 크기와 달라</span></div><section class="notebook-page"><p class="notebook-kicker">화면에서 확인한 특징 · 자동 정리</p><h3>${FORM_NAMES[form]}의 관찰 단서</h3><ol class="notebook-findings">${traits}</ol><p class="notebook-stamp">모습 관찰! ${total}/4</p><p class="notebook-next">${esc(nextText)}</p></section></div>`,actions:`<button type="button" data-notebook-skip>글 바로 보기</button><button type="button" class="primary" data-notebook-close>${next?'다음 특징 살피기':'내 관찰 글 남기러 가기'}</button>`,specimen:form});
  }
  function capture(type,payload){
   const entry=photoNotebookEntry(ctx.s,type,payload);if(!entry)return;

@@ -77,23 +77,33 @@ export function fieldCompletedCount(field) { return unique(field.completed).filt
 export const TOWER_REGIONS=['나비의 숲','씨앗 연구소','햇살 온실','사계절 정원'];
 // Claims the learner proves with their own records; the request ids stay stable for saved books.
 export const TOWER_CLAIMS=[
-  {request:'observation',text:'동물은 자라면서 몸의 생김새가 달라져.',accept:['observation','comparison'],clue:'이 사진에서 몸의 생김새가 바뀌는 모습이 보일까? 동물이 자라는 기록을 찾아봐.'},
+  // A single close-up shows one moment, so growth needs a record that compares stages over time.
+  {request:'observation',text:'동물은 자라면서 몸의 생김새가 달라져.',accept:['comparison'],clue:'이 사진은 한 시점의 모습이야. 변화 전후가 함께 보이는 기록을 찾아볼까? 사계절 정원 사진을 「사진 바꾸기」로 동물의 한살이 기록으로 바꿔 봐.'},
   {request:'retry',text:'씨앗이 싹트려면 물과 알맞은 온도가 필요해.',accept:['retry'],clue:'조건 하나만 바꿔 싹을 비교한 기록이어야 증거가 돼.'},
   {request:'care',text:'식물은 물이나 빛이 부족하면 겉모습으로 신호를 보내.',accept:['care'],clue:'물기와 빛을 재고 돌본 뒤 달라진 기록을 찾아봐.'},
 ];
+// One experiment proves only the condition it changed, so the claim narrows to the pinned record.
+export function towerClaimText(field,claim){
+  const bank=fieldRecords(field),record=field.chapters[4].records.map(id=>bank.find(r=>r.id===id)).find(r=>r&&claim.accept.includes(r.fieldEvidence.type));
+  const v=record?.fieldEvidence.variable;
+  if(claim.request==='retry'&&v)return v==='water'?'씨앗이 싹트려면 물이 필요해.':'씨앗이 싹트려면 알맞은 온도가 필요해.';
+  if(claim.request==='care'&&v)return v==='water'?'식물은 물이 부족하면 겉모습으로 신호를 보내.':'식물은 빛이 부족하면 겉모습으로 신호를 보내.';
+  return claim.text;
+}
 const slotsDone = field => {
   const bank = fieldRecords(field), slots = field.chapters[4].records.map(id => bank.find(record => record.id === id));
   return slots.length === 4 && slots.every(Boolean) && [0,1,2,3].every(c => slots.filter(record => record.fieldEvidence.chapter === c).length === 1);
 };
 const noteDone = book => meaningfulText(book.title) >= 2 && meaningfulText(book.summary) >= 8;
 export function fieldBookReady(field) { return slotsDone(field) && noteDone(field.chapters[4]); }
-const claimFits = (request,record) => !!record && !!TOWER_CLAIMS.find(claim => claim.request === request)?.accept.includes(record.fieldEvidence.type);
+// Books finished before close-ups stopped counting as growth evidence keep that link until the learner changes it.
+const claimFits = (request,record,book) => !!record && (!!TOWER_CLAIMS.find(claim => claim.request === request)?.accept.includes(record.fieldEvidence.type) || request === 'observation' && record.fieldEvidence.type === 'observation' && book?.legacyEvidence === record.id);
 export function towerStep(field) {
   const book = field.chapters[4];
   return !slotsDone(field) ? 'tower-slots' : !matchesDone(field) ? 'tower-evidence' : !noteDone(book) ? 'tower-note' : !book.towerRun ? 'tower-run' : !planDone(book) ? 'plan' : 'ready';
 }
 
-const matchesDone = field => {const book=field.chapters[4],bank=fieldRecords(field);return TOWER_CLAIMS.every(({request}) => book.records.includes(book.matches[request]) && claimFits(request,bank.find(record => record.id === book.matches[request])));};
+const matchesDone = field => {const book=field.chapters[4],bank=fieldRecords(field);return TOWER_CLAIMS.every(({request}) => book.records.includes(book.matches[request]) && claimFits(request,bank.find(record => record.id === book.matches[request]),book));};
 const planDone = book => meaningfulText(book.plan.subject) >= 2 && meaningfulText(book.plan.when) >= 2 && meaningfulText(book.plan.what) >= 4;
 
 export function fieldReady(field, chapter=field.active) {
@@ -211,7 +221,7 @@ export function fieldAction(field, type, payload={}) {
     data.inspected[p.form] = unique([...data.inspected[p.form],p.spot]);
     return done(`${{egg:'알',larva:'애벌레',pupa:'번데기',adult:'어른벌레'}[p.form]}의 특징을 발견했어.`);
   }
-  if(type==='observation-reference'){if(!FIELD_FORMS.includes(p.form))return fail('살펴볼 생물의 모습을 골라 줘.');data.drawingForm=p.form;return done('그림의 참고 모습을 보관했어.');}
+  if(type==='observation-reference'){if(!FIELD_FORMS.includes(p.form))return fail('살펴볼 생물의 모습을 골라 줘.');data.drawingForm=p.form;return done(`${{egg:'알',larva:'애벌레',pupa:'번데기',adult:'어른벌레'}[p.form]} 그림을 보며 특징을 써 봐.`);}
   if (type === 'observation-draw') {
     if (!observed(data)) return fail('네 모습의 특징을 하나씩 먼저 살펴보자.');
     const stroke = sanitizeStroke(p.stroke);
@@ -265,7 +275,7 @@ function seedAction(data,type,p,done,fail) {
   if (type === 'seed-condition') {
     if (p.side && p.side !== 'b') return fail('A는 처음 조건을 그대로 두고 B에서 한 가지 조건만 바꿔 보자.');
     if (!['water','warm'].includes(p.key)) return fail('물과 온도 중 알아볼 조건을 골라 줘.');
-    if(p.key!==round.variable) return fail(`이번에는 ${round.variable==='water'?'물':'온도'}만 바꿔 비교해. ${round.variable==='water'?'온도':'물의 양'}는 두 화분을 같게 두자.`);
+    if(p.key!==round.variable) return fail(`이번에는 ${round.variable==='water'?'물':'온도'}만 바꿔 비교해. ${round.variable==='water'?'온도는':'물의 양은'} 두 화분을 같게 두자.`);
     const next=typeof p.value==='boolean'?p.value:!round.b[p.key];
     round.b[p.key] = next; return done(`화분 B: ${p.key==='water'?(next?'물을 주었어. A는 물 없음, B는 물 있음이야.':'물을 주지 않는 조건이야. 두 화분이 같은 상태인지 확인해.'):(next?'B를 22°C로 따뜻하게 맞췄어. 콩은 20~25°C에서 싹이 잘 터. A는 5°C 그대로야.':'낮은 온도 조건으로 바꿨어. A와 다른 조건인지 확인해.')} 예상을 남기고 실험을 시작하자.`);
   }
@@ -311,7 +321,7 @@ function careAction(data,type,p,done,fail) {
   }
   if (type === 'care-measure') {
     if (!['water','light'].includes(p.sensor)) return fail('물기와 빛을 재는 도구를 화분에 가져가 보자.');
-    task.measured = unique([...task.measured,p.sensor]); return done(`${p.sensor === 'water' ? '흙의 물기' : '빛의 양'}를 측정했어.`);
+    task.measured = unique([...task.measured,p.sensor]); return done(`${p.sensor === 'water' ? '흙의 물기를' : '빛의 양을'} 측정했어.`);
   }
   if (type === 'care-pin') {
     if (task.measured.length < 2) return fail('물과 빛을 둘 다 재 본 다음, 눈에 보이는 변화를 찾아보자.');
@@ -410,6 +420,7 @@ function bookAction(field,data,type,p,done,fail) {
     data.records.push(p.id);
     data.records.sort((a,b) => bank.find(item => item.id === a).fieldEvidence.chapter - bank.find(item => item.id === b).fieldEvidence.chapter);
     for (const key of Object.keys(data.matches)) if (!data.records.includes(data.matches[key])) delete data.matches[key];
+    if (!data.records.includes(data.legacyEvidence)) delete data.legacyEvidence;
     return done(`${TOWER_REGIONS[chapter]} 칸에 기록을 끼웠어. 톱니가 맞물렸어!`);
   }
   if (type === 'book-move') {
@@ -429,7 +440,7 @@ function bookAction(field,data,type,p,done,fail) {
     const record = bank.find(item => item.id === p.recordId);
     if (!record || !data.records.includes(record.id)) return fail('시계탑에 끼운 내 사진 중에서 골라 줘.');
     if (!claimFits(p.request,record)) return fail(claim.clue);
-    data.matches[p.request]=record.id;return done('주장과 증거를 실로 이었어!');
+    data.matches[p.request]=record.id;if(p.request==='observation')delete data.legacyEvidence;return done('주장과 증거를 실로 이었어!');
   }
   if (type === 'tower-run') {
     if (!slotsDone(field) || !matchesDone(field) || !noteDone(data)) return fail('기록 끼우기, 증거 잇기, 연구 노트를 먼저 마쳐 줘.');
@@ -553,6 +564,9 @@ export function restoreField(raw) {
       const id=legacy?bank.find(record => book.records.includes(record.id) && claimFits(request,record))?.id:object(c4.matches)[request];
       if (book.records.includes(id) && claimFits(request,bank.find(record => record.id === id))) book.matches[request]=id;
     }
+    // A woken tower whose growth link was a single close-up stays finished; the learner's own pick is kept.
+    const oldGrowth=object(c4.matches).observation;
+    if (!book.matches.observation && (c4.towerRun===true || legacy) && book.records.includes(oldGrowth) && bank.find(record => record.id === oldGrowth)?.fieldEvidence.type === 'observation') {book.legacyEvidence=oldGrowth;book.matches.observation=oldGrowth;}
   }
   book.towerRun=matchesDone(field)&&noteDone(book)&&(c4.towerRun===true||legacy);
   if (book.towerRun) for (const key of ['subject','when','what']) book.plan[key]=textValue(object(c4.plan)[key],PLAN_LIMITS[key]);

@@ -1,6 +1,6 @@
 import {TEXT_LIMITS,captionText,draftValue} from './field-writing.js';
 import {reducedMotion} from './game-motion.js';
-import {fieldRecords,towerStep,TOWER_REGIONS,TOWER_CLAIMS} from './field-model.js';
+import {fieldRecords,towerStep,towerClaimText,TOWER_REGIONS,TOWER_CLAIMS} from './field-model.js';
 import {esc} from './game-metadata.js';
 
 // Keep the learner's own evidence on the corkboard. The table only holds
@@ -125,7 +125,7 @@ export function renderStoryRoom(v,ctx,phase){
    if(!reduced)v.tweens.add({targets:knob,scale:1.2,duration:600,yoyo:true,repeat:-1});
    v.input.setDraggable(knob);
    let progress=0,last=-Math.PI/2,done=false;
-   const caption=v.label(1077,668,'금빛 손잡이를 잡고\n시계 방향으로 돌려 봐',20,300);
+   const caption=v.label(1077,668,'금빛 손잡이를 돌리거나\n아래 버튼을 눌러 봐',20,300);
    const light=c=>{const s=slotCards[c];if(!s)return;v.tweens.add({targets:s.card,scale:1.35,duration:260,yoyo:true});turnGears();caption.setText(TOWER_REGIONS[c]+' · '+s.record.title);};
    const step=a=>{
     let d=a-last;if(d>Math.PI)d-=2*Math.PI;if(d<-Math.PI)d+=2*Math.PI;
@@ -135,23 +135,30 @@ export function renderStoryRoom(v,ctx,phase){
     if(progress>=2*Math.PI-.05){done=true;act('tower-run');}
    };
    knob.on('drag',p=>{const point=v.pointerWorld?.(p)||p;step(Math.atan2(point.y-CY,point.x-CX));});
-   // Keyboard/tap path: each press turns a quarter.
-   v.focusTargets.push({x:CX,y:CY,w:200,h:200,label:'시곗바늘 4분의 1 돌리기',fn:()=>{for(let i=0;i<9;i++)step(last+Math.PI/18);}});
+   // Keyboard/tap path: each press turns a quarter. The visible button serves touch users who cannot drag.
+   const quarter=()=>{for(let i=0;i<9;i++)step(last+Math.PI/18);};
+   v.add.graphics().fillStyle(0xfffcf0,.98).lineStyle(3,0xb88a3a).fillRoundedRect(CX-120,684,240,56,16).strokeRoundedRect(CX-120,684,240,56,16).setDepth(8);
+   v.text(CX,712,'↻ 4분의 1 돌리기',22,220,'#244d3d').setDepth(9);
+   v.click(CX,712,240,56,quarter,'시곗바늘 4분의 1 돌리기').setDepth(10);
   }
  }
 
  if(evidence){
   // Detective board: my four photos on the left, claim notes on the right, red string between.
   const spots=[[315,300],[545,300],[315,525],[545,525]];
-  const placed=selected.map((r,i)=>{const [x,y]=spots[i];photo(r,x,y,200,180,{caption:TOWER_REGIONS[r.fieldEvidence.chapter]});v.pic('towerEmblem'+r.fieldEvidence.chapter,x+82,y-72,46);target(x,y,200,180,'evid-'+r.id,TOWER_REGIONS[r.fieldEvidence.chapter]+' 사진을 증거로 놓기');return {r,x,y};});
-  v.label(430,640,'쪽지를 끌어 증거 사진 위에 놓아 줘',21,500);
+  const placed=selected.map((r,i)=>{const [x,y]=spots[i];photo(r,x,y,200,180,{caption:TOWER_REGIONS[r.fieldEvidence.chapter]});v.pic('towerEmblem'+r.fieldEvidence.chapter,x+82,y-72,46);target(x,y,200,180,'evid-'+r.id,TOWER_REGIONS[r.fieldEvidence.chapter]+' 사진을 증거로 놓기');
+   // Swap within the same region, so a learner can pick a record that really supports a claim.
+   const others=bank.filter(o=>o.fieldEvidence.chapter===r.fieldEvidence.chapter);
+   if(others.length>1){const next=others[(others.findIndex(o=>o.id===r.id)+1)%others.length];v.add.graphics().fillStyle(0xfffcf0,.98).lineStyle(2,0x829779).fillRoundedRect(x-75,y+90,150,44,14).strokeRoundedRect(x-75,y+90,150,44,14).setDepth(6);v.text(x,y+112,'↻ 사진 바꾸기',20,140,'#244d3d').setDepth(7);v.click(x,y+112,150,44,()=>act('book-record',{id:next.id}),TOWER_REGIONS[r.fieldEvidence.chapter]+' 사진을 '+next.title+' 기록으로 바꾸기').setDepth(8);}
+   return {r,x,y};});
+  v.label(430,690,'쪽지를 끌어 증거 사진 위에 놓아 줘',21,500);
   TOWER_CLAIMS.forEach((claim,i)=>{
    const y=250+i*175,linked=placed.find(p=>p.r.id===q.matches[claim.request]);
-   const note=paper(960,y,380,130);note.add(handwriting(0,4,claim.text,30,350).setMaxLines(3));
+   const text=towerClaimText(ctx.s.field,claim),note=paper(960,y,380,130);note.add(handwriting(0,4,text,34,350).setColor('#1f3d33').setMaxLines(3));
    if(linked){
     v.add.graphics().lineStyle(4,0xb3352c,.9).lineBetween(770,y,linked.x+100,linked.y).fillStyle(0xb3352c).fillCircle(770,y,7).fillCircle(linked.x+100,linked.y,7).setDepth(5);
     v.text(960,y+52,'✓ 증거 연결',18,200,'#21573b');
-   }else v.draggable(note,'claim',{request:claim.request},claim.text+' 쪽지를 증거 사진으로 옮기기');
+   }else v.draggable(note,'claim',{request:claim.request},text+' 쪽지를 증거 사진으로 옮기기');
   });
  }
 }

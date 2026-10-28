@@ -1,8 +1,8 @@
 import {SORT_CARDS,CORE_PLANT_CARDS} from '../src/field-content.js';
-import {roomPhase,roomUI} from '../src/field-flow.js';
+import {roomPhase,roomUI,holdObservation,releaseObservation} from '../src/field-flow.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {initialField,restoreField,fieldAction,fieldReady,fieldPhase,fieldRecords,fieldUnlocked,fieldCompletedCount,fieldBookReady,FIELD_FORMS} from '../src/field-model.js';
+import {initialField,restoreField,fieldAction,fieldReady,fieldPhase,fieldRecords,fieldUnlocked,fieldCompletedCount,fieldBookReady,towerClaimText,TOWER_CLAIMS,FIELD_FORMS} from '../src/field-model.js';
 
 const act=(field,type,p={}) => {
   const result=fieldAction(field,type,p);
@@ -151,7 +151,7 @@ test('final book uses real records, both life kinds, reasoning and three evidenc
   assert.equal(fieldAction(field,'book-record',{id:'invented-picture'}).ok,false);
   assert.equal(fieldBookReady(field),true);
   assert.equal(fieldAction(field,'help-match',{request:'care',recordId:'field-observation-larva'}).ok,false);
-  for (const [request,recordId] of [['observation','field-observation-larva'],['retry','field-seed-water'],['care','field-care-water']]) act(field,'help-match',{request,recordId});
+  for (const [request,recordId] of [['observation','field-animal-butterfly'],['retry','field-seed-water'],['care','field-care-water']]) act(field,'help-match',{request,recordId});
   act(field,'tower-run');
   assert.equal(fieldAction(field,'chapter-complete').ok,false);
   assert.equal(fieldAction(field,'observation-plan',{subject:'',when:'',what:''}).ok,false);
@@ -207,7 +207,7 @@ test('teacher preview unlocks entry while requiring genuine work and is discarde
 
 test('chapter restart clears only the active challenge and preserves earned records, rewards and published book',() => {
   const field=completedThrough(3);composeBook(field);
-  for (const [request,recordId] of [['observation','field-observation-larva'],['retry','field-seed-water'],['care','field-care-water']]) act(field,'help-match',{request,recordId});
+  for (const [request,recordId] of [['observation','field-animal-butterfly'],['retry','field-seed-water'],['care','field-care-water']]) act(field,'help-match',{request,recordId});
   act(field,'tower-run');
   act(field,'observation-plan',{subject:'학교 봉선화',when:'매주 월요일',what:'잎과 줄기를 그림으로 남기기'});act(field,'chapter-complete');
   const records=fieldRecords(field),book=structuredClone(field.chapters[4]);
@@ -283,4 +283,62 @@ test('older partial garden saves remain completable without photo buttons',()=>{
  act(f,'animal-generation',{answer:'different'});act(f,'plant-tag',{plant:'apple'});
  f.chapters[3].plantPhotos=[];
  const restored=restoreField(f);act(restored,'plant-tag',{plant:'balsam'});assert.equal(roomPhase(restored),'seasons');
+});
+
+test('tower claims accept only records that show the claimed change',() => {
+  const field=completedThrough(3);composeBook(field);
+  // Region 3 holds an unrelated plant photo: same region, but no animal growth.
+  act(field,'book-record',{id:'field-season-apple'});
+  for (const recordId of ['field-observation-larva','field-season-apple']) {
+    const result=fieldAction(field,'help-match',{request:'observation',recordId});
+    assert.equal(result.ok,false);assert.match(result.message,/변화 전후가 함께 보이는 기록/);
+  }
+  assert.equal(field.chapters[4].matches.observation,undefined);
+  // Re-picking the region's time-series record makes it valid evidence.
+  act(field,'book-record',{id:'field-animal-butterfly'});
+  act(field,'help-match',{request:'observation',recordId:'field-animal-butterfly'});
+  assert.equal(fieldAction(field,'help-match',{request:'retry',recordId:'field-care-water'}).ok,false);
+  act(field,'help-match',{request:'retry',recordId:'field-seed-water'});
+  act(field,'help-match',{request:'care',recordId:'field-care-water'});
+  act(field,'tower-run');
+});
+
+test('one-condition evidence narrows the claim to the condition that was compared',() => {
+  const field=completedThrough(3);composeBook(field);
+  const text=request => towerClaimText(field,TOWER_CLAIMS.find(c => c.request === request));
+  assert.equal(text('retry'),'씨앗이 싹트려면 물이 필요해.');
+  assert.equal(text('care'),'식물은 물이 부족하면 겉모습으로 신호를 보내.');
+  act(field,'book-record',{id:'field-seed-warm'});act(field,'book-record',{id:'field-care-light'});
+  assert.equal(text('retry'),'씨앗이 싹트려면 알맞은 온도가 필요해.');
+  assert.equal(text('care'),'식물은 빛이 부족하면 겉모습으로 신호를 보내.');
+});
+
+test('a finished tower that linked a close-up keeps its completion and the learner pick after restore',() => {
+  const field=completedThrough(3);composeBook(field);
+  for (const [request,recordId] of [['observation','field-animal-butterfly'],['retry','field-seed-water'],['care','field-care-water']]) act(field,'help-match',{request,recordId});
+  act(field,'tower-run');act(field,'observation-plan',{subject:'학교 봉선화',when:'매주 월요일',what:'잎과 줄기를 사진으로 남기기'});act(field,'chapter-complete');
+  // Saved by the earlier version, where a single close-up was accepted.
+  const old=JSON.parse(JSON.stringify(field));old.chapters[4].matches.observation='field-observation-larva';old.snapshots[4].matches.observation='field-observation-larva';
+  const restored=restoreField(JSON.stringify(old));
+  assert.equal(fieldCompletedCount(restored),5);
+  assert.equal(restored.chapters[4].matches.observation,'field-observation-larva');
+  assert.equal(restored.chapters[4].plan.subject,'학교 봉선화');
+  // An unfinished tower drops the unsupported link and asks again.
+  const draft=completedThrough(3);composeBook(draft);
+  const raw=JSON.parse(JSON.stringify(draft));raw.chapters[4].matches={observation:'field-observation-larva'};
+  assert.equal(restoreField(JSON.stringify(raw)).chapters[4].matches.observation,undefined);
+});
+
+test('the last time-dial frame stays until the learner finishes observing, and nothing of it is saved',() => {
+  const field=completedThrough(0);act(field,'chapter-enter',{chapter:1});
+  for (const side of ['a','b']) act(field,'seed-prepare',{side,soil:true,seeds:3});
+  act(field,'seed-predict',{choice:'b'});act(field,'seed-condition',{key:'water'});act(field,'seed-run');
+  const before=roomPhase(field);assert.equal(before,'grow');
+  act(field,'seed-day',{day:7});holdObservation(field,before,'seed-day');
+  assert.equal(roomPhase(field),'grow');
+  const ui=roomUI({field},{});assert.equal(ui.nextAction,'observation-done');assert.equal(ui.next,'관찰을 마쳤어요');
+  assert.equal(roomPhase(restoreField(JSON.stringify(field))),'reason');
+  releaseObservation(field);assert.equal(roomPhase(field),'reason');
+  // Other actions never hold the screen.
+  holdObservation(field,'reason','seed-report');assert.equal(roomPhase(field),'reason');
 });

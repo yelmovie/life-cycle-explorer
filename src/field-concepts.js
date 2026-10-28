@@ -11,7 +11,7 @@ export const CONCEPTS=[
  {id:'seasons',title:'같은 생물일까, 다음 세대일까?',seconds:12,cues:[
   [0,'나비와 개는 태어난 모습과 자라는 과정이 달라.'],[4,'겨울을 지난 사과나무는 작년 그 나무야. 줄기가 이어져 있어.'],[8,'봉선화가 남긴 씨앗에서 자란 새싹은 다음 세대야.']]},
  {id:'evidence',title:'내 기록으로 설명할 수 있어',seconds:12,cues:[
-  [0,'자세히 관찰하고, 조건을 바꾸고, 변화를 기록해.'],[4,'사진과 그림을 이어 무엇을 알아냈는지 설명해.'],[8,'실제 생물도 여러 날 관찰하며 내 생각을 확인해.']]},
+  [0,'자세히 관찰하고, 조건을 바꾸고, 변화를 기록해.'],[4,'사진 기록을 이어 무엇을 알아냈는지 설명해.'],[8,'실제 생물도 여러 날 관찰하며 내 생각을 확인해.']]},
 ];
 
 export function openConcept({chapter,dialog,modal,audio,reduced=false,onFinish=()=>{},returnToList=false,finishLabel}){

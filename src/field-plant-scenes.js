@@ -136,14 +136,16 @@ export function renderPlantRoom(v,ctx,phase){
  if(!['care-after','care-next'].includes(phase))label(655,225,isLight?'잎빛이 옅고 줄기가 길어졌어':'잎이 축 처졌어',27,480);
  for(const [sensor,x]of [['water',350],['light',970]]){
   const measured=r.measured.includes(sensor),low=sensor===r.variable;
-  cardText(x,298,255,78,`${sensor==='water'?'흙의 물기':'받는 빛'}\n${measured?(low?'부족':'충분'):'도구로 재어 봐'}`);
+  // After care nothing is re-measured, so the reading stays labelled as before care.
+  cardText(x,298,255,78,`${sensor==='water'?'흙의 물기':'받는 빛'}${after&&measured?' · 돌봄 전':''}\n${measured?(low?'부족':'충분'):'도구로 재어 봐'}`);
  }
+ if(after)cardText(350,410,255,78,`적용한 돌봄\n${isLight?'빛이 드는 곳으로':'알맞게 물 주기'}`);
  if(phase==='measure'){
   for(const[sensor,x,key]of [['water',350,'moistureSensor'],['light',970,'lightSensor']]){
    tool(key,x,490,'sensor',{sensor},sensor==='water'?'물기 재는 도구를 화분으로':'빛 재는 도구를 화분으로',105);
    button(x,595,250,check(r.measured.includes(sensor),sensor==='water'?'물기 재기':'빛 재기'),()=>act('care-measure',{sensor}),r.measured.includes(sensor));
   }
-  label(655,655,'양쪽의 물기 재기·빛 재기 버튼을 눌러 줘.',23,620);
+  label(655,655,q.case?'이번 화분도 물기와 빛을 재 줘.':'양쪽의 물기 재기·빛 재기 버튼을 눌러 줘.',23,620);
  }
  if(phase==='symptom'){
   let pinBusy=false;
@@ -153,7 +155,7 @@ export function renderPlantRoom(v,ctx,phase){
   v.drop(655,320,250,150,'care-leaf',isLight?'잎 · 옅어진 잎빛에 표시':'잎 · 처진 잎에 표시',()=>choose('leaf',leafFeature));
   button(350,495,250,'① 흙 · 마른 흙',()=>choose('soil','dry-soil'));
   button(970,495,250,isLight?'② 잎 · 옅어진 잎빛':'② 잎 · 처진 잎',()=>choose('leaf',leafFeature));
-  label(655,657,'관찰한 부위와 특징을 골라 줘.\n원인은 모습만으로 정하지 않고 물기·빛 측정과 함께 판단해.',22,930);
+  label(655,657,q.case?'달라진 부위를 골라 줘. 원인은 측정과 함께 판단해.':'관찰한 부위와 특징을 골라 줘.\n원인은 모습만으로 정하지 않고 물기·빛 측정과 함께 판단해.',22,930);
  }
  if(phase==='care-before')label(655,650,'오른쪽 아래 사진 버튼을 눌러 지금 모습을 기록해 줘.',24,760);
  if(phase==='care'){
@@ -161,11 +163,11 @@ export function renderPlantRoom(v,ctx,phase){
   tool('lamp',970,460,'care-tool',{tool:'light'},'빛으로 돌보기',110);
   button(350,575,250,'알맞게 물 주기',()=>act('care-tool',{tool:'water'}));
   button(970,575,250,'빛이 드는 곳으로',()=>act('care-tool',{tool:'light'}));
-  label(655,657,'시든 모습만 보고 정하지 말고, 물·빛을 잰 결과를 비교해 줘.',23,830);
+  label(655,657,q.case?'잰 결과에 맞는 돌봄을 골라 줘.':'시든 모습만 보고 정하지 말고, 물·빛을 잰 결과를 비교해 줘.',23,830);
  }
  if(phase==='care-after'){
   dial(1070,478,r.day,2,'care-day',labels);
-  label(350,525,labels[r.day],26,270);
+  label(350,525,'지금 모습\n'+labels[r.day],24,270);
   label(655,650,isLight?(r.day===0?'빛을 받을 수 있도록 옮겼어. 시간이 흐른 뒤 새잎을 관찰하자.':r.day===1?'긴 줄기는 그대로야. 새로 나오는 잎의 색을 살펴봐.':'새잎이 더 초록빛으로 자랐어. 전후 사진으로 확인해 봐.'):(r.day===2?'이 화분은 잎이 다시 섰어. 전후 사진으로 확인해 봐.':'흙에 물을 주었어. 시간이 흐른 뒤 잎의 모습을 살펴봐.'),23,820);
   v.text(655,702,'관찰 모형이야. 실제 회복 모습과 걸리는 시간은 식물과 환경에 따라 달라.',20,950);
   const effectKey=`${q.case}:${r.tool}`;

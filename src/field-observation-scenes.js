@@ -58,6 +58,7 @@ export function renderObservationRoom(v,ctx,phase){
   // View buttons open one observation window; ◀ ▶ page through all eight
   // features in place. Pages seen are recorded together when it closes, so
   // no notebook pops up between looks.
+  const DIFFERENCES={larva1:'어른벌레와 비교해 봐. 애벌레에게도 날개가 있을까?',adult0:'애벌레 때와 달라진 곳을 찾았니? 날개가 생겼어.'};
   const PAGES=FORMS.flatMap(form=>[0,1].map(spot=>({form,spot})));
   // The frame, arrows and finish button stay put; only the page content is
   // swapped, so quick repeated taps on an arrow are never lost.
@@ -86,7 +87,9 @@ export function renderObservationRoom(v,ctx,phase){
    items.push(v.add.circle(zx,zy,R,0xfffbed).setDepth(102));
    items.push(v.pic(form,zx-(px-.5)*S*factor,zy-(py-.5)*S*factor,S*factor).setDepth(103).setMask(maskShape.createGeometryMask()));
    items.push(v.add.circle(zx,zy,R).setStrokeStyle(8,0xb88a3a).setDepth(104));
-   items.push(v.text(640,592,FORM_TRAITS[form][spot],26,760,'#356c47').setDepth(102));
+   // Two pages ask for the key change between stages instead of one more trait to read.
+   const diff=DIFFERENCES[form+spot];
+   items.push(v.text(640,diff?582:592,FORM_TRAITS[form][spot]+(diff?'\n'+diff:''),diff?23:26,760,'#356c47').setDepth(102));
    items.push(v.text(300,655,`${i+1} / ${PAGES.length}`,24,120).setDepth(102));
   };
   const focusSpot=(form,spot)=>showPage(PAGES.findIndex(p=>p.form===form&&p.spot===spot));
@@ -106,7 +109,7 @@ export function renderObservationRoom(v,ctx,phase){
   v.text(x+w/2,y-28,'본 특징을 내 말로 적어 줘',26,460);
   // A real textarea sits over the paper; leaving it saves the note.
   ctx.noteBox?.({x:x+w/2,y:y+h/2,w:w-36,h:h-36});
-  FORMS.forEach((form,i)=>{const bx=225+i*85;v.pic(form,bx,625,form==='egg'?40:65);v.click(bx,625,76,68,()=>act('observation-reference',{form}),FORM_NAMES[form]+' 보며 그리기');});return;
+  FORMS.forEach((form,i)=>{const bx=225+i*85;v.pic(form,bx,625,form==='egg'?40:65);v.click(bx,625,76,68,()=>act('observation-reference',{form}),FORM_NAMES[form]+' 그림 보며 쓰기');});return;
  }
  if(phase==='film'){
   for(let i=0;i<4;i++){

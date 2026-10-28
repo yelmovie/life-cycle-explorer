@@ -62,7 +62,7 @@ export function applyQuest(field,payload={}){
   }else return fail('물·빛을 잰 결과와 새잎을 차례로 살펴보자.');
  }else if(c===3){
   if(step===0&&p.kind==='track'){
-   if(p.mark!=='A-01')return fail('크기나 잎 모양보다 지난해 붙인 A-01 이름표이 이어지는지 확인해 봐.');
+   if(p.mark!=='A-01')return fail('크기나 잎 모양보다 지난해 붙인 A-01 이름표가 이어지는지 확인해 봐.');
    e.mark='A-01';
   }else if(step===0&&p.kind==='record'){
    if(e.mark!=='A-01')return fail('지난해와 같은 A-01 이름표를 먼저 이어 줘.');
@@ -84,7 +84,7 @@ export function applyQuest(field,payload={}){
  }else return fail('내 기록에 도장을 붙이고 다음 궁금증을 남겨 줘.');
  data[step]=e;q.discovery=normalizeDiscovery(c,data,records);
  const complete=questReady(field,c),stepDone=discoveryStepDone(c,step,q.discovery[step],records);
- return {ok:true,completed:complete,completedStep:stepDone?step:null,message:complete?`${DISCOVERY_MISSIONS[c].name} 도장을 받았어! 네가 찾은 기록와 다음 생각이 기록됐어.`:stepDone?'첫 발견 기록 완료! 다음 단서로 한 번 더 생각해 보자.':'단서를 기록했어. 화면의 다음 안내를 따라 발견을 완성해 줘.',...(complete?{reward:DISCOVERY_MISSIONS[c].name}:{})};
+ return {ok:true,completed:complete,completedStep:stepDone?step:null,message:complete?`${DISCOVERY_MISSIONS[c].name} 도장을 받았어! 네가 찾은 기록과 다음 생각이 기록됐어.`:stepDone?'첫 발견 기록 완료! 다음 단서로 한 번 더 생각해 보자.':'단서를 기록했어. 화면의 다음 안내를 따라 발견을 완성해 줘.',...(complete?{reward:DISCOVERY_MISSIONS[c].name}:{})};
 }
 
 export function renderQuestRoom(v,ctx){
