@@ -1,0 +1,30 @@
+{
+  "created_date": "2026-10-27",
+  "generator": "built-in image_gen",
+  "asset": "New character-led OG composition",
+  "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-22cc12f9-ad1b-4010-8b3e-5fcaaa767f8f.png",
+  "target": "D:/iscreammedia_sc34/4 lifecycle/assets/og/samples-20261027/og-characters-redesign.png",
+  "size": [
+    1200,
+    600
+  ],
+  "aspect_ratio": "2:1",
+  "referenced_image_paths": [
+    "D:/iscreammedia_sc34/4 lifecycle/assets/expedition/forest-world.webp",
+    "D:/iscreammedia_sc34/4 lifecycle/assets/field/title-logo-v1.webp",
+    "D:/iscreammedia_sc34/4 lifecycle/assets/adventure/jihoon-explore.webp",
+    "D:/iscreammedia_sc34/4 lifecycle/assets/adventure/ipsae-guide.webp",
+    "D:/iscreammedia_sc34/4 lifecycle/assets/field/doto.webp"
+  ],
+  "transparent_background": false,
+  "prompt": "Use case: ads-marketing. Create ONE NEW, beautifully art-directed illustrated key visual / OG thumbnail for the Korean science exploration game \"생명 시계 연구실\". Design the composition FROM SCRATCH; the supplied images are world, lettering and character references, not layouts to copy. Opaque WIDE HORIZONTAL canvas, EXACT 2:1 aspect ratio, 1600x800 design for 1200x600 export.\n\nREFERENCE ROLES:\nImage 1: the game's enchanted forest world and distinctive brass/stone/blue-roof life clock tower.\nImage 2: accurate Korean letterforms, established rounded gold-and-forest-green title identity.\nImage 3: Jihoon, brown-haired child explorer, cream leaf-pattern jacket, olive shorts, green backpack and shoes, magnifying glass.\nImage 4: Ipsae, little light-green leaf fairy, leaf hair with top sprout, green eyes, leaf wings, brown satchel, leaf wand.\nImage 5: Doto, brown striped chipmunk with fluffy curved tail, cream belly, green neckerchief, acorn.\nPreserve the THREE characters' specific faces, costumes and recognizable designs faithfully.\n\nART DIRECTION: a warm, premium STORYBOOK ADVENTURE COVER with a strong hierarchy: first HUGE clear Korean title, second an appealing cohesive character group, third the enchanting world. Illustrate a fresh eye-level forest clearing in warm morning light, not the bird's-eye map and not a busy background montage. Deep emerald foliage and soft atmospheric layers, warm cream highlights, brass accents, fresh vivid greens. Rich painterly detail selectively in the characters and natural foreground; calmer soft details behind text. Warm and inviting, with breathing room, visually confident enough for elementary pupils.\n\nCOMPOSITION:\nLEFT 52-56%: a calm deep forest-green area made of naturally shadowed foliage, with a beautifully integrated HUGE title, stacked in TWO lines. The lettering must be the dominant visual and remain immediately legible at 300x150 thumbnail size.\nExact Korean text:\nLine 1: \"생명 시계\"\nLine 2: \"연구실\"\nALL seven Hangul characters must be accurate. Bold rounded existing-brand letterforms, warm ivory-gold face, restrained brass bevel, clean deep-green outline with a subtle shadow. Refined coherent lettering, not overly glossy inflated plastic. Two lines feel like one balanced logo group. Title takes about 62-70% of total canvas height, with 6-8% clear left/right safe margins and at least 10% top/bottom. Only a FEW leaf accents around its outer silhouette. No extra writing.\n\nRIGHT 44-48%: a lively TRIANGULAR GROUP of the three characters, entirely distinct from and NEVER OVERLAPPING ANY TITLE GLYPH. Jihoon is the large main figure, full body, cheerful bright face in front three-quarter view, holding his magnifying glass ready for observation and inviting the viewer on a discovery. About 65-72% of image height, all shoes and hair tips inside the image. Ipsae floats just ABOVE AND TO THE RIGHT of his shoulder, waving her leaf wand, about 30-35% image height with wings clearly visible. Doto stands at his lower-right side, holding the acorn, about 25-30% image height with full curved tail. Their faces are large, readable, expressive and not hidden. Keep the trio together as companions, not scattered stickers. Match lighting and ground contact naturally.\nA SMALL glass pot with one or two fresh bean sprouts and visible white roots can sit at their feet, with one small butterfly near the sprouts. This is the meaningful science observation focus, secondary to faces and title, not a dense prop pile. Natural little dirt path leads behind them to the distinctive SMALL life clock tower in the DISTANT upper-right clearing; the tower's blue roof and brass dial remain recognizable but do not compete with characters. A soft far-background greenhouse glimpse is enough; keep most background simple.\n\nFinish as one unified premium painterly game-cover illustration. The characters' soft 3D styling blends with the painted world through warm light and subtle shadows. No overlap of people, wings or tail onto letters; no cropped heads or feet; keep focal content safely inside frame. No separate collage panels, text plaques, cards, menu buttons, app badges, English, slogans, watermarks or additional characters. Deliver only ONE complete 2:1 image.",
+  "verified": {
+    "size": [
+      1200,
+      600
+    ],
+    "mode": "RGB",
+    "bytes": 1411931,
+    "visual_check": "Accurate Korean title, three reference character identities, full-body framing and clear title/character separation."
+  }
+}

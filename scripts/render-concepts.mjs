@@ -6,12 +6,11 @@ import {once} from 'node:events';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {ART} from '../src/game-assets.js';
-import {lightRecoveryLeaves} from '../src/field-record-art.js';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const require=createRequire(import.meta.url),sharp=require(process.env.SHARP_MODULE||'C:/Users/bongb/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/sharp');
 const ffmpeg=process.env.FFMPEG||'D:/tools/ffmpeg/ffmpeg.exe',out=path.join(root,'assets/concepts'),FPS=24,DURATION=12;
 await mkdir(out,{recursive:true});
-const keys=['egg','larva','pupa','adult','leaf','pot0','pot1','pot2','pot3','dry','pale','watercan','lamp','appleSpring','appleSummer','winter','balsam','balsamDry','balsamSprout','balsamSeeds','puppy','dogYoung','dog','magnifier','camera','book'];
+const keys=['egg','larva','pupa','adult','leaf','pot0','pot1','pot2','pot3','dry','dryRecover1','pale','paleRecover1','paleRecover2','watercan','lamp','appleSpring','appleSummer','winter','balsam','balsamDry','balsamSprout','balsamSeeds','puppy','dogYoung','dog','magnifier','camera','book'];
 // librsvg's embedded-image loader accepts PNG reliably across Windows builds.
 const images={};for(const key of keys)images[key]='data:image/png;base64,'+(await sharp(await readFile(path.join(root,ART[key]))).resize({width:300,height:300,fit:'inside'}).png().toBuffer()).toString('base64');
 const clamp=n=>Math.max(0,Math.min(1,n)),ease=n=>{n=clamp(n);return n*n*(3-2*n);};
@@ -27,12 +26,12 @@ function butterfly(t){let b='';const positions=[160,365,575,790],ids=['egg','lar
 function seed(t){let b='';const phase=t<4?0:t<8?1:2,p=ease((t-4)/3),g=Math.min(3,Math.floor(p*4));
  for(let i=0;i<3;i++){const x=205+i*275;b+=card(x,265,230,310,pic(i===2?'pot'+g:'pot0',x,285,185));b+=circle(x-55,140,25,i===0?'#e5d8bf':'#b7d7e4')+(i?drop(x-55,136):`<path d="M${x-72} 123l34 34m0-34l-34 34" stroke="#9b5946" stroke-width="5"/>`);b+=circle(x+55,140,25,i===1?'#d8e4e9':'#edcc72');if(i===1)b+=`<path d="M${x+40} 125l30 30m0-30l-30 30" stroke="#537d91" stroke-width="5"/>`;}
  if(phase===2)b+=arrow(780,405,780,345,ease((t-8)/1));return b;}
-function care(t){const p=ease((t-4)/3);let b='';for(let i=0;i<2;i++){
+function care(t){const p=ease((t-4)/4)*2;let b='';for(let i=0;i<2;i++){
  const x=275+i*410;
- // Existing elongated stems do not shrink when more light reaches the plant.
- // Only the new leaf model fades in; the original pale plant stays in place.
- const leaves=lightRecoveryLeaves(x-120,150,240,p);
- const plant=i?pic('pale',x,270,240,240)+leaves:pic('dry',x,270,240,240,1-p)+pic('pot3',x,270,240,240,p);
+ // Same painted recovery stages as the game, crossfaded in two steps.
+ // The pale plant's long stems stay; only new green leaves appear.
+ const stages=i?['pale','paleRecover1','paleRecover2']:['dry','dryRecover1','pot3'];
+ const plant=stages.map((key,k)=>pic(key,x,270,240,240,k===0?1-clamp(p):k===1?clamp(p)-clamp(p-1):clamp(p-1))).join('');
  b+=card(x,270,340,350,plant)+pic(i?'lamp':'watercan',x-80+80*ease((t-1.5)/2),120,95);
  if(t>4)b+=arrow(x,395,x,340,ease((t-4)/1));
  }return b;}

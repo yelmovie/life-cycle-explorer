@@ -1,0 +1,96 @@
+{
+  "created_date": "2026-10-27",
+  "generator": "built-in image_gen",
+  "project_title": "생명 시계 연구실",
+  "output_format": "PNG",
+  "size": [
+    1200,
+    600
+  ],
+  "aspect_ratio": "2:1",
+  "images": [
+    {
+      "filename": "og-sample-01-forest.png",
+      "label": "① 숲 지도형",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-ceee0ad2-e240-457e-9e01-b3037ec80140.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/og/samples-20261027/og-sample-01-forest.png",
+      "verified": {
+        "size": [
+          1200,
+          600
+        ],
+        "ratio": "2:1",
+        "mode": "RGB",
+        "bytes": 1549881,
+        "visual_title_check": "생명 시계 / 연구실"
+      }
+    },
+    {
+      "filename": "og-sample-02-clocktower.png",
+      "label": "② 금빛 시계탑형",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-a9bf3b34-22b1-49e0-a440-82fc5bf2b43a.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/og/samples-20261027/og-sample-02-clocktower.png",
+      "verified": {
+        "size": [
+          1200,
+          600
+        ],
+        "ratio": "2:1",
+        "mode": "RGB",
+        "bytes": 1418859,
+        "visual_title_check": "생명 시계 / 연구실"
+      }
+    },
+    {
+      "filename": "og-sample-03-field-notes.png",
+      "label": "③ 관찰 노트형",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-e1098457-b75b-4ae8-bd1a-78cf944f2045.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/og/samples-20261027/og-sample-03-field-notes.png",
+      "verified": {
+        "size": [
+          1200,
+          600
+        ],
+        "ratio": "2:1",
+        "mode": "RGB",
+        "bytes": 1414828,
+        "visual_title_check": "생명 시계 / 연구실"
+      }
+    }
+  ],
+  "prompts": [
+    {
+      "filename": "og-sample-01-forest.png",
+      "label": "① 숲 지도형",
+      "referenced_image_paths": [
+        "D:/iscreammedia_sc34/4 lifecycle/assets/expedition/forest-world.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/field/title-logo-v1.webp"
+      ],
+      "transparent_background": false,
+      "prompt": "Use case: ads-marketing. Create ONE finished OG / social-share THUMBNAIL image for the Korean elementary science exploration game \"생명 시계 연구실\". OPAQUE WIDE HORIZONTAL canvas, EXACT 2:1 width-to-height ratio (1600x800 concept, exported at 1200x600). This is an illustrated game key visual, matching the supplied richly painterly forest fantasy world and existing logo.\nTYPOGRAPHY IS THE TOP PRIORITY: a VERY LARGE, impeccably legible Korean title, using the existing supplied logo as the lettering and brand-style reference. Exact title and ONLY text in the entire image:\nLine 1: \"생명 시계\"\nLine 2: \"연구실\"\nKeep all 7 Hangul characters accurate, no misspelling, no duplicate text, no English, no slogan, no tiny captions, no brand badges, no watermarks. Main title must remain readable when image is reduced to 300x150. Thick bold rounded Korean lettering, confident spacious strokes, strong clear contrast, no scenery crossing the glyphs.\nKeep every title character well inside the canvas, at least 7% safe margin at sides and 12% at top/bottom. Critical title/artwork inside central 78% image height so this can safely export to 2:1. No UI controls, no buttons, no borders, no collage of multiple thumbnails, no people or human figures. Painterly premium educational fantasy, not a real-world photograph. \nDESIGN 1 / FOREST WORLD ADVENTURE:\nImage 1 is world/style/building reference. Image 2 is title-lettering reference.\nAn inviting sunlit panorama of the same lush enchanted science forest: the distinct mossy stone clock tower with blue pointed roof, brass circular clock and astrolabe rings on the RIGHT THIRD, leafy woodland, a small glass greenhouse and blossoming garden glimpsed around it. Warm afternoon light, rich emerald foliage, golden paths, a few small butterflies, fine painterly detail.\nPlace the HUGE Korean title centered in the LEFT 60% of the image, stacked in exactly the two specified lines. Render as warm ivory-gold beveled game-logo letters with deep forest-green outline and a restrained soft shadow, a few leaf accents on the outer logo edges. Title group occupies about 70% of image height and roughly 55-60% of image width. Behind text, a calm darker emerald forest clearing with simplified detail gives clear contrast; avoid a separate text panel. Tower on right stays visible and recognizable. Cheerful, bright, welcoming game-cover composition."
+    },
+    {
+      "filename": "og-sample-02-clocktower.png",
+      "label": "② 금빛 시계탑형",
+      "referenced_image_paths": [
+        "D:/iscreammedia_sc34/4 lifecycle/assets/game/tower-room-awake.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/field/title-logo-v1.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/expedition/forest-world.webp"
+      ],
+      "transparent_background": false,
+      "prompt": "Use case: ads-marketing. Create ONE finished OG / social-share THUMBNAIL image for the Korean elementary science exploration game \"생명 시계 연구실\". OPAQUE WIDE HORIZONTAL canvas, EXACT 2:1 width-to-height ratio (1600x800 concept, exported at 1200x600). This is an illustrated game key visual, matching the supplied richly painterly forest fantasy world and existing logo.\nTYPOGRAPHY IS THE TOP PRIORITY: a VERY LARGE, impeccably legible Korean title, using the existing supplied logo as the lettering and brand-style reference. Exact title and ONLY text in the entire image:\nLine 1: \"생명 시계\"\nLine 2: \"연구실\"\nKeep all 7 Hangul characters accurate, no misspelling, no duplicate text, no English, no slogan, no tiny captions, no brand badges, no watermarks. Main title must remain readable when image is reduced to 300x150. Thick bold rounded Korean lettering, confident spacious strokes, strong clear contrast, no scenery crossing the glyphs.\nKeep every title character well inside the canvas, at least 7% safe margin at sides and 12% at top/bottom. Critical title/artwork inside central 78% image height so this can safely export to 2:1. No UI controls, no buttons, no borders, no collage of multiple thumbnails, no people or human figures. Painterly premium educational fantasy, not a real-world photograph. \nDESIGN 2 / MAGICAL LIFE CLOCK:\nImage 1 is observatory architectural/style reference, image 2 is exact title-lettering reference, image 3 is overall world reference.\nA dramatic yet cozy close view inside the awakened magical life clock tower. On the RIGHT HALF, one grand brass clock face with four small botanical life emblems around its rim, warm golden light shining from the dial, fine brass gears and carved wooden beams; hints of green vine leaves and a blue-green arched window. Rich deep teal / forest-green shadows with concentrated honey-gold light. Clear elegant forms, no busy clutter.\nThe LEFT 58% is a calm dark teal shadowed wall / magical glow gradient, bearing the HUGE exact Korean title in two lines. Warm creamy gold lettering, dark emerald outline, restrained dimensional brass-gold edge matching reference brand, clean bold rounded Hangul. The title fills about 70% of canvas height and at least 52% width. Nothing overlaps the glyphs. A few subtle golden particles connect lettering area to clock, calm magical atmosphere, premium game key art."
+    },
+    {
+      "filename": "og-sample-03-field-notes.png",
+      "label": "③ 관찰 노트형",
+      "referenced_image_paths": [
+        "D:/iscreammedia_sc34/4 lifecycle/assets/expedition/forest-world.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/field/title-logo-v1.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/game/pot3.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/game/butterfly.webp"
+      ],
+      "transparent_background": false,
+      "prompt": "Use case: ads-marketing. Create ONE finished OG / social-share THUMBNAIL image for the Korean elementary science exploration game \"생명 시계 연구실\". OPAQUE WIDE HORIZONTAL canvas, EXACT 2:1 width-to-height ratio (1600x800 concept, exported at 1200x600). This is an illustrated game key visual, matching the supplied richly painterly forest fantasy world and existing logo.\nTYPOGRAPHY IS THE TOP PRIORITY: a VERY LARGE, impeccably legible Korean title, using the existing supplied logo as the lettering and brand-style reference. Exact title and ONLY text in the entire image:\nLine 1: \"생명 시계\"\nLine 2: \"연구실\"\nKeep all 7 Hangul characters accurate, no misspelling, no duplicate text, no English, no slogan, no tiny captions, no brand badges, no watermarks. Main title must remain readable when image is reduced to 300x150. Thick bold rounded Korean lettering, confident spacious strokes, strong clear contrast, no scenery crossing the glyphs.\nKeep every title character well inside the canvas, at least 7% safe margin at sides and 12% at top/bottom. Critical title/artwork inside central 78% image height so this can safely export to 2:1. No UI controls, no buttons, no borders, no collage of multiple thumbnails, no people or human figures. Painterly premium educational fantasy, not a real-world photograph. \nDESIGN 3 / NATURE DETECTIVE FIELD NOTES:\nImages 1 and 2 are world-style and Korean logo references. Image 3 is the seedling/glass-pot appearance reference, image 4 butterfly reference.\nA warm bright botanical explorer's research journal scene, viewed slightly from above, painterly illustrated rather than photographic. A wide softly textured warm cream parchment / open field notebook surface spans the CENTER and RIGHT, framed only at the image edges by forest-green leaves, warm wood and a few brass scientific details. On the LEFT THIRD, one small glass pot with green bean sprouts and visible roots, a friendly orange butterfly hovering just above it, a brass magnifying glass and a SMALL pocket clock arranged as a tidy nature-study vignette. No tiny journal writing, no charts, no visible notebook rules.\nOn the RIGHT 62%, place the HUGE exact two-line Korean title, in deep forest GREEN thick rounded Hangul with warm pale-gold bevel and a subtle dark contour, using the supplied logo's chunky confident letter shapes. Very high contrast against cream paper, large open counters; this title must dominate and occupy about 70% of image height and 56-60% of total width. Small leaf flourishes only around outer edges. Bright natural lighting, fresh green and warm cream palette, clear calm composition that communicates observing and growing life."
+    }
+  ]
+}

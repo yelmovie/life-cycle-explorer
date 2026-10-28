@@ -1,4 +1,5 @@
-import {SORT_CARDS} from '../src/field-content.js';
+import {SORT_CARDS,CORE_PLANT_CARDS} from '../src/field-content.js';
+import {roomPhase,roomUI} from '../src/field-flow.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {initialField,restoreField,fieldAction,fieldReady,fieldPhase,fieldRecords,fieldUnlocked,fieldCompletedCount,fieldBookReady,FIELD_FORMS} from '../src/field-model.js';
@@ -226,4 +227,60 @@ test('chapter restart clears only the active challenge and preserves earned reco
   assert.deepEqual(fieldRecords(restored),records);
   assert.deepEqual(restoreField(JSON.stringify(restored)).snapshots[4],book);
   assert.equal(fieldAction(initialField(),'chapter-restart',{chapter:0}).ok,false);
+});
+
+
+test('streamlined garden reuses real butterfly observation and records only visited seasons',()=>{
+ const f=completedThrough(2);act(f,'chapter-enter',{chapter:3});
+ assert.deepEqual(f.chapters[3].animals.butterfly.photos,[0,3]);
+ assert.deepEqual(f.chapters[3].animals.dog.photos,[0]);
+ act(f,'animal-time',{animal:'dog',step:2});assert.equal(roomPhase(f),'animal-birth');
+ act(f,'animal-generation',{answer:'different'});
+ act(f,'plant-tag',{plant:'apple'});
+ let saved=restoreField(f);assert.deepEqual(saved.chapters[3].plantPhotos,['apple-0']);
+ act(saved,'plant-tag',{plant:'balsam'});assert.equal(roomPhase(saved),'seasons');
+ act(saved,'season',{step:4});assert.equal(roomPhase(saved),'seasons');
+ assert.ok(!saved.chapters[3].plantPhotos.includes('apple-3'));
+ // Seeing winter after next spring opens the same-or-new choice right away; no separate compare click.
+ act(saved,'season',{step:3});assert.equal(saved.chapters[3].season,3);assert.equal(saved.chapters[3].seasonCompared,true);
+ assert.equal(roomPhase(saved),'plant-identity');assert.notEqual(roomUI({field:saved},{}).nextAction,'season-compare');
+ act(saved,'plant-classify',{plant:'apple',answer:'same'});act(saved,'plant-classify',{plant:'balsam',answer:'new'});
+ for(const card of SORT_CARDS.filter(c=>CORE_PLANT_CARDS.includes(c.id)))act(saved,'transfer',{card:card.id,bin:card.bin});
+ assert.equal(fieldReady(saved),true);assert.equal(roomPhase(saved),'ready');
+ const restored=restoreField(saved);assert.equal(fieldReady(restored),true);
+});
+
+test('first completed experiment prepares the second without copying its answer',()=>{
+ const f=initialField();act(f,'chapter-enter',{chapter:0});finishObservation(f);act(f,'chapter-complete');act(f,'chapter-enter',{chapter:1});
+ for(const side of ['a','b'])act(f,'seed-prepare',{side,soil:true,seeds:3});
+ act(f,'seed-predict',{choice:'a'});act(f,'seed-condition',{key:'water'});act(f,'seed-run');act(f,'seed-day',{day:7});act(f,'seed-report',{reason:'water',result:'b',expectation:'changed'});act(f,'seed-next');
+ assert.deepEqual(f.chapters[1].rounds[1].prepared,{a:{soil:true,seeds:3},b:{soil:true,seeds:3}});
+ assert.equal(f.chapters[1].rounds[1].prediction,'');assert.equal(roomPhase(f),'design');
+ assert.equal(roomPhase(restoreField(f)),'design');
+});
+
+test('additional discovery can be skipped and resumed without granting completion',()=>{
+ const f=initialField();finishObservation(f);assert.equal(roomPhase(f),'ready');
+ assert.match(roomUI({field:f},{}).controls,/선택/);act(f,'discovery-enter');assert.equal(roomPhase(f),'discovery');
+ const saved=restoreField(f);assert.equal(roomPhase(saved),'discovery');assert.deepEqual(saved.completed,[]);
+ act(saved,'discovery-exit');assert.equal(roomPhase(saved),'ready');act(saved,'chapter-complete');assert.deepEqual(saved.completed,[0]);
+});
+
+
+test('one observed feature per butterfly form is enough and evidence contains only what was seen',()=>{
+ const f=initialField();for(const form of FIELD_FORMS)act(f,'inspect',{form,spot:1});
+ assert.equal(roomPhase(f),'draw');
+ for(const form of FIELD_FORMS){const record=fieldRecords(f).find(r=>r.id==='field-observation-'+form);assert.deepEqual(record.fieldEvidence.spots,[1]);}
+ assert.equal(roomPhase(restoreField(f)),'draw');
+});
+
+test('older partial garden saves remain completable without photo buttons',()=>{
+ const f=completedThrough(2);act(f,'chapter-enter',{chapter:3});
+ f.chapters[3].animals={butterfly:{step:0,photos:[]},dog:{step:0,photos:[]}};
+ act(f,'animal-time',{animal:'butterfly',step:0});act(f,'animal-time',{animal:'butterfly',step:3});
+ act(f,'animal-time',{animal:'dog',step:0});act(f,'animal-time',{animal:'dog',step:2});
+ assert.equal(roomPhase(f),'animal-birth');
+ act(f,'animal-generation',{answer:'different'});act(f,'plant-tag',{plant:'apple'});
+ f.chapters[3].plantPhotos=[];
+ const restored=restoreField(f);act(restored,'plant-tag',{plant:'balsam'});assert.equal(roomPhase(restored),'seasons');
 });

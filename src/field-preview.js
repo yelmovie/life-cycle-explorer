@@ -10,8 +10,9 @@ export function previewFieldForPhase(source,chapter,phase){
  a.inspected=Object.fromEntries(FIELD_FORMS.map(id=>[id,[0,1]]));a.drawing=[[[.2,.4],[.4,.2],[.6,.4]]];a.note='시연용 예시: 몸에 여러 마디가 보여.';a.order=[...FIELD_FORMS];a.generation='next-egg';
  for(const r of b.rounds){r.prepared={a:{soil:true,seeds:3},b:{soil:true,seeds:3}};r.prediction='both';r.b={water:true,warm:true};r.run={variable:r.variable,prepared:structuredClone(r.prepared),prediction:r.prediction,a:{water:r.variable!=='water',warm:r.variable!=='warm'},b:{water:true,warm:true}};r.day=7;r.photos=[0,3,7];r.reason=r.variable;r.report={result:'b',expectation:'changed'};}
  for(const r of c.cases){r.measured=['water','light'];r.symptom=r.variable==='water'?'dry':'pale';r.tool=r.variable;r.day=2;r.photos=[0,2];}
- d.animals={butterfly:{step:3,photos:[0,3]},dog:{step:2,photos:[0,2]}};d.generation='different';d.tags=['apple','balsam'];d.season=4;d.plantPhotos=['apple','balsam'].flatMap(id=>[0,3,4].map(n=>id+'-'+n));d.classifications={apple:'same',balsam:'new'};d.transfers=Object.fromEntries(SORT_CARDS.map(c=>[c.id,c.bin]));
+ d.animals={butterfly:{step:3,photos:[0,3]},dog:{step:2,photos:[0,2]}};d.generation='different';d.tags=['apple','balsam'];d.season=4;d.seasonCompared=true;d.plantPhotos=['apple','balsam'].flatMap(id=>[0,3,4].map(n=>id+'-'+n));d.classifications={apple:'same',balsam:'new'};d.transfers=Object.fromEntries(SORT_CARDS.map(c=>[c.id,c.bin]));
  e.records=['field-observation-egg','field-seed-water','field-care-water','field-animal-butterfly'];e.towerRun=true;e.title='교사 시연용 발견 이야기';e.summary='시연용 예시: 특징을 관찰하고 물의 조건을 비교했어.';e.captions=Object.fromEntries(e.records.map(id=>[id,'시연용 예시 기록이에요.']));e.matches={observation:e.records[0],retry:e.records[1],care:e.records[2]};e.plan={subject:'교실 식물',when:'매주 같은 날',what:'같은 자리에서 잎과 줄기를 관찰하기'};
+ if(phase==='discovery')f.discoveryVisit=chapter;
  if(chapter===0){
   if(phase==='search')f.chapters[0]=initialField().chapters[0];
   else if(phase==='draw'){a.drawing=[];a.note='';}
@@ -31,11 +32,11 @@ export function previewFieldForPhase(source,chapter,phase){
   else if(phase==='care'){r.photos=[0];r.tool='';r.day=0;}
   else if(phase==='care-after'){r.photos=[0];r.day=1;}
  }else if(chapter===3){
-  if(phase==='animals')f.chapters[3]=initialField().chapters[3];
+  if(phase==='animals'){f.chapters[3]=initialField().chapters[3];f.chapters[3].animals.butterfly.photos=[0,3];f.chapters[3].animals.dog.photos=[0];}
   else if(phase==='animal-birth')d.generation='';
   else if(phase==='tags'){d.tags=[];d.plantPhotos=[];d.season=0;}
-  else if(phase==='seasons'){d.plantPhotos=['apple-0','balsam-0'];d.season=0;}
-  else if(phase==='plant-identity')d.classifications={};
+  else if(phase==='seasons'){d.plantPhotos=['apple-0','balsam-0'];d.season=0;d.seasonCompared=false;d.classifications={};d.transfers={};}
+  else if(phase==='plant-identity'){d.classifications={};d.transfers={};}
   else if(phase==='transfer')d.transfers={};
  }else if(chapter===4){
   const empty={subject:'',when:'',what:''};

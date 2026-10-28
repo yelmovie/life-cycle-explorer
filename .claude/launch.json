@@ -1,0 +1,25 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "life-clock-lab",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["start"],
+      "port": 4186
+    },
+    {
+      "name": "life-clock-lab-alt",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["server.mjs"],
+      "env": {"PORT": "4191"},
+      "port": 4191
+    },
+    {
+      "name": "life-clock-dist",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["server.mjs", "--dist"],
+      "env": {"PORT": "4207"},
+      "port": 4207
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 import {careTimeLabels} from './field-model.js';
+import {FORM_SPOTS} from './field-content.js';
 
 // New leaves attach to the three shoot tips of the unchanged pale-plant image.
 // The coordinates use its square, contain-fit display box in records and clips.
@@ -12,8 +13,16 @@ export async function fieldRecordArt(r,{img,text,parts}){
  if(e.type==='observation'){
   await img(e.form,20,45,300,320);for(const i of e.spots)parts.push(`<circle cx="${110+i*110}" cy="220" r="13" fill="#e9bd54" stroke="#fff" stroke-width="4"/>`);
   parts.push('<rect x="355" y="50" width="335" height="325" rx="12" fill="#eee8cf"/>');
+  // The draw step became a written note, so most records have no strokes:
+  // show the magnified feature the learner looked at instead of an empty panel.
+  if(!e.drawing.length&&e.spots.length){
+   const [px,py]=FORM_SPOTS[e.form][e.spots[0]],cx=522,cy=212,R=140,S=830;
+   parts.push(`<clipPath id="zoom-${e.form}"><circle cx="${cx}" cy="${cy}" r="${R}"/></clipPath><circle cx="${cx}" cy="${cy}" r="${R}" fill="#fffbed"/><g clip-path="url(#zoom-${e.form})">`);
+   await img(e.form,cx-px*S,cy-py*S,S,S);
+   parts.push(`</g><circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="#b88a3a" stroke-width="8"/>`);
+  }
   for(const stroke of e.drawing)parts.push(`<polyline points="${stroke.map(p=>[365+p[0]*315,60+p[1]*305].join(',')).join(' ')}" fill="none" stroke="#285e45" stroke-width="4" stroke-linecap="round"/>`);
-  text(360,420,'확대 관찰 두 부분 · 네 모습을 살핀 공통 관찰 노트',21);text(360,464,(e.note.length>30?e.note.slice(0,30)+'…':e.note)||'관찰한 특징 기록',21);
+  text(360,420,'확대 관찰 · 네 모습을 살핀 공통 관찰 노트',21);text(360,464,(e.note.length>30?e.note.slice(0,30)+'…':e.note)||'관찰한 특징 기록',21);
  }else if(e.type==='retry'){
   const day=Math.max(...e.photos),growth=condition=>condition.water&&condition.warm?(day>=6?3:day>=4?2:day>=2?1:0):0;
   for(const[side,i]of ['a','b'].map((k,i)=>[k,i])){const c=e.conditions[side],x=180+i*360;await img('pot'+growth(c),x-155,50,310,290);text(x,35,'화분 '+side.toUpperCase());text(x,365,'물 '+(c.water?'있음':'없음')+' · '+(c.warm?'따뜻함':'차가움'));}

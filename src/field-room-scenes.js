@@ -1,4 +1,4 @@
-import {SORT_CARDS,SORT_BINS} from './field-content.js';
+import {SORT_CARDS,SORT_BINS,CORE_PLANT_CARDS} from './field-content.js';
 import {reducedMotion} from './game-motion.js';
 import {roomPhase} from './field-flow.js';
 import {renderObservationRoom} from './field-observation-scenes.js';
@@ -12,6 +12,7 @@ const ROOM_ART=[['fieldClearing','egg','larva','pupa','adult','leaf','observatio
 const QUEST_ART=[['leaf','pupa','egg','larva','adult'],['vessel','pot0'],['pot3','pale'],['appleSpring','balsamSprout','storyCamera'],['storyCamera']];
 export const fieldRoomAssets=ctx=>[...new Set([...ROOM_ART[ctx.s.field.active],...(ctx.s.field.active===3?SORT_CARDS.map(c=>c.art).filter(Boolean):[]),...QUEST_ART[ctx.s.field.active],FIELD_CHAPTERS[ctx.s.field.active].art,'paperCard','rewardRays'])];
 const names={water:'물',warm:'온도',light:'빛'}, seasons=['첫봄','여름','가을','겨울','다음 봄'];
+const APPLES=['appleSpring','appleSummer','apple','winter','appleSpring'],BALSAMS=['balsamSprout','balsam','balsamSeeds','balsamDry','balsamSprout'];
 export function renderFieldRoom(v,ctx){
  const f=ctx.s.field,c=f.active,q=f.chapters[c],phase=roomPhase(f),act=(type,payload={})=>ctx.emit('act',{type,payload});
  const target=(x,y,w,h,id,label)=>v.drop(x,y,w,h,id,label,()=>ctx.emit('target',id));
@@ -26,6 +27,28 @@ export function renderFieldRoom(v,ctx){
  const line=(x1,y1,x2,y2)=>v.add.graphics().lineStyle(5,0xffe8a9,.9).lineBetween(x1,y1,x2,y2);
  const tag=(x,y,text)=>v.label(x,y,text,22,250);
  const dayDial=(key,x,y,value,max,type,payload={},labels)=>{v.dial(key,x,y,value,max,'dial',labels);ctx.ui.dial={type,payload};};
+ const choice=(x,y,w,text,fn,subject)=>{v.add.graphics().fillStyle(0xfff7d9).fillRoundedRect(x-w/2,y-26,w,52,14).lineStyle(3,0xa88a43).strokeRoundedRect(x-w/2,y-26,w,52,14);v.text(x,y,text,21,w-12,'#244d3c');v.click(x,y,w,52,fn,subject+': '+text);};
+ // One plant's year as small photos on a tag line. An unbroken line means the
+ // same plant lived on; for balsam the line breaks into a seed arrow before the
+ // new B-02 sprout, so a new generation is visible, not just told.
+ const yearStrip=(id,x,y,steps,{current=-1,shown=()=>true,gap=70}={})=>{
+  const apple=id==='apple',arts=apple?APPLES:BALSAMS,xs=steps.map((_,i)=>x+(i-(steps.length-1)/2)*gap),by=y+44,line=v.add.graphics();
+  for(let i=0;i<steps.length-1;i++){
+   if(!shown(steps[i])||!shown(steps[i+1]))continue;
+   if(apple||steps[i+1]!==4){line.lineStyle(6,0x5d8a4a,.95).lineBetween(xs[i],by,xs[i+1],by);continue;}
+   for(let t=.15;t<.75;t+=.2)line.lineStyle(4,0x9b6a3a).lineBetween(xs[i]+(xs[i+1]-xs[i])*t,by,xs[i]+(xs[i+1]-xs[i])*(t+.1),by);
+   line.fillStyle(0x9b6a3a).fillTriangle(xs[i+1]-24,by-7,xs[i+1]-24,by+7,xs[i+1]-12,by);
+  }
+  steps.forEach((n,i)=>{
+   const sx=xs[i],on=n===current;
+   v.add.graphics().fillStyle(0xfffbed,.96).fillRoundedRect(sx-27,y-27,54,54,10).lineStyle(on?4:2,on?0xd39b36:0xb9a676).strokeRoundedRect(sx-27,y-27,54,54,10);
+   if(!shown(n)){v.text(sx,y,'?',24,40,'#8a7a55');return;}
+   v.pic(arts[n],sx,y,48,48);
+   const chip=apple?'A-01':n===4?'B-02':n===3?'씨앗':'B-01',seed=!apple&&n===3,born=!apple&&n===4;
+   v.add.graphics().fillStyle(born?0xd6ecc9:seed?0xf6e2c8:0xfff4cf).fillRoundedRect(sx-27,by-12,54,24,8).lineStyle(2,born?0x3f7a4e:0x8a6a35).strokeRoundedRect(sx-27,by-12,54,24,8);
+   v.text(sx,by,chip,15,52,born?'#21573b':seed?'#7a3f1c':'#4a3a1a');
+  });
+ };
  if(phase==='discovery'){renderQuestRoom(v,ctx);return;}
  if(phase==='ready'){
   v.pic(c===4?'guideStory':'guideCare',370,440,370,440);const art=FIELD_CHAPTERS[c].art;
@@ -41,28 +64,40 @@ export function renderFieldRoom(v,ctx){
  if(c===3){
   if(phase==='animals'||phase==='animal-birth'){
    // Centres of the two easel boards painted in the garden background.
-   const BX=[452,825],a=q.animals;v.pic(['egg','larva','pupa','adult'][a.butterfly.step],BX[0],345,a.butterfly.step===0?110:230);v.pic(['puppy','dogYoung','dog'][a.dog.step],BX[1],345,250,230);v.label(BX[0],205,'나비의 시간',26,300);v.label(BX[1],205,'개의 시간',26,300);
+   const BX=[452,825],a=q.animals;v.pic(['egg','larva','pupa','adult'][phase==='animal-birth'?3:a.butterfly.step],BX[0],345,phase==='animal-birth'?230:a.butterfly.step===0?110:230);v.pic(['puppy','dogYoung','dog'][a.dog.step],BX[1],345,250,230);v.label(BX[0],205,'나비의 시간',26,300);v.label(BX[1],205,'개의 시간',26,300);
    if(phase==='animals'){
     v.dial('timeWheel',BX[0],598,a.butterfly.step,3,'animal-dial-butterfly',['알','애벌레','번데기','어른벌레'],168);v.dial('timeWheel',BX[1],598,a.dog.step,2,'animal-dial-dog',['갓 태어난 강아지','어린 개','다 자란 개'],168);
    }else{v.pic('egg',BX[0],590,100/3);v.pic('puppy',BX[1],590,130);target(630,465,220,95,'birth-different','부모와 다른 생명');v.label(630,465,'부모와 다른 생명',24,250);target(630,590,220,85,'birth-same','부모와 같은 몸');v.label(630,590,'부모와 같은 몸',24,230);token('다음 세대',630,290,'birth',{},200);}
    return;
   }
   if(['tags','seasons','plant-identity'].includes(phase)){
-   const step=phase==='plant-identity'?4:q.season;const apples=['appleSpring','appleSummer','apple','winter','appleSpring'],balsams=['balsamSprout','balsam','balsamSeeds','balsamDry','balsamSprout'];
-   plant(apples[step],452,335,265);plant(balsams[step],825,345,240);target(452,330,320,300,'plant-apple','사과나무 이름표');target(825,330,320,300,'plant-balsam','봉선화 이름표');
-   v.label(452,205,'사과나무'+(q.tags.includes('apple')?' · A-01':''),27,340);v.label(825,205,'봉선화'+(q.tags.includes('balsam')?(step===4?' · B-02':' · B-01'):''),27,340);
+   const step=q.season,balsamNew=step===4&&phase!=='tags';
+   plant(APPLES[step],452,335,265);
+   // Next spring: last year's B-01 plant is gone (a faded husk with its old tag); the sprout beside it is new.
+   if(balsamNew){v.pic('balsamDry',730,410,110).setAlpha(.38);tagShape('B-01',738,470).setScale(.55).setAngle(16).setAlpha(.7);plant('balsamSprout',870,355,200);}
+   else plant(BALSAMS[step],825,345,240);
+   target(452,330,320,300,'plant-apple','사과나무 이름표');target(825,330,320,300,'plant-balsam','봉선화 이름표');
+   v.label(452,205,'사과나무'+(q.tags.includes('apple')?' · A-01':''),27,340);v.label(825,205,'봉선화'+(q.tags.includes('balsam')?(balsamNew?' · B-02':' · B-01'):''),27,340);
    // Tags already hung show on the plant; unused tags wait in the tray below.
-   if(q.tags.includes('apple'))tagShape('A-01',548,250);if(q.tags.includes('balsam'))tagShape(step===4?'B-02':'B-01',915,250);
-   if(phase==='tags'){v.label(640,535,'이름표를 끌어 식물에 달아 줘',23,420);if(!q.tags.includes('apple'))nameTag('A-01',540,610,{plant:'apple'});if(!q.tags.includes('balsam'))nameTag('B-01',740,610,{plant:'balsam'});}
-   if(phase==='seasons'){dayDial('seasonCompass',1115,470,step,4,'season',{},seasons);v.label(650,600,step===3?'봉선화의 씨앗과 사과나무의 줄기를 찾아봐.':step===4?'씨앗에서 새 봉선화가 자랐어.':'이름표를 따라 같은 식물을 찾아봐.',24,760);}
-   if(phase==='plant-identity'){token('작년 그 식물',452,620,'identity',{answer:'same'},210);token('새로 자란 식물',825,620,'identity',{answer:'new'},210);v.text(640,540,'다음 봄 · A-01의 줄기 / B-01이 남긴 씨앗',24,800);}
+   if(q.tags.includes('apple'))tagShape('A-01',548,250);if(q.tags.includes('balsam'))tagShape(balsamNew?'B-02':'B-01',915,250);
+   if(phase==='tags'){v.label(640,535,'이름표를 끌어 식물에 달아 줘',23,420);if(!q.tags.includes('apple'))nameTag('A-01',540,610,{plant:'apple'});if(!q.tags.includes('balsam'))nameTag('B-01',740,610,{plant:'balsam'});return;}
+   // Each plant's year sits under its easel, so last year and this year are compared side by side.
+   const shown=id=>n=>n<=step||q.plantPhotos.includes(`${id}-${n}`);
+   yearStrip('apple',452,525,[0,1,2,3,4],{current:step,shown:shown('apple')});yearStrip('balsam',825,525,[0,1,2,3,4],{current:step,shown:shown('balsam')});
+   dayDial('seasonCompass',1115,470,step,4,'season',{},seasons);
+   if(phase==='seasons')v.label(640,640,step<3?'시간을 겨울과 다음 봄까지 돌려 봐.':'이름표 줄이 끊기지 않고 이어질까?',23,620);
+   else for(const [id,x,name] of [['apple',452,'사과나무'],['balsam',825,'봉선화']]){
+    const answer=q.classifications[id];
+    if(answer)v.label(x,640,answer==='same'?'✓ 작년 그 나무 · 겨울을 견뎠어':'✓ 씨앗에서 새로 자란 봉선화',21,340);
+    else{choice(x-80,640,150,'작년 그 식물',()=>act('plant-classify',{plant:id,answer:'same'}),name);choice(x+80,640,150,'새로 자란 식물',()=>act('plant-classify',{plant:id,answer:'new'}),name);}
+   }
    return;
   }
   if(phase==='transfer'){
    // 생물 탐정 분류: unsorted cards on top, two answer boxes below. Animals first, then plants.
-   const animalsDone=SORT_CARDS.filter(x=>x.group==='animal').every(x=>q.transfers[x.id]===x.bin),group=animalsDone?'plant':'animal';
-   const cards=SORT_CARDS.filter(x=>x.group===group),left=cards.filter(x=>q.transfers[x.id]!==x.bin);
-   v.label(640,205,`${group==='animal'?'이 동물들은 어떻게 태어날까?':'이 식물들은 겨울을 어떻게 날까?'}  ${cards.length-left.length}/${cards.length}`,26,900);
+   const group='plant';
+   const cards=SORT_CARDS.filter(x=>CORE_PLANT_CARDS.includes(x.id)),left=cards.filter(x=>q.transfers[x.id]!==x.bin);
+   v.label(640,205,`사과나무처럼 살까, 봉선화처럼 살까?  ${cards.length-left.length}/${cards.length}`,24,1000);
    const card=(x,y,c,small=false)=>{
     const w=small?96:150,h=small?104:170,g=v.add.graphics().fillStyle(0xfffbed).fillRoundedRect(-w/2,-h/2,w,h,14).lineStyle(3,0x8a6a35).strokeRoundedRect(-w/2,-h/2,w,h,14);
     const parts=[g];
@@ -74,9 +109,13 @@ export function renderFieldRoom(v,ctx){
    SORT_BINS[group].forEach(([bin,title],i)=>{
     const x=i?885:395,y=600,w=440,h=200;
     v.add.graphics().fillStyle(0xfffbed,.88).fillRoundedRect(x-w/2,y-h/2,w,h,18);v.dashedBox(x,y,w,h);
-    v.label(x,y-h/2,title,24,400);
+    v.label(x,y-h/2,title,24,420);
     target(x,y,w,h,'sort-'+bin,title+' 상자');
-    cards.filter(c=>q.transfers[c.id]===bin).forEach((c,n)=>card(x-150+n*100,y+18,c,true));
+    // The garden plants the child just tracked are the worked example for each box.
+    const example=bin==='many'?'apple':'balsam';
+    yearStrip(example,x-118,y-8,[0,3,4],{gap:64});
+    v.text(x-118,y+70,example==='apple'?'예: 사과나무 A-01':'예: 봉선화 B-01 → B-02',16,200,'#4a3a1a');
+    cards.filter(c=>q.transfers[c.id]===bin).forEach((c,n)=>card(x+60+n*100,y+18,c,true));
    });
    return;
   }

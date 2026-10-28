@@ -37,6 +37,6 @@ export function renderSettings(options={}) {
   return {title:C.title,body,actions:button('탐구 기록 초기화','reset','quiet-button')+button('닫기','close','primary'),className:'settings-dialog'};
 }
 
-export function renderResetConfirm() {
-  return {title:C.resetTitle,body:`<p>${esc(C.resetText)}</p>`,actions:button('취소','settings','', 'autofocus')+button('기록 지우기','reset-confirm','danger'),className:'reset-dialog'};
+export function renderResetConfirm(cancel='settings') {
+  return {title:C.resetTitle,body:`<p>${esc(C.resetText)}</p>`,actions:button('취소',cancel,'', 'autofocus')+button('기록 지우기','reset-confirm','danger'),className:'reset-dialog'};
 }

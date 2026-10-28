@@ -29,6 +29,7 @@ for(const chapter of fieldShape.chapters)delete chapter.discovery;
 for(const key of ['drawingForm','noteDraft'])delete fieldShape.chapters[0][key];
 for(const round of fieldShape.chapters[1].rounds){delete round.report;delete round.legacyReport;}
 for(const task of fieldShape.chapters[2].cases)delete task.observations;
+delete fieldShape.chapters[3].seasonCompared;
 delete fieldShape.chapters[4].drafts;
 function sameShape(value,shape){
  if(shape===null)return value===null||typeof value==='string'||Number.isFinite(value)||savedObject(value);

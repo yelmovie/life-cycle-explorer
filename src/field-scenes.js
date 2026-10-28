@@ -190,7 +190,10 @@ export function createFieldGame(context){
    // Canvas mode has no tint, so a dim, greyed copy of the map stands for the sleeping forest.
    if(!title&&!this.textures.exists('forestMapSleep')){const src=this.textures.get('forestMap').getSourceImage(),t=this.textures.createCanvas('forestMapSleep',src.width,src.height),c=t.getContext();c.filter='grayscale(.7) brightness(.72)';c.drawImage(src,0,0);t.refresh();}
    for(const j of title?[0]:[-1,0,1])this.pic(title?'forestMap':'forestMapSleep',640,400+j*H,W,H).setDisplaySize(W,H).setFlipY(j!==0);
-   this.add.rectangle(640,400,W,H*3,0x173d36,title?.12:.18);
+   // Once every region is restored the whole forest wakes, not only the landmark circles.
+   const awake=!title&&completed.length>=5;
+   if(awake){const fresh=context.ui.restoreChapter===4&&!reducedMotion(s.settings);for(const j of [-1,0,1]){const day=this.pic('forestMap',640,400+j*H,W,H).setDisplaySize(W,H).setFlipY(j!==0);if(fresh){day.setAlpha(0);this.tweens.add({targets:day,alpha:1,duration:2400,ease:'Sine.easeInOut'});}}}
+   this.add.rectangle(640,400,W,H*3,0x173d36,title?.12:awake?.04:.18);
    if(title)return;
    lightRestoredLandmarks(this,context);
    const pos=nearest([s.avatar.x,s.avatar.y]),point=POINTS[pos];

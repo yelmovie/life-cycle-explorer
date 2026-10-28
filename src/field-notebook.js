@@ -52,10 +52,10 @@ export function createFieldNotebook(ctx){
  }
  function observe(form,spot){
   if(!FORMS.includes(form))return;
-  const q=ctx.s.field.chapters[0],seen=q.inspected[form],next=FORMS.flatMap(id=>[0,1].map(n=>({id,n}))).find(a=>!q.inspected[a.id].includes(a.n)),total=FORMS.reduce((n,id)=>n+q.inspected[id].length,0);
-  const nextText=next?`다음은 ${FORM_NAMES[next.id]}의 ${next.n+1}번째 특징을 살펴봐.`:'이제 네가 본 특징을 그림과 네 말로 남겨 줘.';
+  const q=ctx.s.field.chapters[0],seen=q.inspected[form],next=FORMS.map(id=>({id})).find(a=>!q.inspected[a.id].length),total=FORMS.filter(id=>q.inspected[id].length>0).length;
+  const nextText=next?`다음은 ${FORM_NAMES[next.id]}의 특징을 살펴봐.`:'이제 네가 본 특징을 그림과 네 말로 남겨 줘.';
   const traits=seen.map(n=>`<li><span class="notebook-check">✓</span><span class="notebook-hand" data-handwriting="${esc(FORM_TRAITS[form][n])}">${esc(FORM_TRAITS[form][n])}</span></li>`).join('');
-  return mount({title:FORM_NAMES[form]+' 관찰 노트',body:`<div class="notebook-book"><div class="notebook-specimen"><div class="specimen-3d" data-specimen-3d>${img(form,FORM_NAMES[form]+' 확대 모습')}<span class="specimen-3d-hint" aria-hidden="true">끌어서 돌려 보기</span></div><span class="notebook-photo-caption">돋보기로 자세히 본 모습</span><span class="notebook-scale-note">확대한 모형 · 실제 크기와 달라</span></div><section class="notebook-page"><p class="notebook-kicker">화면에서 확인한 특징 · 자동 정리</p><h3>${FORM_NAMES[form]}의 관찰 단서</h3><ol class="notebook-findings">${traits}</ol><p class="notebook-stamp">새 단서 기록! ${total}/8</p><p class="notebook-next">${esc(nextText)}</p></section></div>`,actions:`<button type="button" data-notebook-skip>글 바로 보기</button><button type="button" class="primary" data-notebook-close>${next?'다음 특징 살피기':'내 글·그림 남기러 가기'}</button>`,specimen:form});
+  return mount({title:FORM_NAMES[form]+' 관찰 노트',body:`<div class="notebook-book"><div class="notebook-specimen"><div class="specimen-3d" data-specimen-3d>${img(form,FORM_NAMES[form]+' 확대 모습')}<span class="specimen-3d-hint" aria-hidden="true">끌어서 돌려 보기</span></div><span class="notebook-photo-caption">돋보기로 자세히 본 모습</span><span class="notebook-scale-note">확대한 모형 · 실제 크기와 달라</span></div><section class="notebook-page"><p class="notebook-kicker">화면에서 확인한 특징 · 자동 정리</p><h3>${FORM_NAMES[form]}의 관찰 단서</h3><ol class="notebook-findings">${traits}</ol><p class="notebook-stamp">모습 관찰! ${total}/4</p><p class="notebook-next">${esc(nextText)}</p></section></div>`,actions:`<button type="button" data-notebook-skip>글 바로 보기</button><button type="button" class="primary" data-notebook-close>${next?'다음 특징 살피기':'내 글·그림 남기러 가기'}</button>`,specimen:form});
  }
  function capture(type,payload){
   const entry=photoNotebookEntry(ctx.s,type,payload);if(!entry)return;

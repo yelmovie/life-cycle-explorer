@@ -102,6 +102,8 @@ export function renderQuestRoom(v,ctx){
   const x=obj.x,y=obj.y;obj.setInteractive({useHandCursor:true});v.input.setDraggable(obj);obj.on('dragstart',()=>obj.setDepth(35));obj.on('drag',(_,dx,dy)=>obj.setPosition(dx,dy));obj.on('drop',(_,zone)=>onDrop(zone.getData('quest-target')));obj.on('dragend',()=>v.tweens.add({targets:obj,x,y,duration:reduced?1:180}));
  };
  const destination=(x,y,w,h,value,fn)=>{const z=v.add.zone(x,y,w,h).setRectangleDropZone(w,h).setData('quest-target',value);v.click(x,y,w,h,fn,'발견 연결: '+value);return z;};
+ // Translucent backing panel so the busy room art doesn't swallow the quest pictures.
+ v.add.graphics().fillStyle(0xfffbed,.62).fillRoundedRect(100,185,1080,500,28).lineStyle(3,0xfffbed,.9).strokeRoundedRect(100,185,1080,500,28);
  label(640,220,mission.name+' · '+mission.steps[step],28,850);
  // One completed stamp stays visible while the second discovery is in progress.
  if(step===1){const stamp=v.add.container(1095,270);stamp.add([v.add.circle(0,0,29,0x477b56),v.text(0,0,'1 ✓',21,65,'#fffbea')]);}

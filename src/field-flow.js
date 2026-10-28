@@ -1,4 +1,4 @@
-import {SORT_CARDS} from './field-content.js';
+import {SORT_CARDS,CORE_PLANT_CARDS} from './field-content.js';
 import {fieldReady,seedReportDone,fieldRecords,fieldPhase,towerStep} from './field-model.js';
 import {questReady,questInfo} from './field-quests.js';
 import {FIELD_CHAPTERS,FIELD_REPLAY_GOALS,FORM_NAMES} from './field-content.js';
@@ -6,9 +6,9 @@ import {icon} from './ui-icons.js';
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const fieldButton=(label,action,payload={},symbol='')=>`<button class="tool-button" data-field-action="${action}" data-payload="${esc(JSON.stringify(payload))}">${symbol?icon(symbol):''}<span>${label}</span></button>`;
 export function roomPhase(f){
- const c=f.active,q=f.chapters[c];if(fieldReady(f,c))return (!f.completed.includes(c)||f.discoveryVisit===c)&&!questReady(f,c)?'discovery':'ready';
+ const c=f.active,q=f.chapters[c];if(fieldReady(f,c))return f.discoveryVisit===c&&!questReady(f,c)?'discovery':'ready';
  if(c===0){
-  if(!Object.values(q.inspected).every(p=>p.length>=2))return 'search';
+  if(!Object.values(q.inspected).every(p=>p.length>=1))return 'search';
   if(fieldPhase(f,c)==='draw')return 'draw';
   if(q.order.join()!=='egg,larva,pupa,adult')return 'film';return 'generation';
  }
@@ -18,7 +18,7 @@ export function roomPhase(f){
   if(![0,3].every(n=>q.animals.butterfly.photos.includes(n))||![0,2].every(n=>q.animals.dog.photos.includes(n)))return 'animals';
   if(q.generation!=='different')return 'animal-birth';
   if(q.tags.length<2||!['apple-0','balsam-0'].every(k=>q.plantPhotos.includes(k)))return 'tags';
-  if(!['apple-3','balsam-3','apple-4','balsam-4'].every(k=>q.plantPhotos.includes(k)))return 'seasons';
+  if(!['apple-3','balsam-3','apple-4','balsam-4'].every(k=>q.plantPhotos.includes(k))||!q.seasonCompared)return 'seasons';
   if(q.classifications.apple!=='same'||q.classifications.balsam!=='new')return 'plant-identity';return 'transfer';
  }
  {const step=towerStep(f);return step==='ready'?'plan':step;}
@@ -26,8 +26,8 @@ export function roomPhase(f){
 export function roomUI(s,ui){
  const f=s.field,c=f.active,q=f.chapters[c],phase=roomPhase(f),r=FIELD_CHAPTERS[c];let objective=r.goal,controls='',next='발견 기록',nextAction='hint';
  const action=(label,type,payload={},symbol='')=>fieldButton(label,type,payload,symbol);
- if(phase==='discovery')return {phase,...questInfo(f)};
- if(phase==='ready')return {phase,objective:f.completed.includes(c)?FIELD_REPLAY_GOALS[c]:'네가 찾은 기록으로 숲을 깨울 준비가 됐어.',controls:f.completed.includes(c)?(!questReady(f,c)?fieldButton('새 발견 미션','discovery-enter',{chapter:c},'lens'):'')+fieldButton(c===4?'새 이야기 만들기':'다시 탐사하기','chapter-restart',{chapter:c},'reset'):'',next:c===4?'숲의 시간 잇기':f.completed.includes(c)?'숲으로 돌아가기':r.reward+' 받기',nextAction:'complete'};
+ if(phase==='discovery')return {phase,...questInfo(f),controls:action('나중에 할게','discovery-exit',{},'left')};
+ if(phase==='ready')return {phase,objective:f.completed.includes(c)?FIELD_REPLAY_GOALS[c]:'네가 찾은 기록으로 숲을 깨울 준비가 됐어.',controls:(!questReady(f,c)?fieldButton('(선택) 새 발견 미션','discovery-enter',{chapter:c},'lens'):'')+(f.completed.includes(c)?fieldButton(c===4?'새 이야기 만들기':'다시 탐사하기','chapter-restart',{chapter:c},'reset'):''),next:c===4?'숲의 시간 잇기':f.completed.includes(c)?'숲으로 돌아가기':r.reward+' 받기',nextAction:'complete'};
  if(c===0){
   if(phase==='search'){objective='돋보기를 움직여 나비의 네 모습을 살펴봐.';next='관찰한 단서 보기';}
   if(phase==='draw'){objective='직접 본 특징을 한 문장으로 남겨 줘.';controls='';next='내 기록 확인';}
@@ -50,12 +50,12 @@ export function roomUI(s,ui){
   if(phase==='care-next'){objective='다른 화분도 같은 도움이 필요할까?';next='다른 화분 조사';nextAction='care-next';}
  }
  if(c===3){
-  if(phase==='animals'){objective='두 생물의 시간을 따로 움직이며 처음과 끝을 찍어 줘.';controls=action('나비 사진','animal-photo',{animal:'butterfly'},'camera')+action('개 사진','animal-photo',{animal:'dog'},'camera');next='태어난 모습 비교';}
+  if(phase==='animals'){objective=[0,3].every(n=>q.animals.butterfly.photos.includes(n))?'나비 기록을 가져왔어. 개의 시간을 움직여 비교해 봐.':'나비와 개의 처음과 다 자란 모습을 살펴봐.';next='태어난 모습 비교';}
   if(phase==='animal-birth'){objective='부모와 새로 태어난 생명은 같은 몸일까?';next='다음 세대 확인';}
-  if(phase==='tags'){objective='두 식물에 이름표를 달고 첫봄의 모습을 찍어 줘.';controls=action('사과나무 사진','season-photo',{plant:'apple'},'camera')+action('봉선화 사진','season-photo',{plant:'balsam'},'camera');next='이름표 확인';}
-  if(phase==='seasons'){objective='겨울과 다음 봄에도 이름표과 씨앗을 찾아 찍어 줘.';controls=action('사과나무 사진','season-photo',{plant:'apple'},'camera')+action('봉선화 사진','season-photo',{plant:'balsam'},'camera');next='시간 기록 확인';}
-  if(phase==='plant-identity'){objective='지난해 이름표과 새 씨앗의 이름표를 이어 줘.';next='작년 식물 확인';}
-  if(phase==='transfer'){objective=SORT_CARDS.filter(x=>x.group==='animal').every(x=>q.transfers[x.id]===x.bin)?'생물 탐정 ② 식물 카드를 겨울나기 방법으로 나눠 줘.':'생물 탐정 ① 동물 카드를 태어나는 방법으로 나눠 줘.';next='분류 확인';}
+  if(phase==='tags'){objective='두 식물에 이름표를 달아 첫봄 모습을 기록해 줘.';next='이름표 확인';}
+  if(phase==='seasons'){objective='겨울과 다음 봄을 보며 같은 식물이 살아남는지 찾아봐.';next='시간 기록 확인';}
+  if(phase==='plant-identity'){objective='이름표 줄을 보고 작년 그 식물인지, 새로 자란 식물인지 골라 줘.';next='작년 식물 확인';}
+  if(phase==='transfer'){objective='식물 카드를 한해살이와 여러해살이로 나눠 봐.';next='분류 확인';}
  }
  if(c===4){
   if(phase==='tower-slots'){objective='시계탑 네 칸에 지역마다 내 기록을 하나씩 끼워 줘.';controls=action('이전 기록','record-page',{delta:-1},'left')+action('다음 기록','record-page',{delta:1},'right');next='칸 확인';}

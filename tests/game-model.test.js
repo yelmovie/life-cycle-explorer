@@ -98,3 +98,6 @@ test('초기화 확인 중 구버전 원문이 바뀌어도 오래된 확인을 
  const f=fakeStorage([[G.STORAGE_KEY,'{broken']]);G.loadGame(f.storage);const before=G.getSaveStatus(f.storage).expectedRaw,next=JSON.stringify(preparedState(1));f.data.set(G.STORAGE_KEY,next);
  assert.equal(G.resetGame(f.storage,G.fresh(),before),false);assert.equal(f.data.has(G.GAME_KEY),false);assert.equal(f.data.get(G.STORAGE_KEY),next);
 });
+
+
+test('older saves without a season comparison flag remain readable',()=>{const prior=G.fresh();delete prior.field.chapters[3].seasonCompared;const raw=JSON.stringify(prior),storage=fakeStorage([[G.GAME_KEY,raw]]);const state=G.loadGame(storage.storage);assert.equal(G.getSaveStatus(storage.storage).ok,true);assert.equal(state.field.chapters[3].seasonCompared,false);});

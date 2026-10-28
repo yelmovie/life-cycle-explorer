@@ -51,7 +51,7 @@ button svg{flex:none;width:28px;height:28px;fill:none;stroke:currentColor;stroke
 .title-logo{display:block;width:100%;height:auto;max-height:36dvh;object-fit:contain;filter:drop-shadow(0 10px 12px #0b291d80)}
 .title-copy .title-hook{margin:0 0 12px;font-size:clamp(25px,1.9vw,34px);line-height:1.35;color:#fff4cf;text-wrap:balance}
 .title-copy .title-description{margin:0;font-size:clamp(19px,1.4vw,25px);line-height:1.65;color:#e6eddb;text-wrap:balance}
-.title-actions{display:flex;align-items:center;justify-content:center;gap:14px;margin:26px 0 20px;pointer-events:auto}
+.title-actions{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px;margin:26px 0 20px;pointer-events:auto}
 .title-actions .title-start{min-width:230px;min-height:68px;gap:24px;padding:16px 28px;border:2px solid #f6df9e;border-radius:18px;color:#29422c;background:linear-gradient(180deg,#fff0b5,#edc76e);box-shadow:0 5px 0 #886538,0 12px 30px #0a241e70,inset 0 1px 0 #fff9df;font-size:clamp(25px,1.9vw,31px);text-shadow:none;--button-edge:#886538}
 .title-actions .title-start:hover:not(:disabled){background:linear-gradient(180deg,#fff6d4,#f3d589);box-shadow:0 6px 0 #886538,0 16px 34px #0a241e80,inset 0 1px 0 #fff}
 .title-start svg{width:28px;height:28px;stroke-width:2.5}
@@ -207,3 +207,54 @@ dialog details{margin-top:8px;border-top:1px solid var(--color-border-soft)}dial
 
 .concept-stage .concept-duration{display:none}
 .ending-video{display:block;width:100%;aspect-ratio:16/9;border-radius:16px;margin:0 0 12px;background:#1e3a2e;object-fit:cover}
+
+/* Story films: full-bleed 16:9 stage; captions, place tags and stamps are DOM layers over the silent clip. */
+dialog.cinema-dialog{width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;padding:0;border:0;border-radius:0;background:#0d1f19;box-shadow:none}
+dialog.cinema-dialog[open]{grid-template:minmax(0,1fr)/minmax(0,1fr);place-items:center;gap:0;animation:cinema-in .5s ease-out}
+dialog.cinema-dialog::backdrop{background:#0d1f19}
+.cinema-dialog>h2{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.cinema-dialog>.close,.cinema-dialog>.dialog-actions,dialog.cinema-dialog .modal-portrait{display:none!important}
+.cinema-dialog>.modal-body{grid-area:1/1;display:grid;place-items:center;width:100%;height:100%;padding:0;overflow:hidden;scrollbar-gutter:auto}
+.cinema-stage{position:relative;container-type:inline-size;width:min(100vw,calc(100dvh * 16 / 9));aspect-ratio:16/9;overflow:hidden;background:#0d1f19 center/cover no-repeat;color:var(--cream-50);font-family:var(--font-display)}
+.cinema-video{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover}
+.cinema-shade{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(#0d1f1973,transparent 24%,transparent 60%,#0d1f19bf)}
+.cinema-caption{position:absolute;left:50%;bottom:7.5%;z-index:2;max-width:84%;margin:0;padding:.42em 1.15em .5em;border:2px solid #dfbb6480;border-radius:22px;background:#10261dcc;box-shadow:0 10px 30px #0006;color:var(--cream-50);font-size:clamp(20px,3cqw,46px);line-height:1.38;text-align:center;white-space:pre-line;word-break:keep-all;text-shadow:0 2px 6px #0009;opacity:0;transform:translate(-50%,12px);transition:opacity .35s ease,transform .35s ease;pointer-events:none}
+.cinema-caption.is-on{opacity:1;transform:translate(-50%,0)}
+.cinema-place{position:absolute;top:6.5%;left:3.5%;z-index:2;display:grid;gap:.1em;margin:0;padding:.45em 1.2em .55em .9em;border-left:6px solid var(--brass-400);border-radius:6px 20px 20px 6px;background:#fffbedeb;box-shadow:0 8px 22px #0d1f1955;color:var(--forest-900);opacity:0;transform:translateX(-18px);transition:opacity .5s ease,transform .5s ease;pointer-events:none}
+.cinema-place.is-on{opacity:1;transform:none}
+.cinema-place-kicker{color:var(--brass-700);font-size:clamp(14px,1.5cqw,22px)}
+.cinema-place-name{font-size:clamp(20px,2.6cqw,38px);line-height:1.15}
+.cinema-skip{position:absolute;top:4.5%;right:3%;z-index:5;min-width:48px;min-height:48px;padding:8px 20px;border:2px solid #fffbed99;border-radius:var(--radius-pill);background:#0d1f19a6;box-shadow:none;color:var(--cream-50);font-size:clamp(18px,1.7cqw,24px)}
+.cinema-skip:hover:not(:disabled){background:#0d1f19e0;color:var(--cream-50)}
+.cinema-play{position:absolute;left:50%;top:50%;z-index:5;min-height:64px;padding:12px 32px;transform:translate(-50%,-50%);border:2px solid #f6df9e;border-radius:18px;background:linear-gradient(#fff0b5,#edc76e);color:#29422c;font-size:clamp(22px,2.4cqw,32px);box-shadow:0 5px 0 #886538}
+.cinema-play:hover:not(:disabled){transform:translate(-50%,calc(-50% - 2px));background:linear-gradient(#fff4c8,#f0cf80)}
+.cinema-play[hidden],.cinema-skip[hidden],.cinema-card[hidden]{display:none}
+.cinema-progress{position:absolute;left:0;right:0;bottom:0;z-index:5;height:5px;background:#fffbed22}
+.cinema-progress span{display:block;height:100%;background:linear-gradient(90deg,var(--brass-400),#fff0b5);transform:scaleX(0);transform-origin:left;transition:transform .25s linear}
+.cinema-card{position:absolute;inset:0;z-index:3;display:grid;place-content:center;justify-items:center;gap:clamp(10px,1.6cqw,22px);padding:6%;text-align:center;background:radial-gradient(ellipse at 50% 46%,#173a2ce6,#0d1f19f5 72%);animation:cinema-card-in .7s ease-out both}
+.cinema-card p{margin:0}
+.cinema-card-logo{width:min(54cqw,640px);height:auto;filter:drop-shadow(0 10px 26px #000a)}
+.cinema-card-line{max-width:32em;font-size:clamp(20px,2.5cqw,34px);line-height:1.4;word-break:keep-all;color:var(--cream-100)}
+.cinema-card button{min-height:60px;padding:10px 30px;font-size:clamp(22px,2.3cqw,30px)}
+.cinema-card button.primary,.cinema-card button.primary:hover:not(:disabled){background:linear-gradient(#4a7859,var(--color-primary));color:var(--cream-50)}
+.cinema-card button.gold,.cinema-card button.gold:hover:not(:disabled){background:linear-gradient(#f5dda2,var(--color-accent));color:#29422c}
+.cinema-card-medal{position:relative;width:clamp(110px,17cqw,230px);height:auto;filter:drop-shadow(0 0 28px #f6d27aaa);animation:cinema-medal-in .9s cubic-bezier(.2,1.4,.4,1) .15s both}
+.cinema-card-title{margin:0;color:#fff0b5;font-size:clamp(34px,5.2cqw,72px);font-weight:400;line-height:1.1;text-shadow:0 0 24px #dfbb6499,0 3px 0 #6b4e22}
+.cinema-final .cinema-card::before{content:'';position:absolute;left:50%;top:44%;z-index:-1;width:120cqw;aspect-ratio:1;translate:-50% -50%;background:repeating-conic-gradient(#f6d27a1f 0 6deg,transparent 6deg 18deg);-webkit-mask:radial-gradient(circle,#000 0,transparent 55%);mask:radial-gradient(circle,#000 0,transparent 55%);animation:cinema-rays 24s linear infinite}
+.cinema-card{isolation:isolate}
+.cinema-stamps{position:absolute;top:4.5%;left:50%;z-index:2;display:flex;gap:clamp(8px,1.5cqw,22px);margin:0;padding:.5em 1.1em;list-style:none;border:1px solid #dfbb6466;border-radius:var(--radius-pill);background:#10261db8;transform:translateX(-50%);transition:box-shadow .6s ease,border-color .6s ease}
+.cinema-stamps li{display:grid;justify-items:center;gap:.25em;min-width:4.6em;color:#fffbedaa;font-size:clamp(12px,1.2cqw,18px);white-space:nowrap;transition:color .4s ease}
+.cinema-stamp-seal{display:grid;place-items:center;width:clamp(28px,3.4cqw,50px);aspect-ratio:1;border:2px dashed #fffbed70;border-radius:50%;color:#fffbed80;font-size:clamp(14px,1.5cqw,22px);transition:background .3s ease,border-color .3s ease}
+.cinema-stamps li.is-lit{color:var(--cream-50)}
+.cinema-stamps li.is-lit .cinema-stamp-seal{border:2px solid #fff3c4;background:radial-gradient(circle at 35% 30%,#fff6d0,var(--brass-400) 60%,var(--brass-700));color:var(--forest-900);font-size:0;animation:cinema-stamp .55s cubic-bezier(.2,1.5,.4,1) both}
+.cinema-stamps li.is-lit .cinema-stamp-seal::after{content:'✓';font-size:clamp(16px,1.8cqw,26px)}
+.cinema-stage.is-glow .cinema-stamps{border-color:#f6df9e;box-shadow:0 0 34px #dfbb64aa}
+.cinema-stage.is-card .cinema-stamps{z-index:4;top:5%}
+.cinema-stage.is-card .cinema-place{opacity:0}
+.cinema-stage.is-card .cinema-video{visibility:hidden}
+.cinema-final .cinema-card{padding-top:12%}
+@keyframes cinema-in{from{opacity:0}to{opacity:1}}
+@keyframes cinema-card-in{from{opacity:0}to{opacity:1}}
+@keyframes cinema-medal-in{from{opacity:0;transform:scale(.4) rotate(-25deg)}to{opacity:1;transform:none}}
+@keyframes cinema-stamp{0%{transform:scale(1.8) rotate(-18deg);opacity:0}60%{transform:scale(.9) rotate(4deg);opacity:1}100%{transform:none}}
+@keyframes cinema-rays{to{rotate:360deg}}

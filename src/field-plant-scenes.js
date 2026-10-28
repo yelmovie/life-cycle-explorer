@@ -79,10 +79,12 @@ export function renderPlantRoom(v,ctx,phase){
    }
   }
   if(phase==='prepare'){
-   observationMat(1070,465,300,430);v.text(1070,282,'재료',26,200);
-   tool('soil',1070,385,'soil',{},'흙 주머니를 화분으로 옮기기',190);
-   label(1070,490,'흙 주머니',23,250);
-   v.marker(tool('seed0',1070,575,'seed',{},'씨앗 한 알을 화분으로 옮기기',115/3),40,'콩 한 알');
+   // Narrower and pushed right so pot B keeps the same gap as between the pots.
+   const mx=1115;
+   observationMat(mx,465,230,430);v.text(mx,282,'재료',26,200);
+   tool('soil',mx,385,'soil',{},'흙 주머니를 화분으로 옮기기',180);
+   label(mx,490,'흙 주머니',23,210);
+   v.marker(tool('seed0',mx,575,'seed',{},'씨앗 한 알을 화분으로 옮기기',115/3),40,'콩 한 알');
    label(590,650,'재료를 끌거나 화분 아래 버튼을 눌러 봐.',23,760);
   }
   if(phase==='design'&&ctx.ui.waterFx){

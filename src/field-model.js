@@ -1,6 +1,6 @@
 import {TEXT_LIMITS,PLAN_LIMITS,preserveText,meaningfulText} from './field-writing.js';
 import {normalizeDiscovery} from './field-quest-state.js';
-import {SORT_CARDS} from './field-content.js';
+import {SORT_CARDS,CORE_PLANT_CARDS} from './field-content.js';
 
 // The field notebook is independent of the earlier inquiry and expedition saves.
 // It contains observations made by the learner, never inferred chapter rewards.
@@ -31,7 +31,7 @@ export function initialField() {
       {inspected:Object.fromEntries(FIELD_FORMS.map(id => [id, []])), drawing:[], drawingForm:'larva',note:'',noteDraft:null, order:['pupa','egg','adult','larva'], generation:'',discovery:[]},
       {round:0, rounds:[seedRound('water'), seedRound('warm')],discovery:[]},
       {case:0, cases:[careCase('water'), careCase('light')],discovery:[]},
-      {animals:{butterfly:{step:0, photos:[]}, dog:{step:0, photos:[]}}, generation:'', tags:[], season:0, plantPhotos:[], classifications:{}, transfers:{},discovery:[]},
+      {animals:{butterfly:{step:0, photos:[]}, dog:{step:0, photos:[]}}, generation:'', tags:[], season:0, plantPhotos:[], seasonCompared:false, classifications:{}, transfers:{},discovery:[]},
       {records:[], title:'', captions:{}, drafts:{captions:{},story:{},plan:{}},summary:'', matches:{}, towerRun:false, plan:{subject:'', when:'', what:''},discovery:[]},
     ],
   };
@@ -59,13 +59,13 @@ export const seedExpectation=round=>round.run?.prediction==='unsure'?'unsure':ro
 export const seedReportDone=round=>round.legacyReport===true||(round.report?.result==='b'&&round.report?.expectation===seedExpectation(round));
 const seedDone = round => !!round.run && seedPhotosDone(round) && round.reason === round.variable && seedReportDone(round);
 const careDone = task => task.measured.includes('water') && task.measured.includes('light') && task.symptom === (task.variable === 'water' ? 'dry' : 'pale') && task.tool === task.variable && task.photos.includes(0) && task.photos.includes(2);
-const observed = chapter => FIELD_FORMS.every(form => chapter.inspected[form].includes(0) && chapter.inspected[form].includes(1));
+const observed = chapter => FIELD_FORMS.every(form => chapter.inspected[form].length > 0);
 const drawingDone = chapter => meaningfulText(chapter.note) >= 4;
 const filmDone = chapter => FIELD_FORMS.every((form,i) => chapter.order[i] === form);
 const animalDone = chapter => chapter.animals.butterfly.photos.includes(0) && chapter.animals.butterfly.photos.includes(3) && chapter.animals.dog.photos.includes(0) && chapter.animals.dog.photos.includes(2) && chapter.generation === 'different';
 const plantsSeen = chapter => ['apple','balsam'].every(plant => chapter.tags.includes(plant) && [0,3,4].every(step => chapter.plantPhotos.includes(`${plant}-${step}`)));
 const classificationsDone = chapter => chapter.classifications.apple === 'same' && chapter.classifications.balsam === 'new';
-const transfersDone = chapter => SORT_CARDS.every(card => chapter.transfers[card.id] === card.bin);
+const transfersDone = chapter => SORT_CARDS.filter(card => CORE_PLANT_CARDS.includes(card.id)).every(card => chapter.transfers[card.id] === card.bin);
 
 export function fieldUnlocked(field, chapter) {
   return numberIn(chapter,0,4) && (field.preview === true || chapter === 0 || Array.from({length:chapter},(_,i) => i).every(i => field.completed.includes(i)));
@@ -128,8 +128,8 @@ export function fieldRecords(field) {
   const records = [], [observation,seeds,care,comparison] = evidenceChapters;
   const names = {egg:'알',larva:'애벌레',pupa:'번데기',adult:'어른벌레'};
   for (const form of FIELD_FORMS) {
-    if (observation.inspected[form].length !== 2) continue;
-    records.push({id:`field-observation-${form}`,art:form,title:`${names[form]} 확대 관찰`,kind:'animal',detail:observation.note || '서로 다른 두 부분을 확대해 살펴봤어.',fieldEvidence:{chapter:0,type:'observation',form,spots:[...observation.inspected[form]],drawing:copy(observation.drawing),note:observation.note,drawingForm:observation.drawingForm}});
+    if (!observation.inspected[form].length) continue;
+    records.push({id:`field-observation-${form}`,art:form,title:`${names[form]} 확대 관찰`,kind:'animal',detail:observation.note || '모습의 특징을 확대해 살펴봤어.',fieldEvidence:{chapter:0,type:'observation',form,spots:[...observation.inspected[form]],drawing:copy(observation.drawing),note:observation.note,drawingForm:observation.drawingForm}});
   }
   for (const round of seeds.rounds) {
     if (!seedDone(round)) continue;
@@ -143,7 +143,7 @@ export function fieldRecords(field) {
   for (const animal of ['butterfly','dog']) {
     const last = animal === 'butterfly' ? 3 : 2, data = comparison.animals[animal];
     if (!data.photos.includes(0) || !data.photos.includes(last) || comparison.generation !== 'different') continue;
-    records.push({id:`field-animal-${animal}`,art:animal === 'butterfly' ? 'adult' : 'dog',title:animal === 'butterfly' ? '나비의 한살이' : '개의 한살이',kind:'animal',detail:'처음과 다 자란 모습을 각각 기록했어. 다음 세대는 새로 태어난 생명이야.',fieldEvidence:{chapter:3,type:'comparison',animal,photos:[...data.photos],generation:'different'}});
+    records.push({id:`field-animal-${animal}`,art:animal === 'butterfly' ? 'adult' : 'dog',title:animal === 'butterfly' ? '나비의 한살이' : '개의 한살이',kind:'animal',detail:animal === 'butterfly' ? '나비의 숲에서 관찰한 모습을 다시 살펴봤어. 다음 세대는 새로 태어난 생명이야.' : '처음과 다 자란 모습을 살펴봤어. 다음 세대는 새로 태어난 생명이야.',fieldEvidence:{chapter:3,type:'comparison',animal,photos:[...data.photos],generation:'different'}});
   }
   for (const plant of ['apple','balsam']) {
     if (!comparison.tags.includes(plant) || ![0,3,4].every(step => comparison.plantPhotos.includes(`${plant}-${step}`)) || comparison.classifications[plant] !== (plant === 'apple' ? 'same' : 'new')) continue;
@@ -152,7 +152,7 @@ export function fieldRecords(field) {
   return records;
 }
 
-const actionChapter = type => type.startsWith('seed-') ? 1 : type.startsWith('care-') ? 2 : ['animal-time','animal-photo','animal-generation','plant-tag','season','season-photo','plant-classify','transfer'].includes(type) ? 3 : type.startsWith('book-') || ['help-match','observation-plan','tower-run'].includes(type) ? 4 : ['inspect','observation-draw','observation-note','observation-reference','film-move','generation'].includes(type) ? 0 : -1;
+const actionChapter = type => type.startsWith('seed-') ? 1 : type.startsWith('care-') ? 2 : ['animal-time','animal-photo','animal-generation','plant-tag','season','season-photo','season-compare','plant-classify','transfer'].includes(type) ? 3 : type.startsWith('book-') || ['help-match','observation-plan','tower-run'].includes(type) ? 4 : ['inspect','observation-draw','observation-note','observation-reference','film-move','generation'].includes(type) ? 0 : -1;
 
 export function fieldAction(field, type, payload={}) {
   const done = message => ({ok:true,message});
@@ -164,9 +164,13 @@ export function fieldAction(field, type, payload={}) {
   const p = payload && typeof payload === 'object' ? payload : {};
   if (type === 'discovery-enter') {
     const chapter=p.chapter??field.active;
-    if(chapter!==field.active||!field.completed.includes(chapter)||!fieldReady(field,chapter))return fail('먼저 이 구역의 관찰 기록을 마쳐 줘.');
+    if(chapter!==field.active||!fieldReady(field,chapter))return fail('먼저 이 구역의 관찰 기록을 마쳐 줘.');
     field.discoveryVisit=chapter;
     return done('기존 기록과 보상은 그대로야. 새 발견 미션을 이어서 해 보자.');
+  }
+  if (type === 'discovery-exit') {
+    delete field.discoveryVisit;
+    return done('추가 발견은 나중에도 이어갈 수 있어.');
   }
   if (type === 'chapter-restart') {
     const chapter=p.chapter ?? p.c;
@@ -184,6 +188,11 @@ export function fieldAction(field, type, payload={}) {
     const chapter = p.chapter ?? p.c;
     if (!fieldUnlocked(field,chapter)) return fail('앞 구역의 탐사 기록을 마무리하면 이 길이 열려.');
     field.active = chapter;
+    if (chapter === 3 && field.completed.includes(0)) {
+      const prior=field.snapshots?.[0] || field.chapters[0], animals=field.chapters[3].animals;
+      if (observed(prior) && filmDone(prior)) animals.butterfly.photos=unique([...animals.butterfly.photos,0,3]);
+      if (animals.dog.step===0) animals.dog.photos=unique([...animals.dog.photos,0]);
+    }
     return done(field.completed.includes(chapter) ? '기록과 보상을 간직한 채 다시 살펴보자.' : '지훈이와 함께 탐사를 시작하자.');
   }
   if (type === 'chapter-complete') {
@@ -198,13 +207,13 @@ export function fieldAction(field, type, payload={}) {
   if (actionChapter(type) !== field.active || !fieldUnlocked(field,field.active)) return fail('지금 탐사하는 구역에서 할 수 있는 활동을 골라 줘.');
   const data = field.chapters[field.active];
   if (type === 'inspect') {
-    if (!FIELD_FORMS.includes(p.form) || !numberIn(p.spot,0,1)) return fail('확대경으로 생물의 서로 다른 두 부분을 찾아보자.');
+    if (!FIELD_FORMS.includes(p.form) || !numberIn(p.spot,0,1)) return fail('확대경으로 생물의 특징을 찾아보자.');
     data.inspected[p.form] = unique([...data.inspected[p.form],p.spot]);
     return done(`${{egg:'알',larva:'애벌레',pupa:'번데기',adult:'어른벌레'}[p.form]}의 특징을 발견했어.`);
   }
   if(type==='observation-reference'){if(!FIELD_FORMS.includes(p.form))return fail('살펴볼 생물의 모습을 골라 줘.');data.drawingForm=p.form;return done('그림의 참고 모습을 보관했어.');}
   if (type === 'observation-draw') {
-    if (!observed(data)) return fail('네 모습에서 서로 다른 두 부분을 먼저 살펴보자.');
+    if (!observed(data)) return fail('네 모습의 특징을 하나씩 먼저 살펴보자.');
     const stroke = sanitizeStroke(p.stroke);
     if (stroke.length < 2 || !stroke.some(point => point[0] !== stroke[0][0] || point[1] !== stroke[0][1])) return fail('관찰한 모양을 선으로 그려 줘.');
     if (data.drawing.length >= 200) return fail('그림 기록이 가득 찼어. 관찰 글을 마무리해 보자.');
@@ -238,7 +247,9 @@ function seedAction(data,type,p,done,fail) {
   const round = data.rounds[data.round];
   if (type === 'seed-next') {
     if (data.round !== 0 || !seedDone(round)) return fail('첫 실험의 사진 세 장과 바꾼 조건을 먼저 기록하자.');
-    data.round = 1; return done('이번에는 물을 같게 두고 온도를 알아보자.');
+    data.round = 1;
+    if (!data.rounds[1].run && !validPrep(data.rounds[1])) data.rounds[1].prepared=copy(data.rounds[0].prepared);
+    return done('같은 흙과 씨앗을 준비했어. 이번에는 물을 같게 두고 온도를 알아보자.');
   }
   if (['seed-prepare','seed-predict','seed-condition'].includes(type) && round.run) return fail('실험을 시작한 뒤에는 조건을 바꾸지 않아. 같은 조건에서 시간이 흐른 결과를 살펴보자.');
   if (type === 'seed-prepare') {
@@ -333,7 +344,9 @@ function comparisonAction(data,type,p,done,fail) {
   if (type === 'animal-time') {
     const limit = p.animal === 'butterfly' ? 3 : p.animal === 'dog' ? 2 : -1;
     if (!numberIn(p.step,0,limit)) return fail('각 동물의 시간 손잡이를 따로 움직여 보자.');
-    data.animals[p.animal].step = p.step; return done('두 동물은 자라는 모습과 걸리는 시간이 서로 달라.');
+    data.animals[p.animal].step = p.step;
+    if ((p.animal==='dog' && [0,2].includes(p.step)) || (p.animal==='butterfly' && [0,3].includes(p.step))) data.animals[p.animal].photos=unique([...data.animals[p.animal].photos,p.step]);
+    return done('두 동물은 자라는 모습과 걸리는 시간이 서로 달라. 살펴본 모습은 자동으로 기록했어.');
   }
   if (type === 'animal-photo') {
     if (!['butterfly','dog'].includes(p.animal)) return fail('관찰할 동물을 골라 줘.');
@@ -347,12 +360,22 @@ function comparisonAction(data,type,p,done,fail) {
   if (type === 'plant-tag') {
     if (!animalDone(data)) return fail('동물 두 종류의 한살이를 먼저 비교해 보자.');
     if (!['apple','balsam'].includes(p.plant) || data.season !== 0) return fail('첫봄의 사과나무와 봉선화에 이름표를 달아 줘.');
-    data.tags = unique([...data.tags,p.plant]); return done('작년 그 식물인지 다시 찾을 수 있도록 이름표를 달았어.');
+    data.tags = unique([...data.tags,p.plant]);
+    data.plantPhotos=unique([...data.plantPhotos,`${p.plant}-0`]);
+    return done('이름표와 첫봄 모습이 기록됐어.');
   }
   if (type === 'season') {
     if (data.tags.length < 2) return fail('첫봄의 두 식물에 이름표를 먼저 달아 줘.');
     if (!numberIn(p.step,0,4)) return fail('첫봄부터 다음 봄까지 시간을 살펴보자.');
-    data.season = p.step; return done('이름표가 달린 식물과 새로 자란 식물을 자세히 살펴보자.');
+    data.season = p.step;
+    if ([0,3,4].includes(p.step)) for (const plant of ['apple','balsam']) data.plantPhotos=unique([...data.plantPhotos,`${plant}-${p.step}`]);
+    // Seeing both winter and next spring opens the same-or-new choice on this screen; no separate compare step.
+    if (!data.seasonCompared && plantsSeen(data)) {data.seasonCompared=true; return done('겨울과 다음 봄을 모두 봤어. 이름표 줄을 보고 같은 식물인지 골라 봐.');}
+    return done('살펴본 계절의 두 식물을 자동으로 기록했어.');
+  }
+  if (type === 'season-compare') {
+    if (!plantsSeen(data)) return fail('첫봄·겨울·다음 봄의 두 식물을 먼저 살펴보자.');
+    data.seasonCompared=true; return done('이제 작년과 같은 식물인지 비교해 보자.');
   }
   if (type === 'season-photo') {
     if (!['apple','balsam'].includes(p.plant) || !data.tags.includes(p.plant)) return fail('이름표를 단 식물의 모습을 기록해 줘.');
@@ -491,11 +514,12 @@ export function restoreField(raw) {
   }
   if ([0,3].every(step => comparison.animals.butterfly.photos.includes(step)) && [0,2].every(step => comparison.animals.dog.photos.includes(step)) && c3.generation === 'different') comparison.generation='different';
   if (animalDone(comparison)) comparison.tags=unique(array(c3.tags).filter(plant => ['apple','balsam'].includes(plant)));
-  if (comparison.tags.length === 2) {
-    comparison.season=numberIn(c3.season,0,4) ? c3.season : 0;
-    comparison.plantPhotos=unique(array(c3.plantPhotos).filter(photo => ['apple','balsam'].some(plant => comparison.tags.includes(plant) && [0,1,2,3,4].some(step => photo === `${plant}-${step}`))));
-  }
+  if (comparison.tags.length === 2) comparison.season=numberIn(c3.season,0,4) ? c3.season : 0;
+  comparison.plantPhotos=unique(array(c3.plantPhotos).filter(photo => ['apple','balsam'].some(plant => comparison.tags.includes(plant) && [0,1,2,3,4].some(step => photo === `${plant}-${step}`))));
+  // A tag can only be attached in the first spring, which was visibly observed.
+  for (const plant of comparison.tags) comparison.plantPhotos=unique([...comparison.plantPhotos,`${plant}-0`]);
   if (plantsSeen(comparison)) {
+    comparison.seasonCompared=c3.seasonCompared===true || object(c3.classifications).apple === 'same' || object(c3.classifications).balsam === 'new';
     if (object(c3.classifications).apple === 'same') comparison.classifications.apple='same';
     if (object(c3.classifications).balsam === 'new') comparison.classifications.balsam='new';
   }
@@ -550,7 +574,7 @@ export function restoreField(raw) {
     if(field.snapshots[chapter]&&!object(snapshots[chapter]).discovery)field.snapshots[chapter].discovery=copy(data.discovery);
   }
   field.active=numberIn(parsed.active,0,4) && fieldUnlocked(field,parsed.active) ? parsed.active : Math.min(field.completed.length,4);
-  if(numberIn(parsed.discoveryVisit,0,4)&&field.completed.includes(parsed.discoveryVisit))field.discoveryVisit=parsed.discoveryVisit;
+  if(numberIn(parsed.discoveryVisit,0,4)&&fieldReady(field,parsed.discoveryVisit))field.discoveryVisit=parsed.discoveryVisit;
   field.attempts=array(parsed.attempts).slice(-60).map(item => {
     const attempt=object(item);
     return {chapter:numberIn(attempt.chapter,0,4) ? attempt.chapter : 0,action:textValue(attempt.action,80),message:textValue(attempt.message,240)};

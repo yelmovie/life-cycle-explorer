@@ -1,0 +1,177 @@
+{
+  "created_date": "2026-10-27",
+  "generator": "built-in image_gen",
+  "output_size": [
+    1920,
+    1080
+  ],
+  "aspect_ratio": "16:9",
+  "intro_duration_seconds": 18,
+  "outro_duration_seconds": 18,
+  "images": [
+    {
+      "filename": "intro-01-forest-gate.png",
+      "shot": "I-1",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-e5af5f92-d7e5-4fa7-896b-3fb3be126c18.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/video-production/20261027-character-storyboards/source/intro-01-forest-gate.png",
+      "verified": {
+        "size": [
+          1920,
+          1080
+        ],
+        "mode": "RGB",
+        "bytes": 3733010
+      }
+    },
+    {
+      "filename": "intro-02-small-clue.png",
+      "shot": "I-2",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-139eb595-a94c-47fa-aea0-5cf3a9a027eb.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/video-production/20261027-character-storyboards/source/intro-02-small-clue.png",
+      "verified": {
+        "size": [
+          1920,
+          1080
+        ],
+        "mode": "RGB",
+        "bytes": 3277699
+      }
+    },
+    {
+      "filename": "intro-03-lab-doorway.png",
+      "shot": "I-3",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-2c797ea5-cbd6-4909-9dc2-53db89f1c25f.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/video-production/20261027-character-storyboards/source/intro-03-lab-doorway.png",
+      "verified": {
+        "size": [
+          1920,
+          1080
+        ],
+        "mode": "RGB",
+        "bytes": 3501572
+      }
+    },
+    {
+      "filename": "outro-01-notebook.png",
+      "shot": "O-1",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-b4c1e81d-0232-4059-aaa4-5e23a6b8c05e.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/video-production/20261027-character-storyboards/source/outro-01-notebook.png",
+      "verified": {
+        "size": [
+          1920,
+          1080
+        ],
+        "mode": "RGB",
+        "bytes": 2911929
+      }
+    },
+    {
+      "filename": "outro-02-next-question.png",
+      "shot": "O-2",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-0f3ca614-7342-4e79-9f8c-89342e7da2f1.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/video-production/20261027-character-storyboards/source/outro-02-next-question.png",
+      "verified": {
+        "size": [
+          1920,
+          1080
+        ],
+        "mode": "RGB",
+        "bytes": 3456417
+      }
+    },
+    {
+      "filename": "outro-03-forest-path.png",
+      "shot": "O-3",
+      "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-e2c3f67e-3bad-4795-8f64-9ec4952d7a01.png",
+      "target": "D:/iscreammedia_sc34/4 lifecycle/assets/video-production/20261027-character-storyboards/source/outro-03-forest-path.png",
+      "verified": {
+        "size": [
+          1920,
+          1080
+        ],
+        "mode": "RGB",
+        "bytes": 3390980
+      }
+    }
+  ],
+  "prompts": [
+    {
+      "filename": "intro-01-forest-gate.png",
+      "shot": "I-1",
+      "referenced_image_paths": [
+        "D:/iscreammedia_sc34/4 lifecycle/assets/og/samples-20261027/og-characters-redesign.png",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/adventure/jihoon-explore.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/adventure/ipsae-guide.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/field/doto.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/expedition/forest-world.webp"
+      ],
+      "transparent_background": false,
+      "prompt": "Use ONLY the identities, faces, clothes and art style from the references; NEVER copy their lettering or existing composition. Exactly ONE Jihoon (brown-haired boy, cream leaf jacket, olive shorts, green backpack/shoes, magnifying glass), ONE Ipsae (green leaf fairy with sprout hair, green eyes, leaf wings, brown satchel, leaf wand), ONE Doto (brown striped chipmunk, cream belly, fluffy curved tail, green neckerchief, acorn). No duplicates or extra people. Reference 1 is visual style/character branding only; refs 2-4 are strict individual character identity references; ref 5 is environment palette and architectural language only.\nSingle full-bleed STILL FIRST FRAME for a cinematic children's science exploration game video, opaque WIDESCREEN 16:9, 1920x1080. Premium cozy painterly forest world with softly sculpted friendly characters, natural light, matched shadows, detailed but uncluttered. Warm and curious, not babyish or frightening. NO text anywhere, no logos, no title, no labels, no speech bubbles, no cards or collage panels.\nCRITICAL NO-SPOILER RULE: no life clock tower, no giant clock face, no activated mechanisms, no golden energy rings, no completed evidence board, no trophy/certificate, no lifecycle sequence or diagram, no before-and-after experiment outcome, no visible seeds becoming sprouts, no displayed correct answer. Show an investigation beginning or continuing, not its solution.\n\nFIRST SHOT: a new quiet MORNING forest path under a large natural arch of tree branches and leaves. WIDE LONG SHOT, camera at child eye level behind and slightly to the left of the group. The three companions stand together in lower center-right, facing deeper into a mysterious welcoming forest clearing. Jihoon is full body, identifiable by green backpack and cream jacket, head in gentle three-quarter profile with a curious smile. Ipsae floats at his shoulder on the right, Doto by his feet with full fluffy tail. A tiny glint of dew and a single drifting leaf suggest something to discover, not magic activation. Footpath curves out of sight through foliage; no major building or clock visible. Grounded scale and generous environment around the trio. This is the calm opening frame before they take their first steps; no motion blur."
+    },
+    {
+      "filename": "intro-02-small-clue.png",
+      "shot": "I-2",
+      "referenced_image_paths": [
+        "D:/iscreammedia_sc34/4 lifecycle/assets/og/samples-20261027/og-characters-redesign.png",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/adventure/jihoon-explore.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/adventure/ipsae-guide.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/field/doto.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/expedition/forest-world.webp"
+      ],
+      "transparent_background": false,
+      "prompt": "Use ONLY the identities, faces, clothes and art style from the references; NEVER copy their lettering or existing composition. Exactly ONE Jihoon (brown-haired boy, cream leaf jacket, olive shorts, green backpack/shoes, magnifying glass), ONE Ipsae (green leaf fairy with sprout hair, green eyes, leaf wings, brown satchel, leaf wand), ONE Doto (brown striped chipmunk, cream belly, fluffy curved tail, green neckerchief, acorn). No duplicates or extra people. Reference 1 is visual style/character branding only; refs 2-4 are strict individual character identity references; ref 5 is environment palette and architectural language only.\nSingle full-bleed STILL FIRST FRAME for a cinematic children's science exploration game video, opaque WIDESCREEN 16:9, 1920x1080. Premium cozy painterly forest world with softly sculpted friendly characters, natural light, matched shadows, detailed but uncluttered. Warm and curious, not babyish or frightening. NO text anywhere, no logos, no title, no labels, no speech bubbles, no cards or collage panels.\nCRITICAL NO-SPOILER RULE: no life clock tower, no giant clock face, no activated mechanisms, no golden energy rings, no completed evidence board, no trophy/certificate, no lifecycle sequence or diagram, no before-and-after experiment outcome, no visible seeds becoming sprouts, no displayed correct answer. Show an investigation beginning or continuing, not its solution.\n\nSECOND SHOT: same trio, same morning forest. MEDIUM THREE-SHOT at child eye level, front three-quarter angle, with all THREE recognizable faces readable. Jihoon crouches beside a mossy fallen log, holding his magnifying glass NEAR a single closed brown seed pod resting on a broad leaf. Ipsae hovers over the log looking curious and points her leaf wand toward it without touching or transforming it. Doto stands beside the log looking attentively at the CLOSED pod, holding his acorn. The pod stays closed: no exposed seed, no root or sprout, no biological answer revealed. Soft dappled morning light and softly blurred forest background. Focal hierarchy is curious faces, magnifying glass, then the small mysterious object. Frame is the START of observing, not a result."
+    },
+    {
+      "filename": "intro-03-lab-doorway.png",
+      "shot": "I-3",
+      "referenced_image_paths": [
+        "D:/iscreammedia_sc34/4 lifecycle/assets/og/samples-20261027/og-characters-redesign.png",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/adventure/jihoon-explore.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/adventure/ipsae-guide.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/field/doto.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/expedition/forest-world.webp"
+      ],
+      "transparent_background": false,
+      "prompt": "Use ONLY the identities, faces, clothes and art style from the references; NEVER copy their lettering or existing composition. Exactly ONE Jihoon (brown-haired boy, cream leaf jacket, olive shorts, green backpack/shoes, magnifying glass), ONE Ipsae (green leaf fairy with sprout hair, green eyes, leaf wings, brown satchel, leaf wand), ONE Doto (brown striped chipmunk, cream belly, fluffy curved tail, green neckerchief, acorn). No duplicates or extra people. Reference 1 is visual style/character branding only; refs 2-4 are strict individual character identity references; ref 5 is environment palette and architectural language only.\nSingle full-bleed STILL FIRST FRAME for a cinematic children's science exploration game video, opaque WIDESCREEN 16:9, 1920x1080. Premium cozy painterly forest world with softly sculpted friendly characters, natural light, matched shadows, detailed but uncluttered. Warm and curious, not babyish or frightening. NO text anywhere, no logos, no title, no labels, no speech bubbles, no cards or collage panels.\nCRITICAL NO-SPOILER RULE: no life clock tower, no giant clock face, no activated mechanisms, no golden energy rings, no completed evidence board, no trophy/certificate, no lifecycle sequence or diagram, no before-and-after experiment outcome, no visible seeds becoming sprouts, no displayed correct answer. Show an investigation beginning or continuing, not its solution.\n\nTHIRD SHOT: the same three companions on a garden path at the entrance of a small round GLASS-DOMED FOREST RESEARCH LAB belonging to the reference world, made of mossy stone, warm carved wood and modest brass window frames. NOT the clock tower: no large clock dial, no astrolabe rings or gears. WIDE FULL SHOT at a gently low child-height angle, three-quarter front view. Jihoon stands beside a partly open wooden door, gently holding it, smiling toward Ipsae and Doto as if inviting the next exploration. Ipsae floats beside the door and Doto waits on a low step. Warm indoor lamplight shows only an empty worktable and blurred shelves, NO experiments, labels, charts, diagrams or growing specimens. Full trio visible with safe framing, abundant door/architecture space. This is the first frame before they enter, with no final discovery visible."
+    },
+    {
+      "filename": "outro-01-notebook.png",
+      "shot": "O-1",
+      "referenced_image_paths": [
+        "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-2c797ea5-cbd6-4909-9dc2-53db89f1c25f.png",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/adventure/jihoon-explore.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/adventure/ipsae-guide.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/field/doto.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/expedition/forest-world.webp"
+      ],
+      "transparent_background": false,
+      "prompt": "Use ONLY the identities, faces, clothes and art style from the references; NEVER copy their lettering or existing composition. Exactly ONE Jihoon (brown-haired boy, cream leaf jacket, olive shorts, green backpack/shoes, magnifying glass), ONE Ipsae (green leaf fairy with sprout hair, green eyes, leaf wings, brown satchel, leaf wand), ONE Doto (brown striped chipmunk, cream belly, fluffy curved tail, green neckerchief, acorn). No duplicates or extra people. Reference 1 is visual style/character branding only; refs 2-4 are strict individual character identity references; ref 5 is environment palette and architectural language only.\nSingle full-bleed STILL FIRST FRAME for a cinematic children's science exploration game video, opaque WIDESCREEN 16:9, 1920x1080. Premium cozy painterly forest world with softly sculpted friendly characters, natural light, matched shadows, detailed but uncluttered. Warm and curious, not babyish or frightening. NO text anywhere, no logos, no title, no labels, no speech bubbles, no cards or collage panels.\nCRITICAL NO-SPOILER RULE: no life clock tower, no giant clock face, no activated mechanisms, no golden energy rings, no completed evidence board, no trophy/certificate, no lifecycle sequence or diagram, no before-and-after experiment outcome, no visible seeds becoming sprouts, no displayed correct answer. Show an investigation beginning or continuing, not its solution.\n\nFIRST OUTRO SHOT: the same companions inside the small rounded forest research lab from the additional scene reference, in gentle LATE-AFTERNOON light. MEDIUM THREE-SHOT at child eye level, front three-quarter view. A clean warm wooden table in foreground, ONE OPEN NOTEBOOK with COMPLETELY BLANK cream pages, its cover partly lifted by Jihoon's hand as he is about to close it. NO written facts, drawings, pictures, charts or life-cycle diagrams, no experiment equipment showing results. Jihoon smiles thoughtfully rather than victorious, his magnifying glass resting on the table. Ipsae hovers beside him, nodding with a warm curious expression. Doto sits on a small bench beside the table holding his acorn, full visible friendly face and tail. Modest wood-and-brass lab details, leafy arched window, quiet cozy atmosphere. No trophy, medal, clock, final machine or giant bell. This is the starting frame of packing up a day of observation while leaving questions open."
+    },
+    {
+      "filename": "outro-02-next-question.png",
+      "shot": "O-2",
+      "referenced_image_paths": [
+        "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-139eb595-a94c-47fa-aea0-5cf3a9a027eb.png",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/adventure/jihoon-explore.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/adventure/ipsae-guide.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/field/doto.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/expedition/forest-world.webp"
+      ],
+      "transparent_background": false,
+      "prompt": "Use ONLY the identities, faces, clothes and art style from the references; NEVER copy their lettering or existing composition. Exactly ONE Jihoon (brown-haired boy, cream leaf jacket, olive shorts, green backpack/shoes, magnifying glass), ONE Ipsae (green leaf fairy with sprout hair, green eyes, leaf wings, brown satchel, leaf wand), ONE Doto (brown striped chipmunk, cream belly, fluffy curved tail, green neckerchief, acorn). No duplicates or extra people. Reference 1 is visual style/character branding only; refs 2-4 are strict individual character identity references; ref 5 is environment palette and architectural language only.\nSingle full-bleed STILL FIRST FRAME for a cinematic children's science exploration game video, opaque WIDESCREEN 16:9, 1920x1080. Premium cozy painterly forest world with softly sculpted friendly characters, natural light, matched shadows, detailed but uncluttered. Warm and curious, not babyish or frightening. NO text anywhere, no logos, no title, no labels, no speech bubbles, no cards or collage panels.\nCRITICAL NO-SPOILER RULE: no life clock tower, no giant clock face, no activated mechanisms, no golden energy rings, no completed evidence board, no trophy/certificate, no lifecycle sequence or diagram, no before-and-after experiment outcome, no visible seeds becoming sprouts, no displayed correct answer. Show an investigation beginning or continuing, not its solution.\n\nSECOND OUTRO SHOT: return to the mossy forest log and CLOSED BROWN SEED POD from the additional scene reference, now in golden late-afternoon light. FULL THREE-SHOT at gently LOW child-height angle, all characters full body visible with generous surrounding forest and a path curving away. The very same small pod is STILL CLOSED on its leaf, no change, root or sprout, no solution revealed. Jihoon stands beside the log holding a CLOSED plain green field notebook under one arm and his magnifying glass in the other hand, looking thoughtfully along the next path. Ipsae floats beside his shoulder and lightly gestures toward the path. Doto stands on a low mossy stone beside Jihoon, clutching the acorn, looking up with interest. They are ready to continue asking questions. This is the first frame before they glance back at each other and start moving; no time-lapse or plant growth, no magical activation, no completed puzzle."
+    },
+    {
+      "filename": "outro-03-forest-path.png",
+      "shot": "O-3",
+      "referenced_image_paths": [
+        "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-e5af5f92-d7e5-4fa7-896b-3fb3be126c18.png",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/adventure/jihoon-explore.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/adventure/ipsae-guide.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/field/doto.webp",
+        "D:/iscreammedia_sc34/4 lifecycle/assets/expedition/forest-world.webp"
+      ],
+      "transparent_background": false,
+      "prompt": "Use ONLY the identities, faces, clothes and art style from the references; NEVER copy their lettering or existing composition. Exactly ONE Jihoon (brown-haired boy, cream leaf jacket, olive shorts, green backpack/shoes, magnifying glass), ONE Ipsae (green leaf fairy with sprout hair, green eyes, leaf wings, brown satchel, leaf wand), ONE Doto (brown striped chipmunk, cream belly, fluffy curved tail, green neckerchief, acorn). No duplicates or extra people. Reference 1 is visual style/character branding only; refs 2-4 are strict individual character identity references; ref 5 is environment palette and architectural language only.\nSingle full-bleed STILL FIRST FRAME for a cinematic children's science exploration game video, opaque WIDESCREEN 16:9, 1920x1080. Premium cozy painterly forest world with softly sculpted friendly characters, natural light, matched shadows, detailed but uncluttered. Warm and curious, not babyish or frightening. NO text anywhere, no logos, no title, no labels, no speech bubbles, no cards or collage panels.\nCRITICAL NO-SPOILER RULE: no life clock tower, no giant clock face, no activated mechanisms, no golden energy rings, no completed evidence board, no trophy/certificate, no lifecycle sequence or diagram, no before-and-after experiment outcome, no visible seeds becoming sprouts, no displayed correct answer. Show an investigation beginning or continuing, not its solution.\n\nTHIRD OUTRO SHOT: the same leafy forest gateway and winding stream-side trail from the additional scene reference, at WARM GOLDEN HOUR, not darkness. WIDE LONG SHOT from slightly above child eye level behind and to the left of the companions, ready for a gentle vertical crane-up. Jihoon, Ipsae and Doto are grouped in the LOWER THIRD on the path, Jihoon in full-body rear three-quarter view carrying the closed plain green notebook with backpack, Ipsae floating beside his shoulder, Doto at his feet with full curved tail. Jihoon turns his head gently back toward viewer with a friendly open-ended invitation, then will continue walking. The forest and a distant low glass-domed lab remain calm and naturally sunlit. Leave a broad softly lit expanse of uncluttered foliage and warm sky in the UPPER CENTER for a later editor to add an ending caption; DO NOT render any text yourself. No clock tower, golden rings, completed world restoration, machine, answer, trophy or giant clock anywhere. The last feeling is 'more to notice tomorrow', not 'the answer has been revealed'."
+    }
+  ]
+}

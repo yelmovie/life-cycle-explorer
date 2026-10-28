@@ -1,0 +1,16 @@
+{
+  "url": "https://life-clock-lab.pages.dev/",
+  "deploymentId": "c7664534-7b68-42a9-a695-e37ade3ac1be",
+  "commit": "cf61c49505eab1014e95565600243863f05d9134",
+  "uncommittedBuild": true,
+  "buildGeneratedAt": "2026-10-26T20:27:20.154Z",
+  "checkedAt": "2026-10-26T20:31:45.665Z",
+  "checkedAtSeoul": "2026-10-27 05:31:45 KST",
+  "manifestMatched": true,
+  "comparedFiles": 192,
+  "matchedFiles": 192,
+  "failed": [],
+  "ogImage": "https://life-clock-lab.pages.dev/assets/og/life-clock-lab-20261027.jpg",
+  "ogImageHashMatched": true,
+  "scope": "Published file bytes, root HTML social metadata and OG JPEG response. No game interaction or third-party share-cache refresh verification."
+}

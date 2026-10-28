@@ -120,6 +120,10 @@
 | 21 | tower-evidence-board.png | tower-evidence-board.webp (`towerEvidenceBoard`) | 1600×1000 · 330KB | 증거 잇기 배경 |
 | 22 | tower-bell.png | tower-bell.webp (`towerBell`) | 360px · 27KB | 관찰 약속 종 |
 | 23 | tower-medal.png | tower-medal.webp (`towerMedal`) | 400px · 25KB | 마지막 보상 메달 |
-| 24 | ending-forest.png | ending-forest.webp (`endingForest`) + `assets/concepts/ending.mp4` | 1280×720 · 361KB / 영상 12초 1.1MB | 엔딩 장면 |
+| 24 | ending-forest.png | ending-forest.webp (`endingForest`) | 1280×720 · 361KB | 엔딩 장면 |
 
-엔딩 영상 `assets/concepts/ending.mp4`는 18번(깨어난 시계탑)과 24번(숲 전경)을 ffmpeg로 천천히 확대·축소하며 이어 붙인 12초 무음 영상이다(960×540, H.264). 시험 삼아 만든 WebM은 `_unused/ending-webm-20261026/`에 옮겨 두었다.
+이전 엔딩 영상(18번과 24번을 ffmpeg로 확대·축소해 이어 붙인 12초 무음 영상)은 새 파이널 영상으로 바뀌어 `_unused/ending-mp4-20261026/ending.mp4`로 옮겼다. 시험 삼아 만든 WebM은 `_unused/ending-webm-20261026/`에 있다.
+
+### 인트로·파이널 영상 (2026-10-27)
+
+사용자가 제작해 제공한 인트로·파이널 영상(1920×1080 HEVC, 30fps, 무음 트랙)을 원본 그대로 `_source/video/intro-master-20261027.mp4`(17.4초), `_source/video/final-master-20261027.mp4`(24.5초)로 옮겼다. 게임용은 ffmpeg(h264_qsv)로 1280×720 H.264 High · 약 2.8Mbps · faststart · 소리 트랙 없음으로 다시 만든 `assets/video/intro.mp4`(5.7MB), `assets/video/final.mp4`(8.1MB)이다. 첫 프레임 `intro-poster.jpg`·`final-poster.jpg`와 파이널 21초 지점 장면 `final-still.jpg`(엔딩 기록 화면 그림)를 함께 뽑았다. 자막·장소 표시·도장 연출은 영상에 굽지 않고 `src/field-cinema.js`가 화면 위에 올리며, 소리는 게임 배경 음악(인트로 main-theme, 파이널 ending-theme)을 그대로 쓴다.

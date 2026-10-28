@@ -1,0 +1,30 @@
+{
+  "created_date": "2026-10-27",
+  "generator": "built-in image_gen",
+  "asset": "OG sample 1 with Jihoon, Ipsae and Doto",
+  "source": "C:\\Users\\bongb\\.codex\\generated_images\\01a1788a-2278-7602-b993-2cac9674fc8a\\exec-5c991637-23b8-40d8-bcb8-7d54abf70d08.png",
+  "target": "D:/iscreammedia_sc34/4 lifecycle/assets/og/samples-20261027/og-sample-01-forest-characters.png",
+  "size": [
+    1200,
+    600
+  ],
+  "aspect_ratio": "2:1",
+  "referenced_image_paths": [
+    "D:/iscreammedia_sc34/4 lifecycle/assets/og/samples-20261027/og-sample-01-forest.png",
+    "D:/iscreammedia_sc34/4 lifecycle/assets/adventure/jihoon-explore.webp",
+    "D:/iscreammedia_sc34/4 lifecycle/assets/adventure/ipsae-guide.webp",
+    "D:/iscreammedia_sc34/4 lifecycle/assets/field/doto.webp"
+  ],
+  "transparent_background": false,
+  "prompt": "Use case: precise-object-edit / identity-preserve. Edit Image 1, the first forest-world OG thumbnail, to ADD the game's THREE existing main characters from Images 2-4. Deliver ONE finished OPAQUE 2:1 WIDE HORIZONTAL thumbnail, 1600x800 concept / 1200x600 export.\nImage 1 is the EDIT TARGET and base layout. Images 2,3,4 are STRICT CHARACTER IDENTITY REFERENCES:\nImage 2: Jihoon, cheerful young brown-haired explorer boy, cream leaf-pattern jacket, olive shorts, green explorer backpack, green shoes, magnifying glass.\nImage 3: Ipsae, tiny friendly light-green leaf fairy, green leaf hair topped with a sprout, large green eyes, translucent leaf wings, little brown leaf satchel and leaf wand.\nImage 4: Doto, warm brown striped chipmunk with a large fluffy curved tail, cream belly, little green neckerchief, holding an acorn.\nPreserve each character's recognizable face, hair, costume, colors, anatomy and friendly expression. These are the only three characters; no duplicates.\n\nMAIN EDIT: make the thumbnail lively and character-led by placing all three characters together in the FOREGROUND of the RIGHT-HAND part of Image 1, on/near the sunlit path in front of the tower. Jihoon is the largest: full-body, about 58-65% of canvas height, smiling enthusiastically with magnifying glass, slightly turned toward the audience and discovering the tower. Ipsae floats beside his shoulder, full body and wings visible, about 28-35% canvas height. Doto stands beside Jihoon's shoes, full body and fluffy tail visible, about 23-28% canvas height. Arrange them as a clear, energetic friendly group, with no faces hidden and no feet cropped. Character faces should read clearly even as a small thumbnail.\nUse the open lower-right space; let characters cover some tower steps/path, but keep the tower roof, large clock face, greenhouse and world identifiable behind them. The tower remains a background landmark. Integrate the existing softly sculpted character illustration with the cozy painterly forest via warm sunlight, subtle contact shadows and matched rendering.\n\nCRITICAL INVARIANTS: retain Image 1's exact BIG TWO-LINE KOREAN TITLE, its lettering style, accurate glyphs, dominant scale and LEFT-HAND placement. Exact words:\nLine 1 \"생명 시계\"\nLine 2 \"연구실\"\nNo character, wand, tail, magnifying glass or leaf may cross or cover ANY letter. Do not shrink the title into a small heading. The title is still the strongest thumbnail element, with the characters an appealing co-star group. Keep the forest's bright lush green / warm gold palette and inviting atmosphere. Maintain EXACT 2:1 aspect ratio, a single uninterrupted image, all title characters and character bodies fully inside the image with safe padding. No other text, captions, labels, logos, watermarks, UI controls or borders.",
+  "verified": {
+    "size": [
+      1200,
+      600
+    ],
+    "ratio": "2:1",
+    "mode": "RGB",
+    "bytes": 1511603,
+    "visual_check": "Title, three reference characters, full character bodies, forest world and tower inspected."
+  }
+}
