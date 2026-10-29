@@ -1,17 +1,30 @@
 import {SORT_CARDS} from './field-content.js';
 import {initialField,FIELD_FORMS,fieldRecords} from './field-model.js';
 
+// Sample writing reads like a child's notebook, so teachers see what learners will produce.
+const SAMPLE_CAPTIONS={
+ 'field-observation-egg':'돋보기로 보니 알에 세로 줄무늬가 있었어. 생각보다 훨씬 작았어!',
+ 'field-seed-water':'물을 준 화분 B에서만 싹이 났어. 씨앗도 물이 필요한가 봐.',
+ 'field-care-water':'축 처진 잎이 물을 주고 이틀 뒤에 다시 쫙 펴졌어. 신기했어!',
+ 'field-animal-butterfly':'알 → 애벌레 → 번데기 → 나비! 모습이 완전히 달라져서 깜짝 놀랐어.',
+};
+// A caterpillar doodle: a bumpy body line, a round head and little legs.
+const SAMPLE_DRAWING=[
+ Array.from({length:21},(_,i)=>[.15+i*.03,.5-Math.abs(Math.sin(i*Math.PI/4))*.08]),
+ Array.from({length:13},(_,i)=>[.82+Math.cos(i*Math.PI/6)*.06,.46+Math.sin(i*Math.PI/6)*.07]),
+ ...[.24,.36,.48,.6,.72].map(x=>[[x,.53],[x-.02,.6]]),
+];
 // Examples exist only in the teacher's in-memory copy. No completed chapters,
 // rewards or snapshots are fabricated in the student's persisted notebook.
 export function previewFieldForPhase(source,chapter,phase){
  if(source.preview!==true)throw new Error('교사 시연에서만 활동 단계를 열 수 있어.');
  const f=initialField();f.preview=true;f.previewSample=true;f.active=chapter;
  const [a,b,c,d,e]=f.chapters;
- a.inspected=Object.fromEntries(FIELD_FORMS.map(id=>[id,[0,1]]));a.drawing=[[[.2,.4],[.4,.2],[.6,.4]]];a.note='시연용 예시: 몸에 여러 마디가 보여.';a.order=[...FIELD_FORMS];a.generation='next-egg';
+ a.inspected=Object.fromEntries(FIELD_FORMS.map(id=>[id,[0,1]]));a.drawing=SAMPLE_DRAWING;a.note='애벌레 몸에는 마디가 여러 개 있고, 짧은 다리가 꼬물꼬물 보여.';a.order=[...FIELD_FORMS];a.generation='next-egg';
  for(const r of b.rounds){r.prepared={a:{soil:true,seeds:3},b:{soil:true,seeds:3}};r.prediction='both';r.b={water:true,warm:true};r.run={variable:r.variable,prepared:structuredClone(r.prepared),prediction:r.prediction,a:{water:r.variable!=='water',warm:r.variable!=='warm'},b:{water:true,warm:true}};r.day=7;r.photos=[0,3,7];r.reason=r.variable;r.report={result:'b',expectation:'changed'};}
  for(const r of c.cases){r.measured=['water','light'];r.symptom=r.variable==='water'?'dry':'pale';r.tool=r.variable;r.day=2;r.photos=[0,2];}
  d.animals={butterfly:{step:3,photos:[0,3]},dog:{step:2,photos:[0,2]}};d.generation='different';d.tags=['apple','balsam'];d.season=4;d.seasonCompared=true;d.plantPhotos=['apple','balsam'].flatMap(id=>[0,3,4].map(n=>id+'-'+n));d.classifications={apple:'same',balsam:'new'};d.transfers=Object.fromEntries(SORT_CARDS.map(c=>[c.id,c.bin]));
- e.records=['field-observation-egg','field-seed-water','field-care-water','field-animal-butterfly'];e.towerRun=true;e.title='교사 시연용 발견 이야기';e.summary='시연용 예시: 특징을 관찰하고 물의 조건을 비교했어.';e.captions=Object.fromEntries(e.records.map(id=>[id,'시연용 예시 기록이에요.']));e.matches={observation:e.records[0],retry:e.records[1],care:e.records[2]};e.plan={subject:'교실 식물',when:'매주 같은 날',what:'같은 자리에서 잎과 줄기를 관찰하기'};
+ e.records=['field-observation-egg','field-seed-water','field-care-water','field-animal-butterfly'];e.towerRun=true;e.title='꼬물꼬물 작은 생명들의 시간 여행';e.summary='나비는 알, 애벌레, 번데기를 거쳐 모습이 완전히 바뀌고, 씨앗은 물이 있어야 싹이 튼다는 걸 알게 됐어.';e.captions={...SAMPLE_CAPTIONS};e.matches={observation:e.records[0],retry:e.records[1],care:e.records[2]};e.plan={subject:'우리 반 화분의 강낭콩',when:'매주 월요일 아침',what:'잎이 몇 장인지 세고 키를 재서 그림으로 남기기'};
  if(phase==='discovery')f.discoveryVisit=chapter;
  if(chapter===0){
   if(phase==='search')f.chapters[0]=initialField().chapters[0];

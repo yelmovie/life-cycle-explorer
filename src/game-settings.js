@@ -10,7 +10,7 @@ const switchRow = (label, action, enabled, disabled) => `<div class="sound-row">
 /** Returns modal content; caller owns persistence, focus and action handling. */
 export function renderSettings(options={}) {
   const {audio={}, completed=0,total=5,teacherPreview=false,version='dev',audioAvailable=true} = options;
-  const finished = Array.isArray(completed) ? completed.length >= total : Number(completed) >= total;
+  const finished = Array.isArray(completed) ? completed.length >= total : Number(completed) >= total, sample = teacherPreview && !finished;
   const bgm = audio.bgm === true, sfx = audio.sfx !== false;
   const rawVolume = Number(audio.volume ?? .2);
   const volume = Math.round(Math.max(0, Math.min(1,Number.isFinite(rawVolume)?rawVolume:.2))*100);
@@ -24,10 +24,10 @@ export function renderSettings(options={}) {
   </div>
   <div class="settings-replays">
     ${button(C.intro,'intro','wide-button')}
-    ${button('엔딩 다시 보기','ending','wide-button',finished?'':'disabled aria-describedby="ending-lock"')}
-    ${button('인증서 받기','certificate','wide-button',finished?'':'disabled aria-describedby="ending-lock"')}
+    ${button(sample?'엔딩 다시 보기 (샘플)':'엔딩 다시 보기','ending','wide-button',finished?'':sample?'data-sample="1"':'disabled aria-describedby="ending-lock"')}
+    ${button(sample?'인증서 받기 (샘플)':'인증서 받기','certificate','wide-button',finished?'':sample?'data-sample="1"':'disabled aria-describedby="ending-lock"')}
     ${button('개념 영상 모아 보기 (선택)','concept-list','wide-button')}
-    ${finished?'':'<p class="settings-note" id="ending-lock">다섯 구역의 탐구를 마치면 엔딩과 인증서가 열려요.</p>'}
+    ${finished?'':sample?'<p class="settings-note">교사 시연에서는 예시 기록으로 만든 샘플 엔딩과 인증서를 볼 수 있어요. 학생 기록에는 남지 않아요.</p>':'<p class="settings-note" id="ending-lock">다섯 구역의 탐구를 마치면 엔딩과 인증서가 열려요.</p>'}
   </div>
   ${details('앱 정보 · 배움과 보상',`<dl class="learning-list"><div><dt>${esc(C.purpose)}</dt><dd>${esc(C.purposeText)}</dd></div><div><dt>미션 보상</dt><dd>${esc(C.rewardText)}</dd></div><div><dt>남는 배움</dt><dd>${esc(C.learningText)}</dd></div></dl><p class="app-signature">${esc(C.appName)} v${esc(version)} · ${esc(C.signature)}</p><div class="settings-shortcuts">${button('탐구 기록함','records')}${button('도구 가방','bag')}</div>`)}
   ${details('학생용 가이드',paragraphs(C.students))}

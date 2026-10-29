@@ -69,7 +69,7 @@ export function roomUI(s,ui){
   if(phase==='tower-evidence'){objective='주장 쪽지마다 그걸 증명하는 내 사진을 실로 이어 줘.';next='증거 확인';}
   if(phase==='tower-note'){objective='연구 노트에 내 발견의 이름과 한 문장을 남겨 줘.';controls=action('연구 노트 쓰기','story-info',{},'pen');next='노트 확인';}
   if(phase==='tower-run'){objective='큰 시곗바늘을 한 바퀴 돌려 시계탑을 깨워 줘.';next='시계 확인';}
-  if(phase==='plan'){objective='모형 밖에서 직접 이어갈 관찰을 약속해 줘.';controls=action('내 이야기 재생','story-play',{},'play')+action('이야기 PNG','export',{},'camera');next='실제 관찰 약속';nextAction='plan';}
+  if(phase==='plan'){objective='모형 밖에서 직접 이어갈 관찰을 약속해 줘.';controls=action('내 이야기 재생','story-play',{},'play')+action('나의 생명관찰노트 인쇄하기','export',{},'camera');next='실제 관찰 약속';nextAction='plan';}
  }
  if(observationHeld(f)){next='관찰을 마쳤어요';nextAction='observation-done';objective=phase==='grow'?'마지막 날 A와 B를 0일 모습과 비교해 봐. 어디가 달라졌니?':phase==='animals'?'처음 모습과 다 자란 모습을 비교해 봐. 몸에서 달라진 곳은?':'겨울과 다음 봄에 두 식물에서 무엇이 남았는지 살펴봐.';}
  return {phase,objective,controls,next,nextAction,guide:r.guide};

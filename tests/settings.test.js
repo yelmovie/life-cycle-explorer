@@ -3,12 +3,15 @@ import assert from 'node:assert/strict';
 import {renderSettings,renderResetConfirm} from '../src/game-settings.js';
 import {DEFAULT_AUDIO,normaliseAudio,initAudio,updateAudio,playSfx,pauseAudio,resumeAudio,dispose} from '../src/game-audio.js';
 
-test('settings keep replay locked until real completion and teacher preview cannot award it',()=>{
-  const locked=renderSettings({completed:[0,1,2,3],teacherPreview:true,version:'1.2.3'});
+test('settings keep replay locked until real completion and teacher preview only opens labelled samples',()=>{
+  const locked=renderSettings({completed:[0,1,2,3],version:'1.2.3'});
   assert.match(locked.body,/data-action="ending" disabled/);
   assert.match(locked.body,/data-action="certificate" disabled/);
+  const preview=renderSettings({completed:[0,1,2,3],teacherPreview:true,version:'1.2.3'});
+  assert.match(preview.body,/data-action="ending" data-sample="1">엔딩 다시 보기 \(샘플\)/);
+  assert.match(preview.body,/data-action="certificate" data-sample="1">인증서 받기 \(샘플\)/);
   assert.match(locked.body,/v1\.2\.3/);
-  assert.match(locked.body,/data-action="teacher-preview" aria-pressed="true"/);
+  assert.match(preview.body,/data-action="teacher-preview" aria-pressed="true"/);
   const finished=renderSettings({completed:[0,1,2,3,4]});
   assert.doesNotMatch(finished.body,/data-action="(?:ending|certificate)" disabled/);
 });

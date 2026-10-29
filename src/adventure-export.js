@@ -1,16 +1,20 @@
-const FONT = '"Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif';
-const COLORS = { paper: '#fbf7e8', ink: '#244d39', muted: '#637462', line: '#d6ddc5', green: '#315c42', mint: '#edf3df', gold: '#e7c77c', white: '#fffef8' };
+const FIELD_FONT_FALLBACK = '"Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif';
 
 function cleanText(value, fallback = '') {
   const text=String(value ?? '').replace(/\r\n?/g, '\n').replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g, '');return text.trim()?text:fallback;
 }
 
-function font(ctx, size, weight = 400) { ctx.font = `${weight} ${size}px ${FONT}`; }
-
-/** Preserve spaces and every paragraph, wrapping by measured width. */
+/** Preserve spaces and every paragraph, wrapping between words by measured width; only an over-long word breaks inside. */
 function wrapText(ctx,text,width){
  const lines=[];
- for(const paragraph of text.split('\n')){let line='';for(const letter of [...paragraph]){if(line&&ctx.measureText(line+letter).width>width){lines.push(line);line='';}line+=letter;}lines.push(line);}
+ for(const paragraph of text.split('\n')){
+  let line='';
+  for(const word of paragraph.split(/(?<=\s)/)){
+   if(line&&ctx.measureText(line+word.trimEnd()).width>width){lines.push(line.trimEnd());line='';}
+   for(const letter of [...word]){if(line&&ctx.measureText(line+letter).width>width&&letter.trim()){lines.push(line);line='';}line+=letter;}
+  }
+  lines.push(line.trimEnd());
+ }
  return lines.length?lines:[''];
 }
 
@@ -124,86 +128,148 @@ async function loadArtwork(value) {
 }
 
 /** Render the student's actual evidence and captions. The caller owns downloading. */
+const HAND = '"Research Hand", "Jua", ' + FIELD_FONT_FALLBACK;
+const ROUND = '"Jua", ' + FIELD_FONT_FALLBACK;
+const NOTE = { paper: '#fffdf3', rule: '#d9e7ef', margin: '#f3b9ae', ink: '#2c4a3b', pencil: '#3b4a6b', tape: 'rgba(247,214,120,.72)', mint: '#e6f1dc', pink: '#fbe3df', card: '#ffffff', edge: '#e4d9bf' };
+
+function handFont(ctx, size) { ctx.font = `400 ${size}px ${HAND}`; }
+function roundFont(ctx, size) { ctx.font = `400 ${size}px ${ROUND}`; }
+function tape(ctx, x, y, width, angle) {
+  ctx.save(); ctx.translate(x, y); ctx.rotate(angle); ctx.fillStyle = NOTE.tape; ctx.fillRect(-width / 2, -17, width, 34);
+  ctx.strokeStyle = 'rgba(214,170,70,.35)'; ctx.lineWidth = 2; ctx.strokeRect(-width / 2, -17, width, 34); ctx.restore();
+}
+function flower(ctx, x, y, r, color) {
+  ctx.fillStyle = color; for (let i = 0; i < 5; i++) { const a = i * Math.PI * 2 / 5; ctx.beginPath(); ctx.arc(x + Math.cos(a) * r, y + Math.sin(a) * r, r * .72, 0, Math.PI * 2); ctx.fill(); }
+  ctx.fillStyle = '#f6c84c'; ctx.beginPath(); ctx.arc(x, y, r * .62, 0, Math.PI * 2); ctx.fill();
+}
+function star(ctx, x, y, r, color) {
+  ctx.fillStyle = color; ctx.beginPath();
+  for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, d = i % 2 ? r * .45 : r; ctx.lineTo(x + Math.cos(a) * d, y + Math.sin(a) * d); }
+  ctx.closePath(); ctx.fill();
+}
+function leaf(ctx, x, y, size, angle) {
+  ctx.save(); ctx.translate(x, y); ctx.rotate(angle); ctx.fillStyle = '#8cbf6a'; ctx.beginPath(); ctx.ellipse(0, 0, size, size * .45, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = '#5e9348'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(-size * .9, 0); ctx.lineTo(size * .9, 0); ctx.stroke(); ctx.restore();
+}
+/** Hand-written lines that sit on ruled guide lines, like a child's notebook entry. */
+function ruledWriting(ctx, lines, x, y, width, lineHeight, minLines) {
+  ctx.strokeStyle = NOTE.rule; ctx.lineWidth = 2;
+  for (let i = 0; i < Math.max(minLines, lines.length); i++) { const base = y + (i + 1) * lineHeight - 8; ctx.beginPath(); ctx.moveTo(x, base); ctx.lineTo(x + width, base); ctx.stroke(); }
+  ctx.fillStyle = NOTE.pencil; paintLines(ctx, lines, x + 6, y + 6, lineHeight);
+}
+
+/** A printable A4-shaped notebook page: the child's title, four taped photo cards in a 2×2 grid, and their own writing. */
 export async function exportStorybook({ title, summary, cards, plan, limits } = {}) {
   if (!Array.isArray(cards) || !cards.length || cards.length > 6) throw new Error('탐구 카드 1~6장을 골라 줘.');
-  const heading = cleanText(title, '나의 생명 탐구 이야기');
-  const conclusion = cleanText(summary, '아직 한 문장 정리를 적지 않았어.');
+  const heading = cleanText(title, '나의 생명관찰노트');
+  const conclusion = cleanText(summary);
   const records = cards.map((card, index) => ({
     title: cleanText(card?.title, `관찰 기록 ${index + 1}`),
-    detail: cleanText(card?.detail),
-    caption: cleanText(card?.caption, '아직 설명을 적지 않았어.'),
+    region: cleanText(card?.region),
+    caption: cleanText(card?.caption),
     image: card?.image,
   }));
-  if (heading.length > (limits?.title??200) || conclusion.length > (limits?.summary??1600) || records.some(card => card.title.length > 240 || card.detail.length > 1200 || card.caption.length > (limits?.caption??2000))) {
+  if (heading.length > (limits?.title??200) || conclusion.length > (limits?.summary??1600) || records.some(card => card.title.length > 240 || card.caption.length > (limits?.caption??2000))) {
     throw new Error('한 장에 담기에는 글이 너무 길어. 핵심 발견을 조금 더 짧게 정리해 줘.');
   }
+  await Promise.all([document.fonts?.load?.(`40px ${HAND}`), document.fonts?.load?.(`40px ${ROUND}`)].map(p => Promise.resolve(p).catch(() => {})));
   const [images] = await Promise.all([Promise.all(records.map(card => loadArtwork(card.image))), document.fonts?.ready]);
   const canvas = document.createElement('canvas');
   canvas.width = 1800;
   const ctx = canvas.getContext('2d');
   if (!ctx) throw new Error('이 브라우저에서 결과 그림을 만들 수 없어.');
-  const margin = 84, gap = 30, contentWidth = canvas.width - margin * 2;
-  const columns = Math.min(3, records.length), cardWidth = (contentWidth - gap * (columns - 1)) / columns;
-  const imageHeight = columns === 1 ? 420 : columns === 2 ? 350 : 280;
-  font(ctx, 60, 800);
-  const titleLines = wrapText(ctx, heading, contentWidth - 12);
-  const cardsTop = 172 + titleLines.length * 76;
+  const W = canvas.width, margin = 110, gap = 46, columns = records.length === 1 ? 1 : 2;
+  const cardWidth = (W - margin * 2 - gap * (columns - 1)) / columns, inner = cardWidth - 64, imageHeight = 330, line = 54;
+  handFont(ctx, 76); const titleLines = wrapText(ctx, heading, W - margin * 2 - 40);
+  const cardsTop = 330 + (titleLines.length - 1) * 86;
   const layouts = records.map(card => {
-    font(ctx, 28, 700); const titleLines = wrapText(ctx, card.title, cardWidth - 125);
-    font(ctx, 22); const detailLines = card.detail ? wrapText(ctx, card.detail, cardWidth - 52) : [];
-    font(ctx, 27, 500); const captionLines = wrapText(ctx, card.caption, cardWidth - 52);
-    return { titleLines, detailLines, captionLines };
+    roundFont(ctx, 34); const titleLines = wrapText(ctx, card.title, inner - 80);
+    handFont(ctx, 38); const captionLines = card.caption ? wrapText(ctx, card.caption, inner - 12) : [];
+    return { titleLines, captionLines, writeLines: Math.max(3, captionLines.length) };
   });
   const rows = [];
   for (let i = 0; i < records.length; i += columns) {
     const items = layouts.slice(i, i + columns);
-    const titleHeight = Math.max(80, ...items.map(item => item.titleLines.length * 37 + 40));
-    const bodyHeight = Math.max(...items.map(item => item.detailLines.length * 32 + (item.detailLines.length ? 20 : 0) + 42 + item.captionLines.length * 40));
-    rows.push({ start: i, titleHeight, height: titleHeight + imageHeight + 30 + bodyHeight + 30 });
+    const head = Math.max(...items.map(item => item.titleLines.length * 44)) + 70;
+    rows.push({ start: i, head, height: head + imageHeight + 92 + Math.max(...items.map(item => item.writeLines)) * line + 36 });
   }
-  font(ctx, 30, 500); const summaryLines = wrapText(ctx, conclusion, contentWidth - 72);
-  const summaryTop = cardsTop + rows.reduce((sum, row) => sum + row.height + gap, 0) + 12;
-  const summaryHeight = 110 + summaryLines.length * 44;
-  const planLines=plan?wrapText(ctx,`관찰할 생물: ${cleanText(plan.subject)}\n언제: ${cleanText(plan.when)}\n${cleanText(plan.what)}`,contentWidth-72):[],planHeight=planLines.length?110+planLines.length*42:0;
-  const outputHeight = Math.ceil(summaryTop + summaryHeight + (planHeight?planHeight+24:0) + 130);
+  handFont(ctx, 40); const summaryLines = conclusion ? wrapText(ctx, conclusion, W - margin * 2 - 90) : [];
+  const summaryWrite = Math.max(2, summaryLines.length), planItems = [['관찰할 생물', plan?.subject], ['언제', plan?.when], ['무엇을 기록할까', plan?.what]];
+  const planLayouts = planItems.map(([, text]) => { handFont(ctx, 38); return wrapText(ctx, cleanText(text), W - margin * 2 - 420); });
+  const summaryTop = cardsTop + rows.reduce((sum, row) => sum + row.height + gap, 0) + 10;
+  const summaryHeight = 110 + summaryWrite * line, planTop = summaryTop + summaryHeight + 34;
+  const planHeight = 100 + planLayouts.reduce((sum, lines) => sum + Math.max(1, lines.length) * line + 14, 0);
+  // A4 portrait proportions so it prints on one page; long writing grows the page instead of shrinking the text.
+  const outputHeight = Math.max(Math.ceil(W * 297 / 210), Math.ceil(planTop + planHeight + 150));
   if (outputHeight > 16000) throw new Error('기록이 너무 길어 결과 그림에 담기 어려워. 설명을 조금 줄여 줘.');
   canvas.height = outputHeight;
   ctx.textBaseline = 'top';
-  ctx.fillStyle = COLORS.paper; ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = COLORS.green; ctx.fillRect(0, 0, canvas.width, 18);
-  rounded(ctx, margin, 60, 360, 48, 24, COLORS.mint);
-  font(ctx, 23, 700); ctx.fillStyle = COLORS.green; ctx.fillText('생명의 숲 · 나의 발견 이야기', margin + 22, 71);
-  font(ctx, 60, 800); ctx.fillStyle = COLORS.ink; paintLines(ctx, titleLines, margin, 134, 76);
+
+  // Paper, ruled lines, a red margin line and spiral binding.
+  ctx.fillStyle = NOTE.paper; ctx.fillRect(0, 0, W, outputHeight);
+  ctx.strokeStyle = NOTE.rule; ctx.lineWidth = 2;
+  for (let y = 150; y < outputHeight; y += line) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+  ctx.strokeStyle = NOTE.margin; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(72, 96); ctx.lineTo(72, outputHeight); ctx.stroke();
+  for (let x = 90; x < W - 40; x += 92) {
+    ctx.fillStyle = '#e9e1cc'; ctx.beginPath(); ctx.arc(x, 52, 13, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = '#8a8f99'; ctx.lineWidth = 6; ctx.beginPath(); ctx.arc(x, 34, 22, Math.PI * .15, Math.PI * .95); ctx.stroke();
+  }
+
+  // Header: notebook label, the child's own title, name and date blanks.
+  rounded(ctx, margin, 108, 410, 58, 29, NOTE.mint, '#bcd6a8');
+  leaf(ctx, margin + 40, 137, 18, -.5);
+  roundFont(ctx, 32); ctx.fillStyle = '#3f6b45'; ctx.fillText('나의 생명관찰노트', margin + 72, 120);
+  roundFont(ctx, 28); ctx.fillStyle = NOTE.ink;
+  const now = new Date(), date = `${now.getFullYear()}. ${now.getMonth() + 1}. ${now.getDate()}.`;
+  ctx.fillText('이름:', W - margin - 600, 124); ctx.fillText(`날짜: ${date}`, W - margin - 270, 124);
+  ctx.strokeStyle = '#9aa79a'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(W - margin - 520, 160); ctx.lineTo(W - margin - 300, 160); ctx.stroke();
+  handFont(ctx, 76); ctx.fillStyle = NOTE.ink; paintLines(ctx, titleLines, margin, 196, 86);
+  star(ctx, W - margin - 30, 230, 26, '#f6c84c'); flower(ctx, W - margin - 100, 262, 12, '#f4a7b9');
 
   let top = cardsTop;
   for (const row of rows) {
     for (let column = 0; column < columns && row.start + column < records.length; column++) {
-      const index = row.start + column, layout = layouts[index], x = margin + column * (cardWidth + gap);
-      rounded(ctx, x, top, cardWidth, row.height, 26, COLORS.white, COLORS.line);
-      rounded(ctx, x + 24, top + 22, 54, 54, 16, COLORS.green);
-      font(ctx, 27, 800); ctx.fillStyle = COLORS.white; ctx.fillText(String(index + 1).padStart(2, '0'), x + 34, top + 34);
-      font(ctx, 28, 700); ctx.fillStyle = COLORS.ink; paintLines(ctx, layout.titleLines, x + 96, top + 26, 37);
-      const artTop = top + row.titleHeight;
-      rounded(ctx, x + 20, artTop, cardWidth - 40, imageHeight, 18, COLORS.mint);
-      const image = images[index], availableWidth = cardWidth - 72, availableHeight = imageHeight - 32;
-      const scale = Math.min(availableWidth / image.naturalWidth, availableHeight / image.naturalHeight);
+      const index = row.start + column, card = records[index], layout = layouts[index], x = margin + column * (cardWidth + gap);
+      ctx.save(); ctx.shadowColor = 'rgba(90,70,30,.16)'; ctx.shadowBlur = 18; ctx.shadowOffsetY = 6;
+      rounded(ctx, x, top, cardWidth, row.height, 22, NOTE.card); ctx.restore();
+      rounded(ctx, x, top, cardWidth, row.height, 22, 'rgba(0,0,0,0)', NOTE.edge);
+      tape(ctx, x + cardWidth / 2, top + 2, 150, index % 2 ? .05 : -.06);
+      ctx.fillStyle = index % 2 ? '#f08a6c' : '#5e9e6b'; ctx.beginPath(); ctx.arc(x + 62, top + 62, 30, 0, Math.PI * 2); ctx.fill();
+      roundFont(ctx, 32); ctx.fillStyle = '#fff'; const number = String(index + 1); ctx.fillText(number, x + 62 - ctx.measureText(number).width / 2, top + 45);
+      roundFont(ctx, 34); ctx.fillStyle = NOTE.ink; paintLines(ctx, layout.titleLines, x + 108, top + 44, 44);
+      if (card.region) { roundFont(ctx, 24); const w = ctx.measureText(card.region).width + 34; rounded(ctx, x + cardWidth - w - 28, top + 20, w, 40, 20, NOTE.pink); ctx.fillStyle = '#b4544a'; ctx.fillText(card.region, x + cardWidth - w - 11, top + 28); }
+      const artTop = top + row.head;
+      rounded(ctx, x + 32, artTop, inner, imageHeight, 16, NOTE.mint);
+      const image = images[index], scale = Math.min((inner - 30) / image.naturalWidth, (imageHeight - 24) / image.naturalHeight);
       const width = image.naturalWidth * scale, height = image.naturalHeight * scale;
-      ctx.drawImage(image, x + (cardWidth - width) / 2, artTop + (imageHeight - height) / 2, width, height);
-      let textTop = artTop + imageHeight + 24;
-      font(ctx, 22); ctx.fillStyle = COLORS.muted; paintLines(ctx, layout.detailLines, x + 26, textTop, 32);
-      textTop += layout.detailLines.length * 32 + (layout.detailLines.length ? 20 : 0);
-      font(ctx, 20, 700); ctx.fillStyle = COLORS.green; ctx.fillText('나의 발견', x + 26, textTop);
-      font(ctx, 27, 500); ctx.fillStyle = COLORS.ink; paintLines(ctx, layout.captionLines, x + 26, textTop + 42, 40);
+      ctx.drawImage(image, x + 32 + (inner - width) / 2, artTop + (imageHeight - height) / 2, width, height);
+      const textTop = artTop + imageHeight + 26;
+      roundFont(ctx, 26); ctx.fillStyle = '#5e9e6b'; ctx.fillText('✎ 내가 쓴 글', x + 34, textTop);
+      handFont(ctx, 38); ruledWriting(ctx, layout.captionLines, x + 34, textTop + 48, inner, line, row.height - row.head - imageHeight - 110 > 0 ? Math.floor((row.height - row.head - imageHeight - 110) / line) : 3);
     }
     top += row.height + gap;
   }
-  rounded(ctx, margin, summaryTop, contentWidth, summaryHeight, 24, '#e7edda', COLORS.line);
-  font(ctx, 23, 800); ctx.fillStyle = COLORS.green; ctx.fillText('내 탐구를 한 문장으로', margin + 36, summaryTop + 28);
-  font(ctx, 30, 500); ctx.fillStyle = COLORS.ink; paintLines(ctx, summaryLines, margin + 36, summaryTop + 76, 44);
-  if(planHeight){const planTop=summaryTop+summaryHeight+24;rounded(ctx,margin,planTop,contentWidth,planHeight,24,COLORS.mint,COLORS.line);font(ctx,23,800);ctx.fillStyle=COLORS.green;ctx.fillText('실제로 이어 갈 관찰',margin+36,planTop+24);font(ctx,30,500);ctx.fillStyle=COLORS.ink;paintLines(ctx,planLines,margin+36,planTop+70,42);}
-  const footerTop = canvas.height - 74;
-  ctx.strokeStyle = COLORS.line; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(margin, footerTop - 22); ctx.lineTo(canvas.width - margin, footerTop - 22); ctx.stroke();
-  font(ctx, 22, 600); ctx.fillStyle = COLORS.muted; ctx.fillText('생명 시계 연구실 · 탐구 기록 / 모의 관찰', margin, footerTop);
-  font(ctx, 21); const count = `${records.length}개의 기록을 이어 만든 이야기`; ctx.fillText(count, canvas.width - margin - ctx.measureText(count).width, footerTop);
+
+  rounded(ctx, margin, summaryTop, W - margin * 2, summaryHeight, 24, '#fff7e0', '#efd99a');
+  star(ctx, margin + 46, summaryTop + 48, 20, '#f2b33d');
+  roundFont(ctx, 32); ctx.fillStyle = '#8a5a12'; ctx.fillText('내가 알아낸 것', margin + 78, summaryTop + 30);
+  handFont(ctx, 40); ruledWriting(ctx, summaryLines, margin + 44, summaryTop + 82, W - margin * 2 - 88, line, summaryWrite);
+
+  rounded(ctx, margin, planTop, W - margin * 2, planHeight, 24, '#eef6ff', '#bcd3ea');
+  flower(ctx, margin + 46, planTop + 50, 11, '#9cc4ef');
+  roundFont(ctx, 32); ctx.fillStyle = '#2f5c86'; ctx.fillText('앞으로의 관찰 약속', margin + 78, planTop + 32);
+  let planY = planTop + 92;
+  planItems.forEach(([label], i) => {
+    const lines = planLayouts[i];
+    ctx.strokeStyle = '#6f93b8'; ctx.lineWidth = 3; ctx.strokeRect(margin + 44, planY + 6, 30, 30);
+    roundFont(ctx, 30); ctx.fillStyle = '#2f5c86'; ctx.fillText(label, margin + 92, planY + 6);
+    handFont(ctx, 38); ruledWriting(ctx, lines, margin + 380, planY - 6, W - margin * 2 - 420, line, 1);
+    planY += Math.max(1, lines.length) * line + 14;
+  });
+
+  const footerTop = outputHeight - 92;
+  leaf(ctx, margin + 20, footerTop + 18, 22, .4); leaf(ctx, margin + 56, footerTop + 4, 16, -.6); flower(ctx, W - margin - 20, footerTop + 16, 13, '#f4a7b9'); star(ctx, W - margin - 70, footerTop + 20, 16, '#f6c84c');
+  roundFont(ctx, 24); ctx.fillStyle = '#7d8a7c'; const foot = '생명 시계 연구실 · 내가 관찰하고 기록한 노트 (모형 활동)';
+  ctx.fillText(foot, (W - ctx.measureText(foot).width) / 2, footerTop + 4);
   return new Promise((resolve, reject) => canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error('결과 그림을 저장하지 못했어. 다시 시도해 줘.')), 'image/png'));
 }

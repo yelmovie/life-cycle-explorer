@@ -14,4 +14,13 @@ export async function recordImage(r,s,thumbnail=false){const cacheKey=JSON.strin
  else await img(r.art,60,35,600,400);
  const height=thumbnail&&r.fieldEvidence?380:500;const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="720" height="${height}"><rect width="720" height="${height}" rx="20" fill="#fffbea"/>${parts.join('')}</svg>`;const data='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);const image=await new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src=data;});const canvas=document.createElement('canvas');canvas.width=720;canvas.height=height;canvas.getContext('2d').drawImage(image,0,0);const result=canvas.toDataURL('image/png');recordCache.set(cacheKey,result);return result;
 }
+// Print one image on an A4 page from a hidden frame; browsers that refuse to print get the file instead.
+export function printBlob(blob,name){
+ const url=URL.createObjectURL(blob),frame=document.createElement('iframe');let cleaned=false;
+ const cleanup=()=>{if(cleaned)return;cleaned=true;setTimeout(()=>{frame.remove();URL.revokeObjectURL(url);},500);};
+ frame.setAttribute('aria-hidden','true');frame.tabIndex=-1;frame.style.cssText='position:fixed;right:0;bottom:0;width:0;height:0;border:0;visibility:hidden';
+ frame.onload=()=>{const w=frame.contentWindow,img=w?.document.querySelector('img');const go=()=>{try{w.addEventListener('afterprint',cleanup,{once:true});w.focus();w.print();setTimeout(cleanup,60000);}catch{downloadBlob(blob,name);cleanup();}};if(!img){downloadBlob(blob,name);cleanup();}else if(img.complete)go();else{img.onload=go;img.onerror=()=>{downloadBlob(blob,name);cleanup();};}};
+ frame.srcdoc=`<!doctype html><html><head><meta charset="utf-8"><title>${name}</title><style>@page{size:A4 portrait;margin:8mm}html,body{margin:0}img{display:block;width:100%;height:auto}</style></head><body><img src="${url}" alt=""></body></html>`;
+ document.body.append(frame);
+}
 export function downloadBlob(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);}

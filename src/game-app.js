@@ -156,7 +156,9 @@ modal.addEventListener('close',()=>{if(modal.open)return;mediaCleanup?.();mediaC
 function concept(chapter=s.field.active,finish=false,returnToList=false){mediaCleanup=openConcept({chapter,dialog,modal,audio,reduced:reducedMotion(s.settings),returnToList,finishLabel:returnToList?'영상 목록으로':undefined,onFinish:()=>{if(returnToList)dialogs.concepts();else if(finish&&chapter===4)finale();}});}
 // Story films: the intro leads into the opening briefing, the finale into the ending record.
 function intro(){mediaCleanup=openCinema({id:'intro',dialog,modal,reduced:reducedMotion(s.settings),onFinish:()=>dialogs.opening()});}
-function finale(){if(s.field.completed.length<5)return;mediaCleanup=openCinema({id:'final',dialog,modal,reduced:reducedMotion(s.settings),detail:`관찰·실험 기록 ${fieldRecords(s.field).length}개로 다섯 장소의 시간을 다시 이었어.`,onFinish:()=>dialogs.ending()});}
+function finale(f=s.field){if(f.completed.length<5)return;mediaCleanup=openCinema({id:'final',dialog,modal,reduced:reducedMotion(s.settings),detail:`관찰·실험 기록 ${fieldRecords(f).length}개로 다섯 장소의 시간을 다시 이었어.`,onFinish:()=>dialogs.ending(f)});}
+// Teacher preview shows the ending and certificate built from example records; nothing is saved or awarded.
+function sampleField(){const f=previewFieldForPhase({preview:true},4,'ready');f.completed=[0,1,2,3,4];return f;}
 function settings(){dialog(renderSettings({audio:s.audio,completed:s.field.completed,teacherPreview:!!previewOriginal,version:VERSION,audioAvailable:audio.isAudioAvailable()}));}
 function lockedDoor(chapter){
  const first=[0,1,2,3,4].find(i=>!s.field.completed.includes(i))??0,previous=FIELD_CHAPTERS[first];
@@ -200,6 +202,7 @@ const ctx={get s(){return s;},saveStatus:()=>G.getSaveStatus(storage),saveDraft(
 const dialogs=createDialogs(ctx);
 const notebook=createFieldNotebook({get s(){return s;},dialog,close:()=>modal.close()});
 function action(name,b){void audio.initAudio(s.audio);audio.playSfx('click');
+ if(b?.dataset.sample==='1'&&previewOriginal){const f=sampleField();if(name==='ending')dialogs.ending(f);else if(name==='certificate')dialogs.certificate(f);else if(name==='final-replay')finale(f);else if(name==='export')void dialogs.export(true,f);return;}
  if(name==='retry-assets'||name==='next'&&ctx.scene?.assetFailure){if(modal.open)modal.close();ctx.scene?.retryAssets();return;}
  if(name==='asset-map'){modal.close();view('map');return;}
  if(['start','intro'].includes(name)){intro();return;}if(name==='final-replay'){finale();return;}if(name==='continue'){view(s.fieldView==='title'?'map':s.fieldView);return;}if(name==='begin'){modal.close();view('map');return;}if(name==='home'){view('title');return;}if(name==='back'){if(modal.open)modal.close();else view(mode()==='room'?'map':'title');return;}
