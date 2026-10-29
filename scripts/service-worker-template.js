@@ -17,8 +17,10 @@ self.addEventListener('install',event=>event.waitUntil((async()=>{
   const results=await Promise.allSettled(Array.from({length:3},async()=>{
    while(cursor<FILES.length){
     const file=FILES[cursor++],url=new URL(file.path,base).href;
-    const response=await fetch(url,{cache:'no-cache'});
+    let response=await fetch(url,{cache:'no-cache'});
     if(!response.ok||await digest(await response.clone().arrayBuffer())!==file.sha256)throw new Error('Release file unavailable');
+    // Hosts such as Cloudflare Pages redirect index.html to ./; a redirected response cannot answer a page navigation.
+    if(response.redirected){const headers=new Headers(response.headers);headers.delete('content-encoding');headers.delete('content-length');response=new Response(await response.blob(),{status:200,headers});}
     await cache.put(url,response);done++;await report('progress',{percent:Math.round(done/FILES.length*100)});
    }
   }));
@@ -38,7 +40,7 @@ self.addEventListener('message',event=>{
 });
 async function fromCache(request,url){
  const cache=await caches.open(NAME),response=await cache.match(url);
- if(!response)return fetch(request);
+ if(!response||response.redirected&&request.mode==='navigate')return fetch(request);
  if(!request.headers.has('range'))return response;
  const bytes=await response.arrayBuffer(),size=bytes.byteLength;
  const match=/^bytes=(\d*)-(\d*)$/.exec(request.headers.get('range'));
