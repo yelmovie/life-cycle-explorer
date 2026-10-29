@@ -38,7 +38,7 @@ export function openCinema({id,dialog,modal,reduced=false,detail='',onFinish=()=
  const places=film.places?`<p class="cinema-place" aria-hidden="true"><span class="cinema-place-kicker"></span><span class="cinema-place-name"></span></p>`:'';
  const stamps=film.stamps?`<ol class="cinema-stamps" aria-label="탐험한 장소">${film.stamps.map(([,name],i)=>`<li data-stamp="${i}"><span class="cinema-stamp-seal" aria-hidden="true">${i+1}</span><span>${esc(name)}</span></li>`).join('')}</ol>`:'';
  const card=id==='intro'
-  ?`<img class="cinema-card-logo" src="assets/field/title-logo-v1.webp" alt="생명 시계 연구실"><p class="cinema-card-line">멈춘 시간을 이어 줄 탐험가를 기다리고 있어.</p><button type="button" class="primary cinema-finish" data-cinema-finish>숲으로 출발</button>`
+  ?`<img class="cinema-card-logo" src="assets/field/title-logo-v1.webp" alt="생명 시계 연구실"><p class="cinema-card-line">멈춘 시간을 이어 줄 탐험가를 기다리고 있어.</p><button type="button" class="primary cinema-finish" data-cinema-finish>임무 받기</button>`
   :`<img class="cinema-card-medal" src="${ART.towerMedal}" alt="생명 시계 연구원 메달"><h3 class="cinema-card-title">생명 탐험가 인증!</h3><p class="cinema-card-line">${esc(detail||'네 관찰과 실험 기록이 숲의 시간을 다시 이었어.')}</p><button type="button" class="gold cinema-finish" data-cinema-finish>내 탐험 기록 보기</button>`;
  dialog({title:film.title,className:'cinema-dialog cinema-'+id,music:film.music,actions:'',body:`<div class="cinema-stage">
   <video class="cinema-video" playsinline muted preload="auto" poster="assets/video/${id}-poster.jpg" aria-label="${esc(film.label)}"></video>

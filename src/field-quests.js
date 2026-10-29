@@ -135,7 +135,7 @@ export function renderQuestRoom(v,ctx){
   label(330,480,first?'잎 참고 모형':'번데기 참고 모형',20,245);
   label(340,552,first?'“잎을 갉아 먹는 모습을 봤어!”':'“번데기에서 나와\n날개를 펼치는 모습을 봤어!”',22,325);
   const memo=v.label(330,295,'도토의 관찰 메모',22,245);dragTo(memo,target=>target&&send({kind:'connect',target}));
-  targets.forEach((target,i)=>{const x=650+i*185;sprite(target,x,385,target==='egg'?50:135,150);destination(x,385,160,180,target,()=>send({kind:'connect',target}));button(x,510,155,names[target],{kind:'connect',target},e.target===target);if(e.target===target)line(470,395,x-75,395);});
+  targets.forEach((target,i)=>{const x=650+i*185;sprite(target,x,385,target==='egg'?85:135,150);destination(x,385,160,180,target,()=>send({kind:'connect',target}));button(x,510,155,names[target],{kind:'connect',target},e.target===target);if(e.target===target)line(470,395,x-75,395);});
   if(e.target)button(785,590,360,'내 흔적 발견 기록',{kind:'record'});
   return;
  }

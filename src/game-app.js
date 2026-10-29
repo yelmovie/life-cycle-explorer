@@ -98,7 +98,9 @@ function render(){rememberTeacherPreview();const m=mode(),room=m==='room';app.da
   $('objective').textContent=travelling?FIELD_CHAPTERS[ui.travelChapter].title+' 가는 길을 따라 걷는 중이야.':c===undefined?'숲의 시간이 다시 흐르기 시작했어!':FIELD_CHAPTERS[c].question;
   $('controls').innerHTML=`<div class="row direction-pad">${[['left','왼쪽',-1,0],['up','위',0,-1],['down','아래',0,1],['right','오른쪽',1,0]].map(([i,l,x,y])=>btn(icon(i),'step',`data-x="${x}" data-y="${y}" aria-label="${l} 길로 걷기"`)).join('')}</div>`;
   $('next').textContent=travelling?'길을 따라 가는 중…':c===undefined?'내 이야기 보기':FIELD_CHAPTERS[c].title+' 가기';
-  $('map-doors').innerHTML=FIELD_CHAPTERS.map((ch,i)=>`<button class="map-door ${s.field.completed.includes(i)?'done':fieldUnlocked(s.field,i)?'':'locked'}" data-action="door" data-chapter="${i}" aria-label="${ch.title}${fieldUnlocked(s.field,i)?' 입장하기':' · 앞 탐사 뒤 열림'}">${s.field.completed.includes(i)?icon('check'):fieldUnlocked(s.field,i)?'':icon('lock')}${ch.title}</button>`).join('');
+  // The next place to explore glows, so the map always answers "where now?".
+  const nextDoor=FIELD_CHAPTERS.findIndex((_,i)=>!s.field.completed.includes(i)&&fieldUnlocked(s.field,i));
+  $('map-doors').innerHTML=FIELD_CHAPTERS.map((ch,i)=>`<button class="map-door ${s.field.completed.includes(i)?'done':fieldUnlocked(s.field,i)?(i===nextDoor?'next':''):'locked'}" data-action="door" data-chapter="${i}" aria-label="${ch.title}${fieldUnlocked(s.field,i)?' 입장하기':' · 앞 탐사 뒤 열림'}">${s.field.completed.includes(i)?icon('check'):fieldUnlocked(s.field,i)?'':icon('lock')}${ch.title}</button>`).join('');
  }
  $('next').disabled=m==='map'&&Number.isInteger(ui.travelChapter);
  // Rebuilt door buttons take their map positions at once instead of on the next frame.
