@@ -57,7 +57,7 @@ export function openCinema({id,dialog,modal,reduced=false,detail='',onFinish=()=
   const i=film.cues.findIndex(([start,end])=>t>=start&&t<end);
   if(i!==lastCue){lastCue=i;caption.classList.remove('is-on');if(i>=0){caption.textContent=film.cues[i][2];void caption.offsetWidth;caption.classList.add('is-on');}}
   if(film.places){const p=film.places.findLastIndex(([start])=>t>=start);if(p!==lastPlace&&p>=0){lastPlace=p;const tag=stage.querySelector('.cinema-place');tag.classList.remove('is-on');tag.firstElementChild.textContent=film.places[p][1];tag.lastElementChild.textContent=film.places[p][2];void tag.offsetWidth;tag.classList.add('is-on');}}
-  if(film.stamps){stage.querySelectorAll('[data-stamp]').forEach((li,n)=>li.classList.toggle('is-lit',t>=film.stamps[n][0]));stage.classList.toggle('is-glow',t>=film.glowAt);}
+  if(film.stamps){const now=film.stamps.findLastIndex(([start])=>t>=start);stage.querySelectorAll('[data-stamp]').forEach((li,n)=>{li.classList.toggle('is-lit',n<=now);li.classList.toggle('is-current',n===now);});stage.classList.toggle('is-glow',t>=film.glowAt);}
   if(t>=film.cardAt)showCard();
  };
  const finish=()=>{if(finished)return;finished=true;cleanup();onFinish();};
