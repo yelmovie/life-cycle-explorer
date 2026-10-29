@@ -151,7 +151,7 @@ test('final book uses real records, both life kinds, reasoning and three evidenc
   assert.equal(fieldAction(field,'book-record',{id:'invented-picture'}).ok,false);
   assert.equal(fieldBookReady(field),true);
   assert.equal(fieldAction(field,'help-match',{request:'care',recordId:'field-observation-larva'}).ok,false);
-  for (const [request,recordId] of [['observation','field-animal-butterfly'],['retry','field-seed-water'],['care','field-care-water']]) act(field,'help-match',{request,recordId});
+  for (const [request,recordId] of [['observation','field-observation-larva'],['retry','field-seed-water'],['care','field-care-water']]) act(field,'help-match',{request,recordId});
   act(field,'tower-run');
   assert.equal(fieldAction(field,'chapter-complete').ok,false);
   assert.equal(fieldAction(field,'observation-plan',{subject:'',when:'',what:''}).ok,false);
@@ -207,7 +207,7 @@ test('teacher preview unlocks entry while requiring genuine work and is discarde
 
 test('chapter restart clears only the active challenge and preserves earned records, rewards and published book',() => {
   const field=completedThrough(3);composeBook(field);
-  for (const [request,recordId] of [['observation','field-animal-butterfly'],['retry','field-seed-water'],['care','field-care-water']]) act(field,'help-match',{request,recordId});
+  for (const [request,recordId] of [['observation','field-observation-larva'],['retry','field-seed-water'],['care','field-care-water']]) act(field,'help-match',{request,recordId});
   act(field,'tower-run');
   act(field,'observation-plan',{subject:'학교 봉선화',when:'매주 월요일',what:'잎과 줄기를 그림으로 남기기'});act(field,'chapter-complete');
   const records=fieldRecords(field),book=structuredClone(field.chapters[4]);
@@ -287,16 +287,14 @@ test('older partial garden saves remain completable without photo buttons',()=>{
 
 test('tower claims accept only records that show the claimed change',() => {
   const field=completedThrough(3);composeBook(field);
-  // Region 3 holds an unrelated plant photo: same region, but no animal growth.
-  act(field,'book-record',{id:'field-season-apple'});
-  for (const recordId of ['field-observation-larva','field-season-apple']) {
+  // The close-up note is proved by the 나비의 숲 close-up, not by a life-cycle or plant photo.
+  for (const recordId of ['field-animal-butterfly','field-season-apple']) {
+    act(field,'book-record',{id:recordId});
     const result=fieldAction(field,'help-match',{request:'observation',recordId});
-    assert.equal(result.ok,false);assert.match(result.message,/변화 전후가 함께 보이는 기록/);
+    assert.equal(result.ok,false);assert.match(result.message,/나비의 숲 사진/);
   }
   assert.equal(field.chapters[4].matches.observation,undefined);
-  // Re-picking the region's time-series record makes it valid evidence.
-  act(field,'book-record',{id:'field-animal-butterfly'});
-  act(field,'help-match',{request:'observation',recordId:'field-animal-butterfly'});
+  act(field,'help-match',{request:'observation',recordId:'field-observation-larva'});
   assert.equal(fieldAction(field,'help-match',{request:'retry',recordId:'field-care-water'}).ok,false);
   act(field,'help-match',{request:'retry',recordId:'field-seed-water'});
   act(field,'help-match',{request:'care',recordId:'field-care-water'});
@@ -306,6 +304,7 @@ test('tower claims accept only records that show the claimed change',() => {
 test('one-condition evidence narrows the claim to the condition that was compared',() => {
   const field=completedThrough(3);composeBook(field);
   const text=request => towerClaimText(field,TOWER_CLAIMS.find(c => c.request === request));
+  assert.equal(text('observation'),'애벌레를 확대하면 생김새의 특징이 보여.');
   assert.equal(text('retry'),'씨앗이 싹트려면 물이 필요해.');
   assert.equal(text('care'),'식물은 물이 부족하면 겉모습으로 신호를 보내.');
   act(field,'book-record',{id:'field-seed-warm'});act(field,'book-record',{id:'field-care-light'});
@@ -313,19 +312,20 @@ test('one-condition evidence narrows the claim to the condition that was compare
   assert.equal(text('care'),'식물은 빛이 부족하면 겉모습으로 신호를 보내.');
 });
 
-test('a finished tower that linked a close-up keeps its completion and the learner pick after restore',() => {
+test('a finished tower that linked the life cycle to the old growth note keeps its completion after restore',() => {
   const field=completedThrough(3);composeBook(field);
-  for (const [request,recordId] of [['observation','field-animal-butterfly'],['retry','field-seed-water'],['care','field-care-water']]) act(field,'help-match',{request,recordId});
+  for (const [request,recordId] of [['observation','field-observation-larva'],['retry','field-seed-water'],['care','field-care-water']]) act(field,'help-match',{request,recordId});
   act(field,'tower-run');act(field,'observation-plan',{subject:'학교 봉선화',when:'매주 월요일',what:'잎과 줄기를 사진으로 남기기'});act(field,'chapter-complete');
-  // Saved by the earlier version, where a single close-up was accepted.
-  const old=JSON.parse(JSON.stringify(field));old.chapters[4].matches.observation='field-observation-larva';old.snapshots[4].matches.observation='field-observation-larva';
+  // Saved by the earlier version, where this note claimed growth and took the life-cycle record.
+  const old=JSON.parse(JSON.stringify(field));for (const book of [old.chapters[4],old.snapshots[4]]) {book.records[3]='field-animal-butterfly';book.matches.observation='field-animal-butterfly';}
   const restored=restoreField(JSON.stringify(old));
   assert.equal(fieldCompletedCount(restored),5);
-  assert.equal(restored.chapters[4].matches.observation,'field-observation-larva');
+  assert.equal(restored.chapters[4].matches.observation,'field-animal-butterfly');
+  assert.equal(towerClaimText(restored,TOWER_CLAIMS[0]),'동물은 자라면서 몸의 생김새가 달라져.');
   assert.equal(restored.chapters[4].plan.subject,'학교 봉선화');
   // An unfinished tower drops the unsupported link and asks again.
   const draft=completedThrough(3);composeBook(draft);
-  const raw=JSON.parse(JSON.stringify(draft));raw.chapters[4].matches={observation:'field-observation-larva'};
+  const raw=JSON.parse(JSON.stringify(draft));raw.chapters[4].records[3]='field-animal-butterfly';raw.chapters[4].matches={observation:'field-animal-butterfly'};
   assert.equal(restoreField(JSON.stringify(raw)).chapters[4].matches.observation,undefined);
 });
 

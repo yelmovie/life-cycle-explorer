@@ -124,12 +124,14 @@ export function renderStoryRoom(v,ctx,phase){
    const knob=v.add.circle(CX,CY-L,24,0xffd76a).setStrokeStyle(4,0x6b4a12).setDepth(7).setInteractive({useHandCursor:true});
    if(!reduced)v.tweens.add({targets:knob,scale:1.2,duration:600,yoyo:true,repeat:-1});
    v.input.setDraggable(knob);
-   let progress=0,last=-Math.PI/2,done=false;
+   let progress=0,last=-Math.PI/2,done=false,ticked=0;
    const caption=v.label(1077,668,'금빛 손잡이를 돌리거나\n아래 버튼을 눌러 봐',20,300);
    const light=c=>{const s=slotCards[c];if(!s)return;v.tweens.add({targets:s.card,scale:1.35,duration:260,yoyo:true});turnGears();caption.setText(TOWER_REGIONS[c]+' · '+s.record.title);};
    const step=a=>{
     let d=a-last;if(d>Math.PI)d-=2*Math.PI;if(d<-Math.PI)d+=2*Math.PI;
     if(d<=0||done)return;const before=progress;progress+=d;last=a;drawHand(a);
+    // A winding click every 20 degrees, so the clock sounds like it is being turned.
+    if(Math.floor(progress/(Math.PI/9))>ticked){ticked=Math.floor(progress/(Math.PI/9));ctx.emit('clock-tick');}
     knob.setPosition(CX+Math.cos(a)*L,CY+Math.sin(a)*L);
     for(let c=0;c<4;c++){const mark=c*Math.PI/2;if(before<mark+.01&&progress>=mark+.01)light(c);}
     if(progress>=2*Math.PI-.05){done=true;act('tower-run');}

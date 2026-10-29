@@ -87,6 +87,28 @@ export function applyQuest(field,payload={}){
  return {ok:true,completed:complete,completedStep:stepDone?step:null,message:complete?`${DISCOVERY_MISSIONS[c].name} 도장을 받았어! 네가 찾은 기록과 다음 생각이 기록됐어.`:stepDone?'첫 발견 기록 완료! 다음 단서로 한 번 더 생각해 보자.':'단서를 기록했어. 화면의 다음 안내를 따라 발견을 완성해 줘.',...(complete?{reward:DISCOVERY_MISSIONS[c].name}:{})};
 }
 
+const INK=0xd8503f;
+// A round ink seal, tilted like a hand-pressed stamp.
+function discoverySeal(v,x,y){
+ const ring=v.add.graphics().lineStyle(5,INK,.92).strokeCircle(0,0,44).lineStyle(2,INK,.85).strokeCircle(0,0,36);
+ for(let i=0;i<8;i++){const a=i*Math.PI/4;ring.fillStyle(INK,.85).fillCircle(Math.cos(a)*40,Math.sin(a)*40,1.6);}
+ return v.add.container(x,y,[ring,v.text(0,-5,'발견!',22,80,'#d8503f'),v.text(0,17,'✿ ✿ ✿',11,70,'#d8503f')]).setAngle(-14).setDepth(12);
+}
+// A wooden stamp drops, presses the seal down with a little ink splash, then lifts away.
+function stampDown(v,seal){
+ const {x,y}=seal,tool=v.add.container(x,y-170,[
+  v.add.rectangle(0,-58,26,62,0xa8743f).setStrokeStyle(3,0x6b4524),v.add.circle(0,-96,22,0xd99a55).setStrokeStyle(3,0x6b4524),
+  v.add.rectangle(0,-18,78,20,0x8a5a2e).setStrokeStyle(3,0x5a3a1c),v.add.rectangle(0,-3,84,10,INK)]).setDepth(14).setAlpha(0);
+ seal.setScale(1.25).setAlpha(0);
+ v.tweens.add({targets:tool,y,alpha:1,duration:240,ease:'Quad.easeIn',onComplete:()=>{
+  v.cameras.main.shake(110,.003);
+  v.tweens.add({targets:tool,scaleY:.86,duration:70,yoyo:true});
+  v.tweens.add({targets:seal,scale:1,alpha:1,duration:180,ease:'Back.easeOut'});
+  for(let i=0;i<7;i++){const a=i/7*Math.PI*2+.3,dot=v.add.circle(x,y,3+i%3,INK,.8).setDepth(13);v.tweens.add({targets:dot,x:x+Math.cos(a)*64,y:y+Math.sin(a)*64,alpha:0,scale:.4,duration:420,ease:'Quad.easeOut',onComplete:()=>dot.destroy()});}
+  v.tweens.add({targets:tool,y:y-190,alpha:0,delay:200,duration:320,ease:'Quad.easeOut',onComplete:()=>tool.destroy()});
+ }});
+}
+
 export function renderQuestRoom(v,ctx){
  const f=ctx.s.field,c=f.active,step=currentStep(f),saved=state(f),e=saved[step]||{},mission=DISCOVERY_MISSIONS[c],reduced=reducedMotion(ctx.s.settings);
  const send=payload=>ctx.emit('act',{type:'quest-answer',payload:{step,...payload}});
@@ -174,13 +196,17 @@ export function renderQuestRoom(v,ctx){
   const records=bank(f),kinds={observation:'확대 관찰',retry:'조건 비교',care:'기록으로 돌봄'},token=v.renderToken;
   DISCOVERY_TYPES.forEach((type,i)=>{
    const choices=records.filter(r=>r.fieldEvidence?.type===type),chosen=e.stamps?.[type],index=(ctx.ui.questRecordPage?.[type]||0)%Math.max(1,choices.length),r=choices[index],x=340+i*300;
-   panel(x,405,270,240);label(x,285,kinds[type],24,260);
+   // Each card holds its photo, title and both buttons, so the three columns line up.
+   panel(x,435,270,370);label(x,252,kinds[type],24,240);
    if(r){
-    const holder=v.add.rectangle(x,392,245,145,0xeef0dc,.9);
-    ctx.recordImage(r,ctx.s,true).then(url=>{if(v.renderToken!==token||!v.sys.isActive())return;const image=new Image();image.onload=()=>{if(v.renderToken!==token)return;const key=`quest-${token}-${type}`;v.textures.addImage(key,image);v.recordTextures.push(key);v.pic(key,x,392,245,145);holder.destroy();};image.src=url;}).catch(()=>ctx.emit('feedback','기록 사진을 다시 불러오려면 이 구역을 다시 열어 줘.'));
-    label(x,475,r.title,21,255);
-    button(x,530,260,chosen===r.id?'도장 붙임':chosen?'이 기록으로 바꾸기':'이 기록에 도장',{kind:'stamp',recordId:r.id},chosen===r.id);
-    if(choices.length>1)button(x,590,235,'다른 내 기록 보기',()=>{ctx.ui.questRecordPage||={};ctx.ui.questRecordPage[type]=(index+1)%choices.length;v.refresh();});
+    const holder=v.add.rectangle(x,350,245,145,0xeef0dc,.9),stamped=chosen===r.id,fresh=stamped&&ctx.ui.questStamped===type;
+    // The seal sits above the photo so it lands on top once the image has loaded.
+    const seal=stamped?discoverySeal(v,x+72,392):null;
+    ctx.recordImage(r,ctx.s,true).then(url=>{if(v.renderToken!==token||!v.sys.isActive())return;const image=new Image();image.onload=()=>{if(v.renderToken!==token)return;const key=`quest-${token}-${type}`;v.textures.addImage(key,image);v.recordTextures.push(key);v.pic(key,x,350,245,145);holder.destroy();seal?.setDepth(12);};image.src=url;}).catch(()=>ctx.emit('feedback','기록 사진을 다시 불러오려면 이 구역을 다시 열어 줘.'));
+    if(fresh){ctx.ui.questStamped=null;if(!reduced)stampDown(v,seal);}
+    label(x,450,r.title,21,240);
+    button(x,505,230,stamped?'도장 꾹!':chosen?'이 기록으로 바꾸기':'이 기록에 도장',()=>{ctx.ui.questStamped=type;send({kind:'stamp',recordId:r.id});},stamped);
+    if(choices.length>1)button(x,572,230,'다른 내 기록 보기',()=>{ctx.ui.questRecordPage||={};ctx.ui.questRecordPage[type]=(index+1)%choices.length;v.refresh();});
    }
   });return;
  }

@@ -11,12 +11,13 @@ export const EDGES=[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[6,9],[9,10]
 export const DOORS=[8,12,17,23,26];
 export function nearest(p){return POINTS.reduce((b,q,i)=>Math.hypot(q[0]-p[0],q[1]-p[1])<Math.hypot(POINTS[b][0]-p[0],POINTS[b][1]-p[1])?i:b,0);}
 export function route(a,b){const distance=POINTS.map(()=>Infinity),previous=[],open=new Set(POINTS.map((_,i)=>i));distance[a]=0;while(open.size){const u=[...open].reduce((x,y)=>distance[x]<distance[y]?x:y);open.delete(u);if(u===b)break;for(const [x,y] of EDGES){const v=x===u?y:y===u?x:null;if(v===null||!open.has(v))continue;const d=distance[u]+Math.hypot(POINTS[u][0]-POINTS[v][0],POINTS[u][1]-POINTS[v][1]);if(d<distance[v]){distance[v]=d;previous[v]=u;}}}const result=[b];while(result[0]!==a&&previous[result[0]]!==undefined)result.unshift(previous[result[0]]);return result;}
-export function fresh(){return {...inquiry.fresh(),avatar:{x:POINTS[0][0],y:POINTS[0][1]},expedition:initialExpedition(),field:initialField(),fieldView:'title',audio:{bgm:false,sfx:true,volume:.2}};}
+export function fresh(){return {...inquiry.fresh(),avatar:{x:POINTS[0][0],y:POINTS[0][1]},expedition:initialExpedition(),field:initialField(),fieldView:'title',audio:{bgm:true,sfx:true,volume:.2},musicDefault:1};}
 export function restore(raw){
  let parsed;try{parsed=JSON.parse(raw);}catch{}if(!parsed||![2,3].includes(parsed.version))return fresh();
  const s=inquiry.restore(raw);s.expedition=restoreExpedition(parsed.expedition,s);s.field=restoreField(parsed.field);
  s.fieldView=['title','map','room'].includes(parsed.fieldView)?parsed.fieldView:'title';
- s.audio={bgm:parsed.audio?.bgm===true,sfx:parsed.audio?.sfx!==false,volume:Number.isFinite(parsed.audio?.volume)?Math.max(0,Math.min(1,parsed.audio.volume)):.2};
+ // Saves from before music was on by default stored bgm:false without anyone choosing it; turn it on once.
+ s.audio={bgm:parsed.musicDefault!==1||parsed.audio?.bgm!==false,sfx:parsed.audio?.sfx!==false,volume:Number.isFinite(parsed.audio?.volume)?Math.max(0,Math.min(1,parsed.audio.volume)):.2};s.musicDefault=1;
  return s;
 }
 const saveSessions=new WeakMap(),saveKeys=[GAME_KEY,inquiry.STORAGE_KEY,inquiry.LEGACY_KEY];

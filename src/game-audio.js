@@ -1,5 +1,5 @@
-// Local theme recordings and CC0 Kenney effects, with synthesized fallbacks.
-export const DEFAULT_AUDIO = Object.freeze({bgm:false,sfx:true,volume:.2});
+// Local theme recordings and CC0 Kenney/OpenGameArt effects, with synthesized fallbacks.
+export const DEFAULT_AUDIO = Object.freeze({bgm:true,sfx:true,volume:.2});
 export const MUSIC_TRACKS=Object.freeze({main:{src:'assets/audio/music/main-theme.mp3',loop:true},ending:{src:'assets/audio/music/ending-theme.mp3',loop:false}});
 const SFX_GAIN=.16;
 const MUSIC_LEVEL=.5;
@@ -11,8 +11,9 @@ const EFFECTS={
   inspect:[[79,.09],[84,.13]], photo:[[84,.025],[79,.035]],
   success:[[72,.1],[76,.1],[79,.1],[84,.25]], reward:[[67,.1],[72,.1],[76,.1],[79,.1],[84,.32]],
   error:[[60,.13],[62,.17]], retry:[[60,.13],[62,.17]], bump:[[60,.13],[62,.17]],
+  bell:[[84,.5],[91,.9]], wind:[[96,.03]],
 };
-const SAMPLES={click:'assets/audio/click.wav',select:'assets/audio/select.wav',place:'assets/audio/place.wav',inspect:'assets/audio/inspect.wav',photo:'assets/audio/photo.wav',success:'assets/audio/success.wav',reward:'assets/audio/reward.wav',error:'assets/audio/error.wav',time:'assets/audio/time.wav',step:'assets/audio/step.wav'};
+const SAMPLES={click:'assets/audio/click.wav',select:'assets/audio/select.wav',place:'assets/audio/place.wav',inspect:'assets/audio/inspect.wav',photo:'assets/audio/photo.wav',success:'assets/audio/success.wav',reward:'assets/audio/reward.wav',error:'assets/audio/error.wav',time:'assets/audio/time.wav',step:'assets/audio/step.wav',bell:'assets/audio/bell.wav',wind:'assets/audio/wind.wav'};
 const sampleBuffers=new Map();let sampleLoad=null;
 async function loadSamples(){
  if(sampleLoad||!context?.decodeAudioData||typeof window==='undefined')return;
@@ -31,7 +32,7 @@ const midi=value=>440*Math.pow(2,(value-69)/12);
 export function isAudioAvailable(){return !unavailable&&typeof audioConstructor()==='function';}
 export function normaliseAudio(input={}) {
   const v=Number(input.volume??DEFAULT_AUDIO.volume);
-  return {bgm:input.bgm===true,sfx:input.sfx!==false,volume:Number.isFinite(v)?Math.max(0,Math.min(1,v)):DEFAULT_AUDIO.volume};
+  return {bgm:input.bgm!==false,sfx:input.sfx!==false,volume:Number.isFinite(v)?Math.max(0,Math.min(1,v)):DEFAULT_AUDIO.volume};
 }
 function stopNodes(nodes){for(const node of nodes){try{node.stop();}catch{}try{node.disconnect();}catch{}}nodes.clear();}
 function stopSynthesis(){if(timer!==null){clearInterval(timer);timer=null;}stopNodes(musicNodes);}

@@ -112,10 +112,12 @@ export function renderFieldRoom(v,ctx){
     v.label(x,y-h/2,title,24,420);
     target(x,y,w,h,'sort-'+bin,title+' 상자');
     // The garden plants the child just tracked are the worked example for each box.
-    const example=bin==='many'?'apple':'balsam';
-    yearStrip(example,x-118,y-8,[0,3,4],{gap:64});
-    v.text(x-118,y+70,example==='apple'?'예: 사과나무 A-01':'예: 봉선화 B-01 → B-02',16,200,'#4a3a1a');
-    cards.filter(c=>q.transfers[c.id]===bin).forEach((c,n)=>card(x+60+n*100,y+18,c,true));
+    const example=bin==='many'?'apple':'balsam',sorted=cards.filter(c=>q.transfers[c.id]===bin);
+    // Centre the example strip and any sorted cards together inside the box.
+    const stripW=188,total=stripW+(sorted.length?20+sorted.length*100-4:0),sx=x-total/2+stripW/2;
+    yearStrip(example,sx,y-8,[0,3,4],{gap:64});
+    v.text(sx,y+70,example==='apple'?'예: 사과나무 A-01':'예: 봉선화 B-01 → B-02',16,200,'#4a3a1a');
+    sorted.forEach((c,n)=>card(sx+stripW/2+20+48+n*100,y+18,c,true));
    });
    return;
   }

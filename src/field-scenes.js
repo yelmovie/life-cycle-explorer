@@ -201,7 +201,7 @@ export function createFieldGame(context){
    this.foot=this.add.ellipse(this.avatar.x,this.avatar.y,42,13,0x092f22,.30).setDepth(14);this.spirit=this.pic('doto',this.avatar.x-55,this.avatar.y-12,64).setDepth(16);
    const zoom=this.viewport.zoom*1.08,{top,bottom}=this.viewport.insets;
    this.cameras.main.setZoom(zoom).setBounds(0,-top/zoom,W,H+(top+bottom)/zoom).startFollow(this.avatar,true,.12,.12).setFollowOffset(0,(top-bottom)/2/zoom);
-   const land=this.add.zone(W/2,H/2,W,H).setInteractive().setDepth(-1);
+   const land=this.add.zone(W/2,H/2,W,H).setInteractive({cursor:'pointer'}).setDepth(-1);
    land.on('pointerdown',p=>{const point=this.pointerWorld(p),n=nearest([point.x/W,point.y/H]),c=DOORS.indexOf(n);this.walkTo(n,c<0?null:c);});
    this.input.keyboard?.on('keydown',event=>{const vectors={ArrowUp:[0,-1],KeyW:[0,-1],ArrowDown:[0,1],KeyS:[0,1],ArrowLeft:[-1,0],KeyA:[-1,0],ArrowRight:[1,0],KeyD:[1,0]};const v=vectors[event.code];if(v&&!context.modalOpen()){event.preventDefault();this.step(...v);}});
    const c=context.ui.restoreChapter;

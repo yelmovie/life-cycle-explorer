@@ -85,30 +85,26 @@ for(const [w,h] of [[1024,768],[768,1024]])await run(`keyboard-note-${w}x${h}`,a
  assert.equal((await state(p)).field.chapters[0].note,'애벌레 몸에 마디가 여러 개 있어');
 });
 await run('keyboard-dialog-1024x768',async()=>{
- const s=room(4,q=>Object.assign(q,{records:['field-observation-larva','field-seed-water','field-care-water','field-animal-butterfly'],matches:{observation:'field-animal-butterfly',retry:'field-seed-water',care:'field-care-water'},title:'',summary:'',towerRun:false,plan:{subject:'',when:'',what:''}}));
+ const s=room(4,q=>Object.assign(q,{records:['field-observation-larva','field-seed-water','field-care-water','field-animal-butterfly'],matches:{observation:'field-observation-larva',retry:'field-seed-water',care:'field-care-water'},title:'',summary:'',towerRun:false,plan:{subject:'',when:'',what:''}}));
  const {page:p}=await open(s,{width:1024,height:768,touch:true});const kb=345;
  await p.evaluate(kb=>{const fake={offsetTop:0,offsetLeft:0,height:innerHeight-kb,width:innerWidth,scale:1,addEventListener(){},removeEventListener(){}};Object.defineProperty(window,'visualViewport',{configurable:true,get:()=>fake});},kb);
  await press(p,'연구 노트 쓰기');await p.locator('#story-summary').focus();await p.waitForTimeout(500);
  const dlg=await p.locator('#modal').boundingBox(),save=await p.locator('[data-action=save-story]').boundingBox(),field=await p.locator('#story-summary').boundingBox();
  assert.ok(dlg.y+dlg.height<=768-kb+1&&save.y+save.height<=768-kb+1&&field.y>=0,`dialog ${JSON.stringify(dlg)} save ${JSON.stringify(save)}`);await shot(p,'keyboard-dialog-1024x768');
 });
-// 3 Tower: same-region unrelated photos are rejected with a clue; the time-series record is accepted; claims narrow.
+// 3 Tower: the close-up note rejects other regions' photos with a clue, accepts the 나비의 숲 close-up; claims narrow.
 for(const [w,h] of VIEWS)await run(`tower-${w}x${h}`,async()=>{
  const s=room(4,q=>Object.assign(q,{records:['field-observation-larva','field-seed-water','field-care-water','field-season-apple'],matches:{},title:'',summary:'',towerRun:false,plan:{subject:'',when:'',what:''}}));
  const {page:p}=await open(s,{width:w,height:h});let t=await texts(p);
  assert.match(t,/씨앗이 싹트려면 물이 필요해\./);assert.match(t,/식물은 물이 부족하면 겉모습으로 신호를 보내\./);
- const claim='동물은 자라면서 몸의 생김새가 달라져. 쪽지를 증거 사진으로 옮기기';
- for(const target of ['사계절 정원 사진을 증거로 놓기','나비의 숲 사진을 증거로 놓기']){
-  await press(p,claim);await press(p,target);assert.match(await p.locator('#status, [role=status]').allTextContents().then(a=>a.join(' ')),/변화 전후가 함께 보이는 기록/);
- }
+ const claim='애벌레를 확대하면 생김새의 특징이 보여. 쪽지를 증거 사진으로 옮기기';
+ await press(p,claim);await press(p,'사계절 정원 사진을 증거로 놓기');assert.match(await p.locator('#status, [role=status]').allTextContents().then(a=>a.join(' ')),/나비의 숲 사진/);
  assert.equal((await state(p)).field.chapters[4].matches.observation,undefined);await shot(p,`tower-${w}x${h}-rejected`);
- // Cycle the garden socket to the butterfly life cycle, then link it.
- for(let i=0;i<4&&!(await state(p)).field.chapters[4].records.includes('field-animal-butterfly');i++){const label=await p.locator('#focus-targets button').evaluateAll(b=>b.map(x=>x.getAttribute('aria-label')).find(l=>/^사계절 정원 사진을 .* 기록으로 바꾸기$/.test(l)));await press(p,label);}
- await press(p,claim);await press(p,'사계절 정원 사진을 증거로 놓기');
- assert.equal((await state(p)).field.chapters[4].matches.observation,'field-animal-butterfly');await shot(p,`tower-${w}x${h}-linked`);
+ await press(p,claim);await press(p,'나비의 숲 사진을 증거로 놓기');
+ assert.equal((await state(p)).field.chapters[4].matches.observation,'field-observation-larva');await shot(p,`tower-${w}x${h}-linked`);
 });
 // 6 Clock tower: a real touch drag around the dial, and the visible quarter-turn button for touch users.
-const towerRun=()=>room(4,q=>Object.assign(q,{records:['field-observation-larva','field-seed-water','field-care-water','field-animal-butterfly'],matches:{observation:'field-animal-butterfly',retry:'field-seed-water',care:'field-care-water'},title:'나의 생명 탐험',summary:'조건과 생물에 따라 자라는 모습이 달라.',towerRun:false,plan:{subject:'',when:'',what:''}}));
+const towerRun=()=>room(4,q=>Object.assign(q,{records:['field-observation-larva','field-seed-water','field-care-water','field-animal-butterfly'],matches:{observation:'field-observation-larva',retry:'field-seed-water',care:'field-care-water'},title:'나의 생명 탐험',summary:'조건과 생물에 따라 자라는 모습이 달라.',towerRun:false,plan:{subject:'',when:'',what:''}}));
 const screenPoint=(p,x,y)=>p.evaluate(([x,y])=>{const sc=window.__qaGame.scene.getScenes(true)[0],c=document.querySelector('canvas').getBoundingClientRect(),w=sc.projectWorld?.({x,y,w:0,h:0})||{x,y};return {x:c.left+w.x*c.width/sc.scale.gameSize.width,y:c.top+w.y*c.height/sc.scale.gameSize.height};},[x,y]);
 for(const [w,h] of [[1024,768],[1280,800]])await run(`tower-touch-button-${w}x${h}`,async()=>{
  const {page:p}=await open(towerRun(),{width:w,height:h,touch:true});await shot(p,`tower-run-${w}x${h}`);

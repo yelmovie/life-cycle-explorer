@@ -77,15 +77,17 @@ export function fieldCompletedCount(field) { return unique(field.completed).filt
 export const TOWER_REGIONS=['나비의 숲','씨앗 연구소','햇살 온실','사계절 정원'];
 // Claims the learner proves with their own records; the request ids stay stable for saved books.
 export const TOWER_CLAIMS=[
-  // A single close-up shows one moment, so growth needs a record that compares stages over time.
-  {request:'observation',text:'동물은 자라면서 몸의 생김새가 달라져.',accept:['comparison'],clue:'이 사진은 한 시점의 모습이야. 변화 전후가 함께 보이는 기록을 찾아볼까? 사계절 정원 사진을 「사진 바꾸기」로 동물의 한살이 기록으로 바꿔 봐.'},
+  // A close-up shows one moment, so this claim is about what magnifying reveals, not about growth.
+  {request:'observation',text:'동물을 확대하면 생김새의 특징이 보여.',accept:['observation'],clue:'이 쪽지는 돋보기로 자세히 살펴본 기록이 증명해. 나비의 숲 사진을 찾아봐.'},
   {request:'retry',text:'씨앗이 싹트려면 물과 알맞은 온도가 필요해.',accept:['retry'],clue:'조건 하나만 바꿔 싹을 비교한 기록이어야 증거가 돼.'},
   {request:'care',text:'식물은 물이나 빛이 부족하면 겉모습으로 신호를 보내.',accept:['care'],clue:'물기와 빛을 재고 돌본 뒤 달라진 기록을 찾아봐.'},
 ];
-// One experiment proves only the condition it changed, so the claim narrows to the pinned record.
+// Each note names what the pinned record actually shows: the close-up's form, or the one condition an experiment changed.
 export function towerClaimText(field,claim){
   const bank=fieldRecords(field),record=field.chapters[4].records.map(id=>bank.find(r=>r.id===id)).find(r=>r&&claim.accept.includes(r.fieldEvidence.type));
-  const v=record?.fieldEvidence.variable;
+  const v=record?.fieldEvidence.variable,book=field.chapters[4];
+  if(claim.request==='observation'&&book.legacyEvidence&&book.matches.observation===book.legacyEvidence)return '동물은 자라면서 몸의 생김새가 달라져.';
+  if(claim.request==='observation'&&record)return ({egg:'나비 알을',larva:'애벌레를',pupa:'번데기를',adult:'어른 나비를'})[record.fieldEvidence.form]+' 확대하면 생김새의 특징이 보여.';
   if(claim.request==='retry'&&v)return v==='water'?'씨앗이 싹트려면 물이 필요해.':'씨앗이 싹트려면 알맞은 온도가 필요해.';
   if(claim.request==='care'&&v)return v==='water'?'식물은 물이 부족하면 겉모습으로 신호를 보내.':'식물은 빛이 부족하면 겉모습으로 신호를 보내.';
   return claim.text;
@@ -96,8 +98,8 @@ const slotsDone = field => {
 };
 const noteDone = book => meaningfulText(book.title) >= 2 && meaningfulText(book.summary) >= 8;
 export function fieldBookReady(field) { return slotsDone(field) && noteDone(field.chapters[4]); }
-// Books finished before close-ups stopped counting as growth evidence keep that link until the learner changes it.
-const claimFits = (request,record,book) => !!record && (!!TOWER_CLAIMS.find(claim => claim.request === request)?.accept.includes(record.fieldEvidence.type) || request === 'observation' && record.fieldEvidence.type === 'observation' && book?.legacyEvidence === record.id);
+// Books finished when this note was the growth claim keep their life-cycle link until the learner changes it.
+const claimFits = (request,record,book) => !!record && (!!TOWER_CLAIMS.find(claim => claim.request === request)?.accept.includes(record.fieldEvidence.type) || request === 'observation' && record.fieldEvidence.type === 'comparison' && book?.legacyEvidence === record.id);
 export function towerStep(field) {
   const book = field.chapters[4];
   return !slotsDone(field) ? 'tower-slots' : !matchesDone(field) ? 'tower-evidence' : !noteDone(book) ? 'tower-note' : !book.towerRun ? 'tower-run' : !planDone(book) ? 'plan' : 'ready';
@@ -564,9 +566,9 @@ export function restoreField(raw) {
       const id=legacy?bank.find(record => book.records.includes(record.id) && claimFits(request,record))?.id:object(c4.matches)[request];
       if (book.records.includes(id) && claimFits(request,bank.find(record => record.id === id))) book.matches[request]=id;
     }
-    // A woken tower whose growth link was a single close-up stays finished; the learner's own pick is kept.
+    // A woken tower whose growth link was a life-cycle record stays finished; the learner's own pick is kept.
     const oldGrowth=object(c4.matches).observation;
-    if (!book.matches.observation && (c4.towerRun===true || legacy) && book.records.includes(oldGrowth) && bank.find(record => record.id === oldGrowth)?.fieldEvidence.type === 'observation') {book.legacyEvidence=oldGrowth;book.matches.observation=oldGrowth;}
+    if (!book.matches.observation && (c4.towerRun===true || legacy) && book.records.includes(oldGrowth) && bank.find(record => record.id === oldGrowth)?.fieldEvidence.type === 'comparison') {book.legacyEvidence=oldGrowth;book.matches.observation=oldGrowth;}
   }
   book.towerRun=matchesDone(field)&&noteDone(book)&&(c4.towerRun===true||legacy);
   if (book.towerRun) for (const key of ['subject','when','what']) book.plan[key]=textValue(object(c4.plan)[key],PLAN_LIMITS[key]);

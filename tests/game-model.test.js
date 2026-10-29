@@ -101,3 +101,4 @@ test('초기화 확인 중 구버전 원문이 바뀌어도 오래된 확인을 
 
 
 test('older saves without a season comparison flag remain readable',()=>{const prior=G.fresh();delete prior.field.chapters[3].seasonCompared;const raw=JSON.stringify(prior),storage=fakeStorage([[G.GAME_KEY,raw]]);const state=G.loadGame(storage.storage);assert.equal(G.getSaveStatus(storage.storage).ok,true);assert.equal(state.field.chapters[3].seasonCompared,false);});
+test('예전 저장의 꺼진 배경 음악은 한 번 켜고, 그 뒤에 끈 선택은 유지한다',()=>{const old=G.fresh();delete old.musicDefault;old.audio={bgm:false,sfx:false,volume:.5};const restored=G.restore(JSON.stringify(old));assert.deepEqual(restored.audio,{bgm:true,sfx:false,volume:.5});restored.audio.bgm=false;assert.equal(G.restore(JSON.stringify(restored)).audio.bgm,false);});

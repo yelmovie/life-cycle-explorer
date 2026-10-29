@@ -24,9 +24,9 @@ test('settings separates sound controls, escapes provided copy and preserves res
   assert.match(renderResetConfirm().body,/소리 설정은 그대로 남아요/);
 });
 
-test('sound is quiet by default and unavailable browsers can continue without an audio context',async()=>{
-  assert.deepEqual(DEFAULT_AUDIO,{bgm:false,sfx:true,volume:.2});
-  assert.deepEqual(normaliseAudio({volume:NaN}),{bgm:false,sfx:true,volume:.2});
+test('music and effects are on by default and unavailable browsers can continue without an audio context',async()=>{
+  assert.deepEqual(DEFAULT_AUDIO,{bgm:true,sfx:true,volume:.2});
+  assert.deepEqual(normaliseAudio({volume:NaN}),{bgm:true,sfx:true,volume:.2});
   assert.equal(await initAudio(),false);
   assert.equal(playSfx('success'),false);
 });

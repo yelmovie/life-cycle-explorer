@@ -58,5 +58,28 @@
       "source": "impact/footstep_grass_001.ogg",
       "sha256": "dcb0be2ccf4826486a0eb4887f295eb33e37843f14526cf4619ee93eecd19c90"
     }
-  ]
+  ],
+  "additional": {
+    "date": "2026-10-29",
+    "license": "CC0-1.0",
+    "processing": "afconvert: mono PCM WAV 44100Hz; peak normalized to 0.8",
+    "files": [
+      {
+        "file": "assets/audio/bell.wav",
+        "author": "Fupi",
+        "title": "Correct bell",
+        "source": "https://opengameart.org/content/correct-bell",
+        "original": "bell.wav",
+        "sha256": "0fdba6cfbcec851c95d6afd9cd3f6c58bcbfc0c71d29878cbf6ef052c0163181"
+      },
+      {
+        "file": "assets/audio/wind.wav",
+        "author": "BMacZero (Brian MacIntosh)",
+        "title": "Clock Wind Sounds",
+        "source": "https://opengameart.org/content/clock-wind-sounds",
+        "original": "singlewind1.wav",
+        "sha256": "0073d58b226f3080456f7b56515dfdbdd2097682b13beaa554d89f5c76cd0560"
+      }
+    ]
+  }
 }
