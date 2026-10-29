@@ -25,3 +25,5 @@ assets/models/raw/
 
 # Original AI image exports (converted copies live in assets/)
 _source/
+
+.claude/settings.local.json
