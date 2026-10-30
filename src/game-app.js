@@ -2,7 +2,7 @@ import {reducedMotion} from './game-motion.js';
 import * as G from './game-model.js';
 import {TEXT_LIMITS,objectParticle} from './field-writing.js';
 import {fieldAction,storeFieldDraft,fieldRecords,fieldUnlocked,careTimeLabels} from './field-model.js';
-import {FIELD_CHAPTERS,FORM_TRAITS} from './field-content.js';
+import {FIELD_CHAPTERS,FORM_TRAITS,FORM_NAMES,SORT_CARDS} from './field-content.js';
 import {roomPhase,roomUI,holdObservation,releaseObservation} from './field-flow.js';
 import {applyQuest,questInfo} from './field-quests.js';
 import {createFieldGame} from './field-scenes.js';
@@ -173,6 +173,22 @@ function requestDoor(chapter){
  ctx.scene?.walkDoor(chapter);
 }
 function act(type,payload={}){const before=roomPhase(s.field),result=type==='quest-answer'?applyQuest(s.field,payload):fieldAction(s.field,type,payload);if(result.ok)holdObservation(s.field,before,type);ui.selection=null;if(result.ok&&type==='seed-condition'){if(payload.key==='water')ui.waterFx=true;if(payload.key==='warm')ui.tempFx=true;}announce(result.message,!result.ok);if(result.ok)audio.playSfx(type.includes('photo')?'photo':type==='inspect'?'inspect':roomPhase(s.field)!==before?'success':['seed-day','care-day','season','animal-time'].includes(type)?'time':'place');if(result.ok&&type==='inspect')ui.message=FORM_TRAITS[payload.form][payload.spot];if(result.ok&&roomPhase(s.field)!==before)Object.assign(ui,{guide:false,message:'',pending:false,recordPage:0,hintLevel:0});persist();render();ctx.scene?.refresh();if(result.ok&&type==='inspect'&&!payload.quiet)notebook.observe(payload.form,payload.spot);if(result.ok&&/^(seed|care|animal|season)-photo$/.test(type))notebook.capture(type,payload);return result;}
+// What the learner just picked and where it goes. Every listed target also accepts a tap after picking.
+function pickGuide(d){const q=s.field.chapters[s.field.active],tool={water:'물뿌리개',warm:'온도계',light:'빛 램프'};
+ const [name,goal]=d.kind==='film'?[FORM_NAMES[q.order?.[d.from]]+' 사진','옮길 자리를 눌러 줘.']
+ :d.kind==='generation'?['새 알','오른쪽 새 잎 자리를 눌러 줘.']
+ :d.kind==='soil'?['흙 주머니','흙을 담을 화분을 눌러 줘.']
+ :d.kind==='seed'?['콩 한 알','심을 화분을 눌러 줘.']
+ :d.kind==='seed-condition'?[tool[d.key],`B 화분을 눌러 ${d.key==='water'?'물':'온도'} 조건만 바꿔 줘.`]
+ :d.kind==='sensor'?[(d.sensor==='water'?'물기':'빛')+' 재는 도구','잴 화분을 눌러 줘.']
+ :d.kind==='care-tool'?[tool[d.tool],'돌볼 화분을 눌러 줘.']
+ :d.kind==='birth'?['다음 세대 카드','알맞은 설명 칸을 눌러 줘.']
+ :d.kind==='tag'?[(d.plant==='apple'?'A-01':'B-01')+' 이름표',(d.plant==='apple'?'사과나무':'봉선화')+'를 눌러 붙여 줘.']
+ :d.kind==='sort'?[(SORT_CARDS.find(c=>c.id===d.card)?.name||'생물')+' 카드','알맞은 상자를 눌러 줘.']
+ :d.kind==='record'?[(fieldRecords(s.field).find(r=>r.id===d.id)?.title||'이')+' 기록','기록판의 같은 장소 칸에 놓아 줘.']
+ :d.kind==='claim'?['쪽지','이 쪽지를 뒷받침하는 증거 사진을 눌러 줘.']
+ :['사진','옮길 자리를 눌러 줘.'];
+ return {picked:objectParticle(name)+' 골랐어. '+goal,refused:objectParticle(name).replace(/을$/,'은').replace(/를$/,'는')+' 그 자리에 놓을 수 없어. '+goal};}
 function drop(data){const {kind,target}=data,q=s.field.chapters[s.field.active];let type,p={};
  if(kind==='film'&&target.startsWith('film-')){type='film-move';p={from:data.from,to:Number(target.slice(5))};}
  else if(kind==='generation'){type='generation';p={target};}
@@ -189,7 +205,7 @@ function drop(data){const {kind,target}=data,q=s.field.chapters[s.field.active];
  else if(kind==='record'&&target.startsWith('slot-')){type='book-record';p={id:data.id,slot:Number(target.slice(5))};}
  else if(kind==='claim'&&target.startsWith('evid-')){type='help-match';p={request:data.request,recordId:target.slice(5)};}
  else if(kind==='book'&&target.startsWith('book-')){type='book-move';p={from:data.from,to:Number(target.slice(5))};}
- if(type)act(type,p);else{announce(kind==='seed-condition'?'A는 그대로 두고 B에서 조건 하나를 바꿔 보자.':'도구를 알맞은 연결 자리에 놓아 줘.',true);ctx.scene?.refresh();}}
+ if(type)act(type,p);else{announce(kind==='seed-condition'?'A는 그대로 두고 B에서 조건 하나를 바꿔 보자.':pickGuide(data).refused,true);ctx.scene?.refresh();}}
 const ctx={get s(){return s;},saveStatus:()=>G.getSaveStatus(storage),saveDraft(scope,values){if(storeFieldDraft(s.field,scope,values))persist();},ui,mode,dialog,announce,modalOpen:()=>modal.open,recordImage,focusTargets,sceneReady:positionFocus,noteBox:placeNoteBox,placeDoors:positionDoors,emit(type,data){
  if(type==='assets-loading'){let cover=app.querySelector('.boot');if(!cover){cover=document.createElement('div');cover.className='boot';cover.setAttribute('role','status');app.append(cover);}cover.innerHTML=`<img src="${ART.dotoMap}" alt="" width="240" height="242"><p>탐사 그림을 불러오는 중…</p><span class="boot-bar"><i></i></span>`;$('next').disabled=true;return;}
  if(type==='assets-progress'){const progress=Math.round(data.progress*100),cover=app.querySelector('.boot');if(cover?.querySelector('p')){cover.querySelector('p').textContent='탐사 그림을 불러오는 중… '+progress+'%';cover.querySelector('.boot-bar i').style.width=progress+'%';}window.dispatchEvent(new CustomEvent('life-clock-progress',{detail:{progress}}));return;}
@@ -198,7 +214,7 @@ const ctx={get s(){return s;},saveStatus:()=>G.getSaveStatus(storage),saveDraft(
  if(type==='map-step'){persist();return;}if(type==='footstep'){audio.playSfx('step');return;}if(type==='clock-tick'){audio.playSfx('wind');return;}
  if(type==='travel-start'){ui.travelChapter=data;ui.guide=false;render();return;}
  if(type==='arrived'){ui.travelChapter=null;if(fieldUnlocked(s.field,data)){fieldAction(s.field,'chapter-enter',{chapter:data});view('room');}else{render();lockedDoor(data);}return;}
- if(type==='select'){ui.selection=data;audio.playSfx('select');$('status').textContent='도구를 골랐어. 이름이 표시된 자리를 눌러 적용하거나 끌어 놓아 줘.';$('status').classList.add('visible');clearTimeout(statusTimer);statusTimer=setTimeout(()=>$('status').classList.remove('visible'),2200);return;}if(type==='target'){if(ui.selection)drop({...ui.selection,target:data});else announce('먼저 옮길 도구나 사진을 고른 다음, 이 자리를 눌러 줘.',true);return;}if(type==='drop'){drop(data);return;}if(type==='act'){act(data.type,data.payload);return;}
+ if(type==='select'){ui.selection=data;audio.playSfx('select');$('status').textContent=pickGuide(data).picked;$('status').classList.add('visible');clearTimeout(statusTimer);statusTimer=setTimeout(()=>$('status').classList.remove('visible'),2200);return;}if(type==='target'){if(ui.selection)drop({...ui.selection,target:data});else announce('먼저 옮길 도구나 사진을 고른 다음, 이 자리를 눌러 줘.',true);return;}if(type==='drop'){drop(data);return;}if(type==='act'){act(data.type,data.payload);return;}
  if(type==='observe'){act('inspect',data);return;}if(type==='observe-many'){data.forEach(p=>act('inspect',{...p,quiet:true}));return;}if(type==='dial'){if(ui.dial)act(ui.dial.type,{...ui.dial.payload,...(ui.dial.type==='season'?{step:data}:{day:data})});return;}if(type.startsWith('animal-dial-')){act('animal-time',{animal:type.slice(12),step:data});return;}if(type==='caption'){dialogs.caption(data);return;}if(type==='story-info'){dialogs.storyInfo();return;}if(type==='open-plan'){audio.playSfx('bell');dialogs.plan();return;}if(type==='feedback')announce(data,true);
 }};
 const dialogs=createDialogs(ctx);
