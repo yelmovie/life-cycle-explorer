@@ -166,7 +166,7 @@ export function createFieldGame(context){
    const unavailable=[...new Set(keys)].filter(key=>!this.textures.exists(key));
    const missing=unavailable.filter(key=>this.paths[key]&&(this.assetAttempts.get(key)||0)<2);
    if(missing.length){this.loading=true;this.input.enabled=false;context.focusTargets([]);context.emit('assets-loading');this.load.once('complete',()=>{this.loading=false;this.refresh();});for(const key of missing)key==='walker'?this.load.spritesheet(key,this.paths[key],{frameWidth:256,frameHeight:256}):this.load.image(key,this.paths[key]);this.load.start();return;}
-   this.renderToken++;this.walking=false;this.focusTargets=[];context.noteBox?.(null);this.tweens.killAll();this.time.removeAllEvents();this.input.removeAllListeners();this.input.keyboard?.removeAllListeners();
+   this.renderToken++;this.walking=false;this.autoPlay=null;this.focusTargets=[];context.noteBox?.(null);this.tweens.killAll();this.time.removeAllEvents();this.input.removeAllListeners();this.input.keyboard?.removeAllListeners();
    this.children.removeAll(true);for(const key of this.recordTextures||[])if(this.textures.exists(key))this.textures.remove(key);this.recordTextures=[];
    for(const mask of this.worldMasks||[])mask.destroy();this.worldMasks=[];
    if(this.lensMask){this.lensMask.destroy();this.lensMask=null;}
@@ -205,8 +205,17 @@ export function createFieldGame(context){
    this.foot=this.add.ellipse(this.avatar.x,this.avatar.y,42,13,0x092f22,.30).setDepth(14);this.spirit=this.pic('doto',this.avatar.x-55,this.avatar.y-12,64).setDepth(16);
    const zoom=this.viewport.zoom*1.08,{top,bottom}=this.viewport.insets;
    this.cameras.main.setZoom(zoom).setBounds(0,-top/zoom,W,H+(top+bottom)/zoom).startFollow(this.avatar,true,.12,.12).setFollowOffset(0,(top-bottom)/2/zoom);
-   const land=this.add.zone(W/2,H/2,W,H).setInteractive({cursor:'pointer'}).setDepth(-1);
-   land.on('pointerdown',p=>{const point=this.pointerWorld(p),n=nearest([point.x/W,point.y/H]),c=DOORS.indexOf(n);this.walkTo(n,c<0?null:c);});
+   this.mapZoom=zoom;this.mapFollowOffset=(top-bottom)/2/zoom;
+   const land=this.mapLand=this.add.zone(W/2,H/2,W,H).setInteractive({cursor:'pointer'}).setDepth(-1);
+   land.on('pointerdown',p=>{if(context.ui.mapHand)return;const point=this.pointerWorld(p),n=nearest([point.x/W,point.y/H]),c=DOORS.indexOf(n);this.walkTo(n,c<0?null:c);});
+   // With the hand on, a press anywhere on the canvas drags the view instead of
+   // walking. Scene-wide events also catch presses the land zone does not report.
+   let drag=null;
+   this.input.on('pointerdown',p=>{if(!context.ui.mapHand)return;const cam=this.cameras.main;drag={x:p.x,y:p.y,sx:cam.scrollX,sy:cam.scrollY};this.mapCursor('grabbing');});
+   this.input.on('pointermove',p=>{if(!drag)return;if(!p.isDown){release();return;}const cam=this.cameras.main;cam.setScroll(drag.sx-(p.x-drag.x)/cam.zoom,drag.sy-(p.y-drag.y)/cam.zoom);});
+   const release=()=>{if(!drag)return;drag=null;this.mapCursor(context.ui.mapHand?'grab':'');};
+   for(const event of ['pointerup','pointerupoutside','gameout'])this.input.on(event,release);
+   if(context.ui.mapHand)this.setMapHand(true,true);
    this.input.keyboard?.on('keydown',event=>{const vectors={ArrowUp:[0,-1],KeyW:[0,-1],ArrowDown:[0,1],KeyS:[0,1],ArrowLeft:[-1,0],KeyA:[-1,0],ArrowRight:[1,0],KeyD:[1,0]};const v=vectors[event.code];if(v&&!context.modalOpen()){event.preventDefault();this.step(...v);}});
    const c=context.ui.restoreChapter;
    if(Number.isInteger(c)){
@@ -214,6 +223,16 @@ export function createFieldGame(context){
     const move=()=>{if(i>=path.length){glow.destroy();return;}const p=POINTS[path[i++]];this.tweens.add({targets:glow,x:p[0]*W,y:p[1]*H,duration:reducedMotion(s.settings)?1:145,onComplete:move});};move();
    }
   }
+  // Looking around zooms in and lets go of the walker; ending it returns the view to the walker.
+  setMapHand(on,instant=false){
+   if(context.mode()!=='map'||!this.avatar)return;
+   const cam=this.cameras.main,duration=instant||reducedMotion(context.s.settings)?0:350;
+   if(this.mapLand?.input)this.mapLand.input.cursor=on?'grab':'pointer';this.mapCursor(on?'grab':'');
+   if(on){cam.stopFollow();duration?cam.zoomTo(this.mapZoom*1.5,duration,'Sine.easeInOut'):cam.setZoom(this.mapZoom*1.5);return;}
+   duration?cam.zoomTo(this.mapZoom,duration,'Sine.easeInOut'):cam.setZoom(this.mapZoom);
+   cam.startFollow(this.avatar,true,.12,.12).setFollowOffset(0,this.mapFollowOffset);
+  }
+  mapCursor(value){if(this.game?.canvas)this.game.canvas.style.cursor=value;}
   walkDoor(chapter){if(!Number.isInteger(chapter)||chapter<0||chapter>4)return;this.walkTo(DOORS[chapter],chapter);}
   cancelTravel(){this.travelId=(this.travelId||0)+1;this.walkTimer?.remove();if(this.avatar)this.tweens.killTweensOf(this.avatar);this.walking=false;this.walkTarget=null;}
   step(dx,dy){
@@ -224,6 +243,7 @@ export function createFieldGame(context){
   }
   walkTo(target,chapter){
    if(context.mode()!=='map'||context.modalOpen()||this.walking&&this.walkTarget===target)return;
+   if(context.ui?.mapHand){context.ui.mapHand=false;this.setMapHand(false);}
    this.walkTimer?.remove();this.tweens.killTweensOf(this.avatar);
    this.walking=true;this.walkTarget=target;const trip=this.travelId=(this.travelId||0)+1;
    const path=route(nearest([context.s.avatar.x,context.s.avatar.y]),target);let i=0,frame=0;

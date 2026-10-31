@@ -1,5 +1,6 @@
 import {reducedMotion} from './game-motion.js';
 import {seedObservation,careTimeLabels,seedExpectation} from './field-model.js';
+import {autoPlayRoom,autoStep,autoCarry} from './field-autoplay.js';
 
 // Plant rooms keep the specimens at the same baseline. Every drag also has
 // a labelled tap path; visual size never determines the seed's hit area.
@@ -82,10 +83,16 @@ export function renderPlantRoom(v,ctx,phase){
    // Narrower and pushed right so pot B keeps the same gap as between the pots.
    const mx=1115;
    observationMat(mx,465,230,430);v.text(mx,282,'재료',26,200);
-   tool('soil',mx,385,'soil',{},'흙 주머니를 화분으로 옮기기',180);
+   const soil=tool('soil',mx,385,'soil',{},'흙 주머니를 화분으로 옮기기',180);
    label(mx,490,'흙 주머니',23,210);
-   v.marker(tool('seed0',mx,575,'seed',{},'씨앗 한 알을 화분으로 옮기기',115/3),40,'콩 한 알');
+   const seed=tool('seed0',mx,575,'seed',{},'씨앗 한 알을 화분으로 옮기기',115/3);v.marker(seed,40,'콩 한 알');
    label(590,650,'재료를 끌거나 화분 아래 버튼을 눌러 봐.',23,760);
+   // Autoplay fills A then B: soil first, then one bean at a time.
+   autoPlayRoom(v,ctx,()=>{
+    const side=['a','b'].find(k=>!r.prepared[k].soil||r.prepared[k].seeds<3);if(!side)return;
+    const p=r.prepared[side];
+    autoStep(v,ctx,700,()=>autoCarry(v,ctx,p.soil?seed:soil,positions[side],p.soil?420:380,()=>act('seed-prepare',p.soil?{side,seeds:p.seeds+1}:{side,soil:true})));
+   });
   }
   if(phase==='design'&&ctx.ui.waterFx){
    ctx.ui.waterFx=false;const x=positions.b;
@@ -111,8 +118,10 @@ export function renderPlantRoom(v,ctx,phase){
   }
   if(phase==='design'){
    const changed=r.b.water&&r.b.warm;
-   if(variable==='water')tool('watercan',1060,340,'seed-condition',{key:variable},'B의 물 조건 바꾸기',95);
-   else v.draggable(thermo(1060,310,changed?22:5,100),'seed-condition',{key:variable},'B의 온도 조건 바꾸기');
+   const changer=variable==='water'?tool('watercan',1060,340,'seed-condition',{key:variable},'B의 물 조건 바꾸기',95):thermo(1060,310,changed?22:5,100);
+   if(variable!=='water')v.draggable(changer,'seed-condition',{key:variable},'B의 온도 조건 바꾸기');
+   // Autoplay changes only B's condition; the prediction stays the learner's choice.
+   autoPlayRoom(v,ctx,()=>{if(!r.b[variable])autoStep(v,ctx,700,()=>autoCarry(v,ctx,changer,positions.b+60,330,()=>act('seed-condition',{side:'b',key:variable,value:true})));});
    button(1060,438,245,variable==='water'?(changed?'✓ B에 물을 주었어':'① B에 물 주기'):(changed?'✓ B를 22°C로 맞췄어':'① B를 22°C로 올리기'),()=>act('seed-condition',{side:'b',key:variable,value:true}),changed);
    label(1060,540,variable==='warm'?(changed?'A 5°C · B 22°C\n두 화분의 차이: 온도':'콩은 20~25°C에서\n싹이 잘 터.'):changed?'두 화분의 차이: 물':'먼저 B의 조건을 바꿔 줘.',22,270);
    const prediction={a:'A만',b:'B만',both:'둘 다',neither:'둘 다 안 틈',unsure:'아직 모르겠어'}[r.prediction];

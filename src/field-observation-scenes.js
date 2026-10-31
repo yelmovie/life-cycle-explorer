@@ -1,5 +1,6 @@
 import {reducedMotion} from './game-motion.js';
 import {FORM_NAMES,FORM_TRAITS,FORM_SPOTS as SPOTS} from './field-content.js';
+import {autoPlayRoom,autoStep} from './field-autoplay.js';
 
 const FORMS=['egg','larva','pupa','adult'];
 const PARTS={egg:['표면 보기','모양 보기'],larva:['몸마디 보기','다리 보기'],pupa:['겉모습 보기','모양 보기'],adult:['날개 보기','더듬이 보기']};
@@ -73,7 +74,7 @@ export function renderObservationRoom(v,ctx,phase){
    items.push(v.paper(640,415,920,580).setDepth(101));
    items.push(...arrow(125,'◀','이전 특징 보기',()=>turn(-1)));
    items.push(...arrow(1155,'▶','다음 특징 보기',()=>turn(1)));
-   items.push(...button(640,655,260,58,'관찰 마치기',finish,false,105));
+   items.push(...button(640,655,260,58,'관찰 마치기',()=>{ctx.ui.autoPlay=false;finish();},false,105));
    popup={items,targets};ctx.focusTargets?.(v.focusTargets);
   };
   const showPage=i=>{
@@ -93,6 +94,13 @@ export function renderObservationRoom(v,ctx,phase){
    items.push(v.text(300,655,`${i+1} / ${PAGES.length}`,24,120).setDepth(102));
   };
   const focusSpot=(form,spot)=>showPage(PAGES.findIndex(p=>p.form===form&&p.spot===spot));
+  // Autoplay turns the same viewer's pages and closes it once every feature
+  // was shown, so the record is identical to a learner paging by hand.
+  let autoTimer=null;
+  autoPlayRoom(v,ctx,()=>{
+   autoTimer?.remove();if(!popup)showPage(0);
+   const tick=()=>{autoTimer=autoStep(v,ctx,3800,()=>{if(!popup)return;if(seen.size===PAGES.length){finish();return;}turn(1);tick();});};tick();
+  });
   lens.on('drag',(_,x,y)=>inspect(x,y));
   lens.on('dragend',()=>{
    if(nearest&&nearest.d<75){open(nearest.form,nearest.spot);return;}
