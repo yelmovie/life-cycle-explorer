@@ -32,6 +32,8 @@ for(const round of fieldShape.chapters[1].rounds){delete round.report;delete rou
 for(const task of fieldShape.chapters[2].cases)delete task.observations;
 delete fieldShape.chapters[3].seasonCompared;
 delete fieldShape.chapters[4].drafts;
+// Pre-0.8.0 tower saves have no towerRun; restoreField migrates them.
+delete fieldShape.chapters[4].towerRun;
 function sameShape(value,shape){
  if(shape===null)return value===null||typeof value==='string'||Number.isFinite(value)||savedObject(value);
  if(Array.isArray(shape))return Array.isArray(value)&&(!shape.length||value.length===shape.length&&shape.every((item,i)=>sameShape(value[i],item)));

@@ -287,5 +287,3 @@ for(const event of ['pointerdown','mousedown','touchstart'])for(const surface of
 restoreTeacherPreview();
 if(!G.getSaveStatus(storage).ok){ui.message=saveIssue();ui.pending=true;}
 render();await Promise.allSettled([document.fonts.load('24px Jua')]);createFieldGame(ctx);
-
-if(!G.getSaveStatus(storage).ok)dialog({title:'저장된 기록을 보호하고 있어',body:'<p>'+esc(saveIssue())+'</p><p>지금 화면의 활동은 임시로 이어갈 수 있어. 기존 원본은 바꾸지 않아.</p>',actions:btn('기록함 열기','records')+btn('임시로 살펴보기','close','','primary')});

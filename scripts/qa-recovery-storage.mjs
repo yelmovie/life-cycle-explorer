@@ -35,8 +35,8 @@ try{
  const future=structuredClone(fixture);future.version=999;
  for(const [name,raw]of [['invalid-json','{broken'],['null','null'],['future-version',JSON.stringify(future)]]){
   const {context,page}=await open(raw);
-  assert.equal(await page.locator('#dialog-title').innerText(),'저장된 기록을 보호하고 있어');
-  await tap(page,'dialog [data-action=records]');
+  assert.equal(await page.locator('dialog[open]').count(),0);
+  await records(page);
   assert.match(await page.locator('.modal-body').innerText(),/진행 파일 가져오기 기능이 없어/);
   assert.match(await page.locator('.modal-body').innerText(),/복구 성공을 뜻하지는 않아/);
   const saved=await download(page,'[data-action=original-backup]',name+'-original.txt');
@@ -45,7 +45,7 @@ try{
   await snap(page,name+'-protected-archive');await tap(page,'dialog .close');
   await tap(page,'[data-action=start]');await tap(page,'[data-action=begin]');
   await tap(page,'[data-action=sound]');assert.equal(await read(page),raw);
-  await page.reload();await page.locator('canvas').waitFor({state:'visible'});await page.locator('#dialog-title').filter({hasText:'저장된 기록을 보호하고 있어'}).waitFor();
+  await page.reload();await page.locator('canvas').waitFor({state:'visible'});await page.waitForTimeout(200);assert.equal(await page.locator('dialog[open]').count(),0);
   assert.equal(await read(page),raw);
   results.push({check:name+'-raw-download-temporary-activity-reload',preserved:true,downloadExtension:'.txt'});
   if(name==='invalid-json'){
@@ -70,7 +70,7 @@ try{
  for(const mode of ['quota','read-failed']){
   const {context,page}=await open(fixtureRaw,mode);
   if(mode==='read-failed'){
-   assert.equal(await page.locator('#dialog-title').innerText(),'저장된 기록을 보호하고 있어');await tap(page,'dialog .primary[data-action=close]');
+   assert.equal(await page.locator('dialog[open]').count(),0);
    await tap(page,'[data-action=start]');await tap(page,'[data-action=begin]');
   }else await tap(page,'[data-action=home]');
   assert.match(await page.locator('#status').innerText(),/저장하지 못했어/);
