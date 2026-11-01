@@ -10,7 +10,8 @@ export async function prepareOffline(){
    ready?'연결 없이도 탐험할 준비가 됐어.':
    problem?'오프라인 준비를 마치지 못했어. 연결된 동안 탐험을 계속할 수 있어.':
    '연결이 끊겨도 탐험할 수 있게 준비 중… '+percent+'%';
-  if(ready&&!update)hideTimer=setTimeout(()=>{panel.hidden=true;},5000);
+  // A failed cache only matters offline; online it would sit over the bottom controls, and 'online' retries anyway.
+  if(ready&&!update||problem&&navigator.onLine)hideTimer=setTimeout(()=>{panel.hidden=true;},ready?5000:8000);
  };
  window.addEventListener('offline',show);window.addEventListener('online',()=>{show();if(problem)void register();});
  if(!('serviceWorker' in navigator)||!window.isSecureContext){
