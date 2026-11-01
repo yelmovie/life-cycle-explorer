@@ -10,7 +10,8 @@ function failed(){
  label.textContent='숲을 불러오지 못했어. 연결을 확인한 뒤 다시 열어 줘. 저장된 탐구 기록은 그대로야.';
 }
 retry.addEventListener('click',()=>location.reload());
-const deadline=setTimeout(failed,60000);
+// Slow classroom links can need minutes; only real load errors show the failure screen.
+const deadline=setTimeout(()=>{if(!finished)label.textContent='연결이 느려서 시간이 조금 더 걸리고 있어. 창을 닫지 말고 기다려 줘.';},15000);
 window.addEventListener('error',()=>{if(started&&!finished)failed();});
 window.addEventListener('unhandledrejection',()=>{if(started&&!finished)failed();});
 window.addEventListener('life-clock-progress',event=>progress(30+event.detail.progress*.7,'탐사 그림을 펼치는 중… '+event.detail.progress+'%'));
