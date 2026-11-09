@@ -1,3 +1,4 @@
+import {bindConceptFocus} from './concept-focus.js';
 import {esc} from './game-metadata.js';
 
 // Captions stay in the DOM, so classroom text scales independently of video.
@@ -38,8 +39,12 @@ export function openConcept({chapter,dialog,modal,audio,reduced=false,onFinish=(
  if(finishLabel)modal.querySelector('#concept-finish').textContent=finishLabel;
  modal.querySelector('#concept-finish').addEventListener('click',()=>{modal.close();if(!returnToList)onFinish();},opts);
  document.addEventListener('visibilitychange',()=>{if(document.hidden)video.pause();},opts);
- const cleanup=()=>{if(closed)return;closed=true;clearTimeout(timeout);controller.abort();video.pause();video.removeAttribute('src');video.querySelectorAll('source').forEach(n=>n.remove());video.load();audio.resumeAudio();if(returnToList&&!modal.open)queueMicrotask(onFinish);};
+ let releaseFocus=()=>{};
+ const cleanup=()=>{if(closed)return;releaseFocus();closed=true;clearTimeout(timeout);controller.abort();video.pause();video.removeAttribute('src');video.querySelectorAll('source').forEach(n=>n.remove());video.load();audio.resumeAudio();if(returnToList&&!modal.open)queueMicrotask(onFinish);};
  modal.addEventListener('close',cleanup,opts);modal.addEventListener('modal-dismiss',cleanup,opts);
- cue();video.innerHTML=`<source src="assets/concepts/${clip.id}.webm" type="video/webm"><source src="assets/concepts/${clip.id}.mp4" type="video/mp4">`;video.load();armTimeout();
+ cue();video.innerHTML=`<source src="assets/concepts/${clip.id}.webm" type="video/webm"><source src="assets/concepts/${clip.id}.mp4" type="video/mp4">`;video.querySelectorAll('source').item(1)?.addEventListener('error',fallback,opts);video.load();armTimeout();
+ const words=[['알','애벌레','번데기','어른벌레','다음 세대'],['조건','물','알맞은 온도','발아'],['물','빛','비교'],['한살이','나비','자라는 과정','같은','다음 세대'],['관찰','조건','기록']][chapter];
+ const focusLabels=[['알과 애벌레','번데기와 어른벌레','다음 세대'],['조건 비교','물과 온도','공정한 비교'],['조건 살피기','알맞은 돌봄','변화 비교'],['한살이 비교','같은 생물','다음 세대'],['관찰과 비교','기록으로 설명','여러 날 관찰']][chapter];
+ releaseFocus=bindConceptFocus(modal,video,{steps:clip.cues.map(([at],i)=>({at,term:focusLabels[i]})),terms:words,caption,anchor:modal.querySelector('.concept-stage'),controls:false,reduced});
  return cleanup;
 }
