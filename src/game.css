@@ -291,3 +291,5 @@ dialog.cinema-dialog::backdrop{background:#0d1f19}
 @keyframes cinema-medal-in{from{opacity:0;transform:scale(.4) rotate(-25deg)}to{opacity:1;transform:none}}
 @keyframes cinema-stamp{0%{transform:scale(1.8) rotate(-18deg);opacity:0}60%{transform:scale(.9) rotate(4deg);opacity:1}100%{transform:none}}
 @keyframes cinema-rays{to{rotate:360deg}}
+
+#map-hand,#map-fit{width:52px;min-width:52px;height:52px;min-height:52px;padding:10px;justify-content:center}#map-fit[hidden]{display:none}#map-hand:focus-visible,#map-fit:focus-visible{outline:3px solid #e4b84e;outline-offset:3px}

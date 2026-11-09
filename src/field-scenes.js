@@ -215,7 +215,7 @@ export function createFieldGame(context){
    this.input.on('pointermove',p=>{if(!drag)return;if(!p.isDown){release();return;}const cam=this.cameras.main;cam.setScroll(drag.sx-(p.x-drag.x)/cam.zoom,drag.sy-(p.y-drag.y)/cam.zoom);});
    const release=()=>{if(!drag)return;drag=null;this.mapCursor(context.ui.mapHand?'grab':'');};
    for(const event of ['pointerup','pointerupoutside','gameout'])this.input.on(event,release);
-   if(context.ui.mapHand)this.setMapHand(true,true);
+   if(context.ui.mapHand)this.setMapHand(true,true);else if(context.ui.mapOverview)this.setMapOverview(true);
    this.input.keyboard?.on('keydown',event=>{const vectors={ArrowUp:[0,-1],KeyW:[0,-1],ArrowDown:[0,1],KeyS:[0,1],ArrowLeft:[-1,0],KeyA:[-1,0],ArrowRight:[1,0],KeyD:[1,0]};const v=vectors[event.code];if(v&&!context.modalOpen()){event.preventDefault();this.step(...v);}});
    const c=context.ui.restoreChapter;
    if(Number.isInteger(c)){
@@ -228,9 +228,16 @@ export function createFieldGame(context){
    if(context.mode()!=='map'||!this.avatar)return;
    const cam=this.cameras.main,duration=instant||reducedMotion(context.s.settings)?0:350;
    if(this.mapLand?.input)this.mapLand.input.cursor=on?'grab':'pointer';this.mapCursor(on?'grab':'');
-   if(on){cam.stopFollow();duration?cam.zoomTo(this.mapZoom*1.5,duration,'Sine.easeInOut'):cam.setZoom(this.mapZoom*1.5);return;}
+   if(on){cam.setBounds(0,-this.viewport.insets.top/this.mapZoom,W,H+(this.viewport.insets.top+this.viewport.insets.bottom)/this.mapZoom);cam.stopFollow();duration?cam.zoomTo(this.mapZoom*1.5,duration,'Sine.easeInOut'):cam.setZoom(this.mapZoom*1.5);return;}
    duration?cam.zoomTo(this.mapZoom,duration,'Sine.easeInOut'):cam.setZoom(this.mapZoom);
    cam.startFollow(this.avatar,true,.12,.12).setFollowOffset(0,this.mapFollowOffset);
+  }
+  setMapOverview(on){
+   if(context.mode()!=='map'||!this.avatar)return;
+   const cam=this.cameras.main;cam.resetFX();
+   if(!on){cam.setBounds(0,-this.viewport.insets.top/this.mapZoom,W,H+(this.viewport.insets.top+this.viewport.insets.bottom)/this.mapZoom);this.setMapHand(false,true);return;}
+   this.cancelTravel();const {width,height,insets}=this.viewport;const zoom=Math.min(width/W,Math.max(1,height-insets.top-insets.bottom)/H);
+   cam.stopFollow();cam.removeBounds();cam.setZoom(zoom);cam.centerOn(W/2,H/2-(insets.top-insets.bottom)/2/zoom);this.mapCursor('');
   }
   mapCursor(value){if(this.game?.canvas)this.game.canvas.style.cursor=value;}
   walkDoor(chapter){if(!Number.isInteger(chapter)||chapter<0||chapter>4)return;this.walkTo(DOORS[chapter],chapter);}
@@ -243,6 +250,7 @@ export function createFieldGame(context){
   }
   walkTo(target,chapter){
    if(context.mode()!=='map'||context.modalOpen()||this.walking&&this.walkTarget===target)return;
+   if(context.ui?.mapOverview){context.ui.mapOverview=false;this.setMapOverview(false);}
    if(context.ui?.mapHand){context.ui.mapHand=false;this.setMapHand(false);}
    this.walkTimer?.remove();this.tweens.killTweensOf(this.avatar);
    this.walking=true;this.walkTarget=target;const trip=this.travelId=(this.travelId||0)+1;

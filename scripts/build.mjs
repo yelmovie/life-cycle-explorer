@@ -34,6 +34,7 @@ function patternFor(reference) {
 
 required.push('src/game-bootstrap.js','src/game-network.js','src/game-shell.css','src/field-preview.js','src/field-mission-data.js','offline-config.json','manifest.webmanifest');
 const generated=new Map([['offline-config.json',Buffer.from('{"enabled":true}\n')]]);
+required.push('src/npc-narration.js');
 const runtime = [...new Set(required)];
 for (const relative of required) if (!await exists(path.join(root,relative))) throw new Error(`Required runtime file missing: ${relative}`);
 const availableAssets = (await filesWithin(path.join(root,'assets'),'assets/')).filter(relative => assetExtension.test(relative));

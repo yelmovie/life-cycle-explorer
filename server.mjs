@@ -17,7 +17,7 @@ const securityHeaders = {
   'Content-Security-Policy':"default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'"
 };
 function permitted(relative) {
-  if(relative==='src/field-mission-data.js')return true;
+  if(relative==='src/field-mission-data.js'||relative==='src/npc-narration.js')return true;
   if(previewBuild&&relative==='service-worker.js')return true;
   if (['src/field-writing.js','src/game-motion.js','src/field-quests.js','src/field-quest-state.js','src/field-world-effects.js','src/field-clock.js','src/field-observation-scenes.js','src/field-plant-scenes.js','src/field-autoplay.js','src/field-story-scenes.js','src/field-notebook.js','src/field-notebook.css','src/field-specimen-3d.js','src/field-concepts.js','src/field-cinema.js','src/field-companion.js','src/field-certificate.js','src/field-record-art.js','src/field-model.js','src/field-content.js','src/field-flow.js','src/field-scenes.js','src/field-room-scenes.js','src/field-dialogs.js','src/ui-icons.js','src/game-info.js','src/game-audio.js','src/game-settings.js','src/settings-content.js'].includes(relative)) return true;
   if (['src/game-app.js','src/game-model.js','src/game-records.js','src/game-assets.js','src/game-metadata.js','src/game.css','vendor/phaser-3.90.0.min.js','vendor/PHASER-LICENSE.md','vendor/three-gltf-0.170.0.min.js','vendor/THREE-LICENSE.md'].includes(relative)) return true;
