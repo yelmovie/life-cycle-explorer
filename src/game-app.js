@@ -112,7 +112,7 @@ function render(){rememberTeacherPreview();const m=mode(),room=m==='room';app.da
 // switches off on pages where the learner has to choose an answer.
 function autoPlayButton(room){
  const b=$('autoplay'),available=room&&autoPlayable(s.field,roomPhase(s.field));if(!available)ui.autoPlay=false;b.hidden=!available;
- const label=ui.autoPlay?'자동 재생 멈춤':'자동 재생';b.innerHTML=icon(ui.autoPlay?'pause':'play')+'<span>'+label+'</span>';b.setAttribute('aria-pressed',String(ui.autoPlay));b.title=label;
+ const label=ui.autoPlay?'직접 해보기':'자동 재생';b.innerHTML=icon(ui.autoPlay?'pause':'play')+'<span>'+label+'</span>';b.setAttribute('aria-pressed',String(ui.autoPlay));b.title=label;
 }
 // The hand sits beside the hint button on the map: while it is pressed,
 // dragging moves the view and taps no longer walk.
