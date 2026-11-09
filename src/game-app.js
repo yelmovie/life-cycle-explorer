@@ -10,6 +10,8 @@ import {ART,esc} from './game-metadata.js';
 import {icon} from './ui-icons.js';
 import {renderSettings,renderResetConfirm} from './game-settings.js';
 import * as audio from './game-audio.js';
+import {installNpcNarration} from './npc-narration.js';
+installNpcNarration({selector:'#guide-bubble',src:new URL('../assets/audio/npc-welcome.mp3',import.meta.url).href,text:'안녕! 나는 도토야. 시간이 흐르면서 생물이 어떻게 자라는지 함께 관찰해 보자. 생김새의 변화와 자라는 데 필요한 것을 차근차근 기록해 보자!',enabled:()=>s.audio.sfx,volume:()=>s.audio.volume,hold:()=>{audio.pauseAudio();return ()=>{if(!Array.from(document.querySelectorAll('video')).some(v=>!v.paused&&!v.ended))audio.resumeAudio();};}});
 import {recordImage,downloadBlob} from './game-records.js';
 import {createDialogs,btn} from './field-dialogs.js';
 import {createFieldNotebook} from './field-notebook.js';
@@ -71,10 +73,12 @@ function syncOrientationFocus(){
 }
 function closeGuide(){ui.guide=false;updateGuide();const target=ui.hintReturn?.isConnected?ui.hintReturn:$('guide');target.focus({preventScroll:true});ui.hintReturn=null;}
 function updateGuide(){
+ const npcAudio=$('guide-bubble').querySelector('[data-npc-audio]');
  const focused=$('guide-bubble').contains(document.activeElement)?document.activeElement.dataset.action:null;
  $('guide').querySelector('img').src=COMPANION_ART;$('guide').querySelector('span').textContent=ui.pending?'도토 !':'도토 힌트';$('guide').setAttribute('aria-label','다람쥐 도토의 힌트');$('guide').setAttribute('aria-controls','guide-bubble');$('guide-bubble').hidden=!ui.guide;
  const text=mode()==='room'?(roomPhase(s.field)==='discovery'?questInfo(s.field).objective:companionHint(roomPhase(s.field),ui.hintLevel)):hint();
  $('guide-bubble').innerHTML=`<p id="guide-text">${esc(text)}</p><div class="row">${btn('위치 보기','hint-point')}${btn('다음 단서','hint-more')}${btn('닫기','hint-close','aria-label="도토 도움말 닫기"')}</div>`;$('guide').setAttribute('aria-expanded',String(ui.guide));
+ if(npcAudio)$('guide-bubble').append(npcAudio);
  if(focused)$('guide-bubble').querySelector(`[data-action="${focused}"]`)?.focus({preventScroll:true});
 }
 

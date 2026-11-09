@@ -12,6 +12,8 @@ const EFFECTS={
   success:[[72,.1],[76,.1],[79,.1],[84,.25]], reward:[[67,.1],[72,.1],[76,.1],[79,.1],[84,.32]],
   error:[[60,.13],[62,.17]], retry:[[60,.13],[62,.17]], bump:[[60,.13],[62,.17]],
   bell:[[84,.5],[91,.9]], wind:[[96,.03]],
+  // Original gentle clockwork tick and forest footstep; no sampled recording required.
+  time:[[79,.035],[72,.05],[84,.10]], step:[[43,.035],[48,.045]],
 };
 const SAMPLES={click:'assets/audio/click.wav',select:'assets/audio/select.wav',place:'assets/audio/place.wav',inspect:'assets/audio/inspect.wav',photo:'assets/audio/photo.wav',success:'assets/audio/success.wav',reward:'assets/audio/reward.wav',error:'assets/audio/error.wav',time:'assets/audio/time.wav',step:'assets/audio/step.wav',bell:'assets/audio/bell.wav',wind:'assets/audio/wind.wav'};
 const sampleBuffers=new Map();let sampleLoad=null;
