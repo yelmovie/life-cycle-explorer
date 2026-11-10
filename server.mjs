@@ -7,8 +7,8 @@ const project = path.dirname(fileURLToPath(import.meta.url));
 const previewBuild = process.argv.includes('--dist');
 const root = previewBuild ? path.join(project, 'dist') : project;
 const port = Number(process.env.PORT || 4186);
-const mime = {'.txt':'text/plain; charset=utf-8','.md':'text/plain; charset=utf-8','.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.png':'image/png','.webp':'image/webp','.svg':'image/svg+xml','.jpg':'image/jpeg','.jpeg':'image/jpeg','.gif':'image/gif','.avif':'image/avif','.ico':'image/x-icon','.woff2':'font/woff2','.mp4':'video/mp4','.webm':'video/webm','.wav':'audio/wav','.mp3':'audio/mpeg','.glb':'model/gltf-binary'};
-const runtimeFiles = new Set(['index.html','src/game-bootstrap.js','src/game-network.js','src/game-shell.css','offline-config.json','manifest.webmanifest','src/field-preview.js','src/expedition.js','src/adventure-core.js','src/adventure-export.js','src/inquiry-core.js']);
+const mime = {'.txt':'text/plain; charset=utf-8','.md':'text/plain; charset=utf-8','.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.png':'image/png','.webp':'image/webp','.svg':'image/svg+xml','.jpg':'image/jpeg','.jpeg':'image/jpeg','.gif':'image/gif','.avif':'image/avif','.ico':'image/x-icon','.woff':'font/woff','.woff2':'font/woff2','.mp4':'video/mp4','.webm':'video/webm','.wav':'audio/wav','.mp3':'audio/mpeg','.glb':'model/gltf-binary'};
+const runtimeFiles = new Set(['src/concept-focus.js','src/concept-focus.css','index.html','src/game-bootstrap.js','src/game-network.js','src/game-shell.css','offline-config.json','manifest.webmanifest','src/field-preview.js','src/expedition.js','src/adventure-core.js','src/adventure-export.js','src/inquiry-core.js']);
 const compressed=new Map();
 mime['.json']='application/json; charset=utf-8';mime['.webmanifest']='application/manifest+json; charset=utf-8';
 const securityHeaders = {

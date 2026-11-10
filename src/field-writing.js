@@ -7,3 +7,6 @@ export const objectParticle=word=>word+((word.charCodeAt(word.length-1)-0xAC00)%
 export const meaningfulText=value=>typeof value==='string'?value.trim().length:0;
 export function captionText(book,id){return Object.hasOwn(book.drafts?.captions||{},id)?book.drafts.captions[id]:(book.captions[id]||'');}
 export function draftValue(book,scope,key,fallback=''){return Object.hasOwn(book.drafts?.[scope]||{},key)?book.drafts[scope][key]:fallback;}
+
+// Mission numbers are read in Korean: il/sam take eul, i/sa/o take reul.
+export const missionUnlockText=chapter=>`미션 ${chapter+1}${[0,2].includes(chapter)?'\uC744':'\uB97C'} \uB9C8\uCE58\uBA74 \uC5F4\uB824\uC694`;

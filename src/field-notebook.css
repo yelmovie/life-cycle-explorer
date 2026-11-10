@@ -1,4 +1,3 @@
-@font-face{font-family:'Research Hand';src:url('../assets/fonts/research-hand-400.woff2') format('woff2');font-style:normal;font-weight:400;font-display:swap}
 #modal.field-notebook-dialog{--modal-max-width:1040px;background:#f8f5e7;border-color:#54785d}
 .field-notebook-dialog>.modal-body{padding:0;position:relative}
 .notebook-book{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(24px,5vw,60px);min-width:0;background:url('../assets/field/research-notebook-v1.webp') center/100% 100% no-repeat;padding:clamp(28px,5vw,64px) clamp(24px,6vw,72px);isolation:isolate;color:#2a513e}
@@ -11,19 +10,19 @@
 .specimen-3d-ready>img{visibility:hidden}
 .specimen-3d-hint{display:none;position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);white-space:nowrap;font-size:var(--font-size-xs);color:#355a42;background:#fdf9e9e6;border:1px solid #9fb18b;border-radius:14px;padding:2px 10px;pointer-events:none}
 .specimen-3d-ready .specimen-3d-hint{display:block}
-.notebook-photo-caption{font-family:'Research Hand',Jua,sans-serif;font-size:clamp(24px,3vw,34px);line-height:1.1;text-align:center;margin:6px 0}
+.notebook-photo-caption{font-family:NanumSquareNeo,sans-serif;font-size:clamp(24px,3vw,34px);line-height:1.1;text-align:center;margin:6px 0}
 .notebook-scale-note{font-size:var(--font-size-xs);color:var(--color-text-sub);text-align:center}
 .notebook-page{min-width:0;padding:0 2%;align-self:center}
 .notebook-kicker{font-size:var(--font-size-xs);margin:0 0 10px;color:var(--color-text-sub)}
-.notebook-page h3{font-family:'Research Hand',Jua,sans-serif;font-size:clamp(30px,3.4vw,42px);font-weight:400;line-height:1.08;margin:0 0 15px;color:#254e3e}
+.notebook-page h3{font-family:NanumSquareNeo,sans-serif;font-size:clamp(30px,3.4vw,42px);font-weight:400;line-height:1.08;margin:0 0 15px;color:#254e3e}
 .notebook-findings{padding:0;list-style:none;margin:0}
 .notebook-findings li{display:flex;align-items:flex-start;gap:8px;margin:10px 0}
 .notebook-hand{font-family:var(--font-hand);font-size:var(--font-size-hand);line-height:1.2;word-break:keep-all;overflow-wrap:break-word;white-space:pre-wrap}
 .notebook-check{color:#4f7c48;font-size:25px}
-.notebook-stamp{display:table;font-family:'Research Hand',Jua,sans-serif;font-size:clamp(23px,2.6vw,31px);color:#46734b;border:2px solid #618c62;border-radius:10px;padding:4px 12px;transform:rotate(-4deg);margin:15px 0;animation:notebook-stamp-in .4s .65s both}
+.notebook-stamp{display:table;font-family:NanumSquareNeo,sans-serif;font-size:clamp(23px,2.6vw,31px);color:#46734b;border:2px solid #618c62;border-radius:10px;padding:4px 12px;transform:rotate(-4deg);margin:15px 0;animation:notebook-stamp-in .4s .65s both}
 .notebook-next{font-size:var(--font-size-sm);line-height:1.4;margin:14px 0 0}
 .notebook-entry{margin:0}
-.field-notebook-dialog .notebook-own-writing{font-family:'Research Hand',Jua,sans-serif;font-size:clamp(28px,3.2vw,38px);line-height:1.18;min-height:155px;background:#fffdf0b8;border:1px solid #9fb18b;border-radius:8px;color:#284c3b;padding:10px;width:100%;resize:vertical;margin-top:7px;box-sizing:border-box}
+.field-notebook-dialog .notebook-own-writing{font-family:NanumSquareNeo,sans-serif;font-size:clamp(28px,3.2vw,38px);line-height:1.18;min-height:155px;background:#fffdf0b8;border:1px solid #9fb18b;border-radius:8px;color:#284c3b;padding:10px;width:100%;resize:vertical;margin-top:7px;box-sizing:border-box}
 .field-notebook-dialog .notebook-own-writing::placeholder{color:#7b8a70;opacity:1}
 .notebook-hand.writing:after{content:'▎';font-family:sans-serif;display:inline-block;font-size:.7em;animation:notebook-pencil .6s steps(2) infinite;color:#547748}
 .notebook-capture-camera{position:absolute;top:10px;left:20px;width:100px;z-index:3;display:flex;align-items:center;gap:6px;transform:rotate(-7deg);pointer-events:none;animation:notebook-camera .55s both}
@@ -35,7 +34,7 @@
 .notebook-photo-grid figure:before{content:'';position:absolute;left:36%;top:-6px;width:35%;height:15px;background:#c8d6b7ba;transform:rotate(5deg)}
 .notebook-photo-grid img{display:block;width:100%;height:190px;object-fit:contain;background:#fffdf5;border-radius:2px}
 .notebook-photo-art{position:relative}.notebook-new-leaves{position:absolute;left:50%;top:0;height:100%;width:auto;aspect-ratio:1;max-width:100%;transform:translateX(-50%);pointer-events:none}
-.notebook-photo-grid figcaption{font-family:'Research Hand',Jua,sans-serif;text-align:center;font-size:clamp(23px,2.8vw,31px);line-height:1.05;margin:8px 0 3px;overflow-wrap:anywhere}
+.notebook-photo-grid figcaption{font-family:NanumSquareNeo,sans-serif;text-align:center;font-size:clamp(23px,2.8vw,31px);line-height:1.05;margin:8px 0 3px;overflow-wrap:anywhere}
 .notebook-photo-grid small{display:block;text-align:center;font-size:var(--font-size-xs);line-height:1.3;color:var(--color-text-sub)}
 .field-notebook-dialog .dialog-actions button{min-height:48px;font-size:var(--font-size-sm)}
 @keyframes notebook-pencil{50%{opacity:0}}@keyframes notebook-stamp-in{from{opacity:0;transform:scale(1.35) rotate(-12deg)}to{opacity:1;transform:scale(1) rotate(-4deg)}}

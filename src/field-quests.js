@@ -41,7 +41,7 @@ export function applyQuest(field,payload={}){
    if(!['water','temperature','time'].includes(p.clue))return fail('물·온도·관찰 기간 세 단서를 확인해 줘.');
    e.checks=[...new Set([...(e.checks||[]),p.clue])];
   }else if(p.kind==='decide'){
-   if(p.choice!=='observe')return fail('아직 싹이 안 보인다고 죽었다고 단정할 수 없어. 조건과 기간을 확인하며 관찰을 이어가자.');
+   if(p.choice!=='observe')return fail('아직 싹이 안 보인다고 죽었다고 단정할 수 없어. 조건과 기간을 확인하며 관찰을 이어 가자.');
    if(!['water','temperature','time'].every(x=>e.checks?.includes(x)))return fail('먼저 물·온도·관찰 기간 세 단서를 모두 눌러 확인해 줘.');
    e.decision='observe';
   }else return fail('아직 안 보이는 싹을 판단하기 전에 세 단서를 확인해 줘.');
@@ -152,7 +152,7 @@ export function renderQuestRoom(v,ctx){
   const checks=[['water','물은 알맞게 주었을까?','물: 알맞게 주고 있어'],['temperature','온도는 알맞을까?','온도: 22°C, 싹트기에 알맞아'],['time','충분히 관찰했을까?','기간: 관찰을 시작한 지 얼마 안 됐어']];
   checks.forEach(([clue,text,result],i)=>button(850,315+i*91,425,e.checks?.includes(clue)?result:text,{kind:'check',clue},e.checks?.includes(clue)));
   button(380,630,300,'싹이 안 보이면 죽은 것',{kind:'decide',choice:'dead'});
-  button(850,630,425,'조건을 확인하며 관찰 이어가기',{kind:'decide',choice:'observe'});
+  button(850,630,425,'조건을 확인하며 관찰 이어 가기',{kind:'decide',choice:'observe'});
   return;
  }
  if(c===2&&step===0){

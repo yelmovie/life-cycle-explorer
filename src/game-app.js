@@ -37,7 +37,7 @@ const titleScreen=`<section id="title-screen" aria-label="생명 시계 연구�
   <h1 class="title-wordmark"><span class="sr-only">생명 시계 연구실</span><img class="title-logo" src="assets/field/title-logo-v1.webp" alt="" width="1200" height="668" fetchpriority="high" decoding="async" draggable="false"></h1>
   <p class="title-hook">작은 씨앗이 숲을 깨울 수 있을까?</p>
   <p class="title-description">나비의 변신부터 씨앗의 첫 새싹까지.<br>네가 찾은 생명의 비밀로 숲의 시간을 이어 줘.</p>
-  <div class="title-actions">${btn('<span>탐험 시작</span>'+icon('right'),'start','','primary title-start')}${btn('이어서 탐험','continue','','title-continue')}${btn('처음부터 다시하기','title-restart','hidden','title-continue title-restart')}</div>
+  <div class="title-actions">${btn('<span>탐험 시작</span>'+icon('right'),'start','','primary title-start')}${btn('이어서 탐험','continue','','title-continue')}${btn('처음부터 다시 하기','title-restart','hidden','title-continue title-restart')}</div>
  </div>
  <div class="title-character-glow" aria-hidden="true"></div>
  <img class="title-jihoon" src="${ART.guideStory}" alt="기록책을 들고 숲으로 안내하는 지훈" draggable="false">
@@ -116,7 +116,7 @@ function render(){rememberTeacherPreview();const m=mode(),room=m==='room';app.da
 // switches off on pages where the learner has to choose an answer.
 function autoPlayButton(room){
  const b=$('autoplay'),available=room&&autoPlayable(s.field,roomPhase(s.field));if(!available)ui.autoPlay=false;b.hidden=!available;
- const label=ui.autoPlay?'직접 해보기':'자동 재생';b.innerHTML=icon(ui.autoPlay?'pause':'play')+'<span>'+label+'</span>';b.setAttribute('aria-pressed',String(ui.autoPlay));b.title=label;
+ const label=ui.autoPlay?'직접 해 보기':'자동 재생';b.innerHTML=icon(ui.autoPlay?'pause':'play')+'<span>'+label+'</span>';b.setAttribute('aria-pressed',String(ui.autoPlay));b.title=label;
 }
 // The hand sits beside the hint button on the map: while it is pressed,
 // dragging moves the view and taps no longer walk.
@@ -290,4 +290,4 @@ window.addEventListener('online',()=>{if(!ctx.scene?.failed?.size)return;if(moda
 for(const event of ['pointerdown','mousedown','touchstart'])for(const surface of [app,modal])surface.addEventListener(event,e=>{if(!e.target.closest('canvas'))e.stopPropagation();});
 restoreTeacherPreview();
 if(!G.getSaveStatus(storage).ok){ui.message=saveIssue();ui.pending=true;}
-render();await Promise.allSettled([document.fonts.load('24px Jua')]);createFieldGame(ctx);
+render();await Promise.allSettled([document.fonts.load('24px NanumSquareNeo')]);createFieldGame(ctx);
