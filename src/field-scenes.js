@@ -77,7 +77,7 @@ export function createFieldGame(context){
   }
   text(x,y,message,size=27,width=420,color){
    const scale=this.screenScale(),theme=this.theme;
-   const text=this.add.text(x,y,message,{fontFamily:theme.font,fontSize:Math.max(size,(size<22?theme.caption:theme.body)/scale),color:color||theme.ink,align:'center',wordWrap:{width,useAdvancedWrap:false},lineSpacing:3}).setOrigin(.5);
+   const text=this.add.text(x,y,message,{fontFamily:theme.font,fontStyle:'700',fontSize:Math.max(size,(size<22?theme.caption:theme.body)/scale),color:color||theme.ink,align:'center',wordWrap:{width,useAdvancedWrap:false},lineSpacing:3}).setOrigin(.5);
    // A thin paper outline keeps the letters readable over detailed forest art.
    if(!color||!/^#fff/i.test(color))text.setStroke(theme.paper,Math.max(2,2/scale));
    return text;

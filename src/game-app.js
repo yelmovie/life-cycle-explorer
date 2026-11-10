@@ -290,4 +290,4 @@ window.addEventListener('online',()=>{if(!ctx.scene?.failed?.size)return;if(moda
 for(const event of ['pointerdown','mousedown','touchstart'])for(const surface of [app,modal])surface.addEventListener(event,e=>{if(!e.target.closest('canvas'))e.stopPropagation();});
 restoreTeacherPreview();
 if(!G.getSaveStatus(storage).ok){ui.message=saveIssue();ui.pending=true;}
-render();await Promise.allSettled([document.fonts.load('24px NanumSquareNeo')]);createFieldGame(ctx);
+render();await Promise.allSettled([document.fonts.load('24px NanumSquareNeo'),document.fonts.load('700 24px NanumSquareNeo')]);createFieldGame(ctx);

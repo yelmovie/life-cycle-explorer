@@ -71,7 +71,7 @@ npm run preview
 | game-model.js | 이전 탐구 자료 보존과 새 상태 연결, 지도 경로 |
 | game-records.js / adventure-export.js | 실제 기록 이미지, 독립 PNG 출력 |
 | game-settings.js / settings-content.js / game-audio.js | 아이스크림 설정 규격, 문구, 단일 Web Audio 관리·CC0 효과음 |
-| game.css / ui-icons.js | 디자인 토큰, 로컬 Jua, 전체 화면·반응형, SVG 아이콘 |
+| game.css / ui-icons.js | 디자인 토큰, 로컬 나눔스퀘어네오, 전체 화면·반응형, SVG 아이콘 |
 | field-specimen-3d.js | 관찰 노트의 3D 표본(돌려 보기). 모델 출처·최적화는 `assets/models/README.md` |
 | core.js | 예전 상태 함수. 실행에는 쓰지 않고 `tests/core.test.js`만 쓴다 |
 | scripts/build.mjs / check.mjs / sync-info.mjs | 실행 파일·필수 에셋만 패키징, 문법·버전 동기화 |

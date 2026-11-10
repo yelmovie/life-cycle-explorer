@@ -16,8 +16,17 @@ Primary license source checked 2026-10-21: [Google Fonts Jua OFL](https://github
 
 # NanumSquareNeo review update (2026-11-10)
 
-The active UI, Phaser text, research notes and canvas exports use the unmodified local NanumSquareNeo variable WOFF.
-Source: https://hangeul.pstatic.net/hangeul_static/css/nanum-square-neo.css
+The active UI, Phaser text, research notes and canvas exports use three unmodified local NanumSquareNeo static weights.
+Source: https://hangeul.pstatic.net/hangeul_static/css/nanum-square-neo.css (files under `webfont/NanumSquareNeo/`)
 License: NanumSquareNeo-OFL.txt (SIL Open Font License 1.1), https://help.naver.com/service/30016/contents/18088?osType=PC&lang=ko
-SHA-256: abbc7b2aa9f109744238b15a4f2ccf3bd4c843f9d1eae7639df475527462d2e3
-Previously supplied font files are retained in source for provenance; the runtime no longer uses them.
+
+| File | Weight | Bytes | SHA-256 |
+|---|---|---:|---|
+| NanumSquareNeoTTF-bRg.woff | 400 | 743272 | 065bd89190ec3442b24134e3b9901277e98857376b94b6fa9ea9f2ece835b04e |
+| NanumSquareNeoTTF-cBd.woff | 700 | 741752 | 7a6718ea4b4bc15f67da16822a8db39dbad0a258e8134213c284c9e9749a1de3 |
+| NanumSquareNeoTTF-dEb.woff | 800–900 | 750328 | 300fe691068e9ef6834b1fb10484929f26d188af7d8f45078b725e29e6883e9e |
+
+Naver's `NanumSquareNeo-Variable.woff` (SHA-256 abbc7b2a…62d2e3) is not used: Chrome 156 on Windows rejects it
+("OTS parsing error: Unable to instantiate font face"), both from this project and from Naver's own URL, so the page
+fell back to Malgun Gothic. It is kept in `source/` for provenance and is excluded from the build.
+Previously supplied font files are retained for provenance; the runtime no longer uses them.

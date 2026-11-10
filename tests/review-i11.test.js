@@ -18,7 +18,14 @@ test('I11 spelling and notebook labels stay corrected in active source and conte
 test('I11 designated font is local and used in DOM, Phaser and exports',async()=>{
  const files=['src/game.css','src/game-shell.css','src/field-notebook.css','src/field-scenes.js','src/field-story-scenes.js','src/game-app.js','src/adventure-export.js','src/field-certificate.js'];
  for(const file of files){const source=await readFile(new URL('../'+file,import.meta.url),'utf8');assert.match(source,/NanumSquareNeo/);assert.doesNotMatch(source,/Jua|Research Hand/);}
- const font=await readFile(new URL('../assets/fonts/NanumSquareNeo-Variable.woff',import.meta.url));
- assert.equal(font.subarray(0,4).toString(),'wOFF');
- assert.ok(font.length>1000000);
+ // Chrome cannot instantiate Naver's variable WOFF, so the static weights are shipped instead.
+ const css=await readFile(new URL('../src/game.css',import.meta.url),'utf8');
+ assert.doesNotMatch(css,/NanumSquareNeo-Variable/);
+ for(const weight of ['bRg','cBd','dEb']){
+  const name='NanumSquareNeoTTF-'+weight+'.woff';
+  assert.ok(css.includes("url('../assets/fonts/"+name+"')"),name+' is not declared in game.css');
+  const font=await readFile(new URL('../assets/fonts/'+name,import.meta.url));
+  assert.equal(font.subarray(0,4).toString(),'wOFF');
+  assert.equal(font.readUInt32BE(8),font.length,name+' is truncated');
+ }
 });

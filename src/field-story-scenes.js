@@ -108,7 +108,7 @@ export function renderStoryRoom(v,ctx,phase){
     const bell=v.pic('towerBell',1077,330,190).setOrigin(.5,.12);
     if(!reduced)v.tweens.add({targets:bell,angle:{from:-8,to:8},duration:700,yoyo:true,repeat:-1,ease:'Sine.easeInOut'});
     v.click(1077,360,200,220,()=>ctx.emit('open-plan'),'종 울리고 관찰 약속하기');
-    v.label(1077,520,'종을 눌러\n실제로 이어 갈 관찰을 약속해 줘!',21,280);
+    v.label(1077,520,'종을 눌러 실제로\n이어 갈 관찰을 약속해 줘!',21,280);
    }else{
     if(v.textures.exists('researchNotebook'))v.pic('researchNotebook',1077,430,290,360);
     handwriting(1077,330,q.title||'제목을 붙여 줘',26,230).setMaxLines(2);
