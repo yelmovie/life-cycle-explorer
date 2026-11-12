@@ -1,3 +1,6 @@
+import {bindDirectionPad,MAP_VECTORS} from './map-controls.js';
+import {mountMapVillains} from './map-villains.js';
+let mapVillains=null;
 import {reducedMotion} from './game-motion.js';
 import * as G from './game-model.js';
 import {TEXT_LIMITS,objectParticle} from './field-writing.js';
@@ -95,7 +98,7 @@ function timeStops(){const p=roomPhase(s.field),q=s.field.chapters[s.field.activ
  const type=p==='grow'?'seed-day':p==='care-after'?'care-day':'season',value=p==='grow'?q.rounds[q.round].day:p==='care-after'?q.cases[q.case].day:q.season;
  return stops.length?`<div class="time-stops" aria-label="시간 바로 이동">${stops.map(([n,label])=>{const recorded=p==='grow'?q.rounds[q.round].photos.some(d=>n===0?d===0:n===3?d>=2&&d<=4:d>=6):p==='care-after'?q.cases[q.case].photos.includes(n):['apple-'+n,'balsam-'+n].every(id=>q.plantPhotos.includes(id));return btn((recorded?'✓ ':'')+label,'time-stop',`data-type="${type}" data-value="${n}" aria-pressed="${n===value}"`);}).join('')}${p==='care-after'&&value===2?btn('전후 비교','care-compare'):''}</div>`:'';
 }
-function render(){rememberTeacherPreview();const m=mode(),room=m==='room';app.dataset.view=m;$('title-screen').hidden=m!=='title';for(const id of ['objective','guide','next','controls'])$(id).hidden=m==='title';$('scene-title').textContent=m==='title'?'':(previewOriginal?'교사 시연 · ':'')+(room?FIELD_CHAPTERS[s.field.active].title+' → '+FIELD_CHAPTERS[s.field.active].reward:'생명의 숲');$('map-doors').hidden=m!=='map';$('focus-targets').hidden=!room;
+function render(){mapVillains?.destroy();mapVillains=null;rememberTeacherPreview();const m=mode(),room=m==='room';app.dataset.view=m;$('title-screen').hidden=m!=='title';for(const id of ['objective','guide','next','controls'])$(id).hidden=m==='title';$('scene-title').textContent=m==='title'?'':(previewOriginal?'교사 시연 · ':'')+(room?FIELD_CHAPTERS[s.field.active].title+' → '+FIELD_CHAPTERS[s.field.active].reward:'생명의 숲');$('map-doors').hidden=m!=='map';$('focus-targets').hidden=!room;
  $('title-screen').querySelector('[data-action=continue]').hidden=!s.field.completed.length&&!Object.values(s.field.chapters[0].inspected).some(a=>a.length);$('title-screen').querySelector('[data-action=title-restart]').hidden=s.field.completed.length<5;
  if(room){const info=roomUI(s,ui),progress=stageProgress(s.field.active,info.phase,!!previewOriginal);$('scene-title').innerHTML=esc((previewOriginal?'교사 시연 · ':'')+FIELD_CHAPTERS[s.field.active].title)+`<span class="progress-rail" aria-label="${progress.label}, ${Math.min(progress.index+1,progress.total)} / ${progress.total}">${progress.html}</span><span>${progress.label}</span>`;$('objective').textContent=info.objective;$('controls').innerHTML=`<div class="field-menu">${info.controls}${info.phase==='ready'?btn('(선택) 개념 영상','concept'):''}</div>`+`<div class="time-tools">${rangeControl()}${timeStops()}</div>`;$('next').textContent=previewOriginal?(progress.nextPhase?'다음 활동으로 건너뛰기':s.field.active<4?'다음 구역 시연':'시연 마치고 지도'):(info.nextAction==='hint'?'다음 할 일 보기':info.next);}
  if(m==='map'){
@@ -107,6 +110,7 @@ function render(){rememberTeacherPreview();const m=mode(),room=m==='room';app.da
   const nextDoor=FIELD_CHAPTERS.findIndex((_,i)=>!s.field.completed.includes(i)&&fieldUnlocked(s.field,i));
   $('map-doors').innerHTML=FIELD_CHAPTERS.map((ch,i)=>`<button class="map-door ${s.field.completed.includes(i)?'done':fieldUnlocked(s.field,i)?(i===nextDoor?'next':''):'locked'}" data-action="door" data-chapter="${i}" aria-label="${ch.title}${fieldUnlocked(s.field,i)?' 입장하기':' · 앞 탐사 뒤 열림'}">${s.field.completed.includes(i)?icon('check'):fieldUnlocked(s.field,i)?'':icon('lock')}${ch.title}</button>`).join('');
  }
+ if(m==='map')mapVillains=mountMapVillains($('map-doors'),{progress:s.mapVillains,points:s.field.completed.map(i=>({id:i,name:FIELD_CHAPTERS[i].title,x:50,y:50})),blocked:()=>modal.open,onHit:()=>persist(),sound:()=>audio.playSfx('success'),tool:'시간 빛',color:'#7569b5'});
  $('next').disabled=m==='map'&&Number.isInteger(ui.travelChapter);
  // Rebuilt door buttons take their map positions at once instead of on the next frame.
  if(m==='map')ctx.scene?.update?.();
@@ -169,7 +173,7 @@ function positionDoors(items){
   const a=boxes[j],b=boxes[i];if(Math.abs(a.x-b.x)>=(a.w+b.w)/2+gap||Math.abs(a.y-b.y)>=(a.h+b.h)/2+gap)continue;
   const below=a.y+(a.h+b.h)/2+gap;b.y=below+b.h/2+gap<=top+height?below:a.y-(a.h+b.h)/2-gap;clamp(b);
  }
- for(const box of boxes)Object.assign(box.button.style,{left:box.x+'px',top:box.y+'px'});
+ for(const box of boxes){Object.assign(box.button.style,{left:box.x+'px',top:box.y+'px'});mapVillains?.position(Number(box.button.dataset.chapter),Math.max(52,Math.min(width-52,box.x+105)),Math.max(top+52,Math.min(top+height-52,box.y+70)));}
 }
 function dialog({title,body,actions=btn('계속 탐험','close','','primary'),className='',music='main',values={}}){mediaCleanup?.();mediaCleanup=null;modal.dispatchEvent(new Event('modal-dismiss'));audio.setMusicTheme(music);if(!modal.open)dialogFocus=document.activeElement;if(mode()==='map'){ctx.scene?.cancelTravel();ui.travelChapter=null;render();}modal.className=className;modal.setAttribute('aria-labelledby','dialog-title');modal.innerHTML=`<h2 id="dialog-title">${esc(title)}</h2><button class="close icon-button" data-action="close" aria-label="닫기">${icon('close')}</button><div class="modal-portrait" tabindex="-1" role="status">화면을 가로로 돌리면 작성 중인 내용을 이어 갈 수 있어.</div><div class="modal-body">${body}</div><div class="dialog-actions">${actions}</div>`;for(const[id,value]of Object.entries(values)){const input=modal.querySelector('#'+id);if(input)input.value=value;}if(!modal.open)modal.showModal();syncOrientationFocus();if(ctx.scene)ctx.scene.input.enabled=false;modal.querySelector('.modal-body').scrollTop=0;modal.querySelector('[autofocus]')?.focus();}
 modal.addEventListener('close',()=>{if(modal.open)return;mediaCleanup?.();mediaCleanup=null;if(ctx.scene)ctx.scene.input.enabled=true;audio.setMusicTheme('main');audio.resumeAudio();if(Number.isInteger(ui.pendingRestoreChapter)&&mode()==='map'){ui.restoreChapter=ui.pendingRestoreChapter;ui.pendingRestoreChapter=null;ctx.scene?.refresh();}if(dialogFocus?.isConnected)dialogFocus.focus({preventScroll:true});else if(mode()==='room')$('next')?.focus({preventScroll:true});});
@@ -291,3 +295,8 @@ for(const event of ['pointerdown','mousedown','touchstart'])for(const surface of
 restoreTeacherPreview();
 if(!G.getSaveStatus(storage).ok){ui.message=saveIssue();ui.pending=true;}
 render();await Promise.allSettled([document.fonts.load('24px Jua')]);createFieldGame(ctx);
+
+const mapPad=bindDirectionPad(app,'.direction-pad [data-action="step"]',b=>Number(b.dataset.x)<0?'left':Number(b.dataset.x)>0?'right':Number(b.dataset.y)<0?'up':'down',{
+ blocked:()=>mode()!=='map'||ctx.modalOpen(),repeatMs:80,
+ press:dir=>{const v=MAP_VECTORS[dir];ctx.scene?.step(v.x,v.y);},tap:dir=>{const v=MAP_VECTORS[dir];ctx.scene?.step(v.x,v.y);}
+});

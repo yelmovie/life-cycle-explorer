@@ -1,3 +1,4 @@
+import {mapKeyDirection,MAP_VECTORS} from './map-controls.js';
 import {reducedMotion} from './game-motion.js';
 import {ART,SCENES} from './game-assets.js';
 import {POINTS,EDGES,DOORS,nearest,route} from './game-model.js';
@@ -216,7 +217,12 @@ export function createFieldGame(context){
    const release=()=>{if(!drag)return;drag=null;this.mapCursor(context.ui.mapHand?'grab':'');};
    for(const event of ['pointerup','pointerupoutside','gameout'])this.input.on(event,release);
    if(context.ui.mapHand)this.setMapHand(true,true);else if(context.ui.mapOverview)this.setMapOverview(true);
-   this.input.keyboard?.on('keydown',event=>{const vectors={ArrowUp:[0,-1],KeyW:[0,-1],ArrowDown:[0,1],KeyS:[0,1],ArrowLeft:[-1,0],KeyA:[-1,0],ArrowRight:[1,0],KeyD:[1,0]};const v=vectors[event.code];if(v&&!context.modalOpen()){event.preventDefault();this.step(...v);}});
+   this.mapKeys=new Map();
+   const clearKeys=()=>this.mapKeys.clear();
+   this.input.keyboard?.on('keydown',event=>{const dir=mapKeyDirection(event);if(!dir||context.modalOpen()||event.ctrlKey||event.altKey||event.metaKey||event.target?.closest?.('input,textarea,select,[contenteditable]:not([contenteditable="false"])'))return;event.preventDefault();if(!event.repeat)this.mapKeys.set(event.code||event.key,dir);});
+   this.input.keyboard?.on('keyup',event=>this.mapKeys.delete(event.code||event.key));
+   window.addEventListener('blur',clearKeys);document.addEventListener('visibilitychange',clearKeys);
+   this.events.once('shutdown',()=>{window.removeEventListener('blur',clearKeys);document.removeEventListener('visibilitychange',clearKeys);});
    const c=context.ui.restoreChapter;
    if(Number.isInteger(c)){
     context.ui.restoreChapter=null;const path=route(DOORS[c],DOORS[4]),glow=this.add.circle(this.avatar.x,this.avatar.y,11,0xffef9d,.95).setDepth(19);let i=0;
@@ -267,6 +273,8 @@ export function createFieldGame(context){
   }
   update(){
    if(context.mode()!=='map'||!this.avatar)return;
+   if(context.modalOpen()||document.hidden)this.mapKeys?.clear();
+   else if(!this.walking&&this.mapKeys?.size){const v=MAP_VECTORS[[...this.mapKeys.values()].at(-1)];this.step(v.x,v.y);}
    this.foot?.setPosition(this.avatar.x,this.avatar.y);if(this.spirit){const follow=reducedMotion(context.s.settings)?1:.09;this.spirit.x+=(this.avatar.x-55-this.spirit.x)*follow;this.spirit.y+=(this.avatar.y-12-this.spirit.y)*follow;this.spirit.setFlipX(this.walkRow===1);}
    context.placeDoors(DOORS.map((node,c)=>({chapter:c,x:POINTS[node][0]*W,y:POINTS[node][1]*H})));
   }
