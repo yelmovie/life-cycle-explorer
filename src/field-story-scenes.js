@@ -9,7 +9,7 @@ export const storyRoomAssets=['storyCamera','researchNotebook','towerEmblem0','t
 export const towerBackdrop=f=>{const step=towerStep(f);return f.chapters[4].towerRun||step==='ready'?'towerRoomAwake':step==='tower-evidence'?'towerEvidenceBoard':'towerRoomSleep';};
 
 export function storyInfoNotebook(q){
- return `<div class="notebook-book story-writing-book"><section class="notebook-page"><p class="notebook-kicker">나의 발견 연구노트</p><h3>내 탐구에 이름 붙이기</h3><label>이야기 이름<input id="story-title" type="text" maxlength="${TEXT_LIMITS.title}" placeholder="내가 찾은 생명의 비밀" value="${esc(draftValue(q,'story','title',q.title))}"></label><p class="story-writing-guide">관찰 사진 ${q.records.length}장이 모였어.<br>기억에 남는 발견을 제목에 담아 줘.</p></section><section class="notebook-page"><h3>내가 설명할 수 있는 것</h3><label>관찰한 모습과 나의 설명<textarea id="story-summary" maxlength="${TEXT_LIMITS.summary}" placeholder="나는 …을 관찰해서 …을 알았어.">${esc(draftValue(q,'story','summary',q.summary))}</textarea></label><p class="story-writing-guide">내 사진을 보고, 이제 무엇을 설명할 수 있는지<br>네 말로 써 줘.</p></section></div>`;
+ return `<div class="notebook-book story-writing-book"><section class="notebook-page"><p class="notebook-kicker">나의 발견 연구 노트</p><h3>내 탐구에 이름 붙이기</h3><label>이야기 이름<input id="story-title" type="text" maxlength="${TEXT_LIMITS.title}" placeholder="내가 찾은 생명의 비밀" value="${esc(draftValue(q,'story','title',q.title))}"></label><p class="story-writing-guide">관찰 사진 ${q.records.length}장이 모였어.<br>기억에 남는 발견을 제목에 담아 줘.</p></section><section class="notebook-page"><h3>내가 설명할 수 있는 것</h3><label>관찰한 모습과 나의 설명<textarea id="story-summary" maxlength="${TEXT_LIMITS.summary}" placeholder="나는 …을 관찰해서 …을 알았어.">${esc(draftValue(q,'story','summary',q.summary))}</textarea></label><p class="story-writing-guide">내 사진을 보고, 이제 무엇을 설명할 수 있는지<br>네 말로 써 줘.</p></section></div>`;
 }
 
 export function storyCaptionNotebook(q,records,id,image){
@@ -22,7 +22,7 @@ export function renderStoryRoom(v,ctx,phase){
  const reduced=reducedMotion(ctx.s.settings);
  const act=(type,payload)=>ctx.emit('act',{type,payload});
  const selected=bank.filter(r=>q.records.includes(r.id));
- const handwriting=(x,y,message,size,width)=>v.text(x,y,message,size,width,'#294e43').setFontFamily('Research Hand,Jua,Malgun Gothic,sans-serif');
+ const handwriting=(x,y,message,size,width)=>v.text(x,y,message,size,width,'#294e43').setFontFamily('NanumSquareNeo,Malgun Gothic,sans-serif');
  const target=(x,y,w,h,id,label)=>v.drop(x,y,w,h,id,label,()=>ctx.emit('target',id));
  const paper=(x,y,w,h)=>{
   const group=v.add.container(x,y).setSize(w,h);
@@ -108,7 +108,7 @@ export function renderStoryRoom(v,ctx,phase){
     const bell=v.pic('towerBell',1077,330,190).setOrigin(.5,.12);
     if(!reduced)v.tweens.add({targets:bell,angle:{from:-8,to:8},duration:700,yoyo:true,repeat:-1,ease:'Sine.easeInOut'});
     v.click(1077,360,200,220,()=>ctx.emit('open-plan'),'종 울리고 관찰 약속하기');
-    v.label(1077,520,'종을 눌러\n실제로 이어 갈 관찰을 약속해 줘!',21,280);
+    v.label(1077,520,'종을 눌러 실제로\n이어 갈 관찰을 약속해 줘!',21,280);
    }else{
     if(v.textures.exists('researchNotebook'))v.pic('researchNotebook',1077,430,290,360);
     handwriting(1077,330,q.title||'제목을 붙여 줘',26,230).setMaxLines(2);

@@ -24,7 +24,7 @@ async function complete(c){await snap('discovery-done-'+c);await click('#next');
 async function discoveries(c){
  assert.match(await page.locator('#objective').innerText(),/추가 발견/);
  if(c===0){await key('애벌레');await key('내 흔적 발견 기록');await key('어른벌레');await key('내 흔적 발견 기록');}
- if(c===1){await key('A에도 물 주기');assert.equal((await state()).field.chapters[1].discovery.length,0);await key('A의 온도를 B와 같게');await key('수리한 실험 설계 저장');for(const t of ['물은 알맞게 주었을까?','온도는 알맞을까?','충분히 관찰했을까?'])await key(t);await key('조건을 확인하며 관찰 이어가기');}
+ if(c===1){await key('A에도 물 주기');assert.equal((await state()).field.chapters[1].discovery.length,0);await key('A의 온도를 B와 같게');await key('수리한 실험 설계 저장');for(const t of ['물은 알맞게 주었을까?','온도는 알맞을까?','충분히 관찰했을까?'])await key(t);await key('조건을 확인하며 관찰 이어 가기');}
  if(c===2){await key('흙의 물기 측정 결과');await key('빛 측정 결과');await key('물·빛 그대로 두고 관찰');await key('새잎의 초록빛에 표시');await key('새잎 발견 기록');}
  if(c===3){await key('A-01 나무 선택');await key('같은 이름표의 사진 기록');for(const t of ['같은 자리·같은 방향으로','정한 때마다 꾸준하게','꺾거나 잡지 않고 그 자리에서'])await key(t);await key('나의 관찰 사진 계획 완성');}
  if(c===4){for(let i=0;i<3;i++)await key('이 기록에 도장');await key('나만의 궁금증 쓰기');await page.locator('#discovery-question').fill('우리 학교 봉선화는 언제 꽃이 필까?');await click('#discovery-question-save');}

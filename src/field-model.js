@@ -159,7 +159,7 @@ export function fieldRecords(field) {
   }
   for (const plant of ['apple','balsam']) {
     if (!comparison.tags.includes(plant) || ![0,3,4].every(step => comparison.plantPhotos.includes(`${plant}-${step}`)) || comparison.classifications[plant] !== (plant === 'apple' ? 'same' : 'new')) continue;
-    records.push({id:`field-season-${plant}`,art:plant === 'apple' ? 'appleSpring' : 'balsam',title:plant === 'apple' ? '이름표를 단 사과나무' : '봉선화와 다음 세대',kind:'plant',detail:plant === 'apple' ? '겨울을 지난 같은 사과나무에서 새봄에 잎이 났어.' : '한해를 살고 남긴 씨앗에서 새로운 봉선화가 자랐어.',fieldEvidence:{chapter:3,type:'season',plant,photos:[0,3,4],classification:comparison.classifications[plant]}});
+    records.push({id:`field-season-${plant}`,art:plant === 'apple' ? 'appleSpring' : 'balsam',title:plant === 'apple' ? '이름표를 단 사과나무' : '봉선화와 다음 세대',kind:'plant',detail:plant === 'apple' ? '겨울을 지난 같은 사과나무에서 새봄에 잎이 났어.' : '한 해를 살고 남긴 씨앗에서 새로운 봉선화가 자랐어.',fieldEvidence:{chapter:3,type:'season',plant,photos:[0,3,4],classification:comparison.classifications[plant]}});
   }
   return records;
 }
@@ -182,7 +182,7 @@ export function fieldAction(field, type, payload={}) {
   }
   if (type === 'discovery-exit') {
     delete field.discoveryVisit;
-    return done('추가 발견은 나중에도 이어갈 수 있어.');
+    return done('추가 발견은 나중에도 이어 갈 수 있어.');
   }
   if (type === 'chapter-restart') {
     const chapter=p.chapter ?? p.c;
@@ -397,7 +397,7 @@ function comparisonAction(data,type,p,done,fail) {
     if (!plantsSeen(data)) return fail('첫봄·겨울·다음 봄의 두 식물을 모두 기록해서 비교해 보자.');
     if (!['apple','balsam'].includes(p.plant)) return fail('이름표를 단 두 식물을 비교해 보자.');
     const answer = p.plant === 'apple' ? 'same' : 'new';
-    if (p.answer !== answer) return fail(p.plant === 'apple' ? '겨울에도 줄기와 이름표가 남아 있었어. 다음 봄 잎이 난 나무는 작년 그 나무일까?' : '지난 봉선화는 한해를 살았고, 남긴 씨앗에서 새 싹이 났어. 이름표와 씨앗을 비교해 보자.');
+    if (p.answer !== answer) return fail(p.plant === 'apple' ? '겨울에도 줄기와 이름표가 남아 있었어. 다음 봄 잎이 난 나무는 작년 그 나무일까?' : '지난 봉선화는 한 해를 살았고, 남긴 씨앗에서 새싹이 났어. 이름표와 씨앗을 비교해 보자.');
     data.classifications[p.plant] = p.answer; return done('작년 식물이 살아남은 것과 씨앗에서 새 식물이 자란 것을 구별했어.');
   }
   if (type === 'transfer') {

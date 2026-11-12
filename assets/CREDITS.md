@@ -20,6 +20,11 @@
 - `video-production/20261024-motion/`에 원본 PNG를 보관한다. 사용한 참조와 실제 생성 프롬프트는 `../docs/video-production/20261024-motion/image-prompts.json`, 생성 출력·치수·SHA-256은 같은 폴더 `asset-manifest.json`에 기록했다. 기존 지훈·잎새·도토와 마을 자산을 외형·세계관 참조로 사용했다.
 - 영상 프롬프트 6개·장면 연결·자막·기존 음악 편집안은 같은 폴더 README/production.json/SRT에 있다. 실제 동영상은 생성하지 않았으며 이 PNG들은 게임 런타임에 연결하지 않은 제작 자료다. 이전 `20261024/` 버전은 보존했다.
 
+## 2026-11-10 · 지정 글꼴 교체(검수 반영)
+
+- 화면·Phaser 글자·연구 노트·PNG 출력의 글꼴을 모두 나눔스퀘어네오(네이버, SIL OFL 1.1)로 바꿨다. 수정하지 않은 로컬 가변 WOFF와 `fonts/NanumSquareNeo-OFL.txt`를 함께 배포한다. 출처·해시는 `fonts/README.md`에 있다.
+- 아래 기록의 Jua·Nanum Pen Script는 이전 버전에 대한 설명이다. 두 글꼴 파일은 출처 보존용으로 남겨 두며 실행 화면에서는 쓰지 않는다.
+
 ## 2026-10-24 · 관찰 도구·생물·영상 제작 자료
 
 - 관찰 돋보기·연구노트, 같은 품종의 개 3단계는 기존 중단 작업에서 내장 OpenAI image_gen으로 생성했다. `field/observation-notebook-generation.json`, `field/dog-life-generation.json`에 생성 기록을 보관한다. 원본은 `field/source/`, 실행 WebP는 알파를 유지한다.

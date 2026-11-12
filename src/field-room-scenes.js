@@ -89,7 +89,7 @@ export function renderFieldRoom(v,ctx){
    else for(const [id,x,name] of [['apple',452,'사과나무'],['balsam',825,'봉선화']]){
     const answer=q.classifications[id];
     if(answer)v.label(x,640,answer==='same'?'✓ 작년 그 나무 · 겨울을 견뎠어':'✓ 씨앗에서 새로 자란 봉선화',21,340);
-    else{choice(x-80,640,150,'작년 그 식물',()=>act('plant-classify',{plant:id,answer:'same'}),name);choice(x+80,640,150,'새로 자란 식물',()=>act('plant-classify',{plant:id,answer:'new'}),name);}
+    else{choice(x-84,640,150,'작년 그 식물',()=>act('plant-classify',{plant:id,answer:'same'}),name);choice(x+86,640,176,'새로 자란 식물',()=>act('plant-classify',{plant:id,answer:'new'}),name);}
    }
    return;
   }

@@ -78,7 +78,7 @@ export function createFieldGame(context){
   }
   text(x,y,message,size=27,width=420,color){
    const scale=this.screenScale(),theme=this.theme;
-   const text=this.add.text(x,y,message,{fontFamily:theme.font,fontSize:Math.max(size,(size<22?theme.caption:theme.body)/scale),color:color||theme.ink,align:'center',wordWrap:{width,useAdvancedWrap:false},lineSpacing:3}).setOrigin(.5);
+   const text=this.add.text(x,y,message,{fontFamily:theme.font,fontStyle:'700',fontSize:Math.max(size,(size<22?theme.caption:theme.body)/scale),color:color||theme.ink,align:'center',wordWrap:{width,useAdvancedWrap:false},lineSpacing:3}).setOrigin(.5);
    // A thin paper outline keeps the letters readable over detailed forest art.
    if(!color||!/^#fff/i.test(color))text.setStroke(theme.paper,Math.max(2,2/scale));
    return text;
@@ -161,7 +161,7 @@ export function createFieldGame(context){
   refresh(){
    if(this.loading)return;
    const css=typeof getComputedStyle==='function'&&globalThis.document?.documentElement?getComputedStyle(document.documentElement):null,token=(name,fallback)=>css?.getPropertyValue(name).trim()||fallback;
-   this.theme={font:token('--font-body','Jua,Malgun Gothic,sans-serif'),ink:token('--forest-900','#1e4337'),paper:token('--cream-50','#fffbed'),body:parseFloat(token('--field-body-min','20')),caption:parseFloat(token('--field-caption-min','16')),touch:parseFloat(token('--field-touch-min','48'))};
+   this.theme={font:token('--font-body','NanumSquareNeo,Malgun Gothic,sans-serif'),ink:token('--forest-900','#1e4337'),paper:token('--cream-50','#fffbed'),body:parseFloat(token('--field-body-min','20')),caption:parseFloat(token('--field-caption-min','16')),touch:parseFloat(token('--field-touch-min','48'))};
    const mode=context.mode(),chapter=context.s.field.active;
    const keys=mode==='room'?[...fieldRoomAssets(context),...['guideLook','guideCare','guideTime','guideStory']]:mode==='map'?['forestMap','ipsae','guideLook','guideStory','walker','doto']:[];
    const unavailable=[...new Set(keys)].filter(key=>!this.textures.exists(key));
@@ -175,7 +175,7 @@ export function createFieldGame(context){
    if(unavailable.length){
     this.input.enabled=false;
     if(this.textures.exists('forestMap'))this.pic('forestMap',W/2,H/2,W,H).setDisplaySize(W,H);
-    this.add.rectangle(W/2,H/2,W,H,0x244d39,.55);this.label(W/2,H/2,'그림을 다시 불러오면 탐사를 이어갈 수 있어.',30,850);
+    this.add.rectangle(W/2,H/2,W,H,0x244d39,.55);this.label(W/2,H/2,'그림을 다시 불러오면 탐사를 이어 갈 수 있어.',30,850);
     context.focusTargets([]);context.emit('loaded');
     const failure=mode+':'+chapter+':'+unavailable.join(',');if(this.assetFailure!==failure){this.assetFailure=failure;context.emit('assets-unavailable');}return;
    }

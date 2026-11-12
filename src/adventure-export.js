@@ -128,8 +128,8 @@ async function loadArtwork(value) {
 }
 
 /** Render the student's actual evidence and captions. The caller owns downloading. */
-const HAND = '"Research Hand", "Jua", ' + FIELD_FONT_FALLBACK;
-const ROUND = '"Jua", ' + FIELD_FONT_FALLBACK;
+const HAND = '"NanumSquareNeo", ' + FIELD_FONT_FALLBACK;
+const ROUND = '"NanumSquareNeo", ' + FIELD_FONT_FALLBACK;
 const NOTE = { paper: '#fffdf3', rule: '#d9e7ef', margin: '#f3b9ae', ink: '#2c4a3b', pencil: '#3b4a6b', tape: 'rgba(247,214,120,.72)', mint: '#e6f1dc', pink: '#fbe3df', card: '#ffffff', edge: '#e4d9bf' };
 
 function handFont(ctx, size) { ctx.font = `400 ${size}px ${HAND}`; }
@@ -161,7 +161,7 @@ function ruledWriting(ctx, lines, x, y, width, lineHeight, minLines) {
 /** A printable A4-shaped notebook page: the child's title, four taped photo cards in a 2×2 grid, and their own writing. */
 export async function exportStorybook({ title, summary, cards, plan, limits } = {}) {
   if (!Array.isArray(cards) || !cards.length || cards.length > 6) throw new Error('탐구 카드 1~6장을 골라 줘.');
-  const heading = cleanText(title, '나의 생명관찰노트');
+  const heading = cleanText(title, '나의 생명 관찰 노트');
   const conclusion = cleanText(summary);
   const records = cards.map((card, index) => ({
     title: cleanText(card?.title, `관찰 기록 ${index + 1}`),
@@ -218,7 +218,7 @@ export async function exportStorybook({ title, summary, cards, plan, limits } = 
   // Header: notebook label, the child's own title, name and date blanks.
   rounded(ctx, margin, 108, 410, 58, 29, NOTE.mint, '#bcd6a8');
   leaf(ctx, margin + 40, 137, 18, -.5);
-  roundFont(ctx, 32); ctx.fillStyle = '#3f6b45'; ctx.fillText('나의 생명관찰노트', margin + 72, 120);
+  roundFont(ctx, 32); ctx.fillStyle = '#3f6b45'; ctx.fillText('나의 생명 관찰 노트', margin + 72, 120);
   roundFont(ctx, 28); ctx.fillStyle = NOTE.ink;
   const now = new Date(), date = `${now.getFullYear()}. ${now.getMonth() + 1}. ${now.getDate()}.`;
   ctx.fillText('이름:', W - margin - 600, 124); ctx.fillText(`날짜: ${date}`, W - margin - 270, 124);
