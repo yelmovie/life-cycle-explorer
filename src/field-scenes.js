@@ -397,7 +397,12 @@ export function createFieldGame(context){
    const cameraLerp=reducedMotion(context.s.settings)?1:1-Math.exp(-Math.max(0,delta)/95);
    this.cameras.main.setLerp?.(cameraLerp,cameraLerp);
    this.foot?.setPosition(this.avatar.x,this.avatar.y);if(this.spirit){const follow=reducedMotion(context.s.settings)?1:.09;this.spirit.x+=(this.avatar.x-55-this.spirit.x)*follow;this.spirit.y+=(this.avatar.y-12-this.spirit.y)*follow;this.spirit.setFlipX(this.walkRow===1);}
-   context.placeDoors(DOORS.map((node,c)=>({chapter:c,x:POINTS[node][0]*W,y:POINTS[node][1]*H})),this.spirit&&{x:this.spirit.x,y:this.spirit.y,w:this.spirit.displayWidth,h:this.spirit.displayHeight});
+   const doors=DOORS.map((node,c)=>{
+    const [x,y]=POINTS[node],edge=EDGES.find(pair=>pair.includes(node)),[nx,ny]=POINTS[edge?.find(point=>point!==node)??node];
+    return {chapter:c,x:x*W,y:y*H,near:{x:(x+(nx-x)*.36)*W,y:(y+(ny-y)*.36)*H}};
+   });
+   context.placeDoors(doors,this.spirit&&{x:this.spirit.x,y:this.spirit.y,w:this.spirit.displayWidth,h:this.spirit.displayHeight},
+     {x:this.avatar.x,y:this.avatar.y});
   }
  }
  // The game uses 2D images and geometry masks; embedded previews need no WebGL context.

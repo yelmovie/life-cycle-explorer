@@ -12,6 +12,7 @@ import {renderSettings,renderResetConfirm} from './game-settings.js';
 import * as audio from './game-audio.js';
 import {installNpcNarration} from './npc-narration.js';
 import {characterDialogueMarkup,mountCharacterDialogue} from './character-dialogue.js';
+import {mountVillageEncounters} from './village-encounters.js';
 import {dialogueCast} from './dialogue-cast.js';
 installNpcNarration({selector:'#guide-bubble',src:new URL('../assets/audio/npc-dialogue/doto-hello.mp3',import.meta.url).href,text:'안녕! 나는 도토야. 시간이 흐르면서 생물이 어떻게 자라는지 함께 관찰해 보자. 생김새의 변화와 자라는 데 필요한 것을 차근차근 기록해 보자!',enabled:()=>s.audio.sfx,volume:()=>s.audio.volume,hold:()=>{audio.pauseAudio();return ()=>{if(!Array.from(document.querySelectorAll('video')).some(v=>!v.paused&&!v.ended))audio.resumeAudio();};}});
 import {recordImage,downloadBlob} from './game-records.js';
@@ -89,6 +90,7 @@ function updateGuide(){
 }
 
 function view(next){
+ if(next!=='map')clearEncounters();
  audio.setMusicTheme('main');s.fieldView=next;
  Object.assign(ui,{selection:null,guide:false,message:'',play:false,autoPlay:false,mapHand:false,travelChapter:null});
  persist();render();openFieldView();
@@ -180,7 +182,7 @@ function timeStops(){const p=roomPhase(s.field),q=s.field.chapters[s.field.activ
  const type=p==='grow'?'seed-day':p==='care-after'?'care-day':'season',value=p==='grow'?q.rounds[q.round].day:p==='care-after'?q.cases[q.case].day:q.season;
  return stops.length?`<div class="time-stops" aria-label="시간 바로 이동">${stops.map(([n,label])=>{const recorded=p==='grow'?q.rounds[q.round].photos.some(d=>n===0?d===0:n===3?d>=2&&d<=4:d>=6):p==='care-after'?q.cases[q.case].photos.includes(n):['apple-'+n,'balsam-'+n].every(id=>q.plantPhotos.includes(id));return btn((recorded?'✓ ':'')+label,'time-stop',`data-type="${type}" data-value="${n}" aria-pressed="${n===value}"`);}).join('')}${p==='care-after'&&value===2?btn('전후 비교','care-compare'):''}</div>`:'';
 }
-function render(){rememberTeacherPreview();const m=mode(),room=m==='room';app.dataset.view=m;$('title-screen').hidden=m!=='title';for(const id of ['objective','guide','next','controls'])$(id).hidden=m==='title';$('scene-title').textContent='';$('map-doors').hidden=m!=='map';$('focus-targets').hidden=!room;
+function render(){rememberTeacherPreview();const m=mode(),room=m==='room';if(m!=='map')clearEncounters();app.dataset.view=m;$('title-screen').hidden=m!=='title';for(const id of ['objective','guide','next','controls'])$(id).hidden=m==='title';$('scene-title').textContent='';$('map-doors').hidden=m!=='map';$('focus-targets').hidden=!room;
  $('title-screen').querySelector('[data-action=continue]').hidden=!s.field.completed.length&&!Object.values(s.field.chapters[0].inspected).some(a=>a.length);$('title-screen').querySelector('[data-action=title-restart]').hidden=s.field.completed.length<5;
  if(room){const info=roomUI(s,ui),progress=stageProgress(s.field.active,info.phase,!!previewOriginal);$('scene-title').innerHTML=esc((previewOriginal?'교사 시연 · ':'')+FIELD_CHAPTERS[s.field.active].title)+`<span class="progress-rail" aria-label="${progress.label}, ${Math.min(progress.index+1,progress.total)} / ${progress.total}">${progress.html}</span><span>${progress.label}</span>`;$('objective').textContent=info.objective;$('controls').innerHTML=`<div class="field-menu">${info.controls}${info.phase==='ready'?btn('(선택) 개념 영상','concept'):''}</div>`+`<div class="time-tools">${rangeControl()}${timeStops()}</div>`;$('next').textContent=previewOriginal?(progress.nextPhase?'다음 활동으로 건너뛰기':s.field.active<4?'다음 구역 시연':'시연 마치고 지도'):(info.nextAction==='hint'?'다음 할 일 보기':info.next);}
  if(m==='map'){
@@ -244,7 +246,29 @@ function syncLayout(){
  });
 }
 const layoutObserver=new ResizeObserver(syncLayout);for(const element of [app,$('phaser-root'),app.querySelector('.game-header'),app.querySelector('.game-footer'),$('guide-bubble')])layoutObserver.observe(element);
-function positionDoors(items,companion){
+let mapEncounters=null,mapEncounterKey='';
+function clearEncounters(){mapEncounters?.destroy();mapEncounters=null;mapEncounterKey='';}
+function positionEncounters(items,companion,hero){
+ if(mode()!=='map'||!hero)return;
+ const key=previewOriginal?'preview':s.field.completed.join(',');
+ if(key!==mapEncounterKey){
+  clearEncounters();mapEncounterKey=key;
+  const owner=ctx.scene;
+  if(!previewOriginal)mapEncounters=mountVillageEncounters({host:$('stage'),progress:s.mapEncounters,
+   stages:items.map(({chapter,x,y,near})=>s.field.completed.includes(chapter)?{
+    x:near?.x??x+28,y:near?.y??y+14,name:FIELD_CHAPTERS[chapter].title}:null),
+   onSave:next=>{s.mapEncounters={...s.mapEncounters,...next};persist();},
+   blocked:()=>!fieldReady||modal.open||ui.guide||ui.mapOverview||mode()!=='map',
+   reduced:()=>reducedMotion(s.settings),
+   tone:(kind,hits)=>audio.playSfx(kind==='finish'?'encounter-exit':kind==='contact'?'encounter-contact':hits===2?'encounter-two':'encounter-one'),
+   actors:[visible=>owner?.avatar?.setAlpha(visible?1:0),visible=>owner?.spirit?.setAlpha(visible?1:0)],
+  });
+ }
+ mapEncounters?.update({hero,ally:companion,scale:ctx.scene?.cameras?.main?.zoom||1,
+  project:point=>{const p=coordinates({...point,w:0,h:0});return p?{x:p.left,y:p.top}:null;}});
+}
+function positionDoors(items,companion,hero){
+ positionEncounters(items,companion,hero);
  if(mode()!=='map')return;const stage=$('stage'),width=stage.clientWidth,area=stage.getBoundingClientRect(),gap=12;
  // Keep doors between the floating header and footer.
  const top=Math.max(0,app.querySelector('.game-header').getBoundingClientRect().bottom-area.top),height=Math.min(stage.clientHeight,app.querySelector('.game-footer').getBoundingClientRect().top-area.top)-top;
