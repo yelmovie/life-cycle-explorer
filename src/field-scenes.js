@@ -26,8 +26,11 @@ export function createFieldGame(context){
   }
   create(){context.scene=this;this.renderToken=0;this.refresh();this.scale.on('resize',()=>this.relayout());}
   relayout(){
+   const cam=this.cameras.main;
+   const saved=context.mode()==='map'&&context.ui.mapHand?this.mapViewSnapshot():null;
    const travel=context.mode()==='map'&&this.walking?{target:this.walkTarget,chapter:Number.isInteger(context.ui.travelChapter)?context.ui.travelChapter:null}:null;
    this.refresh();
+   if(saved&&this.avatar&&!this.loading)this.applyMapView(saved);
    // A wrapping header may resize the stage during a walk. Continue from the
    // last recorded path node instead of leaving the destination button locked.
    if(travel&&!this.loading&&!this.assetFailure)this.walkTo(travel.target,travel.chapter);
@@ -36,7 +39,7 @@ export function createFieldGame(context){
   hudInsets(){
    const canvas=this.game?.canvas?.getBoundingClientRect?.(),doc=globalThis.document;if(!canvas?.height||!doc?.querySelector)return {top:0,bottom:0};
    const box=selector=>{const r=doc.querySelector(selector)?.getBoundingClientRect?.();return r?.height?r:null;};
-   const head=box('.game-header'),foot=box('.game-footer'),bubble=box('#guide-bubble:not([hidden])'),k=this.viewportSize().height/canvas.height;
+   const head=box('.game-header'),foot=box('.game-footer'),bubble=context.mode()==='room'?box('#guide-bubble:not([hidden])'):null,k=this.viewportSize().height/canvas.height;
    // An open hint bubble floats above the footer, so the activity steps up instead of hiding under it.
    const floor=Math.min(foot?foot.top:Infinity,bubble?bubble.top-8:Infinity);
    return {top:Math.round(Math.max(0,head?head.bottom-canvas.top:0)*k),bottom:Math.round(Math.max(0,floor===Infinity?0:canvas.bottom-floor)*k)};
@@ -167,7 +170,9 @@ export function createFieldGame(context){
    const unavailable=[...new Set(keys)].filter(key=>!this.textures.exists(key));
    const missing=unavailable.filter(key=>this.paths[key]&&(this.assetAttempts.get(key)||0)<2);
    if(missing.length){this.loading=true;this.input.enabled=false;context.focusTargets([]);context.emit('assets-loading');this.load.once('complete',()=>{this.loading=false;this.refresh();});for(const key of missing)key==='walker'?this.load.spritesheet(key,this.paths[key],{frameWidth:256,frameHeight:256}):this.load.image(key,this.paths[key]);this.load.start();return;}
-   this.renderToken++;this.walking=false;this.autoPlay=null;this.focusTargets=[];context.noteBox?.(null);this.tweens.killAll();this.time.removeAllEvents();this.input.removeAllListeners();this.input.keyboard?.removeAllListeners();
+   this.clearMapInput?.();this.clearMapInput=null;
+   if(mode!=='map')this.priorMapView=null;
+   this.renderToken++;this.walking=false;this.guidedWalk=false;this.autoPlay=null;this.focusTargets=[];context.noteBox?.(null);this.tweens.killAll();this.time.removeAllEvents();this.input.removeAllListeners();this.input.keyboard?.removeAllListeners();
    this.children.removeAll(true);for(const key of this.recordTextures||[])if(this.textures.exists(key))this.textures.remove(key);this.recordTextures=[];
    for(const mask of this.worldMasks||[])mask.destroy();this.worldMasks=[];
    if(this.lensMask){this.lensMask.destroy();this.lensMask=null;}
@@ -188,6 +193,26 @@ export function createFieldGame(context){
    this.update();
    this.ensureTouchTargets();context.focusTargets(this.focusTargets);context.sceneReady?.();context.emit('loaded');
   }
+  // Precompute outlined map poses once, preserving each pose's original pixels and frame bounds.
+  mapOutline(key,frameSize=0){
+   const name=key+'-map-outline',textures=this.textures;
+   if(textures.exists(name))return name;
+   const source=textures.get(key).getSourceImage(),w=frameSize||source.width,h=frameSize||source.height,pad=11,r=5;
+   const cols=Math.floor(source.width/w),rows=Math.floor(source.height/h),fw=w+2*pad,fh=h+2*pad;
+   const texture=textures.createCanvas(name,fw*cols,fh*rows),ink=texture.getContext();
+   const pose=document.createElement('canvas');pose.width=fw;pose.height=fh;const brush=pose.getContext('2d');
+   for(let y=0;y<rows;y++)for(let x=0;x<cols;x++){
+    const dx=x*fw,dy=y*fh;
+    const draw=(ox,oy)=>brush.drawImage(source,x*w,y*h,w,h,pad+ox,pad+oy,w,h);
+    brush.clearRect(0,0,fw,fh);
+    for(const [ox,oy] of [[-r,0],[r,0],[0,-r],[0,r],[-4,-4],[4,4],[4,-4],[-4,4]])draw(ox,oy);
+    brush.globalCompositeOperation='source-in';brush.fillStyle='#fff4d2';brush.fillRect(0,0,fw,fh);brush.globalCompositeOperation='source-over';
+    ink.save();ink.shadowColor='#23392a66';ink.shadowBlur=4;ink.shadowOffsetY=4;ink.drawImage(pose,dx,dy);ink.restore();
+    ink.drawImage(source,x*w,y*h,w,h,dx+pad,dy+pad,w,h);
+    if(frameSize)texture.add(y*cols+x,0,dx,dy,fw,fh);
+   }
+   texture.refresh();return name;
+  }
   map(title=false){
    const s=context.s,completed=s.field.completed;
    if(title&&!this.textures.exists('forestMap'))return;
@@ -195,88 +220,183 @@ export function createFieldGame(context){
    // Canvas mode has no tint, so a dim, greyed copy of the map stands for the sleeping forest.
    if(!title&&!this.textures.exists('forestMapSleep')){const src=this.textures.get('forestMap').getSourceImage(),t=this.textures.createCanvas('forestMapSleep',src.width,src.height),c=t.getContext();c.filter='grayscale(.7) brightness(.72)';c.drawImage(src,0,0);t.refresh();}
    for(const j of title?[0]:[-1,0,1])this.pic(title?'forestMap':'forestMapSleep',640,400+j*H,W,H).setDisplaySize(W,H).setFlipY(j!==0);
-   // Once every region is restored the whole forest wakes, not only the landmark circles.
-   const awake=!title&&completed.length>=5;
-   if(awake){const fresh=context.ui.restoreChapter===4&&!reducedMotion(s.settings);for(const j of [-1,0,1]){const day=this.pic('forestMap',640,400+j*H,W,H).setDisplaySize(W,H).setFlipY(j!==0);if(fresh){day.setAlpha(0);this.tweens.add({targets:day,alpha:1,duration:2400,ease:'Sine.easeInOut'});}}}
-   this.add.rectangle(640,400,W,H*3,0x173d36,title?.12:awake?.04:.18);
+   // Every completed landmark brings some daylight back; the fifth restores the full forest.
+   if(!title&&completed.length){
+    const daylight=completed.length/5,fresh=Number.isInteger(context.ui.restoreChapter)&&!reducedMotion(s.settings);
+    for(const j of [-1,0,1]){
+     const day=this.pic('forestMap',640,400+j*H,W,H).setDisplaySize(W,H).setFlipY(j!==0);
+     day.setAlpha(fresh?Math.max(0,daylight-.2):daylight);
+     if(fresh)this.tweens.add({targets:day,alpha:daylight,duration:950,ease:'Sine.easeInOut'});
+    }
+   }
+   this.add.rectangle(640,400,W,H*3,0x173d36,title?.12:.16-completed.length*.024);
    if(title)return;
    lightRestoredLandmarks(this,context);
    const pos=nearest([s.avatar.x,s.avatar.y]),point=POINTS[pos];
-   this.avatar=this.add.sprite(point[0]*W,point[1]*H,'walker',0).setDisplaySize(86,86).setOrigin(.5,.83).setDepth(15);
-   this.foot=this.add.ellipse(this.avatar.x,this.avatar.y,42,13,0x092f22,.30).setDepth(14);this.spirit=this.pic('doto',this.avatar.x-55,this.avatar.y-12,64).setDepth(16);
+   const walker=this.mapOutline('walker',256),doto=this.mapOutline('doto');
+   this.avatar=this.add.sprite(point[0]*W,point[1]*H,walker,0).setScale(86/256).setOrigin(.5,(256*.83+11)/278).setDepth(15);
+   this.foot=this.add.ellipse(this.avatar.x,this.avatar.y,42,13,0x092f22,.30).setDepth(14);
+   const companionSource=this.textures.get('doto').getSourceImage();
+   this.spirit=this.add.image(this.avatar.x-55,this.avatar.y-12,doto).setScale(64/Math.max(companionSource.width,companionSource.height)).setDepth(16);
    const zoom=this.viewport.zoom*1.08,{top,bottom}=this.viewport.insets;
-   this.cameras.main.setZoom(zoom).setBounds(0,-top/zoom,W,H+(top+bottom)/zoom).startFollow(this.avatar,true,.12,.12).setFollowOffset(0,(top-bottom)/2/zoom);
+   this.cameras.main.setZoom(zoom).setBounds(0,-top/zoom,W,H+(top+bottom)/zoom).startFollow(this.avatar,true,reducedMotion(s.settings)?1:.16,reducedMotion(s.settings)?1:.16).setFollowOffset(0,(top-bottom)/2/zoom);
    this.mapZoom=zoom;this.mapFollowOffset=(top-bottom)/2/zoom;
-   const land=this.mapLand=this.add.zone(W/2,H/2,W,H).setInteractive({cursor:'pointer'}).setDepth(-1);
-   land.on('pointerdown',p=>{if(context.ui.mapHand)return;const point=this.pointerWorld(p),n=nearest([point.x/W,point.y/H]),c=DOORS.indexOf(n);this.walkTo(n,c<0?null:c);});
-   // With the hand on, a press anywhere on the canvas drags the view instead of
-   // walking. Scene-wide events also catch presses the land zone does not report.
-   let drag=null;
-   this.input.on('pointerdown',p=>{if(!context.ui.mapHand)return;const cam=this.cameras.main;drag={x:p.x,y:p.y,sx:cam.scrollX,sy:cam.scrollY};this.mapCursor('grabbing');});
-   this.input.on('pointermove',p=>{if(!drag)return;if(!p.isDown){release();return;}const cam=this.cameras.main;cam.setScroll(drag.sx-(p.x-drag.x)/cam.zoom,drag.sy-(p.y-drag.y)/cam.zoom);});
-   const release=()=>{if(!drag)return;drag=null;this.mapCursor(context.ui.mapHand?'grab':'');};
-   for(const event of ['pointerup','pointerupoutside','gameout'])this.input.on(event,release);
+   this.mapLand=this.add.zone(W/2,H/2,W,H).setInteractive({cursor:'pointer'}).setDepth(-1);
+   // A tap walks along the graph; a drag stops a guided trip and frees the camera.
+   let drag=null,pinch=null;
+   const fingers=new Map();
+   const mid=()=>{const [a,b]=[...fingers.values()];return{x:(a.x+b.x)/2,y:(a.y+b.y)/2,d:Math.hypot(a.x-b.x,a.y-b.y)};};
+   const zoomAt=(ratio,screen,world)=>{
+    const cam=this.cameras.main;if(this.walking)this.cancelTravel();
+    context.ui.mapOverview=false;context.ui.mapHand=true;this.priorMapView=null;
+    cam.resetFX();cam.stopFollow();cam.setZoom(Math.min(this.mapZoom*2,Math.max(this.mapZoom,ratio)));
+    cam.setBounds(0,-top/cam.zoom,W,H+(top+bottom)/cam.zoom);
+    const now=this.pointerWorld(screen);cam.setScroll(cam.scrollX+world.x-now.x,cam.scrollY+world.y-now.y);
+    context.emit('map-pan-start');this.mapCursor('grab');
+   };
+   const canvas=this.game.canvas,stage=canvas.closest('#stage')||canvas;
+   const input=new AbortController(),opts={signal:input.signal};
+   const pointer=e=>{const r=canvas.getBoundingClientRect(),{width,height}=this.viewportSize();return{id:e.pointerId,x:(e.clientX-r.left)*width/r.width,y:(e.clientY-r.top)*height/r.height};};
+   stage.addEventListener('pointerdown',e=>{
+    if(context.modalOpen()||e.button>0||e.target.closest('button,input,summary,[tabindex="0"]'))return;
+    const p=pointer(e);stage.setPointerCapture?.(p.id);
+    if(e.pointerType==='touch'){
+     fingers.set(p.id,{x:p.x,y:p.y});
+     if(fingers.size===2){if(this.walking)this.cancelTravel();const m=mid();pinch={...m,zoom:this.cameras.main.zoom,point:this.pointerWorld(m)};drag=null;return;}
+    }
+    if(drag||pinch||context.ui.mapOverview)return;
+    if(this.guidedWalk)this.cancelTravel();
+    const cam=this.cameras.main;drag={id:p.id,x:p.x,y:p.y,sx:cam.scrollX,sy:cam.scrollY,moved:false};
+   },opts);
+   stage.addEventListener('pointermove',e=>{
+    const p=pointer(e);
+    if(fingers.has(p.id))fingers.set(p.id,{x:p.x,y:p.y});
+    if(pinch&&fingers.size>=2){const m=mid();zoomAt(pinch.zoom*m.d/Math.max(8,pinch.d),m,pinch.point);return;}
+    if(!drag||drag.id!==p.id||context.ui.mapOverview)return;
+    const dx=p.x-drag.x,dy=p.y-drag.y;
+    if(!drag.moved&&Math.hypot(dx,dy)<8)return;
+    const cam=this.cameras.main;
+    if(!drag.moved){if(this.walking)this.cancelTravel();drag.moved=true;context.ui.mapHand=true;cam.stopFollow();context.emit('map-pan-start');this.mapCursor('grabbing');}
+    cam.setScroll(drag.sx-dx/cam.zoom,drag.sy-dy/cam.zoom);
+   },opts);
+   const release=(p,tap=false)=>{
+    if(p)fingers.delete(p.id);else fingers.clear();if(fingers.size<2)pinch=null;
+    if(!drag||(p&&p.id!==drag.id))return;
+    const walk=tap&&!drag.moved&&!context.ui.mapHand&&!context.modalOpen();
+    drag=null;this.mapCursor(context.ui.mapHand?'grab':'');
+    if(walk){const point=this.pointerWorld(p);if(point.x>=0&&point.x<=W&&point.y>=0&&point.y<=H)this.walkTo(nearest([point.x/W,point.y/H]),null);}
+   };
+   stage.addEventListener('pointerup',e=>release(pointer(e),true),opts);
+   stage.addEventListener('pointercancel',e=>release(pointer(e)),opts);
+   stage.addEventListener('lostpointercapture',e=>release(pointer(e)),opts);
+   this.releaseMapGesture=()=>release();
+   const wheel=event=>{
+    if(context.modalOpen()||!event.deltaY)return;
+    event.preventDefault();
+    const p=pointer(event),{height}=this.viewportSize();
+    const dy=event.deltaY*(event.deltaMode===1?16:event.deltaMode===2?height:1);
+    zoomAt(this.cameras.main.zoom*Math.exp(-dy*.0015),p,this.pointerWorld(p));
+   };
+   stage.addEventListener('wheel',wheel,{...opts,passive:false});
    if(context.ui.mapHand)this.setMapHand(true,true);else if(context.ui.mapOverview)this.setMapOverview(true);
    this.mapKeys=new Map();
-   const clearKeys=()=>this.mapKeys.clear();
-   this.input.keyboard?.on('keydown',event=>{const dir=mapKeyDirection(event);if(!dir||context.modalOpen()||event.ctrlKey||event.altKey||event.metaKey||event.target?.closest?.('input,textarea,select,[contenteditable]:not([contenteditable="false"])'))return;event.preventDefault();if(!event.repeat)this.mapKeys.set(event.code||event.key,dir);});
+   const clearKeys=()=>{this.mapKeys.clear();this.releaseMapGesture?.();};
+   this.input.keyboard?.on('keydown',event=>{const dir=mapKeyDirection(event);if(!dir||context.modalOpen()||event.ctrlKey||event.altKey||event.metaKey||event.target?.closest?.('input,textarea,select,[contenteditable]:not([contenteditable="false"])'))return;event.preventDefault();if(!event.repeat){this.resumeMapFollow();if(this.guidedWalk)this.cancelTravel();this.mapKeys.set(event.code||event.key,dir);}});
    this.input.keyboard?.on('keyup',event=>this.mapKeys.delete(event.code||event.key));
-   window.addEventListener('blur',clearKeys);document.addEventListener('visibilitychange',clearKeys);
-   this.events.once('shutdown',()=>{window.removeEventListener('blur',clearKeys);document.removeEventListener('visibilitychange',clearKeys);});
+   window.addEventListener('blur',clearKeys,opts);document.addEventListener('visibilitychange',clearKeys,opts);
+   const cleanup=()=>{input.abort();this.releaseMapGesture=null;this.events.off('shutdown',cleanup);};
+   this.clearMapInput=cleanup;this.events.once('shutdown',cleanup);
    const c=context.ui.restoreChapter;
    if(Number.isInteger(c)){
-    context.ui.restoreChapter=null;const path=route(DOORS[c],DOORS[4]),glow=this.add.circle(this.avatar.x,this.avatar.y,11,0xffef9d,.95).setDepth(19);let i=0;
-    const move=()=>{if(i>=path.length){glow.destroy();return;}const p=POINTS[path[i++]];this.tweens.add({targets:glow,x:p[0]*W,y:p[1]*H,duration:reducedMotion(s.settings)?1:145,onComplete:move});};move();
+    context.ui.restoreChapter=null;
+    if(!reducedMotion(s.settings)){
+     const path=[DOORS[c],...route(DOORS[c],DOORS[4])],first=POINTS[path[0]],glow=this.add.circle(first[0]*W,first[1]*H,8,0xffef9d,.95).setDepth(19);
+     let i=1;
+     const move=()=>{if(i>=path.length){glow.destroy();return;}const p=POINTS[path[i++]];this.tweens.add({targets:glow,x:p[0]*W,y:p[1]*H,duration:850/Math.max(1,path.length-1),onComplete:move});};move();
+    }
    }
   }
   // Looking around zooms in and lets go of the walker; ending it returns the view to the walker.
-  setMapHand(on,instant=false){
-   if(context.mode()!=='map'||!this.avatar)return;
-   const cam=this.cameras.main,duration=instant||reducedMotion(context.s.settings)?0:350;
-   if(this.mapLand?.input)this.mapLand.input.cursor=on?'grab':'pointer';this.mapCursor(on?'grab':'');
-   if(on){cam.setBounds(0,-this.viewport.insets.top/this.mapZoom,W,H+(this.viewport.insets.top+this.viewport.insets.bottom)/this.mapZoom);cam.stopFollow();duration?cam.zoomTo(this.mapZoom*1.5,duration,'Sine.easeInOut'):cam.setZoom(this.mapZoom*1.5);return;}
-   duration?cam.zoomTo(this.mapZoom,duration,'Sine.easeInOut'):cam.setZoom(this.mapZoom);
-   cam.startFollow(this.avatar,true,.12,.12).setFollowOffset(0,this.mapFollowOffset);
+  mapViewSnapshot(){
+   const cam=this.cameras.main,p=this.pointerWorld({x:cam.width/2,y:cam.height/2});
+   return {x:p.x/W,y:p.y/H,zoom:cam.zoom/this.mapZoom,hand:!!context.ui.mapHand};
   }
-  setMapOverview(on){
+  applyMapView(saved){
+   const cam=this.cameras.main,{top,bottom}=this.viewport.insets,zoom=this.mapZoom*saved.zoom;
+   cam.stopFollow();cam.setZoom(zoom);cam.setBounds(0,-top/zoom,W,H+(top+bottom)/zoom);
+   cam.centerOn(saved.x*W,saved.y*H);context.ui.mapHand=saved.hand;
+   this.mapCursor(saved.hand?'grab':'');if(!saved.hand)this.setMapHand(false);
+  }
+  setMapHand(on){
+   if(context.mode()!=='map'||!this.avatar)return;
+   const cam=this.cameras.main,{top,bottom}=this.viewport.insets;
+   if(this.mapLand?.input)this.mapLand.input.cursor=on?'grab':'pointer';this.mapCursor(on?'grab':'');
+   if(on){
+    if(this.walking)this.cancelTravel();cam.stopFollow();
+    if(this.priorMapView){const saved=this.priorMapView;this.priorMapView=null;this.applyMapView({...saved,hand:true});}
+    return;
+   }
+   cam.setBounds(0,-top/this.mapZoom,W,H+(top+bottom)/this.mapZoom);cam.setZoom(this.mapZoom);
+   const n=reducedMotion(context.s.settings)?1:.16;cam.startFollow(this.avatar,true,n,n).setFollowOffset(0,this.mapFollowOffset);
+  }
+  setMapOverview(on,restore=true){
    if(context.mode()!=='map'||!this.avatar)return;
    const cam=this.cameras.main;cam.resetFX();
-   if(!on){cam.setBounds(0,-this.viewport.insets.top/this.mapZoom,W,H+(this.viewport.insets.top+this.viewport.insets.bottom)/this.mapZoom);this.setMapHand(false,true);return;}
-   this.cancelTravel();const {width,height,insets}=this.viewport;const zoom=Math.min(width/W,Math.max(1,height-insets.top-insets.bottom)/H);
-   cam.stopFollow();cam.removeBounds();cam.setZoom(zoom);cam.centerOn(W/2,H/2-(insets.top-insets.bottom)/2/zoom);this.mapCursor('');
+   if(!on){const saved=this.priorMapView;this.priorMapView=null;if(restore&&saved)this.applyMapView(saved);else{context.ui.mapHand=false;this.setMapHand(false);}return;}
+   if(!this.priorMapView)this.priorMapView=this.mapViewSnapshot();
+   if(this.walking)this.cancelTravel();const {width,height,insets}=this.viewport;const zoom=Math.min(width/W,Math.max(1,height-insets.top-insets.bottom)/H);
+   context.ui.mapHand=false;cam.stopFollow();cam.removeBounds();cam.setZoom(zoom);cam.centerOn(W/2,H/2-(insets.top-insets.bottom)/2/zoom);this.mapCursor('');
+  }
+  resumeMapFollow(){
+   this.releaseMapGesture?.();
+   if(!context.ui)return;
+   const changed=!!(context.ui.mapOverview||context.ui.mapHand);
+   if(context.ui.mapOverview){context.ui.mapOverview=false;this.setMapOverview(false,false);}
+   if(context.ui.mapHand){context.ui.mapHand=false;this.setMapHand(false);}
+   if(changed)context.emit('map-pan-start');
   }
   mapCursor(value){if(this.game?.canvas)this.game.canvas.style.cursor=value;}
   walkDoor(chapter){if(!Number.isInteger(chapter)||chapter<0||chapter>4)return;this.walkTo(DOORS[chapter],chapter);}
-  cancelTravel(){this.travelId=(this.travelId||0)+1;this.walkTimer?.remove();if(this.avatar)this.tweens.killTweensOf(this.avatar);this.walking=false;this.walkTarget=null;}
+  cancelTravel(){
+   const guided=this.guidedWalk;
+   this.travelId=(this.travelId||0)+1;this.walkTimer?.remove();if(this.avatar){this.tweens.killTweensOf(this.avatar);this.avatar.setFrame(0);}this.walking=false;this.walkTarget=null;this.guidedWalk=false;
+   if(guided)context.emit('travel-cancel');
+  }
   step(dx,dy){
-   if(this.walking||context.mode()!=='map')return;
+   if(context.mode()!=='map'||context.modalOpen())return;
+   this.resumeMapFollow();
+   if(this.guidedWalk)this.cancelTravel();
+   if(this.walking)return;
    const at=nearest([context.s.avatar.x,context.s.avatar.y]),neighbors=EDGES.flatMap(([a,b])=>a===at?[b]:b===at?[a]:[]);
    const next=neighbors.map(n=>{const x=POINTS[n][0]-POINTS[at][0],y=POINTS[n][1]-POINTS[at][1];return {n,score:(x*dx+y*dy)/Math.hypot(x,y)};}).sort((a,b)=>b.score-a.score)[0];
-   if(next?.score>.2)this.walkTo(next.n,DOORS.includes(next.n)?DOORS.indexOf(next.n):null);
+   if(next?.score>.2)this.walkTo(next.n,null);
   }
   walkTo(target,chapter){
-   if(context.mode()!=='map'||context.modalOpen()||this.walking&&this.walkTarget===target)return;
-   if(context.ui?.mapOverview){context.ui.mapOverview=false;this.setMapOverview(false);}
+   if(context.mode()!=='map'||context.modalOpen()||this.walking&&this.walkTarget===target&&this.guidedWalk===(chapter!==null))return;
+   const cameraChanged=!!(context.ui?.mapOverview||context.ui?.mapHand);
+   if(context.ui?.mapOverview){context.ui.mapOverview=false;this.setMapOverview(false,false);}
    if(context.ui?.mapHand){context.ui.mapHand=false;this.setMapHand(false);}
    this.walkTimer?.remove();this.tweens.killTweensOf(this.avatar);
-   this.walking=true;this.walkTarget=target;const trip=this.travelId=(this.travelId||0)+1;
+   this.walking=true;this.guidedWalk=chapter!==null;this.walkTarget=target;const trip=this.travelId=(this.travelId||0)+1;
    const path=route(nearest([context.s.avatar.x,context.s.avatar.y]),target);let i=0,frame=0;
-   context.emit('travel-start',chapter);
+   context.emit('travel-start',{chapter,cameraChanged});
    const timer=this.walkTimer=this.time.addEvent({delay:130,loop:true,callback:()=>{if(!reducedMotion(context.s.settings)){this.avatar.setFrame((this.walkRow||0)*4+(frame++%4));if(frame%2===0)context.emit('footstep');}}});
    const advance=()=>{
     if(trip!==this.travelId)return;
-    if(i===path.length){timer.remove();this.walking=false;this.avatar.setFrame(0);if(chapter!==null)context.emit('arrived',chapter);return;}
+    if(i===path.length){timer.remove();this.walking=false;this.guidedWalk=false;this.avatar.setFrame(0);if(chapter!==null)context.emit('arrived',chapter);return;}
     const node=path[i++],[nx,ny]=POINTS[node],x=nx*W,y=ny*H,dx=x-this.avatar.x,dy=y-this.avatar.y;
     this.walkRow=Math.abs(dx)>Math.abs(dy)?dx<0?1:2:dy<0?3:0;
     this.tweens.add({targets:this.avatar,x,y,duration:reducedMotion(context.s.settings)?1:Math.max(70,Math.hypot(dx,dy)*2.7),onComplete:()=>{if(trip!==this.travelId)return;context.s.avatar={x:nx,y:ny};context.emit('map-step');advance();}});
    };advance();
   }
-  update(){
+  update(_time,delta=1000/60){
    if(context.mode()!=='map'||!this.avatar)return;
    if(context.modalOpen()||document.hidden)this.mapKeys?.clear();
-   else if(!this.walking&&this.mapKeys?.size){const v=MAP_VECTORS[[...this.mapKeys.values()].at(-1)];this.step(v.x,v.y);}
+   else if((!this.walking||this.guidedWalk)&&this.mapKeys?.size){const v=MAP_VECTORS[[...this.mapKeys.values()].at(-1)];this.step(v.x,v.y);}
+   const cameraLerp=reducedMotion(context.s.settings)?1:1-Math.exp(-Math.max(0,delta)/95);
+   this.cameras.main.setLerp?.(cameraLerp,cameraLerp);
    this.foot?.setPosition(this.avatar.x,this.avatar.y);if(this.spirit){const follow=reducedMotion(context.s.settings)?1:.09;this.spirit.x+=(this.avatar.x-55-this.spirit.x)*follow;this.spirit.y+=(this.avatar.y-12-this.spirit.y)*follow;this.spirit.setFlipX(this.walkRow===1);}
-   context.placeDoors(DOORS.map((node,c)=>({chapter:c,x:POINTS[node][0]*W,y:POINTS[node][1]*H})));
+   context.placeDoors(DOORS.map((node,c)=>({chapter:c,x:POINTS[node][0]*W,y:POINTS[node][1]*H})),this.spirit&&{x:this.spirit.x,y:this.spirit.y,w:this.spirit.displayWidth,h:this.spirit.displayHeight});
   }
  }
  // The game uses 2D images and geometry masks; embedded previews need no WebGL context.

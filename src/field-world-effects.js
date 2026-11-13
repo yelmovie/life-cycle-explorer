@@ -43,10 +43,30 @@ export function lightRestoredLandmarks(v,ctx){
    if(fresh&&!reduced){glow.setAlpha(0);window.setAlpha(0);v.tweens.add({targets:[glow,window],alpha:1,delay:350+index*190,duration:700});}
    else if(!reduced)v.tweens.add({targets:glow,alpha:.55,duration:1800+index*200,yoyo:true,repeat:-1});
   }
-  if(fresh){
-   const seal=v.label(cx,Math.max(190,cy-h*.35),'✓ 이곳의 시간이 깨어났어!',22,430).setDepth(22);
-   if(!reduced)v.tweens.add({targets:seal,y:seal.y-12,alpha:0,delay:1900,duration:1000,onComplete:()=>seal.destroy()});
-   else v.time.delayedCall(2500,()=>seal.destroy());
+  // A small, persistent detail tied to the actual activity, painted behind the HUD and avatar.
+  const [px,py]=region.lights[0],x=px*1280+26,y=py*800+16;
+  const prop=v.add.graphics().setDepth(3);
+  prop.fillStyle(0x273e31,.32).fillEllipse(x,y+10,39,10);
+  if(chapter===0){ // potted sprout
+   prop.fillStyle(0xb77a52).fillRoundedRect(x-10,y,20,11,3);
+   prop.lineStyle(2,0x517f45,1).lineBetween(x,y,x,y-16);
+   prop.fillStyle(0x90bb68).fillEllipse(x-4,y-11,9,6).fillEllipse(x+5,y-15,10,6);
+  }else if(chapter===1){ // sun and rain over the greenhouse bed
+   prop.fillStyle(0x847d53).fillRoundedRect(x-15,y+2,30,9,3);
+   prop.fillStyle(0xffd17a).fillCircle(x+6,y-11,7);
+   prop.fillStyle(0x94c7bd).fillEllipse(x-7,y-8,9,13);
+  }else if(chapter===2){ // pollinator
+   prop.fillStyle(0xffd483).fillEllipse(x,y-5,17,10);
+   prop.fillStyle(0x6d6245).fillRect(x-3,y-9,4,8);
+   prop.fillStyle(0xe8f7d3,.9).fillEllipse(x-4,y-11,10,6).fillEllipse(x+5,y-12,10,6);
+  }else if(chapter===3){ // seasonal bed
+   prop.fillStyle(0xa9704d).fillRoundedRect(x-16,y+2,32,9,3);
+   [0xf6b395,0xffda85,0xb5d886].forEach((color,i)=>{const xx=x-9+i*9;prop.lineStyle(2,0x5b864b).lineBetween(xx,y+1,xx,y-8-i*2);prop.fillStyle(color).fillCircle(xx,y-8-i*2,4);});
+  }else{ // lamp at the life clock
+   prop.fillStyle(0x6f513b).fillRoundedRect(x-9,y-13,18,24,3);
+   prop.fillStyle(0xffd172).fillRoundedRect(x-6,y-10,12,15,2);
+   prop.lineStyle(2,0xfff2b3).lineBetween(x,y-8,x,y+3);
   }
+  if(fresh&&!reduced){prop.setAlpha(0);v.tweens.add({targets:prop,alpha:1,delay:220,duration:580});}
  }
 }
