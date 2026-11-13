@@ -36,13 +36,13 @@ const STAGES = [
 const hit = ["바늘이 한 칸 밀렸어!", "태엽이 헛돌잖아!"], finish = "톱니는 다시 돌려줄게!";
 const palette = '#ffc35d';
 const art = {
-  left: new URL('../assets/field/map-villain-left.webp', import.meta.url).href,
-  right: new URL('../assets/field/map-villain-right.webp', import.meta.url).href,
+  left: new URL('../assets/field/map-villain-left-v2.webp', import.meta.url).href,
+  right: new URL('../assets/field/map-villain-right-v2.webp', import.meta.url).href,
   frames: 6,
 };
 const reactions = [
-  new URL('../assets/field/map-hero-reaction.webp', import.meta.url).href,
-  new URL('../assets/field/map-ally-reaction.webp', import.meta.url).href,
+  new URL('../assets/field/map-hero-reaction-v2.webp', import.meta.url).href,
+  new URL('../assets/field/map-ally-reaction-v2.webp', import.meta.url).href,
 ];
 const sizes = [81, 63];
 
@@ -66,10 +66,12 @@ export function mountVillageEncounters({host,stages,progress,onSave,blocked,redu
   const poses=reactions.map((src,i)=>{
     const el=document.createElement('span');
     el.className='map-encounter-reaction';el.hidden=true;el.setAttribute('aria-hidden','true');
+    el.dataset.actor=i?'ally':'hero';
+    const sheet=new Image();sheet.src=src;
     Object.assign(el.style,{position:'absolute',left:'0',top:'0',pointerEvents:'none',backgroundImage:`url("${src}")`,
       backgroundRepeat:'no-repeat',backgroundSize:`${i?400:800}% 100%`,
       filter:'drop-shadow(0 1px 1px #15232870)',zIndex:'1'});
-    layer.append(el);return el;
+    layer.append(el);return {el,sheet};
   });
   const setOriginal=actors.map(actor=>{
     let previous=true;
@@ -82,10 +84,11 @@ export function mountVillageEncounters({host,stages,progress,onSave,blocked,redu
     update(input){
       const events=runtime.update(input);
       for(const [i,key] of ['hero','ally'].entries()){
-        const el=poses[i],state=events[key],point=state&&input[key]&&input.project(input[key]);
-        const visible=Boolean(point&&state&&!blocked?.());
+        const {el,sheet}=poses[i],state=events[key],point=state&&input[key]&&input.project(input[key]);
+        const visible=Boolean(point&&state&&sheet.naturalWidth&&!blocked?.());
         setOriginal[i]?.(!visible);el.hidden=!visible;
-        if(!visible)continue;
+        if(!visible){delete el.dataset.pose;continue;}
+        el.dataset.pose=state.kind;
         const scale=input.scale??1,size=Math.max(29,Math.min(140,sizes[i]*scale));
         const frame=state.frame+(i===0&&state.kind==='hurt'?4:0);
         Object.assign(el.style,{width:`${size}px`,height:`${size}px`,backgroundPosition:`${frame/(i?3:7)*100}% 50%`,
