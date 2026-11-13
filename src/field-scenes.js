@@ -9,12 +9,13 @@ import {lightRestoredLandmarks} from './field-world-effects.js';
 import {renderLifeClock} from './field-clock.js';
 import {COMPANION_ART} from './field-companion.js';
 
-const P=globalThis.Phaser,W=1280,H=800;
+const W=1280,H=800;
 // Activity renderers keep their established world coordinates. The room camera
 // fits the content only; page chrome reserves its own space outside the canvas.
 const ROOM_VIEW={x:64,y:140,width:1184,height:600};
 const ROOM_BACKDROPS=['fieldClearing','bg2','bg4','gardenSeasons','bg8'];
 export function createFieldGame(context){
+ const P=globalThis.Phaser;
  class FieldWorld extends P.Scene{
   constructor(){super('field-world');}
   preload(){
@@ -181,7 +182,7 @@ export function createFieldGame(context){
     this.input.enabled=false;
     if(this.textures.exists('forestMap'))this.pic('forestMap',W/2,H/2,W,H).setDisplaySize(W,H);
     this.add.rectangle(W/2,H/2,W,H,0x244d39,.55);this.label(W/2,H/2,'그림을 다시 불러오면 탐사를 이어 갈 수 있어.',30,850);
-    context.focusTargets([]);context.emit('loaded');
+    context.focusTargets([]);
     const failure=mode+':'+chapter+':'+unavailable.join(',');if(this.assetFailure!==failure){this.assetFailure=failure;context.emit('assets-unavailable');}return;
    }
    this.assetFailure=null;

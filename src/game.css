@@ -210,6 +210,20 @@ dialog details{margin-top:8px;border-top:1px solid var(--color-border-soft)}dial
 .boot p{margin:0;font-size:var(--font-size-md);color:var(--forest-900)}
 .boot-bar{display:block;width:min(320px,70vw);height:14px;padding:3px;border:2px solid var(--brass-700);border-radius:999px;background:#fffbed}
 .boot-bar i{display:block;width:0;height:100%;border-radius:999px;background:linear-gradient(90deg,#7fae64,var(--forest-700));transition:width .2s ease}
+#field-recovery,#flat-observation{position:absolute;inset:0;z-index:8;overflow:auto;background:#f8f1db;color:#244d39;padding:clamp(14px,3vw,32px);text-align:center}
+#field-recovery:not([hidden]){display:grid;place-content:center;justify-items:center;gap:14px}
+#field-recovery p,#flat-observation p{margin:0 0 12px}
+#flat-observation h2{margin:0 0 8px}
+#flat-observation .row{justify-content:center}
+.flat-specimens{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px auto;max-width:1100px}
+.flat-specimens article{display:flex;flex-direction:column;align-items:center;gap:6px;border:1px solid #aabc9a;border-radius:16px;background:#fffbed;padding:8px}
+.flat-specimens h3{margin:0}
+.flat-specimens img{width:100%;height:clamp(58px,16vh,125px);object-fit:contain}
+.flat-specimens article div{display:grid;gap:4px;width:100%}
+.flat-specimens button{min-height:44px;padding:6px;font-size:clamp(14px,1.5vw,19px)}
+@media(max-width:700px){.flat-specimens{grid-template-columns:repeat(2,minmax(0,1fr))}}
+#app[data-field-ready=false]:not([data-view=title]) .game-footer{visibility:hidden}
+#app:has(#flat-observation:not([hidden])) #objective{display:none}
 .modal-portrait{display:none}
 @media(orientation:portrait){dialog[open] .modal-portrait{display:flex;position:absolute;inset:0;z-index:50;align-items:center;justify-content:center;padding:24px;text-align:center;background:var(--cream-50);font-size:28px;line-height:1.5;border-radius:inherit}dialog[open]>.modal-body,dialog[open]>h2,dialog[open]>.close,dialog[open]>.dialog-actions{visibility:hidden}}
 

@@ -6,7 +6,6 @@ import {fieldAction,storeFieldDraft,fieldRecords,fieldUnlocked,careTimeLabels} f
 import {FIELD_CHAPTERS,FORM_TRAITS,FORM_NAMES,SORT_CARDS} from './field-content.js';
 import {roomPhase,roomUI,holdObservation,releaseObservation} from './field-flow.js';
 import {applyQuest,questInfo} from './field-quests.js';
-import {createFieldGame} from './field-scenes.js';
 import {ART,esc} from './game-metadata.js';
 import {icon} from './ui-icons.js';
 import {renderSettings,renderResetConfirm} from './game-settings.js';
@@ -31,6 +30,7 @@ const TEACHER_SESSION_KEY='life-clock-lab.teacher-preview.1';
 let s=G.loadGame(storage),previewOriginal=null,focusItems=[];
 const ui={selection:null,recordPage:0,play:false,autoPlay:false,mapHand:false,guide:false,message:'',pending:false,hintLevel:0,restoreChapter:null,travelChapter:null};
 let mediaCleanup=null,dialogFocus=null,statusTimer=null;
+let fieldGame=null,engineLoad=null,fieldTimer=null,offlineQueued=false,fieldReady=false,flatObservation=false,sceneImportFailed=false;
 const app=document.querySelector('#app'),modal=document.querySelector('#modal'),$=id=>document.getElementById(id),mode=()=>s.fieldView||'title';
 const ib=(name,label,action)=>btn(icon(name),action,`aria-label="${label}" title="${label}"`,'icon-button');
 const titleScreen=`<section id="title-screen" aria-label="생명 시계 연구실 시작 화면">
@@ -47,7 +47,7 @@ const titleScreen=`<section id="title-screen" aria-label="생명 시계 연구�
  <img class="title-spirit" src="${ART.ipsae}" alt="숲의 친구 잎새" draggable="false">
  <img class="title-doto" src="${COMPANION_ART}" alt="함께 탐험하는 다람쥐 도토" draggable="false">
 </section>`;
-app.innerHTML=`<header class="game-header"><nav class="screen-nav" aria-label="화면 도구"><div class="nav-left">${ib('home','처음으로','home')}${ib('back','이전 화면','back')}</div><div id="scene-title"></div><div class="nav-right"><button id="autoplay" class="autoplay-button" data-action="autoplay" hidden></button>${ib('sound','소리 끄기','sound')}${ib('settings','설정','settings')}</div></nav><h1 id="objective"></h1></header><main id="stage"><div id="phaser-root"></div><div id="map-doors"></div><div class="map-companion-layer"></div><div id="focus-targets"></div></main><footer class="game-footer"><div id="status" role="status" aria-live="polite"></div><div id="guide-bubble" hidden></div><div class="guide-tools"><button id="guide" data-action="guide" aria-label="지훈이의 도움 보기"><img alt="" src="${ART.guideLook}"><span>…</span></button></div><div id="controls"></div><div class="game-next"><div class="map-camera-tools"><button id="map-hand" class="map-hand" data-action="map-hand" aria-pressed="false" hidden></button><button id="map-fit" class="map-hand" data-action="map-fit" aria-label="지도 전체 보기" title="지도 전체 보기" aria-pressed="false" hidden><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5M8 8h8v8H8z"/></svg></button></div><button id="next" class="primary" data-action="next"></button></div></footer>${titleScreen}<div class="portrait" role="status">화면을 가로로 돌리면 숲을 더 넓게 볼 수 있어.</div><div class="boot">숲의 시간을 펼치는 중…</div>`;
+app.innerHTML=`<header class="game-header"><nav class="screen-nav" aria-label="화면 도구"><div class="nav-left">${ib('home','처음으로','home')}${ib('back','이전 화면','back')}</div><div id="scene-title"></div><div class="nav-right"><button id="autoplay" class="autoplay-button" data-action="autoplay" hidden></button>${ib('sound','소리 끄기','sound')}${ib('settings','설정','settings')}</div></nav><h1 id="objective"></h1></header><main id="stage"><div id="phaser-root"></div><div id="map-doors"></div><div class="map-companion-layer"></div><div id="focus-targets"></div><section id="field-recovery" hidden><p role="status"></p>${btn('탐험 도구 다시 불러오기','field-retry','hidden','primary')}${btn('탐구부터 시작하기','field-direct','hidden')}</section><section id="flat-observation" hidden></section></main><footer class="game-footer"><div id="status" role="status" aria-live="polite"></div><div id="guide-bubble" hidden></div><div class="guide-tools"><button id="guide" data-action="guide" aria-label="지훈이의 도움 보기"><img alt="" src="${ART.guideLook}"><span>…</span></button></div><div id="controls"></div><div class="game-next"><div class="map-camera-tools"><button id="map-hand" class="map-hand" data-action="map-hand" aria-pressed="false" hidden></button><button id="map-fit" class="map-hand" data-action="map-fit" aria-label="지도 전체 보기" title="지도 전체 보기" aria-pressed="false" hidden><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5M8 8h8v8H8z"/></svg></button></div><button id="next" class="primary" data-action="next"></button></div></footer>${titleScreen}<div class="portrait" role="status">화면을 가로로 돌리면 숲을 더 넓게 볼 수 있어.</div>`;
 // Keep only the teacher's mode/location in this tab. Student answers stay in
 // their existing storage; demonstration answers are rebuilt from sample data.
 function rememberTeacherPreview(){
@@ -88,7 +88,86 @@ function updateGuide(){
  if(focused)$('guide-bubble').querySelector(`[data-action="${focused}"]`)?.focus({preventScroll:true});
 }
 
-function view(next){audio.setMusicTheme('main');s.fieldView=next;Object.assign(ui,{selection:null,guide:false,message:'',play:false,autoPlay:false,mapHand:false,travelChapter:null});persist();render();ctx.scene?.refresh();}
+function view(next){
+ audio.setMusicTheme('main');s.fieldView=next;
+ Object.assign(ui,{selection:null,guide:false,message:'',play:false,autoPlay:false,mapHand:false,travelChapter:null});
+ persist();render();openFieldView();
+}
+function setFieldReady(ready){
+ fieldReady=ready;
+ app.dataset.fieldReady=String(ready);
+ for(const selector of ['.game-footer','#map-doors','#focus-targets'])app.querySelector(selector).inert=!ready;
+}
+function queueOffline(){
+ if(offlineQueued)return;
+ offlineQueued=true;
+ setTimeout(()=>void import('./game-network.js').then(({prepareOffline})=>prepareOffline()).catch(()=>{}),3000);
+}
+function loadFieldEngine(){
+ if(engineLoad)return engineLoad;
+ const engine=globalThis.Phaser?Promise.resolve():new Promise((resolve,reject)=>{
+  const script=document.createElement('script');
+  script.src='vendor/phaser-3.90.0.min.js';script.async=true;
+  script.onload=()=>{if(globalThis.Phaser)resolve();else{script.remove();reject(new Error('Phaser unavailable'));}};
+  script.onerror=()=>{script.remove();reject(new Error('Phaser could not be loaded'));};
+  document.head.append(script);
+ });
+ // The scene module reads Phaser at creation time, so both downloads can start together.
+ const scenes=import('./field-scenes.js').catch(error=>{sceneImportFailed=true;throw error;});
+ engineLoad=Promise.all([engine,scenes]).then(([,module])=>module).catch(error=>{engineLoad=null;throw error;});
+ return engineLoad;
+}
+function fieldRecovery(message,{retry=false,direct=false}={}){
+ const panel=$('field-recovery');
+ panel.querySelector('[role=status]').textContent=message;
+ panel.querySelector('[data-action=field-retry]').hidden=!retry;
+ panel.querySelector('[data-action=field-direct]').hidden=!direct;
+ panel.hidden=false;
+}
+function hideFieldRecovery(){clearTimeout(fieldTimer);$('field-recovery').hidden=true;}
+function enterDirect(){
+ const chapter=FIELD_CHAPTERS.findIndex((_,i)=>!s.field.completed.includes(i)&&fieldUnlocked(s.field,i));
+ if(chapter<0){dialogs.story();return;}
+ if(previewOriginal){s.field=previewFieldForPhase(s.field,chapter,stageProgress(chapter,'',true).firstPhase);}
+ else if(!fieldAction(s.field,'chapter-enter',{chapter}).ok)return;
+ view('room');
+}
+function showFlatObservation(){
+ if(mode()!=='room'||s.field.active!==0)return;
+ flatObservation=true;
+ hideFieldRecovery();renderFlatObservation();
+ $('flat-observation').querySelector('h2').focus({preventScroll:true});
+}
+function renderFlatObservation(){
+ const panel=$('flat-observation'),q=s.field.chapters[0],forms=Object.keys(FORM_NAMES);
+ const count=forms.filter(form=>q.inspected[form].length).length;
+ panel.hidden=false;
+ panel.innerHTML=`<h2 tabindex="-1">나비의 숲 · 그림으로 관찰하기</h2><p>나비의 모습을 살펴보고 특징을 골라 기록해요.</p><div class="flat-specimens">${forms.map(form=>`<article><h3>${FORM_NAMES[form]}</h3><img src="${ART[form]}" alt="${FORM_NAMES[form]} 확대 모형"><div>${FORM_TRAITS[form].map((trait,spot)=>btn((q.inspected[form].includes(spot)?'✓ ':'')+esc(trait),'flat-inspect',`data-form="${form}" data-spot="${spot}"`)).join('')}</div></article>`).join('')}</div><p role="status">${count}/4 모습 관찰 · 기록은 나비의 숲에서 이어 쓸 수 있어요.</p><div class="row">${btn('탐구 도구 다시 불러오기','field-retry','','primary')}${btn('처음으로','home')}</div>`;
+}
+let fieldTicket=0;
+function openFieldView({retryAssets=false}={}){
+ const ticket=++fieldTicket;
+ hideFieldRecovery();$('flat-observation').hidden=true;flatObservation=false;
+ if(mode()==='title'){setFieldReady(false);ctx.scene?.refresh();return;}
+ setFieldReady(false);
+ fieldRecovery('탐험 도구를 준비하고 있어요.');
+ fieldTimer=setTimeout(()=>{
+  if(ticket!==fieldTicket||fieldReady)return;
+  fieldRecovery('연결이 느려 조금 더 걸리고 있어요.',{retry:true,direct:mode()==='map'});
+  if(mode()==='room'&&s.field.active===0)showFlatObservation();
+ },3000);
+ if(ctx.scene){if(retryAssets)ctx.scene.retryAssets();else ctx.scene?.refresh();return;}
+ const fonts=Promise.allSettled([document.fonts.load('24px NanumSquareNeo'),document.fonts.load('700 24px NanumSquareNeo')]);
+ void Promise.all([loadFieldEngine(),fonts]).then(([{createFieldGame}])=>{
+  if(ticket!==fieldTicket||mode()==='title'||flatObservation)return;
+  if(!fieldGame)fieldGame=createFieldGame(ctx);
+ }).catch(()=>{
+  if(ticket!==fieldTicket||mode()==='title')return;
+  hideFieldRecovery();
+  if(mode()==='room'&&s.field.active===0){showFlatObservation();return;}
+  fieldRecovery('탐험 도구를 불러오지 못했어요. 저장된 탐구 기록은 그대로예요.',{retry:true,direct:mode()==='map'});
+ });
+}
 function rangeControl(){const c=s.field.active,q=s.field.chapters[c],p=roomPhase(s.field);let value,max,label,type;
  if(c===1&&p==='grow'){value=q.rounds[q.round].day;max=7;label='씨앗 관찰 날짜';type='seed-day';}
  if(c===2&&p==='care-after'){value=q.cases[q.case].day;max=2;label='돌봄 뒤 시간';type='care-day';}
@@ -248,10 +327,26 @@ function drop(data){const {kind,target}=data,q=s.field.chapters[s.field.active];
  else if(kind==='book'&&target.startsWith('book-')){type='book-move';p={from:data.from,to:Number(target.slice(5))};}
  if(type)act(type,p);else{announce(kind==='seed-condition'?'A는 그대로 두고 B에서 조건 하나를 바꿔 보자.':pickGuide(data).refused,true);ctx.scene?.refresh();}}
 const ctx={get s(){return s;},saveStatus:()=>G.getSaveStatus(storage),saveDraft(scope,values){if(storeFieldDraft(s.field,scope,values))persist();},ui,mode,dialog,announce,modalOpen:()=>modal.open,recordImage,focusTargets,sceneReady:positionFocus,noteBox:placeNoteBox,placeDoors:positionDoors,emit(type,data){
- if(type==='assets-loading'){let cover=app.querySelector('.boot');if(!cover){cover=document.createElement('div');cover.className='boot';cover.setAttribute('role','status');app.append(cover);}cover.innerHTML=`<img src="${ART.dotoMap}" alt="" width="240" height="242"><p>탐사 그림을 불러오는 중…</p><span class="boot-bar"><i></i></span>`;$('next').disabled=true;return;}
- if(type==='assets-progress'){const progress=Math.round(data.progress*100),cover=app.querySelector('.boot');if(cover?.querySelector('p')){cover.querySelector('p').textContent='탐사 그림을 불러오는 중… '+progress+'%';cover.querySelector('.boot-bar i').style.width=progress+'%';}window.dispatchEvent(new CustomEvent('life-clock-progress',{detail:{progress}}));return;}
- if(type==='loaded'){app.querySelector('.boot')?.remove();render();window.dispatchEvent(new Event('life-clock-ready'));return;}
- if(type==='assets-unavailable'){dialog({title:'탐사 그림을 불러오지 못했어.',className:'asset-error',body:'<p>연결을 확인하고 다시 눌러 줘. 지금까지의 탐구 기록은 그대로 남아 있어.</p>',actions:btn('숲으로 돌아가기','asset-map')+btn('그림 다시 불러오기','retry-assets','','primary')});$('next').textContent='그림 다시 불러오기';return;}
+ if(type==='assets-loading'){
+  if(flatObservation||mode()==='title')return;
+  setFieldReady(false);fieldRecovery('탐사 그림을 불러오는 중이에요.');return;
+ }
+ if(type==='assets-progress'){
+  if(!flatObservation&&!$('field-recovery').hidden)$('field-recovery').querySelector('[role=status]').textContent='탐사 그림을 불러오는 중이에요. '+Math.round(data.progress*100)+'%';
+  return;
+ }
+ if(type==='loaded'){
+  if(mode()==='title'||flatObservation)return;
+  hideFieldRecovery();setFieldReady(true);render();
+  if(mode()==='room'&&!previewOriginal)queueOffline();
+  window.dispatchEvent(new Event('life-clock-ready'));return;
+ }
+ if(type==='assets-unavailable'){
+  if(mode()==='title'||flatObservation)return;
+  setFieldReady(false);hideFieldRecovery();
+  if(mode()==='room'&&s.field.active===0){showFlatObservation();return;}
+  fieldRecovery('탐사 그림을 불러오지 못했어요. 저장된 탐구 기록은 그대로예요.',{retry:true,direct:mode()==='map'});return;
+ }
  if(type==='map-step'){persist();return;}if(type==='footstep'){audio.playSfx('step');return;}if(type==='clock-tick'){audio.playSfx('wind');return;}
  if(type==='travel-start'){if(ui.travelChapter===data.chapter&&!data.cameraChanged)return;ui.travelChapter=data.chapter;ui.guide=false;render();return;}
  if(type==='map-pan-start'){mapHandButton(true);return;}
@@ -263,6 +358,20 @@ const ctx={get s(){return s;},saveStatus:()=>G.getSaveStatus(storage),saveDraft(
 const dialogs=createDialogs(ctx);
 const notebook=createFieldNotebook({get s(){return s;},dialog,close:()=>modal.close()});
 function action(name,b){void audio.initAudio(s.audio);audio.playSfx('click');
+ if(name==='field-retry'){
+  if(ctx.scene?.loading||!ctx.scene&&(fieldGame||sceneImportFailed||engineLoad)){location.reload();return;}
+  if(ctx.scene?.assetFailure){openFieldView({retryAssets:true});return;}
+  openFieldView();return;
+ }
+ if(name==='field-direct'){if(mode()==='map')enterDirect();return;}
+ if(name==='flat-inspect'&&flatObservation&&mode()==='room'&&s.field.active===0){
+  const {form,spot}=b.dataset;
+  if(act('inspect',{form,spot:Number(spot),quiet:true}).ok){
+   renderFlatObservation();
+   $('flat-observation').querySelectorAll('[data-action=flat-inspect]').forEach(next=>{if(next.dataset.form===form&&next.dataset.spot===spot)next.focus({preventScroll:true});});
+  }
+  return;
+ }
  if(b?.dataset.sample==='1'&&previewOriginal){const f=sampleField();if(name==='ending')dialogs.ending(f);else if(name==='certificate')dialogs.certificate(f);else if(name==='final-replay')finale(f);else if(name==='export')void dialogs.export(true,f);return;}
  if(name==='retry-assets'||name==='next'&&ctx.scene?.assetFailure){if(modal.open)modal.close();ctx.scene?.retryAssets();return;}
  if(name==='asset-map'){modal.close();view('map');return;}
@@ -279,14 +388,14 @@ function action(name,b){void audio.initAudio(s.audio);audio.playSfx('click');
  if(name==='sound'){const on=s.audio.bgm||s.audio.sfx;if(on){ui.previousAudio={...s.audio};s.audio.bgm=false;s.audio.sfx=false;}else s.audio=ui.previousAudio||{...s.audio,sfx:true};audio.updateAudio(s.audio);persist();render();return;}
  if(name==='audio-bgm'||name==='audio-sfx'){const k=name==='audio-bgm'?'bgm':'sfx';s.audio[k]=!s.audio[k];audio.updateAudio(s.audio);persist();render();settings();return;}
  if(name==='guide'){if(ui.guide){closeGuide();return;}if(mode()==='map'&&Number.isInteger(ui.travelChapter))ctx.scene?.cancelTravel?.();ui.hintReturn=b;ui.guide=true;if(!ui.pending)ui.message='';ui.pending=false;updateGuide();return;}if(name==='hint-close'){closeGuide();return;}if(name==='door'||name==='door-next'){if(name==='door-next')modal.close();requestDoor(Number(b.dataset.chapter));return;}if(name==='step'){ctx.scene?.step(Number(b.dataset.x),Number(b.dataset.y));return;}
- if(name==='next'){if(mode()==='map'){const c=FIELD_CHAPTERS.findIndex((_,i)=>!s.field.completed.includes(i)&&fieldUnlocked(s.field,i));if(c<0)dialogs.story();else requestDoor(c);return;}if(previewOriginal){const chapter=s.field.active,phase=stageProgress(chapter,roomPhase(s.field),true).nextPhase;if(phase){s.field=previewFieldForPhase(s.field,chapter,phase);Object.assign(ui,{selection:null,play:false,autoPlay:false,guide:false,message:''});render();ctx.scene.refresh();}else if(chapter<4){s.field=previewFieldForPhase(s.field,chapter+1,stageProgress(chapter+1,'',true).firstPhase);view('room');}else view('map');return;}const next=roomUI(s,ui).nextAction;if(next==='complete'){const c=s.field.active;if(act('chapter-complete',{chapter:c}).ok){ui.pendingRestoreChapter=c;view('map');audio.playSfx('reward');dialogs.reward(c);}return;}if(next==='hint'){ui.hintReturn=b;ui.message='';ui.guide=true;updateGuide();ctx.scene?.showHint?.(hintTarget(roomPhase(s.field)));return;}if(next==='plan'){dialogs.plan();return;}if(next==='observation-done'){releaseObservation(s.field);Object.assign(ui,{guide:false,message:'',pending:false,hintLevel:0});audio.playSfx('success');render();ctx.scene?.refresh();return;}act(next);return;}
- if(name==='clear-drawing'){s.field.chapters[0].drawing=[];persist();ctx.scene.refresh();return;}if(name==='map-fit'){if(mode()!=='map')return;ui.mapOverview=!ui.mapOverview;ctx.scene?.setMapOverview?.(ui.mapOverview);render();return;}if(name==='map-hand'){if(mode()!=='map')return;if(ui.mapOverview){ui.mapOverview=false;ctx.scene?.setMapOverview?.(false);}ui.mapHand=!ui.mapHand;ctx.scene?.setMapHand?.(ui.mapHand);render();return;}if(name==='autoplay'){ui.autoPlay=!ui.autoPlay;render();if(ui.autoPlay)ctx.scene?.autoPlay?.();return;}if(name==='film-play'){ui.play=!ui.play;render();ctx.scene.refresh();return;}if(name==='cross-section'){ui.crossSection=!ui.crossSection;ctx.scene.refresh();return;}if(name==='record-page'){ui.recordPage+=Number(JSON.parse(b.dataset.payload||'{}').delta)||0;ctx.scene.refresh();return;}
+ if(name==='next'){if(mode()==='map'){const c=FIELD_CHAPTERS.findIndex((_,i)=>!s.field.completed.includes(i)&&fieldUnlocked(s.field,i));if(c<0)dialogs.story();else requestDoor(c);return;}if(previewOriginal){const chapter=s.field.active,phase=stageProgress(chapter,roomPhase(s.field),true).nextPhase;if(phase){s.field=previewFieldForPhase(s.field,chapter,phase);Object.assign(ui,{selection:null,play:false,autoPlay:false,guide:false,message:''});render();ctx.scene?.refresh();}else if(chapter<4){s.field=previewFieldForPhase(s.field,chapter+1,stageProgress(chapter+1,'',true).firstPhase);view('room');}else view('map');return;}const next=roomUI(s,ui).nextAction;if(next==='complete'){const c=s.field.active;if(act('chapter-complete',{chapter:c}).ok){ui.pendingRestoreChapter=c;view('map');audio.playSfx('reward');dialogs.reward(c);}return;}if(next==='hint'){ui.hintReturn=b;ui.message='';ui.guide=true;updateGuide();ctx.scene?.showHint?.(hintTarget(roomPhase(s.field)));return;}if(next==='plan'){dialogs.plan();return;}if(next==='observation-done'){releaseObservation(s.field);Object.assign(ui,{guide:false,message:'',pending:false,hintLevel:0});audio.playSfx('success');render();ctx.scene?.refresh();return;}act(next);return;}
+ if(name==='clear-drawing'){s.field.chapters[0].drawing=[];persist();ctx.scene?.refresh();return;}if(name==='map-fit'){if(mode()!=='map')return;ui.mapOverview=!ui.mapOverview;ctx.scene?.setMapOverview?.(ui.mapOverview);render();return;}if(name==='map-hand'){if(mode()!=='map')return;if(ui.mapOverview){ui.mapOverview=false;ctx.scene?.setMapOverview?.(false);}ui.mapHand=!ui.mapHand;ctx.scene?.setMapHand?.(ui.mapHand);render();return;}if(name==='autoplay'){ui.autoPlay=!ui.autoPlay;render();if(ui.autoPlay)ctx.scene?.autoPlay?.();return;}if(name==='film-play'){ui.play=!ui.play;render();ctx.scene?.refresh();return;}if(name==='cross-section'){ui.crossSection=!ui.crossSection;ctx.scene?.refresh();return;}if(name==='record-page'){ui.recordPage+=Number(JSON.parse(b.dataset.payload||'{}').delta)||0;ctx.scene?.refresh();return;}
  if(name==='save-note'){act('observation-note',{text:$('observation-note').value});modal.close();return;}if(name==='predict'){act('seed-predict',{choice:b.dataset.choice});modal.close();return;}if(name==='save-story'){const title=$('story-title').value,summary=$('story-summary').value;act('book-title',{text:title});act('book-summary',{text:summary});modal.close();return;}
  if(name==='save-caption'){act('book-caption',{id:$('caption-record').value,text:$('story-caption').value});modal.close();return;}if(name==='remove-record'){act('book-record',{id:$('caption-record').value});modal.close();return;}
  if(name==='save-plan'){const result=act('observation-plan',{subject:$('plan-subject').value,when:$('plan-when').value,what:$('plan-what').value});if(result.ok)modal.close();return;}
  if(name==='original-backup'){const saved=G.getSaveStatus(storage);if(saved.raw!==null){downloadBlob(new Blob([saved.raw],{type:'text/plain;charset=utf-8'}),'생명시계-저장원본.txt');}return;}
  if(name==='record'){void dialogs.record(b.dataset.id);return;}if(name==='archive-page'){ui.archivePage=(ui.archivePage||0)+Number(b.dataset.delta);dialogs.records();return;}if(name==='backup'){downloadBlob(new Blob([JSON.stringify(previewOriginal||s,null,2)],{type:'application/json'}),'생명시계-진행기록.json');return;}
- if(name==='teacher-preview'){if(!previewOriginal){previewOriginal=s;s=structuredClone(s);s.field.preview=true;modal.close();view('map');announce('교사 시연을 켰어. 모든 구역과 활동 단계를 고를 수 있어.');}else{const prefs=s.audio;s=previewOriginal;s.audio=prefs;previewOriginal=null;persist();render();ctx.scene.refresh();settings();}return;}
+ if(name==='teacher-preview'){if(!previewOriginal){previewOriginal=s;s=structuredClone(s);s.field.preview=true;modal.close();view('map');announce('교사 시연을 켰어. 모든 구역과 활동 단계를 고를 수 있어.');}else{const prefs=s.audio;s=previewOriginal;s.audio=prefs;previewOriginal=null;persist();render();openFieldView();settings();}return;}
  if(name==='reset'||name==='title-restart'){ui.restartFromTitle=name==='title-restart';ui.resetSnapshot=G.getSaveStatus(storage).expectedRaw;dialog(renderResetConfirm(ui.restartFromTitle?'close':'settings'));return;}if(name==='reset-confirm'){const next=G.fresh();next.audio={...s.audio};if(previewOriginal){next.field.preview=true;s=next;persist();}else if(G.resetGame(storage,next,ui.resetSnapshot)){s=next;}else{announce(saveIssue(),true);dialog({title:'기록을 지우지 않았어',body:'<p>확인하는 동안 저장된 기록이 바뀌었거나 저장소를 사용할 수 없어. 원본을 그대로 두었어. 기록함에서 현재 활동을 먼저 보관해 줘.</p>',actions:btn('기록함 열기','records')+btn('닫기','close','','primary')});return;}ui.resetSnapshot=null;modal.close();view('title');if(ui.restartFromTitle){ui.restartFromTitle=false;intro();}return;}
  if(name==='story-auto'){ui.storyAuto?.();return;}if(name==='story-prev'||name==='story-next'){ui.storyStep?.(name==='story-next'?1:-1);return;}
  if(name==='export'){void dialogs.export(b.dataset.bookSource==='finished');return;}
@@ -301,7 +410,7 @@ document.addEventListener('input',e=>{
  else if(['plan-subject','plan-when','plan-what'].includes(el.id)){scope='plan';values={[el.id.slice(5)]:el.value};}
  if(scope){ctx.saveDraft(scope,values);const status=modal.querySelector('[data-draft-status]');if(status)status.textContent='초안 보관됨 · 제출은 「설명 기록」을 눌러 줘.';}
 });
-document.addEventListener('change',e=>{const b=e.target;if(b.matches('[data-preview-phase]')&&previewOriginal){s.field=previewFieldForPhase(s.field,s.field.active,b.value);Object.assign(ui,{selection:null,play:false,autoPlay:false,guide:false});render();ctx.scene.refresh();return;}if(b.dataset.time)act(b.dataset.time,b.dataset.time==='animal-time'?{animal:b.dataset.animal,step:Number(b.value)}:b.dataset.time==='season'?{step:Number(b.value)}:{day:Number(b.value)});});
+document.addEventListener('change',e=>{const b=e.target;if(b.matches('[data-preview-phase]')&&previewOriginal){s.field=previewFieldForPhase(s.field,s.field.active,b.value);Object.assign(ui,{selection:null,play:false,autoPlay:false,guide:false});render();ctx.scene?.refresh();return;}if(b.dataset.time)act(b.dataset.time,b.dataset.time==='animal-time'?{animal:b.dataset.animal,step:Number(b.value)}:b.dataset.time==='season'?{step:Number(b.value)}:{day:Number(b.value)});});
 document.addEventListener('input',e=>{if(e.target.id==='bgm-volume'){s.audio.volume=Number(e.target.value)/100;audio.updateAudio(s.audio);$('bgm-volume-value').textContent=e.target.value+'%';persist();}if(e.target.id==='care-wipe'){modal.querySelector('#care-before-image').style.clipPath=`inset(0 ${100-e.target.value}% 0 0)`;modal.querySelector('#compare-divider').style.left=e.target.value+'%';}});
 modal.addEventListener('toggle',e=>{const detail=e.target;if(detail instanceof HTMLDetailsElement&&detail.open&&detail.classList.contains('settings-section')){for(const sibling of detail.parentElement.children)if(sibling!==detail&&sibling instanceof HTMLDetailsElement)sibling.open=false;}},true);
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&ui.guide&&!modal.open){e.preventDefault();e.stopPropagation();closeGuide();}});
@@ -316,7 +425,7 @@ window.addEventListener('online',()=>{if(!ctx.scene?.failed?.size)return;if(moda
 for(const event of ['pointerdown','mousedown','touchstart'])for(const surface of [app,modal])surface.addEventListener(event,e=>{if(!e.target.closest('canvas'))e.stopPropagation();});
 restoreTeacherPreview();
 if(!G.getSaveStatus(storage).ok){ui.message=saveIssue();ui.pending=true;}
-render();await Promise.allSettled([document.fonts.load('24px NanumSquareNeo'),document.fonts.load('700 24px NanumSquareNeo')]);createFieldGame(ctx);
+render();if(mode()!=='title')openFieldView();
 
 const mapPad=bindDirectionPad(app,'.direction-pad [data-action="step"]',b=>Number(b.dataset.x)<0?'left':Number(b.dataset.x)>0?'right':Number(b.dataset.y)<0?'up':'down',{
  blocked:()=>mode()!=='map'||ctx.modalOpen(),repeatMs:80,

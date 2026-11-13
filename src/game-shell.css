@@ -1,4 +1,4 @@
-#boot-screen{position:fixed;inset:0;z-index:200;background:#244d39;color:#fffbed;display:grid;place-content:center;justify-items:center;gap:20px;padding:24px;text-align:center;font:22px/1.5 NanumSquareNeo,'Malgun Gothic',sans-serif}
+#boot-screen{position:fixed;inset:0;z-index:200;background:#244d39;color:#fffbed;display:grid;place-content:center;justify-items:center;gap:20px;padding:24px;text-align:center;font:22px/1.5 system-ui,sans-serif}
 #boot-screen[hidden],#connection-status[hidden]{display:none}
 #boot-screen h1{font-size:clamp(30px,5vw,52px);margin:0;color:#e6c77d}
 #boot-message{max-width:540px;margin:0}
