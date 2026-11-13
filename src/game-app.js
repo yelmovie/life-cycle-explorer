@@ -14,7 +14,9 @@ import {icon} from './ui-icons.js';
 import {renderSettings,renderResetConfirm} from './game-settings.js';
 import * as audio from './game-audio.js';
 import {installNpcNarration} from './npc-narration.js';
-installNpcNarration({selector:'#guide-bubble',src:new URL('../assets/audio/npc-welcome.mp3',import.meta.url).href,text:'안녕! 나는 도토야. 시간이 흐르면서 생물이 어떻게 자라는지 함께 관찰해 보자. 생김새의 변화와 자라는 데 필요한 것을 차근차근 기록해 보자!',enabled:()=>s.audio.sfx,volume:()=>s.audio.volume,hold:()=>{audio.pauseAudio();return ()=>{if(!Array.from(document.querySelectorAll('video')).some(v=>!v.paused&&!v.ended))audio.resumeAudio();};}});
+import {characterDialogueMarkup,mountCharacterDialogue} from './character-dialogue.js';
+import {dialogueCast} from './dialogue-cast.js';
+installNpcNarration({selector:'#guide-bubble',src:new URL('../assets/audio/npc-dialogue/doto-hello.mp3',import.meta.url).href,text:'안녕! 나는 도토야. 시간이 흐르면서 생물이 어떻게 자라는지 함께 관찰해 보자. 생김새의 변화와 자라는 데 필요한 것을 차근차근 기록해 보자!',enabled:()=>s.audio.sfx,volume:()=>s.audio.volume,hold:()=>{audio.pauseAudio();return ()=>{if(!Array.from(document.querySelectorAll('video')).some(v=>!v.paused&&!v.ended))audio.resumeAudio();};}});
 import {recordImage,downloadBlob} from './game-records.js';
 import {createDialogs,btn} from './field-dialogs.js';
 import {createFieldNotebook} from './field-notebook.js';
@@ -40,7 +42,7 @@ const titleScreen=`<section id="title-screen" aria-label="생명 시계 연구�
   <h1 class="title-wordmark"><span class="sr-only">생명 시계 연구실</span><img class="title-logo" src="assets/field/title-logo-v1.webp" alt="" width="1200" height="668" fetchpriority="high" decoding="async" draggable="false"></h1>
   <p class="title-hook">작은 씨앗이 숲을 깨울 수 있을까?</p>
   <p class="title-description">나비의 변신부터 씨앗의 첫 새싹까지.<br>네가 찾은 생명의 비밀로 숲의 시간을 이어 줘.</p>
-  <div class="title-actions">${btn('<span>탐험 시작</span>'+icon('right'),'start','','primary title-start')}${btn('이어서 탐험','continue','','title-continue')}${btn('처음부터 다시 하기','title-restart','hidden','title-continue title-restart')}</div>
+  <div class="title-actions">${btn('<span>탐험 시작</span>'+icon('right'),'start','','primary title-start')}${btn('이어서 탐험','continue','','title-continue')}${btn('처음부터 다시 하기','title-restart','hidden','title-continue title-restart')}${btn('친구들 만나기','npc-friends','','title-continue npc-home-entry')}</div>
  </div>
  <div class="title-character-glow" aria-hidden="true"></div>
  <img class="title-jihoon" src="${ART.guideStory}" alt="기록책을 들고 숲으로 안내하는 지훈" draggable="false">
@@ -177,10 +179,18 @@ function positionDoors(items){
 }
 function dialog({title,body,actions=btn('계속 탐험','close','','primary'),className='',music='main',values={}}){mediaCleanup?.();mediaCleanup=null;modal.dispatchEvent(new Event('modal-dismiss'));audio.setMusicTheme(music);if(!modal.open)dialogFocus=document.activeElement;if(mode()==='map'){ctx.scene?.cancelTravel();ui.travelChapter=null;render();}modal.className=className;modal.setAttribute('aria-labelledby','dialog-title');modal.innerHTML=`<h2 id="dialog-title">${esc(title)}</h2><button class="close icon-button" data-action="close" aria-label="닫기">${icon('close')}</button><div class="modal-portrait" tabindex="-1" role="status">화면을 가로로 돌리면 작성 중인 내용을 이어 갈 수 있어.</div><div class="modal-body">${body}</div><div class="dialog-actions">${actions}</div>`;for(const[id,value]of Object.entries(values)){const input=modal.querySelector('#'+id);if(input)input.value=value;}if(!modal.open)modal.showModal();syncOrientationFocus();if(ctx.scene)ctx.scene.input.enabled=false;modal.querySelector('.modal-body').scrollTop=0;modal.querySelector('[autofocus]')?.focus();}
 modal.addEventListener('close',()=>{if(modal.open)return;mediaCleanup?.();mediaCleanup=null;if(ctx.scene)ctx.scene.input.enabled=true;audio.setMusicTheme('main');audio.resumeAudio();if(Number.isInteger(ui.pendingRestoreChapter)&&mode()==='map'){ui.restoreChapter=ui.pendingRestoreChapter;ui.pendingRestoreChapter=null;ctx.scene?.refresh();}if(dialogFocus?.isConnected)dialogFocus.focus({preventScroll:true});else if(mode()==='room')$('next')?.focus({preventScroll:true});});
+function friendsDialogue(initial=0){
+ dialog({title:'생명 시계 친구들과 이야기',body:characterDialogueMarkup,actions:'',className:'npc-dialogue-stage'});
+ mountCharacterDialogue(modal,{characters:dialogueCast,initial,enabled:()=>s.audio.sfx,reduced:()=>reducedMotion(s.settings),hold:()=>{
+  audio.pauseAudio();
+  return ()=>{if(![...document.querySelectorAll('video')].some(v=>!v.paused&&!v.ended))audio.resumeAudio();};
+ }});
+}
 function concept(chapter=s.field.active,finish=false,returnToList=false){mediaCleanup=openConcept({chapter,dialog,modal,audio,reduced:reducedMotion(s.settings),returnToList,finishLabel:returnToList?'영상 목록으로':undefined,onFinish:()=>{if(returnToList)dialogs.concepts();else if(finish&&chapter===4)finale();}});}
 // Story films: the intro leads into the opening briefing, the finale into the ending record.
-function intro(){mediaCleanup=openCinema({id:'intro',dialog,modal,reduced:reducedMotion(s.settings),onFinish:()=>dialogs.opening()});}
-function finale(f=s.field){if(f.completed.length<5)return;mediaCleanup=openCinema({id:'final',dialog,modal,reduced:reducedMotion(s.settings),detail:`관찰·실험 기록 ${fieldRecords(f).length}개로 다섯 장소의 시간을 다시 이었어.`,onFinish:()=>dialogs.ending(f)});}
+const cinemaAudio=()=>({volume:s.audio.bgm||s.audio.sfx?Math.min(1,s.audio.volume*3.5):0,holdMusic:()=>{audio.pauseAudio();return audio.resumeAudio;}});
+function intro(){mediaCleanup=openCinema({id:'intro',dialog,modal,...cinemaAudio(),reduced:reducedMotion(s.settings),onFinish:()=>dialogs.opening()});}
+function finale(f=s.field){if(f.completed.length<5)return;mediaCleanup=openCinema({id:'final',dialog,modal,...cinemaAudio(),reduced:reducedMotion(s.settings),detail:`관찰·실험 기록 ${fieldRecords(f).length}개로 다섯 장소의 시간을 다시 이었어.`,onFinish:()=>dialogs.ending(f)});}
 // Teacher preview shows the ending and certificate built from example records; nothing is saved or awarded.
 function sampleField(){const f=previewFieldForPhase({preview:true},4,'ready');f.completed=[0,1,2,3,4];return f;}
 function settings(){dialog(renderSettings({audio:s.audio,completed:s.field.completed,teacherPreview:!!previewOriginal,version:VERSION,audioAvailable:audio.isAudioAvailable()}));}
@@ -246,6 +256,7 @@ function action(name,b){void audio.initAudio(s.audio);audio.playSfx('click');
  if(name==='retry-assets'||name==='next'&&ctx.scene?.assetFailure){if(modal.open)modal.close();ctx.scene?.retryAssets();return;}
  if(name==='asset-map'){modal.close();view('map');return;}
  if(['start','intro'].includes(name)){intro();return;}if(name==='final-replay'){finale();return;}if(name==='continue'){view(s.fieldView==='title'?'map':s.fieldView);return;}if(name==='begin'){modal.close();view('map');return;}if(name==='home'){view('title');return;}if(name==='back'){if(modal.open)modal.close();else view(mode()==='room'?'map':'title');return;}
+ if(name==='npc-friends'){friendsDialogue();return;}
  if(name==='settings'){settings();return;}if(name==='close'){modal.close();return;}if(name==='concept'){concept(Number(b.dataset.chapter??s.field.active));return;}
  if(name==='concept-list'){dialogs.concepts();return;}
  if(name==='concept-select'){const c=Number(b.dataset.chapter);if(previewOriginal||s.field.completed.includes(c))concept(c,false,true);return;}

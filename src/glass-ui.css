@@ -3,7 +3,7 @@
 #app :is(.game-header,.game-footer){background:rgba(255,251,237,.8);border-color:#ffffffb8;box-shadow:0 5px 20px #173d401a;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 #app#app button:not(.primary,.on,.gold,.danger,.focus-target,.quiet-button,[aria-pressed=true]){background:linear-gradient(135deg,#fffbeddb,#f3eddbb8);border-color:#ffffffb8;box-shadow:0 4px 14px #173d401c,inset 0 1px 0 #ffffffa0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 #app#app button.primary{background:linear-gradient(135deg,#477554ed,#35634bdf);border-color:#b3c9a98c;box-shadow:0 4px 14px #173d4024}
-#modal:not(.cinema-dialog,.field-notebook-dialog){background:#fffbedf0;border-color:#ffffffcc;box-shadow:0 18px 48px #173d4033;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+#modal:not(.cinema-dialog,.field-notebook-dialog,.npc-dialogue-stage){background:#fffbedf0;border-color:#ffffffcc;box-shadow:0 18px 48px #173d4033;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
 #modal .dialog-actions{gap:12px;flex-wrap:wrap}
 @media(prefers-reduced-transparency:reduce){#app :is(.game-header,.game-footer){background:#fffbed}}
 
