@@ -32,7 +32,7 @@ function patternFor(reference) {
   return new RegExp('^'+reference.split('*').map(part => part.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('[^/]*')+'$');
 }
 
-required.push('src/map-encounters.js','src/village-encounters.js','src/game-bootstrap.js','src/game-network.js','src/game-shell.css','src/field-preview.js','src/field-mission-data.js','offline-config.json','manifest.webmanifest');
+required.push('src/map-finale.js','src/map-encounters.js','src/village-encounters.js','src/game-bootstrap.js','src/game-network.js','src/game-shell.css','src/field-preview.js','src/field-mission-data.js','offline-config.json','manifest.webmanifest');
 const generated=new Map([['offline-config.json',Buffer.from('{"enabled":true}\n')]]);
 required.push('src/glass-ui.css','src/npc-narration.js','src/character-dialogue.js','src/character-dialogue.css','src/dialogue-cast.js');
 const runtime = [...new Set(required)];

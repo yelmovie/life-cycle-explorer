@@ -247,6 +247,7 @@ function syncLayout(){
 }
 const layoutObserver=new ResizeObserver(syncLayout);for(const element of [app,$('phaser-root'),app.querySelector('.game-header'),app.querySelector('.game-footer'),$('guide-bubble')])layoutObserver.observe(element);
 let mapEncounters=null,mapEncounterKey='';
+let encounterClear=null;
 function clearEncounters(){mapEncounters?.destroy();mapEncounters=null;mapEncounterKey='';}
 function positionEncounters(items,companion,hero){
  if(mode()!=='map'||!hero)return;
@@ -254,7 +255,7 @@ function positionEncounters(items,companion,hero){
  if(key!==mapEncounterKey){
   clearEncounters();mapEncounterKey=key;
   const owner=ctx.scene;
-  if(!previewOriginal)mapEncounters=mountVillageEncounters({host:$('stage'),progress:s.mapEncounters,
+  if(!previewOriginal)mapEncounters=mountVillageEncounters({host:$('stage'),clearIndex:encounterClear,progress:s.mapEncounters,
    stages:items.map(({chapter,x,y,near})=>s.field.completed.includes(chapter)?{
     x:near?.x??x+28,y:near?.y??y+14,name:FIELD_CHAPTERS[chapter].title}:null),
    onSave:next=>{s.mapEncounters={...s.mapEncounters,...next};persist();},
@@ -263,6 +264,7 @@ function positionEncounters(items,companion,hero){
    tone:(kind,hits)=>audio.playSfx(kind==='finish'?'encounter-exit':kind==='contact'?'encounter-contact':hits===2?'encounter-two':'encounter-one'),
    actors:[visible=>owner?.avatar?.setAlpha(visible?1:0),visible=>owner?.spirit?.setAlpha(visible?1:0)],
   });
+  encounterClear=null;
  }
  mapEncounters?.update({hero,ally:companion,scale:ctx.scene?.cameras?.main?.zoom||1,
   project:point=>{const p=coordinates({...point,w:0,h:0});return p?{x:p.left,y:p.top}:null;}});
@@ -412,7 +414,7 @@ function action(name,b){void audio.initAudio(s.audio);audio.playSfx('click');
  if(name==='sound'){const on=s.audio.bgm||s.audio.sfx;if(on){ui.previousAudio={...s.audio};s.audio.bgm=false;s.audio.sfx=false;}else s.audio=ui.previousAudio||{...s.audio,sfx:true};audio.updateAudio(s.audio);persist();render();return;}
  if(name==='audio-bgm'||name==='audio-sfx'){const k=name==='audio-bgm'?'bgm':'sfx';s.audio[k]=!s.audio[k];audio.updateAudio(s.audio);persist();render();settings();return;}
  if(name==='guide'){if(ui.guide){closeGuide();return;}if(mode()==='map'&&Number.isInteger(ui.travelChapter))ctx.scene?.cancelTravel?.();ui.hintReturn=b;ui.guide=true;if(!ui.pending)ui.message='';ui.pending=false;updateGuide();return;}if(name==='hint-close'){closeGuide();return;}if(name==='door'||name==='door-next'){if(name==='door-next')modal.close();requestDoor(Number(b.dataset.chapter));return;}if(name==='step'){ctx.scene?.step(Number(b.dataset.x),Number(b.dataset.y));return;}
- if(name==='next'){if(mode()==='map'){const c=FIELD_CHAPTERS.findIndex((_,i)=>!s.field.completed.includes(i)&&fieldUnlocked(s.field,i));if(c<0)dialogs.story();else requestDoor(c);return;}if(previewOriginal){const chapter=s.field.active,phase=stageProgress(chapter,roomPhase(s.field),true).nextPhase;if(phase){s.field=previewFieldForPhase(s.field,chapter,phase);Object.assign(ui,{selection:null,play:false,autoPlay:false,guide:false,message:''});render();ctx.scene?.refresh();}else if(chapter<4){s.field=previewFieldForPhase(s.field,chapter+1,stageProgress(chapter+1,'',true).firstPhase);view('room');}else view('map');return;}const next=roomUI(s,ui).nextAction;if(next==='complete'){const c=s.field.active;if(act('chapter-complete',{chapter:c}).ok){ui.pendingRestoreChapter=c;view('map');audio.playSfx('reward');dialogs.reward(c);}return;}if(next==='hint'){ui.hintReturn=b;ui.message='';ui.guide=true;updateGuide();ctx.scene?.showHint?.(hintTarget(roomPhase(s.field)));return;}if(next==='plan'){dialogs.plan();return;}if(next==='observation-done'){releaseObservation(s.field);Object.assign(ui,{guide:false,message:'',pending:false,hintLevel:0});audio.playSfx('success');render();ctx.scene?.refresh();return;}act(next);return;}
+ if(name==='next'){if(mode()==='map'){const c=FIELD_CHAPTERS.findIndex((_,i)=>!s.field.completed.includes(i)&&fieldUnlocked(s.field,i));if(c<0)dialogs.story();else requestDoor(c);return;}if(previewOriginal){const chapter=s.field.active,phase=stageProgress(chapter,roomPhase(s.field),true).nextPhase;if(phase){s.field=previewFieldForPhase(s.field,chapter,phase);Object.assign(ui,{selection:null,play:false,autoPlay:false,guide:false,message:''});render();ctx.scene?.refresh();}else if(chapter<4){s.field=previewFieldForPhase(s.field,chapter+1,stageProgress(chapter+1,'',true).firstPhase);view('room');}else view('map');return;}const next=roomUI(s,ui).nextAction;if(next==='complete'){const c=s.field.active,first=!s.field.completed.includes(c);if(act('chapter-complete',{chapter:c}).ok){encounterClear=first?c:null;ui.pendingRestoreChapter=c;view('map');audio.playSfx('reward');dialogs.reward(c);}return;}if(next==='hint'){ui.hintReturn=b;ui.message='';ui.guide=true;updateGuide();ctx.scene?.showHint?.(hintTarget(roomPhase(s.field)));return;}if(next==='plan'){dialogs.plan();return;}if(next==='observation-done'){releaseObservation(s.field);Object.assign(ui,{guide:false,message:'',pending:false,hintLevel:0});audio.playSfx('success');render();ctx.scene?.refresh();return;}act(next);return;}
  if(name==='clear-drawing'){s.field.chapters[0].drawing=[];persist();ctx.scene?.refresh();return;}if(name==='map-fit'){if(mode()!=='map')return;ui.mapOverview=!ui.mapOverview;ctx.scene?.setMapOverview?.(ui.mapOverview);render();return;}if(name==='map-hand'){if(mode()!=='map')return;if(ui.mapOverview){ui.mapOverview=false;ctx.scene?.setMapOverview?.(false);}ui.mapHand=!ui.mapHand;ctx.scene?.setMapHand?.(ui.mapHand);render();return;}if(name==='autoplay'){ui.autoPlay=!ui.autoPlay;render();if(ui.autoPlay)ctx.scene?.autoPlay?.();return;}if(name==='film-play'){ui.play=!ui.play;render();ctx.scene?.refresh();return;}if(name==='cross-section'){ui.crossSection=!ui.crossSection;ctx.scene?.refresh();return;}if(name==='record-page'){ui.recordPage+=Number(JSON.parse(b.dataset.payload||'{}').delta)||0;ctx.scene?.refresh();return;}
  if(name==='save-note'){act('observation-note',{text:$('observation-note').value});modal.close();return;}if(name==='predict'){act('seed-predict',{choice:b.dataset.choice});modal.close();return;}if(name==='save-story'){const title=$('story-title').value,summary=$('story-summary').value;act('book-title',{text:title});act('book-summary',{text:summary});modal.close();return;}
  if(name==='save-caption'){act('book-caption',{id:$('caption-record').value,text:$('story-caption').value});modal.close();return;}if(name==='remove-record'){act('book-record',{id:$('caption-record').value});modal.close();return;}
