@@ -2,7 +2,7 @@ import {normalizeMapVillains} from './map-villains.js';
 import {normalizeVillageEncounters} from './village-encounters.js';
 import * as inquiry from './inquiry-core.js';
 import {initialExpedition,restoreExpedition,questSolved} from './expedition.js';
-import {initialField,restoreField,fieldRecords} from './field-model.js';
+import {initialField,restoreField,fieldRecords,fieldUnlocked} from './field-model.js';
 export * from './inquiry-core.js';
 export * from './expedition.js';
 export const GAME_KEY='life-clock-lab.phaser.4';
@@ -13,11 +13,16 @@ export const EDGES=[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[6,9],[9,10]
 export const DOORS=[8,12,17,23,26];
 export function nearest(p){return POINTS.reduce((b,q,i)=>Math.hypot(q[0]-p[0],q[1]-p[1])<Math.hypot(POINTS[b][0]-p[0],POINTS[b][1]-p[1])?i:b,0);}
 export function route(a,b){const distance=POINTS.map(()=>Infinity),previous=[],open=new Set(POINTS.map((_,i)=>i));distance[a]=0;while(open.size){const u=[...open].reduce((x,y)=>distance[x]<distance[y]?x:y);open.delete(u);if(u===b)break;for(const [x,y] of EDGES){const v=x===u?y:y===u?x:null;if(v===null||!open.has(v))continue;const d=distance[u]+Math.hypot(POINTS[u][0]-POINTS[v][0],POINTS[u][1]-POINTS[v][1]);if(d<distance[v]){distance[v]=d;previous[v]=u;}}}const result=[b];while(result[0]!==a&&previous[result[0]]!==undefined)result.unshift(previous[result[0]]);return result;}
-export function fresh(){return {...inquiry.fresh(),mapVillains:normalizeMapVillains(null),mapEncounters:{},avatar:{x:POINTS[0][0],y:POINTS[0][1]},expedition:initialExpedition(),field:initialField(),fieldView:'title',audio:{bgm:true,sfx:true,volume:.2},musicDefault:1};}
+export function fresh(){return {...inquiry.fresh(),mapVillains:normalizeMapVillains(null),mapEncounters:{},avatar:{x:POINTS[0][0],y:POINTS[0][1]},expedition:initialExpedition(),field:initialField(),fieldView:'title',resumeRoom:false,audio:{bgm:true,sfx:true,volume:.2},musicDefault:1};}
 export function restore(raw){
  let parsed;try{parsed=JSON.parse(raw);}catch{}if(!parsed||![2,3].includes(parsed.version))return fresh();
  const s=inquiry.restore(raw);s.mapVillains=normalizeMapVillains(parsed.mapVillains);s.mapEncounters=normalizeVillageEncounters(parsed.mapEncounters,parsed.mapVillains);s.expedition=restoreExpedition(parsed.expedition,s);s.field=restoreField(parsed.field);
  s.fieldView=['title','map','room'].includes(parsed.fieldView)?parsed.fieldView:'title';
+ // Older saves kept the active chapter even after returning to the title.
+ const chapter=s.field.active;
+ const legacyRoom=s.fieldView==='room'||(!s.field.completed.includes(chapter)&&
+  (chapter>0||Object.values(s.field.chapters[0].inspected).some(a=>a.length)||s.field.chapters[0].noteDraft!==null||s.field.chapters[0].drawing.length>0));
+ s.resumeRoom=fieldUnlocked(s.field,chapter)&&(typeof parsed.resumeRoom==='boolean'?parsed.resumeRoom:legacyRoom);
  // Saves from before music was on by default stored bgm:false without anyone choosing it; turn it on once.
  s.audio={bgm:parsed.musicDefault!==1||parsed.audio?.bgm!==false,sfx:parsed.audio?.sfx!==false,volume:Number.isFinite(parsed.audio?.volume)?Math.max(0,Math.min(1,parsed.audio.volume)):.2};s.musicDefault=1;
  return s;
