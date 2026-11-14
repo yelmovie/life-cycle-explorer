@@ -117,6 +117,33 @@ body dialog.npc-dialogue-stage > :is(.dialog-body,.modal-body) {
   line-height: 1;
 }
 .npc-dialogue-card button:focus-visible { outline: 3px solid #ab6c2c; outline-offset: 2px; }
+.doto-hint {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: end;
+  color: #234f3a;
+}
+.doto-hint .npc-dialogue-portrait {
+  width: min(24vw, 33dvh, 218px);
+  margin: 0 -8px 0 0;
+}
+.doto-hint .npc-dialogue-card {
+  gap: 6px;
+  padding: 16px 12px 8px;
+  pointer-events: auto;
+}
+.doto-hint .npc-dialogue-card h3 {
+  top: auto;
+  bottom: calc(100% - 9px);
+  font-size: 18px;
+}
+.doto-hint [data-npc-speech] {
+  margin: 0;
+  font-size: clamp(16px, 1.8vw, 20px);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .doto-hint[data-speaking="true"] .npc-dialogue-portrait { animation: npc-dialogue-speech 840ms step-end 2; }
+}
 @media (max-height: 520px) {
   .npc-dialogue-portrait { width: min(45dvh, 58vw); }
   .npc-dialogue-card { padding: 14px 12px 6px; gap: 4px; }

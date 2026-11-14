@@ -10,11 +10,9 @@ import {ART,esc} from './game-metadata.js';
 import {icon} from './ui-icons.js';
 import {renderSettings,renderResetConfirm} from './game-settings.js';
 import * as audio from './game-audio.js';
-import {installNpcNarration} from './npc-narration.js';
 import {characterDialogueMarkup,mountCharacterDialogue} from './character-dialogue.js';
 import {mountVillageEncounters} from './village-encounters.js';
 import {dialogueCast} from './dialogue-cast.js';
-installNpcNarration({selector:'#guide-bubble',src:new URL('../assets/audio/npc-dialogue/doto-hello.mp3',import.meta.url).href,text:'안녕! 나는 도토야. 시간이 흐르면서 생물이 어떻게 자라는지 함께 관찰해 보자. 생김새의 변화와 자라는 데 필요한 것을 차근차근 기록해 보자!',enabled:()=>s.audio.sfx,volume:()=>s.audio.volume,hold:()=>{audio.pauseAudio();return ()=>{if(!Array.from(document.querySelectorAll('video')).some(v=>!v.paused&&!v.ended))audio.resumeAudio();};}});
 import {recordImage,downloadBlob} from './game-records.js';
 import {createDialogs,btn} from './field-dialogs.js';
 import {createFieldNotebook} from './field-notebook.js';
@@ -48,6 +46,17 @@ const titleScreen=`<section id="title-screen" aria-label="생명 시계 연구�
  <img class="title-doto" src="${COMPANION_ART}" alt="함께 탐험하는 다람쥐 도토" draggable="false">
 </section>`;
 app.innerHTML=`<header class="game-header"><nav class="screen-nav" aria-label="화면 도구"><div class="nav-left">${ib('home','처음으로','home')}${ib('back','이전 화면','back')}</div><div id="scene-title"></div><div class="nav-right"><button id="autoplay" class="autoplay-button" data-action="autoplay" hidden></button>${ib('sound','소리 끄기','sound')}${ib('settings','설정','settings')}</div></nav><h1 id="objective"></h1></header><main id="stage"><div id="phaser-root"></div><div id="map-doors"></div><div class="map-companion-layer"></div><div id="focus-targets"></div><section id="field-recovery" hidden><p role="status"></p>${btn('탐험 도구 다시 불러오기','field-retry','hidden','primary')}${btn('탐구부터 시작하기','field-direct','hidden')}</section><section id="flat-observation" hidden></section></main><footer class="game-footer"><div id="status" role="status" aria-live="polite"></div><div id="guide-bubble" hidden></div><div class="guide-tools"><button id="guide" data-action="guide" aria-label="지훈이의 도움 보기"><img alt="" src="${ART.guideLook}"><span>…</span></button></div><div id="controls"></div><div class="game-next"><div class="map-camera-tools"><button id="map-fit" class="map-hand" data-action="map-fit" aria-label="지도 전체 보기" title="지도 전체 보기" aria-pressed="false" hidden><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5M8 8h8v8H8z"/></svg></button><button id="map-hand" class="map-hand" data-action="map-hand" aria-pressed="false" hidden></button></div><button id="next" class="primary" data-action="next"></button></div></footer>${titleScreen}<div class="portrait" role="status">화면을 가로로 돌리면 숲을 더 넓게 볼 수 있어.</div>`;
+const guideBubble=$('guide-bubble');
+guideBubble.className='doto-hint';
+guideBubble.innerHTML=`<div class="npc-dialogue-portrait" aria-hidden="true"></div><div class="npc-dialogue-card"><h3>도토</h3><p id="guide-text" data-npc-speech aria-live="polite" aria-atomic="true"></p><div class="row">${btn('위치 보기','hint-point','hidden')}${btn('다음 단서','hint-more','hidden')}${btn('닫기','hint-close','aria-label="도토 도움말 닫기"')}</div></div>`;
+const guidePortrait=guideBubble.querySelector('.npc-dialogue-portrait'),guideText=$('guide-text');
+const guidePoint=guideBubble.querySelector('[data-action=hint-point]'),guideMore=guideBubble.querySelector('[data-action=hint-more]'),guideClose=guideBubble.querySelector('[data-action=hint-close]');
+guidePortrait.style.setProperty('--npc-dialogue-art',`url("${dialogueCast.find(c=>c.id==='doto').image}")`);
+function stopGuideMotion(){delete guideBubble.dataset.speaking;}
+guidePortrait.addEventListener('animationend',stopGuideMotion);
+modal.addEventListener('modal-dismiss',stopGuideMotion);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)stopGuideMotion();});
+window.addEventListener('pagehide',stopGuideMotion);
 // Keep only the teacher's mode/location in this tab. Student answers stay in
 // their existing storage; demonstration answers are rebuilt from sample data.
 function rememberTeacherPreview(){
@@ -77,17 +86,28 @@ function syncOrientationFocus(){
 }
 function closeGuide(){ui.guide=false;updateGuide();const target=ui.hintReturn?.isConnected?ui.hintReturn:$('guide');target.focus({preventScroll:true});ui.hintReturn=null;}
 function updateGuide(){
- const npcAudio=$('guide-bubble').querySelector('[data-npc-audio]');
- const focused=$('guide-bubble').contains(document.activeElement)?document.activeElement.dataset.action:null;
  const button=$('guide'),map=mode()==='map',host=app.querySelector(map?'.map-companion-layer':'.guide-tools');
  if(button.parentElement!==host){if(!map)button.removeAttribute('style');button.hidden=map;host.prepend(button);}
  button.querySelector('img').src=COMPANION_ART;button.querySelector('span').textContent=map?'…':ui.pending?'도토 !':'도토 힌트';
- button.setAttribute('aria-label','다람쥐 도토의 힌트');button.setAttribute('aria-controls','guide-bubble');$('guide-bubble').hidden=!ui.guide;
- const target=mode()==='room'?hintTarget(roomPhase(s.field)):null;
- const text=mode()==='room'?(roomPhase(s.field)==='discovery'?questInfo(s.field).objective:companionHint(roomPhase(s.field),ui.hintLevel)):hint();
- $('guide-bubble').innerHTML=`<p id="guide-text">${esc(text)}</p><div class="row">${target?btn('위치 보기','hint-point'):''}${mode()==='room'&&ui.hintLevel===0?btn('다음 단서','hint-more'):''}${btn('닫기','hint-close','aria-label="도토 도움말 닫기"')}</div>`;$('guide').setAttribute('aria-expanded',String(ui.guide));
- if(npcAudio)$('guide-bubble').append(npcAudio);
- if(focused)$('guide-bubble').querySelector(`[data-action="${focused}"]`)?.focus({preventScroll:true});
+ button.setAttribute('aria-label','다람쥐 도토의 힌트');button.setAttribute('aria-controls','guide-bubble');button.setAttribute('aria-expanded',String(ui.guide));
+ const opening=guideBubble.hidden&&ui.guide;
+ guideBubble.hidden=!ui.guide;
+ if(!ui.guide){stopGuideMotion();return;}
+ const phase=mode()==='room'?roomPhase(s.field):null;
+ const text=phase?(phase==='discovery'&&ui.hintLevel===0?questInfo(s.field).objective:companionHint(phase,ui.hintLevel)):hint();
+ const focused=document.activeElement;
+ guidePoint.hidden=!phase||!hintTarget(phase);
+ guideMore.hidden=!phase||ui.hintLevel!==0;
+ if((focused===guideMore||focused===guidePoint)&&focused.hidden)(guidePoint.hidden?guideClose:guidePoint).focus({preventScroll:true});
+ if(opening||guideText.textContent!==text){
+  guideText.textContent=text;
+  stopGuideMotion();
+  if(!modal.open&&!document.hidden&&!reducedMotion(s.settings)){
+   // Restart the same two-frame animation when a new hint replaces the line.
+   void guidePortrait.offsetWidth;
+   guideBubble.dataset.speaking='true';
+  }
+ }
 }
 
 function canResumeRoom(){return s.resumeRoom&&fieldUnlocked(s.field,s.field.active);}
@@ -470,6 +490,7 @@ modal.addEventListener('toggle',e=>{const detail=e.target;if(detail instanceof H
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&ui.guide&&!modal.open){e.preventDefault();e.stopPropagation();closeGuide();}});
 const motionPreference=matchMedia('(prefers-reduced-motion: reduce)');
 motionPreference.addEventListener('change',()=>{
+ if(motionPreference.matches)stopGuideMotion();
  if(reducedMotion(s.settings)){ui.play=false;ui.storyStop?.();document.querySelector('#concept-video')?.pause();document.querySelectorAll('[data-handwriting]').forEach(el=>{el.classList.remove('writing');el.textContent=el.dataset.handwriting;});}
  const travel=ui.travelChapter;ctx.scene?.refresh();if(Number.isInteger(travel)&&mode()==='map')ctx.scene?.walkDoor(travel);
 });

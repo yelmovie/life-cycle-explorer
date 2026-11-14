@@ -127,8 +127,8 @@ button svg{flex:none;width:28px;height:28px;fill:none;stroke:currentColor;stroke
 .direction-pad button{width:48px;height:48px;min-height:48px;padding:8px}.direction-pad button:nth-child(1){grid-area:2/1}.direction-pad button:nth-child(2){grid-area:1/2}.direction-pad button:nth-child(3){grid-area:2/2}.direction-pad button:nth-child(4){grid-area:2/3}
 /* Help reuses the reserved feedback row, so opening it never moves the task. */
 .game-footer{--feedback-row-height:76px}
-#guide-bubble{grid-area:status;position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px;justify-self:stretch;width:100%;min-width:0;height:var(--feedback-row-height);max-height:var(--feedback-row-height);padding:4px 10px;overflow:visible;border:1px solid #93ad9699;border-radius:14px;background:#fffbed;font-size:18px;line-height:1.25}
-#guide-bubble[hidden]{display:none}#guide-bubble p{margin:0}#guide-bubble .row{flex-wrap:nowrap;gap:6px;justify-content:flex-end}#guide-bubble button{min-height:48px;padding:6px 10px;font-size:18px;white-space:nowrap}
+#guide-bubble{grid-area:status;position:relative;z-index:1}
+#guide-bubble .row{gap:6px;justify-content:flex-end}#guide-bubble button{min-height:48px;padding:6px 10px;font-size:18px;white-space:nowrap}
 #status{grid-area:status;position:static;justify-self:center;transform:none;width:fit-content;max-width:100%;height:var(--feedback-row-height);min-height:var(--feedback-row-height);margin:0;padding:4px 12px;border:0;border-radius:14px;overflow:visible;white-space:normal;background:transparent;font-size:18px;line-height:1.25;text-align:center;visibility:hidden;opacity:1;pointer-events:none;display:flex;align-items:center;justify-content:center}
 #status.visible{background:#fffbedc7;visibility:visible}.game-footer:has(#guide-bubble:not([hidden])) #status{visibility:hidden}
 .student-full-text{white-space:pre-wrap;overflow-wrap:anywhere}.draft-status{font-size:16px!important;line-height:1.35;color:#41624c}
@@ -200,7 +200,7 @@ dialog details{margin-top:8px;border-top:1px solid var(--color-border-soft)}dial
 #app:not([data-view=title]) .game-footer{border-top:0;background:linear-gradient(#12332900,#1233296b 42%,#123329c4)}
 #app:not([data-view=title]) #status{position:absolute;left:50%;bottom:calc(100% + 6px);transform:translateX(-50%);height:auto;min-height:0;max-width:min(760px,calc(100% - 24px));padding:10px 20px}
 #app:not([data-view=title]) #status.visible{background:#fffbedf5;border:2px solid var(--color-accent);box-shadow:var(--shadow-card)}
-#app:not([data-view=title]) #guide-bubble{position:absolute;left:clamp(12px,2vw,28px);bottom:calc(100% + 6px);width:fit-content;max-width:min(860px,calc(100% - 24px));height:auto;max-height:none;padding:8px 10px 8px 16px;border:2px solid var(--color-accent);box-shadow:var(--shadow-card)}
+#app:not([data-view=title]) #guide-bubble{position:absolute;left:clamp(12px,2vw,28px);bottom:calc(100% + 6px);width:max-content;max-width:min(860px,calc(100% - 24px));pointer-events:none}
 /* Short landscape (fold, in-app browsers): one footer row so the next button stays on screen without scrolling. */
 @media(max-height:640px) and (min-height:521px) and (min-width:700px){#app{--stage-min-height:330px}}
 @media(max-height:640px) and (min-width:700px){#app:not([data-view=title]) .game-footer{grid-template-columns:auto minmax(0,1fr) minmax(150px,max-content);grid-template-areas:"guide controls next";padding:6px 12px 10px}#app:not([data-view=title]) .game-header{padding-block:6px;gap:4px}#guide span,.map-hand span{display:none}#guide{padding:4px}#next{min-height:52px;padding:8px 14px}}
@@ -428,9 +428,7 @@ dialog.cinema-dialog::backdrop{background:#0d1f19}
 
 @media (max-height:480px) and (orientation:landscape){
  #app[data-view=room]{--stage-min-height:0px}
- #app[data-view=room] #guide-bubble [data-npc-audio]{display:none}
- #app[data-view=room] #guide-bubble{max-width:min(680px,calc(100% - 24px));padding:6px 10px}
- #app[data-view=room] #guide-bubble p{font-size:16px;line-height:1.35}
+ #app[data-view=room] #guide-bubble{max-width:min(680px,calc(100% - 24px))}
 }
 
 /* The shared settings heading is independent of the grid used by activity dialogs. */
