@@ -9,7 +9,6 @@ const POSITIONS={egg:[310,310,160/3],larva:[960,310,170],pupa:[310,535,145],adul
 /** Chapter 1 has visible, tappable steps as well as optional magnifier dragging. */
 export function renderObservationRoom(v,ctx,phase){
  const q=ctx.s.field.chapters[0],act=(type,payload={})=>ctx.emit('act',{type,payload});
- const open=(form,spot)=>ctx.emit('observe',{form,spot});
  const button=(x,y,w,h,label,fn,done=false,z=50)=>{
   const text=v.text(x,y,(done?'✓ ':'')+label,22,w-14,done?'#356c47':'#244d3d').setDepth(z+1);h=Math.max(h,text.height+12);
   const plate=v.add.graphics().fillStyle(done?0xdcebd5:0xfffcf0,.98).fillRoundedRect(x-w/2,y-h/2,w,h,14).setDepth(z);
@@ -56,54 +55,59 @@ export function renderObservationRoom(v,ctx,phase){
    zoom.setPosition(x+(base.x-x)*factor,y+(base.y-y)*factor);
    feedback.setText(PARTS[base.id][nearest.spot].replace(' 보기','')+' 확대 관찰\n놓으면 노트에 남아.');
   };
-  // View buttons open one observation window; ◀ ▶ page through all eight
-  // features in place. Pages seen are recorded together when it closes, so
-  // no notebook pops up between looks.
-  const DIFFERENCES={larva1:'어른벌레와 비교해 봐. 애벌레에게도 날개가 있을까?',adult0:'애벌레 때와 달라진 곳을 찾았니? 날개가 생겼어.'};
-  const PAGES=FORMS.flatMap(form=>[0,1].map(spot=>({form,spot})));
-  // The frame, arrows and finish button stay put; only the page content is
-  // swapped, so quick repeated taps on an arrow are never lost.
-  let popup=null,page=[],index=0,seen=new Set();
+  // One view per form, with direct tabs and a second feature on demand.
+  let popup=null,page=[],seen=new Map();
   const clearPopup=()=>{if(!popup)return;[...popup.items,...page].forEach(o=>o.destroy());page=[];v.focusTargets=popup.targets;ctx.focusTargets?.(v.focusTargets);popup=null;};
-  const finish=()=>{clearPopup();const fresh=[...seen].map(i=>PAGES[i]).filter(p=>!q.inspected[p.form].includes(p.spot));seen=new Set();if(fresh.length)ctx.emit('observe-many',fresh);};
-  const arrow=(x,label,aria,fn)=>{const plate=v.add.graphics().fillStyle(0xfffcf0,.98).fillRoundedRect(x-42,340,84,120,18).lineStyle(3,0xb88a3a).strokeRoundedRect(x-42,340,84,120,18).setDepth(105);return [plate,v.text(x,400,label,40,70,'#244d3d').setDepth(106),v.click(x,400,84,120,fn,aria).setDepth(107)];};
-  const turn=delta=>showPage((index+delta+PAGES.length)%PAGES.length);
+  const progress=()=>new Set([...FORMS.filter(id=>q.inspected[id].length),...seen.keys()]).size;
+  const finish=()=>{
+   clearPopup();
+   const fresh=[...seen].flatMap(([form,spots])=>[...spots].filter(spot=>!q.inspected[form].includes(spot)).map(spot=>({form,spot})));
+   seen=new Map();if(fresh.length)ctx.emit('observe-many',fresh);
+  };
   const openViewer=()=>{
    const targets=v.focusTargets,items=[];v.focusTargets=[];
    items.push(v.add.rectangle(640,400,1280,800,0x0d2a20,.6).setDepth(100).setInteractive());
-   items.push(v.paper(640,415,920,580).setDepth(101));
-   items.push(...arrow(125,'◀','이전 특징 보기',()=>turn(-1)));
-   items.push(...arrow(1155,'▶','다음 특징 보기',()=>turn(1)));
-   items.push(...button(640,655,260,58,'관찰 마치기',()=>{ctx.ui.autoPlay=false;finish();},false,105));
-   popup={items,targets};ctx.focusTargets?.(v.focusTargets);
+   items.push(v.paper(640,437,1090,555).setDepth(101));
+   popup={items,targets};
   };
-  const showPage=i=>{
+  const focusSpot=(form,spot,compare=false)=>{
    if(!popup)openViewer();
-   page.forEach(o=>o.destroy());index=i;seen.add(i);
-   const {form,spot}=PAGES[i],[px,py]=SPOTS[form][spot],S=320,lx=420,ly=395,zx=860,zy=395,R=155,factor=2.6,items=page=[];
-   items.push(v.text(640,165,`${FORM_NAMES[form]} · ${PARTS[form][spot].replace(' 보기','')} 확대 관찰`,30,800).setDepth(102));
-   items.push(v.pic(form,lx,ly,S).setDepth(102));
-   items.push(v.add.circle(lx+(px-.5)*S,ly+(py-.5)*S,S/factor/2).setStrokeStyle(4,0xd39b36).setDepth(103));
-   const maskShape=v.make.graphics({add:false}).fillStyle(0xffffff).fillCircle(zx,zy,R);items.push(maskShape);
-   items.push(v.add.circle(zx,zy,R,0xfffbed).setDepth(102));
-   items.push(v.pic(form,zx-(px-.5)*S*factor,zy-(py-.5)*S*factor,S*factor).setDepth(103).setMask(maskShape.createGeometryMask()));
-   items.push(v.add.circle(zx,zy,R).setStrokeStyle(8,0xb88a3a).setDepth(104));
-   // Two pages ask for the key change between stages instead of one more trait to read.
-   const diff=DIFFERENCES[form+spot];
-   items.push(v.text(640,diff?582:592,FORM_TRAITS[form][spot]+(diff?'\n'+diff:''),diff?23:26,760,'#356c47').setDepth(102));
-   items.push(v.text(300,655,`${i+1} / ${PAGES.length}`,24,120).setDepth(102));
+   page.forEach(o=>o.destroy());page=[];v.focusTargets=[];
+   if(!compare){
+    if(!seen.has(form))seen.set(form,new Set());
+    seen.get(form).add(spot);
+   }
+   const items=page;
+   FORMS.forEach((id,i)=>items.push(...button(286+i*236,202,214,52,FORM_NAMES[id]+' 관찰',()=>focusSpot(id,seen.get(id)?.values().next().value??q.inspected[id][0]??0),!compare&&id===form,105)));
+   if(compare){
+    items.push(v.pic('larva',408,385,252).setDepth(102),v.pic('adult',862,385,252).setDepth(102));
+    items.push(v.text(408,519,'애벌레',24,260).setDepth(102),v.text(862,519,'어른벌레',24,260).setDepth(102));
+    items.push(v.text(640,570,'애벌레에 없던 어떤 부분이 어른벌레에게 생겼을까?',25,800,'#356c47').setDepth(102));
+    items.push(...button(936,668,300,54,'확대 관찰로 돌아가기',()=>focusSpot(form,spot),false,105));
+   }else{
+    const [px,py]=SPOTS[form][spot],S=265,lx=425,ly=374,zx=852,zy=374,R=124,factor=2.6;
+    items.push(v.pic(form,lx,ly,S).setDepth(102));
+    items.push(v.add.circle(lx+(px-.5)*S,ly+(py-.5)*S,S/factor/2).setStrokeStyle(4,0xd39b36).setDepth(103));
+    const maskShape=v.make.graphics({add:false});maskShape.fillStyle(0xffffff).fillCircle(zx,zy,R);items.push(maskShape);
+    items.push(v.add.circle(zx,zy,R,0xfffbed).setDepth(102));
+    items.push(v.pic(form,zx-(px-.5)*S*factor,zy-(py-.5)*S*factor,S*factor).setDepth(103).setMask(maskShape.createGeometryMask()));
+    items.push(v.add.circle(zx,zy,R).setStrokeStyle(7,0xb88a3a).setDepth(104));
+    items.push(v.text(640,543,FORM_TRAITS[form][spot],25,935,'#356c47').setDepth(102));
+    items.push(...button(417,605,312,49,PARTS[form][1-spot],()=>focusSpot(form,1-spot),false,105));
+    if((seen.has('larva')||q.inspected.larva.length)&&(seen.has('adult')||q.inspected.adult.length))
+     items.push(...button(852,605,360,49,'애벌레와 어른벌레 비교',()=>focusSpot(form,spot,true),false,105));
+   }
+   const count=progress();
+   items.push(v.text(271,668,`네 모습 중 ${count}/4 관찰`,21,270).setDepth(106));
+   items.push(...button(600,668,300,54,count===4?'관찰 글 쓰기':'본 특징 기록하기',()=>{ctx.ui.autoPlay=false;finish();},false,105));
+   ctx.focusTargets?.(v.focusTargets);
   };
-  const focusSpot=(form,spot)=>showPage(PAGES.findIndex(p=>p.form===form&&p.spot===spot));
-  // Autoplay turns the same viewer's pages and closes it once every feature
-  // was shown, so the record is identical to a learner paging by hand.
-  let autoTimer=null;
   autoPlayRoom(v,ctx,()=>{
-   autoTimer?.remove();if(!popup)showPage(0);
-   const tick=()=>{autoTimer=autoStep(v,ctx,3800,()=>{if(!popup)return;if(seen.size===PAGES.length){finish();return;}turn(1);tick();});};tick();
+   const tour=()=>{const unseen=FORMS.find(id=>!q.inspected[id].length&&!seen.has(id));if(!unseen){ctx.ui.autoPlay=false;finish();return;}focusSpot(unseen,0);autoStep(v,ctx,3800,tour);};tour();
   });
   lens.on('drag',(_,x,y)=>inspect(x,y));
   lens.on('dragend',()=>{
-   if(nearest&&nearest.d<75){open(nearest.form,nearest.spot);return;}
+   if(nearest&&nearest.d<75){zoom?.destroy();lens.setPosition(640,350);focusSpot(nearest.form,nearest.spot);return;}
    zoom?.destroy();zoom=null;zoomId=null;viewed=null;
    feedback.setText('생물 가까이에서 놓아 봐.\n보기 버튼도 눌러 봐.');
    v.tweens.add({targets:lens,x:640,y:350,duration:reducedMotion(ctx.s.settings)?1:180});

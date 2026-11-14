@@ -1,6 +1,6 @@
 import {TEXT_LIMITS,captionText,draftValue} from './field-writing.js';
 import {reducedMotion} from './game-motion.js';
-import {fieldRecords,towerStep,towerClaimText,TOWER_REGIONS,TOWER_CLAIMS} from './field-model.js';
+import {fieldRecords,towerStep,TOWER_REGIONS,TOWER_EVIDENCE_TASKS} from './field-model.js';
 import {esc} from './game-metadata.js';
 
 // Keep the learner's own evidence on the corkboard. The table only holds
@@ -23,7 +23,6 @@ export function renderStoryRoom(v,ctx,phase){
  const act=(type,payload)=>ctx.emit('act',{type,payload});
  const selected=bank.filter(r=>q.records.includes(r.id));
  const handwriting=(x,y,message,size,width)=>v.text(x,y,message,size,width,'#294e43').setFontFamily('NanumSquareNeo,Malgun Gothic,sans-serif');
- const target=(x,y,w,h,id,label)=>v.drop(x,y,w,h,id,label,()=>ctx.emit('target',id));
  const paper=(x,y,w,h)=>{
   const group=v.add.container(x,y).setSize(w,h);
   group.add(v.add.rectangle(3,5,w,h,0x253d2a,.16));
@@ -31,19 +30,12 @@ export function renderStoryRoom(v,ctx,phase){
   group.add(v.add.rectangle(-w*.24,-h/2+3,54,18,0x90a78b,.86).setAngle(-9));
   return group;
  };
- const photo=(record,x,y,w,h,{kind,data={},caption='',attach=false,onTap}={})=>{
+ const photo=(record,x,y,w,h,{caption='',captionSize=24,onTap}={})=>{
   const card=paper(x,y,w,h),imageY=-h*.13,iw=w-18,ih=h*.55;
   card.add(v.add.rectangle(0,imageY,iw,ih,0xe9e7d5));
   const short=caption.length>35?caption.slice(0,34)+'…':caption;
-  card.add(handwriting(0,h*.26,short,24,w-18).setMaxLines(2));
-  if(kind){
-   v.draggable(card,kind,data,record.title+' '+(kind==='book'?'순서 바꾸기':attach?'눌러서 기록판에 붙이기':'기록으로 선택하기'));
-   card.on('pointerdown',()=>card.setData('moved',false));
-   card.on('dragstart',()=>card.setData('moved',true));
-   // A successful drop rebuilds the scene before touch pointerup is delivered.
-   // Ignore that old card so the same record is not toggled off immediately.
-   if(onTap)card.on('pointerup',()=>{if(v.renderToken===stamp&&card.scene&&!card.getData('moved'))onTap();});
-  }
+  card.add(handwriting(0,h*.26,short,captionSize,w-18).setMaxLines(2));
+  if(onTap)v.click(x,y,w,h,onTap,record.title+' 증거로 선택');
   ctx.recordImage(record,ctx.s,true).then(url=>{
    if(v.renderToken!==stamp||!v.sys.isActive())return;
    const image=new Image();
@@ -58,109 +50,82 @@ export function renderStoryRoom(v,ctx,phase){
   }).catch(()=>ctx.emit('feedback','기록 사진을 다시 불러오지 못했어. 구역을 다시 열어 줘.'));
   return card;
  };
- // ── Life clock tower ─────────────────────────────────────────────
- // The backdrop already paints the clock; sockets sit on its four brass rings
- // (1920×1080 art, centre-cropped to 16:10 → world = (px-96)×0.7407, py×0.7407).
- // The room art is redrawn 60px lower so the top socket clears the objective banner.
- const DY=60,CX=640,CY=318+DY,awake=q.towerRun,evidence=phase==='tower-evidence';
- if(!evidence)v.pic(towerBackdrop(ctx.s.field),640,400+DY,1280,800).setDisplaySize(1280,800);
- const sockets=[[640,119+DY],[844,318+DY],[640,511+DY],[440,318+DY]];
- const slotOf=c=>selected.find(r=>r.fieldEvidence.chapter===c);
- const seen=new Set(ctx.ui.towerSeen||[]);
- const gears=evidence?[]:[v.pic('towerGearLarge',290,620,170),v.pic('towerGearMedium',395,700,110)];
+ if(phase==='tower-evidence'){
+  const task=TOWER_EVIDENCE_TASKS.find(t=>t.request==='season'
+   ? !selected.some(r=>r.fieldEvidence.chapter===3)
+   : !q.matches[t.request]);
+  if(!task)return;
+  const available=chapter=>bank.filter(r=>r.fieldEvidence.chapter===chapter);
+  const saved=selected.find(r=>r.fieldEvidence.chapter===task.chapter);
+  const own=available(task.chapter),other=available((task.chapter+1)%4);
+  const examples=task.request==='season'
+   ? [own.find(r=>r.fieldEvidence.type==='comparison'),saved||own.find(r=>r.fieldEvidence.plant==='apple'),own.find(r=>r.fieldEvidence.plant==='balsam'),other[0]]
+   : [own[0],other[0],own.find(r=>r.id!==own[0]?.id),available((task.chapter+2)%4)[0]];
+  if(saved&&!examples.includes(saved))examples[2]=saved;
+  const candidates=[...new Set(examples.filter(Boolean))];
+  if(task.chapter%2===1)candidates.reverse();
+  const x0=640-(candidates.length-1)*132;
+  const links=v.add.graphics();
+  const heading=paper(640,299,1020,116);
+  heading.add(handwriting(0,0,task.question,31,924));
+  TOWER_REGIONS.forEach((region,c)=>{
+   const x=280+c*240,r=selected.find(item=>item.fieldEvidence.chapter===c);
+   const linked=r&&(c===3||q.matches[TOWER_EVIDENCE_TASKS[c].request]===r.id);
+   v.pic('towerEmblem'+c,x,170,54).setAlpha(linked||c===task.chapter?1:.55);
+   v.label(x,211,(linked?'✓ ':'')+region,19,230);
+   if(linked&&c!==task.chapter)links.lineStyle(4,0xa94934,.9).lineBetween(x,223,x,247).fillStyle(0xa94934,.9).fillCircle(x,244,6);
+  });
+  candidates.forEach((r,i)=>photo(r,x0+i*264,514,240,226,{
+   caption:r.title,onTap:()=>{
+    const result=ctx.emit('act',{type:'book-evidence',payload:{id:r.id,request:task.request}});
+    if(result?.ok)ctx.emit('clock-tick');
+   }
+  }));
+  v.label(640,672,'사진을 한 번 누르면 근거가 시계탑에 연결돼.',22,920);
+  return;
+ }
+
+ // The final hand crosses the four records in one turn.
+ const DY=60,CX=640,CY=318+DY,awake=q.towerRun;
+ v.pic(towerBackdrop(ctx.s.field),640,400+DY,1280,800).setDisplaySize(1280,800);
+ const sockets=[[640,147+DY],[844,318+DY],[640,511+DY],[440,318+DY]];
+ const gears=[v.pic('towerGearLarge',290,620,170),v.pic('towerGearMedium',395,700,110)];
  if(!reduced&&awake)gears.forEach((g,i)=>v.tweens.add({targets:g,angle:i?-360:360,duration:i?6000:9000,repeat:-1}));
- const turnGears=()=>{if(!reduced)gears.forEach((g,i)=>v.tweens.add({targets:g,angle:(i?-1:1)*120,duration:900,ease:'Cubic.easeOut'}));};
- const column=title=>{v.add.graphics().fillStyle(0xfffbed,.92).fillRoundedRect(912,190,330,520,22);v.label(1077,215,title,24,300);};
-
- if(!evidence){
-  const slotCards=[];
-  sockets.forEach(([x,y],c)=>{
-   const r=slotOf(c);
-   if(!r){
-    const emblem=v.pic('towerEmblem'+c,x,y,92).setAlpha(.55);
-    v.label(x,y+62,TOWER_REGIONS[c],18,140);
-    if(phase==='tower-slots'){target(x,y,150,150,'slot-'+c,TOWER_REGIONS[c]+' 칸에 끼우기');if(!reduced)v.tweens.add({targets:emblem,alpha:.85,duration:900,yoyo:true,repeat:-1});}
-    return;
-   }
-   const card=photo(r,x,y,120,110,{caption:TOWER_REGIONS[c]});v.pic('towerEmblem'+c,x+52,y-46,44);slotCards[c]={card,record:r};
-   // A newly fitted record pops in and turns the gears.
-   if(!seen.has(r.id)&&!reduced){card.setScale(.4);v.tweens.add({targets:card,scale:1,duration:450,ease:'Back.Out'});turnGears();}
-  });
-  ctx.ui.towerSeen=[...q.records];
-
-  if(phase==='tower-slots'){
-   column(`내 기록 ${selected.length}/4`);
-   // Records for regions whose socket is still empty come first.
-   const remaining=bank.filter(r=>!q.records.includes(r.id)).sort((a,b)=>!!slotOf(a.fieldEvidence.chapter)-!!slotOf(b.fieldEvidence.chapter));
-   const pages=Math.max(1,Math.ceil(remaining.length/3));
-   ctx.ui.recordPage=((ctx.ui.recordPage||0)%pages+pages)%pages;
-   remaining.slice(ctx.ui.recordPage*3,ctx.ui.recordPage*3+3).forEach((r,i)=>{
-    photo(r,1077,320+i*140,270,126,{kind:'record',data:{id:r.id},caption:r.title.replace(' 확대 관찰','').replace(' 조건 비교 실험',' 실험').replace(' 화분 돌봄 기록',' 돌봄'),attach:true,onTap:()=>act('book-record',{id:r.id})});
-    v.pic('towerEmblem'+r.fieldEvidence.chapter,1077-112,320+i*140-40,40);
-   });
-   for(const r of remaining){const item=v.focusTargets.findLast?.(p=>p.label===r.title+' 눌러서 기록판에 붙이기');if(item)item.fn=()=>act('book-record',{id:r.id});}
-   v.text(1077,692,(ctx.ui.recordPage+1)+' / '+pages+'쪽',18,160);
-  }
-  if(['tower-note','tower-run','plan','ready'].includes(phase)){
-   column(phase==='plan'?'관찰 약속':'나의 연구 노트');
-   if(phase==='plan'){
-    // Ring the bell to make the promise; it keeps swinging until the plan is written.
-    const bell=v.pic('towerBell',1077,330,190).setOrigin(.5,.12);
-    if(!reduced)v.tweens.add({targets:bell,angle:{from:-8,to:8},duration:700,yoyo:true,repeat:-1,ease:'Sine.easeInOut'});
-    v.click(1077,360,200,220,()=>ctx.emit('open-plan'),'종 울리고 관찰 약속하기');
-    v.label(1077,520,'종을 눌러 실제로\n이어 갈 관찰을 약속해 줘!',21,280);
-   }else{
-    if(v.textures.exists('researchNotebook'))v.pic('researchNotebook',1077,430,290,360);
-    handwriting(1077,330,q.title||'제목을 붙여 줘',26,230).setMaxLines(2);
-    handwriting(1077,435,q.summary||'나는 …을 관찰해서\n…을 알았어.',22,215).setMaxLines(4);
-    if(phase==='tower-note')v.click(1077,430,290,360,()=>ctx.emit('story-info'),'연구 노트 쓰기');
-   }
-  }
-  if(phase==='tower-run'){
-   // Drag the golden hand clockwise all the way round; each socket lights up as it passes.
-   const L=150,hand=v.add.graphics().setPosition(CX,CY).setDepth(6);
-   const drawHand=a=>{hand.clear().lineStyle(16,0xffe28a,.35).lineBetween(0,0,Math.cos(a)*L,Math.sin(a)*L).lineStyle(8,0xd6a640).lineBetween(0,0,Math.cos(a)*L,Math.sin(a)*L).fillStyle(0xd6a640).fillCircle(0,0,13);};
-   drawHand(-Math.PI/2);
-   const knob=v.add.circle(CX,CY-L,24,0xffd76a).setStrokeStyle(4,0x6b4a12).setDepth(7).setInteractive({useHandCursor:true});
-   if(!reduced)v.tweens.add({targets:knob,scale:1.2,duration:600,yoyo:true,repeat:-1});
-   v.input.setDraggable(knob);
-   let progress=0,last=-Math.PI/2,done=false,ticked=0;
-   const caption=v.label(1077,668,'금빛 손잡이를 돌리거나\n아래 버튼을 눌러 봐',20,300);
-   const light=c=>{const s=slotCards[c];if(!s)return;v.tweens.add({targets:s.card,scale:1.35,duration:260,yoyo:true});turnGears();caption.setText(TOWER_REGIONS[c]+' · '+s.record.title);};
-   const step=a=>{
-    let d=a-last;if(d>Math.PI)d-=2*Math.PI;if(d<-Math.PI)d+=2*Math.PI;
-    if(d<=0||done)return;const before=progress;progress+=d;last=a;drawHand(a);
-    // A winding click every 20 degrees, so the clock sounds like it is being turned.
-    if(Math.floor(progress/(Math.PI/9))>ticked){ticked=Math.floor(progress/(Math.PI/9));ctx.emit('clock-tick');}
-    knob.setPosition(CX+Math.cos(a)*L,CY+Math.sin(a)*L);
-    for(let c=0;c<4;c++){const mark=c*Math.PI/2;if(before<mark+.01&&progress>=mark+.01)light(c);}
-    if(progress>=2*Math.PI-.05){done=true;act('tower-run');}
-   };
-   knob.on('drag',p=>{const point=v.pointerWorld?.(p)||p;step(Math.atan2(point.y-CY,point.x-CX));});
-   // Keyboard/tap path: each press turns a quarter. The visible button serves touch users who cannot drag.
-   const quarter=()=>{for(let i=0;i<9;i++)step(last+Math.PI/18);};
-   v.add.graphics().fillStyle(0xfffcf0,.98).lineStyle(3,0xb88a3a).fillRoundedRect(CX-120,684,240,56,16).strokeRoundedRect(CX-120,684,240,56,16).setDepth(8);
-   v.text(CX,712,'↻ 4분의 1 돌리기',22,220,'#244d3d').setDepth(9);
-   v.click(CX,712,240,56,quarter,'시곗바늘 4분의 1 돌리기').setDepth(10);
+ const cards=sockets.map(([x,y],c)=>{
+  const r=selected.find(item=>item.fieldEvidence.chapter===c);
+  if(!r)return null;
+  const card=photo(r,x,y,148,104,{caption:TOWER_REGIONS[c],captionSize:19});
+  v.pic('towerEmblem'+c,x+62,y-40,37);
+  return card;
+ });
+ if(phase==='tower-note'||phase==='plan'){
+  v.add.graphics().fillStyle(0xfffbed,.92).fillRoundedRect(922,214,320,428,22);
+  if(phase==='plan'){
+   v.pic('towerBell',1082,365,185);
+   v.click(1082,365,240,240,()=>ctx.emit('open-plan'),'관찰 약속 쓰기');
+   v.label(1082,513,'어떤 생물을 실제로\n더 살펴보고 싶어?',24,280);
+  }else{
+   v.pic('researchNotebook',1082,400,270,335);
+   handwriting(1082,348,q.title||'제목을 붙여 줘',24,208).setMaxLines(2);
+   handwriting(1082,443,q.summary||'나는 …을 관찰해서\n…을 알았어.',22,207).setMaxLines(4);
+   v.click(1082,400,280,340,()=>ctx.emit('story-info'),'연구 노트 쓰기');
   }
  }
-
- if(evidence){
-  // Detective board: my four photos on the left, claim notes on the right, red string between.
-  const spots=[[315,300],[545,300],[315,525],[545,525]];
-  const placed=selected.map((r,i)=>{const [x,y]=spots[i];photo(r,x,y,200,180,{caption:TOWER_REGIONS[r.fieldEvidence.chapter]});v.pic('towerEmblem'+r.fieldEvidence.chapter,x+82,y-72,46);target(x,y,200,180,'evid-'+r.id,TOWER_REGIONS[r.fieldEvidence.chapter]+' 사진을 증거로 놓기');
-   // Swap within the same region, so a learner can pick a record that really supports a claim.
-   const others=bank.filter(o=>o.fieldEvidence.chapter===r.fieldEvidence.chapter);
-   if(others.length>1){const next=others[(others.findIndex(o=>o.id===r.id)+1)%others.length];v.add.graphics().fillStyle(0xfffcf0,.98).lineStyle(2,0x829779).fillRoundedRect(x-75,y+90,150,44,14).strokeRoundedRect(x-75,y+90,150,44,14).setDepth(6);v.text(x,y+112,'↻ 사진 바꾸기',20,140,'#244d3d').setDepth(7);v.click(x,y+112,150,44,()=>act('book-record',{id:next.id}),TOWER_REGIONS[r.fieldEvidence.chapter]+' 사진을 '+next.title+' 기록으로 바꾸기').setDepth(8);}
-   return {r,x,y};});
-  v.label(430,690,'쪽지를 끌어 증거 사진 위에 놓아 줘',21,500);
-  TOWER_CLAIMS.forEach((claim,i)=>{
-   const y=250+i*175,linked=placed.find(p=>p.r.id===q.matches[claim.request]);
-   const text=towerClaimText(ctx.s.field,claim),note=paper(960,y,380,130);note.add(handwriting(0,4,text,34,350).setColor('#1f3d33').setMaxLines(3));
-   if(linked){
-    v.add.graphics().lineStyle(4,0xb3352c,.9).lineBetween(770,y,linked.x+100,linked.y).fillStyle(0xb3352c).fillCircle(770,y,7).fillCircle(linked.x+100,linked.y,7).setDepth(5);
-    v.text(960,y+52,'✓ 증거 연결',18,200,'#21573b');
-   }else v.draggable(note,'claim',{request:claim.request},text+' 쪽지를 증거 사진으로 옮기기');
-  });
- }
+ if(phase!=='tower-run')return;
+ const hand=v.add.graphics().setPosition(CX,CY).setDepth(9);
+ const draw=a=>{const x=Math.cos(a)*150,y=Math.sin(a)*150;hand.clear().lineStyle(16,0xffe28a,.35).lineBetween(0,0,x,y).lineStyle(8,0xd6a640).lineBetween(0,0,x,y).fillStyle(0xffd76a).fillCircle(x,y,13);};
+ draw(-Math.PI/2);
+ v.startTower=()=>{
+  v.startTower=null;
+  if(reduced){ctx.emit('tower-finished');return;}
+  const turn={arc:0};let lit=-1;
+  v.tweens.add({targets:gears,angle:120,duration:950,ease:'Cubic.easeOut'});
+  v.tweens.add({targets:turn,arc:Math.PI*2,duration:950,onUpdate:()=>{
+   draw(turn.arc-Math.PI/2);
+   const n=Math.min(3,Math.floor(turn.arc/(Math.PI/2)));
+   if(n===lit)return;
+   lit=n;ctx.emit('clock-tick');
+   if(cards[n])v.tweens.add({targets:cards[n],scale:1.16,duration:120,yoyo:true});
+  },onComplete:()=>ctx.emit('tower-finished')});
+ };
 }

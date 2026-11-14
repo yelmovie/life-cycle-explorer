@@ -10,7 +10,7 @@ const copy = value => JSON.parse(JSON.stringify(value));
 const prep = () => ({soil:false, seeds:0});
 const baseline = variable => ({water:variable !== 'water', warm:variable !== 'warm'});
 const seedRound = variable => ({variable, prepared:{a:prep(), b:prep()}, prediction:'', b:baseline(variable), run:null, day:0, photos:[], reason:'', report:{result:'',expectation:''},legacyReport:false});
-const careCase = variable => ({variable, measured:[], symptom:'', observations:[], tool:'', day:0, photos:[]});
+const careCase = variable => ({variable, measured:[], symptom:'', observations:[], tool:'', day:0, photos:[], comparison:''});
 
 // These are observation frames in a simplified bean experiment, not a promise
 // that every species germinates on a fixed day or that cold seeds are dead.
@@ -56,9 +56,11 @@ const validPrep = round => ['a','b'].every(side => round.prepared[side].soil ===
 const validSeedChange = round => round.b.water === true && round.b.warm === true;
 const seedPhotosDone = round => round.photos.includes(0) && round.photos.some(day => day >= 2 && day <= 4) && round.photos.some(day => day >= 6);
 export const seedExpectation=round=>round.run?.prediction==='unsure'?'unsure':round.run?.prediction==='b'?'same':'changed';
-export const seedReportDone=round=>round.legacyReport===true||(round.report?.result==='b'&&round.report?.expectation===seedExpectation(round));
+export const seedReportDone=round=>round.legacyReport===true||(round.variable==='warm'?round.reason==='warm':round.report?.result==='b'&&round.report?.expectation===seedExpectation(round));
 const seedDone = round => !!round.run && seedPhotosDone(round) && round.reason === round.variable && seedReportDone(round);
-const careDone = task => task.measured.includes('water') && task.measured.includes('light') && task.symptom === (task.variable === 'water' ? 'dry' : 'pale') && task.tool === task.variable && task.photos.includes(0) && task.photos.includes(2);
+const carePhotosDone = task => task.tool === task.variable && task.photos.includes(0) && task.photos.includes(2);
+const careChange = task => task.variable === 'light' ? 'green-leaves' : 'upright-leaves';
+const careDone = task => task.measured.includes('water') && task.measured.includes('light') && task.symptom === (task.variable === 'water' ? 'dry' : 'pale') && carePhotosDone(task) && [careChange(task),'legacy'].includes(task.comparison);
 const observed = chapter => FIELD_FORMS.every(form => chapter.inspected[form].length > 0);
 const drawingDone = chapter => meaningfulText(chapter.note) >= 4;
 const filmDone = chapter => FIELD_FORMS.every((form,i) => chapter.order[i] === form);
@@ -82,6 +84,12 @@ export const TOWER_CLAIMS=[
   {request:'retry',text:'씨앗이 싹트려면 물과 알맞은 온도가 필요해.',accept:['retry'],clue:'조건 하나만 바꿔 싹을 비교한 기록이어야 증거가 돼.'},
   {request:'care',text:'식물은 물이나 빛이 부족하면 겉모습으로 신호를 보내.',accept:['care'],clue:'물기와 빛을 재고 돌본 뒤 달라진 기록을 찾아봐.'},
 ];
+export const TOWER_EVIDENCE_TASKS=[
+  {request:'observation',chapter:0,question:'어느 사진에서 동물의 몸을 확대해 자세히 살펴봤을까?'},
+  {request:'retry',chapter:1,question:'어느 사진이 한 조건을 바꾸고 싹의 차이를 살펴본 기록일까?'},
+  {request:'care',chapter:2,question:'어느 사진이 식물을 돌보기 전과 뒤를 비교한 기록일까?'},
+  {request:'season',chapter:3,question:'어느 사진이 이름표로 겨울과 다음 봄을 비교한 기록일까?'},
+];
 // Each note names what the pinned record actually shows: the close-up's form, or the one condition an experiment changed.
 export function towerClaimText(field,claim){
   const bank=fieldRecords(field),record=field.chapters[4].records.map(id=>bank.find(r=>r.id===id)).find(r=>r&&claim.accept.includes(r.fieldEvidence.type));
@@ -102,7 +110,7 @@ export function fieldBookReady(field) { return slotsDone(field) && noteDone(fiel
 const claimFits = (request,record,book) => !!record && (!!TOWER_CLAIMS.find(claim => claim.request === request)?.accept.includes(record.fieldEvidence.type) || request === 'observation' && record.fieldEvidence.type === 'comparison' && book?.legacyEvidence === record.id);
 export function towerStep(field) {
   const book = field.chapters[4];
-  return !slotsDone(field) ? 'tower-slots' : !matchesDone(field) ? 'tower-evidence' : !noteDone(book) ? 'tower-note' : !book.towerRun ? 'tower-run' : !planDone(book) ? 'plan' : 'ready';
+  return !slotsDone(field) || !matchesDone(field) ? 'tower-evidence' : !noteDone(book) ? 'tower-note' : !planDone(book) ? 'plan' : !book.towerRun ? 'tower-run' : 'ready';
 }
 
 const matchesDone = field => {const book=field.chapters[4],bank=fieldRecords(field);return TOWER_CLAIMS.every(({request}) => book.records.includes(book.matches[request]) && claimFits(request,bank.find(record => record.id === book.matches[request]),book));};
@@ -129,7 +137,7 @@ export function fieldPhase(field, chapter=field.active) {
   }
   if (chapter === 2) {
     const task = data.cases[data.case];
-    return task.measured.length < 2 ? 'measure' : !task.symptom ? 'pin' : !task.photos.includes(0) ? 'before-photo' : !task.tool ? 'tool' : !careDone(task) ? 'recover' : data.case === 0 ? 'case-done' : 'ready';
+    return task.measured.length < 2 ? 'measure' : !task.symptom ? 'pin' : !task.tool ? 'tool' : !task.photos.includes(2) ? 'recover' : !task.comparison ? 'care-compare' : data.case === 0 ? 'case-done' : 'ready';
   }
   if (chapter === 3) return !animalDone(data) ? 'animals' : data.tags.length < 2 ? 'tag' : !plantsSeen(data) ? 'seasons' : !classificationsDone(data) ? 'classify' : !transfersDone(data) ? 'transfer' : 'ready';
   return towerStep(field);
@@ -146,11 +154,12 @@ export function fieldRecords(field) {
   for (const round of seeds.rounds) {
     if (!seedDone(round)) continue;
     const name = round.variable === 'water' ? '물' : '온도';
-    records.push({id:`field-seed-${round.variable}`,art:'pot3',title:`${name} 조건 비교 실험`,kind:'plant',detail:`A는 그대로 두고 B의 ${name} 조건 하나만 바꿨어. 0일·중간·마지막 모습을 비교했어. ${round.legacyReport?'이전 기록에는 예상-결과 비교 응답이 없어.':'마지막 사진: B에서만 싹이 났어. 처음 예상과 '+({same:'같았어.',changed:'달라서 생각을 바꿨어.',unsure:'비교해 새롭게 알았어.'}[round.report?.expectation]||'비교했어.')} `,fieldEvidence:{chapter:1,type:'retry',variable:round.variable,prediction:round.run.prediction,conditions:copy(round.run),photos:[...round.photos],reason:round.reason,report:copy(round.report),legacyReport:round.legacyReport}});
+    const reflection={same:'처음 예상과 같았어.',changed:'처음 예상과 달라서 생각을 바꿨어.',unsure:'처음엔 몰랐지만 사진을 보고 새롭게 알았어.'}[round.report?.expectation];
+    records.push({id:`field-seed-${round.variable}`,art:'pot3',title:`${name} 조건 비교 실험`,kind:'plant',detail:`A는 그대로 두고 B의 ${name} 조건 하나만 바꿨어. 0일·중간·마지막 모습을 비교했어. 마지막 사진에서 B에만 싹이 났어.${reflection?' '+reflection:round.variable==='warm'?' 물의 양은 같았고 온도만 달랐어.':''}`,fieldEvidence:{chapter:1,type:'retry',variable:round.variable,prediction:round.run.prediction,conditions:copy(round.run),photos:[...round.photos],reason:round.reason,report:copy(round.report),legacyReport:round.legacyReport}});
   }
   for (const task of care.cases) {
     if (!careDone(task)) continue;
-    records.push({id:`field-care-${task.variable}`,art:task.variable==='light'?'pale':'pot3',title:task.variable === 'water' ? '시든 화분 돌봄 기록' : '빛이 부족한 화분 돌봄 기록',kind:'plant',detail:`물기와 빛을 재고 ${task.variable === 'water' ? '물' : '빛'} 조건을 돌본 뒤, 돌보기 전과 ${task.variable==='light'?'새잎이 자란 뒤':'이틀 뒤'}를 비교했어.`,fieldEvidence:{chapter:2,type:'care',variable:task.variable,measured:[...task.measured],symptom:task.symptom,observations:copy(task.observations||[]),tool:task.tool,photos:[...task.photos]}});
+    records.push({id:`field-care-${task.variable}`,art:task.variable==='light'?'pale':'pot3',title:task.variable === 'water' ? '시든 화분 돌봄 기록' : '빛이 부족한 화분 돌봄 기록',kind:'plant',detail:`물기와 빛을 재고 ${task.variable === 'water' ? '물' : '빛'} 조건을 돌본 뒤, 돌보기 전과 ${task.variable==='light'?'새잎이 자란 뒤':'이틀 뒤'}를 비교했어.${task.comparison==='green-leaves'?' 길어진 줄기는 그대로였고 새잎이 초록빛으로 자랐어.':task.comparison==='upright-leaves'?' 축 처졌던 잎이 다시 섰어.':''}`,fieldEvidence:{chapter:2,type:'care',variable:task.variable,measured:[...task.measured],symptom:task.symptom,observations:copy(task.observations||[]),tool:task.tool,photos:[...task.photos]}});
   }
   for (const animal of ['butterfly','dog']) {
     const last = animal === 'butterfly' ? 3 : 2, data = comparison.animals[animal];
@@ -340,14 +349,24 @@ function careAction(data,type,p,done,fail) {
     task.photos = unique([...task.photos,task.day]).sort((a,b) => a-b); return done(`${careTimeLabels(task)[task.day]} 사진을 남겼어.`);
   }
   if (type === 'care-tool') {
-    if (task.measured.length < 2 || !task.symptom || !task.photos.includes(0)) return fail('물·빛을 잰 결과와 식물 모습을 확인하고, 돌보기 전 사진을 남겨 줘.');
+    if (task.measured.length < 2 || !task.symptom) return fail('물·빛을 잰 결과와 식물 모습을 먼저 확인해 줘.');
     if (p.tool !== task.variable) return fail(task.variable === 'water' ? '빛은 충분하지만 흙의 물기가 부족해. 이 결과를 도울 도구를 찾아보자.' : '흙의 물기는 충분하지만 빛이 부족해. 빛을 받을 방법을 찾아보자.');
-    task.tool = p.tool; return done('기록에 맞는 돌봄을 했어. 시간이 흐른 뒤 다시 관찰하자.');
+    task.photos=unique([0,...task.photos]);
+    task.tool = p.tool; return done('돌봄 전 모습이 남았어. 시간이 흐른 뒤 다시 관찰하자.');
   }
   if (type === 'care-day') {
     if (!task.tool || !task.photos.includes(0)) return fail('돌보기 전 사진을 남기고 알맞은 돌봄을 먼저 해 줘.');
     if (!numberIn(p.day,0,2)) return fail('돌보기 전부터 나중 모습까지 차례로 살펴보자.');
-    task.day = p.day; return done(`${careTimeLabels(task)[p.day]} 모습을 살펴보자. 실제 회복은 식물과 환경에 따라 달라.`);
+    task.day = p.day;
+    if (p.day===2) task.photos=unique([...task.photos,2]).sort((a,b)=>a-b);
+    return done(`${careTimeLabels(task)[p.day]} 모습을 살펴보자. 실제 회복은 식물과 환경에 따라 달라.`);
+  }
+  if (type === 'care-compare') {
+    if (!carePhotosDone(task)) return fail('시간을 옮겨 돌본 뒤의 모습을 먼저 살펴봐.');
+    if (p.change !== careChange(task)) return fail(task.variable==='light'?'길어진 줄기와 새잎을 전후 사진에서 각각 비교해 봐.':'기록에서 돌보기 전과 이틀 뒤에 잎이 어느 방향을 향하는지 살펴봐.');
+    task.comparison=p.change;
+    if(data.case===0)data.case=1;
+    return done(task.variable==='light'?'줄기는 그대로였고 새잎이 더 초록빛으로 자랐어.':'처졌던 잎이 다시 섰어. 이번에는 흙이 촉촉한 다른 화분을 살펴보자.');
   }
   return fail('화분을 돌보는 활동을 다시 골라 줘.');
 }
@@ -412,10 +431,14 @@ function comparisonAction(data,type,p,done,fail) {
 
 function bookAction(field,data,type,p,done,fail) {
   const bank = fieldRecords(field);
-  if (type === 'book-record') {
+  if (type === 'book-record' || type === 'book-evidence') {
     const record = bank.find(item => item.id === p.id);
     if (!record) return fail('직접 탐사해서 만든 기록만 시계탑에 끼울 수 있어.');
     const chapter = record.fieldEvidence.chapter;
+    const task=type==='book-evidence'?TOWER_EVIDENCE_TASKS.find(item=>item.request===p.request):null;
+    if(type==='book-evidence'&&(!task||task.chapter!==chapter||(task.request==='season'?record.fieldEvidence.type!=='season':!claimFits(task.request,record,data)))){
+      return fail(TOWER_CLAIMS.find(claim=>claim.request===p.request)?.clue||'겨울과 다음 봄의 이름표를 비교한 식물 사진을 찾아봐.');
+    }
     if (p.slot !== undefined && p.slot !== chapter) return fail(`이 사진은 ${TOWER_REGIONS[chapter]}에서 모은 기록이야. 같은 지역 칸을 찾아봐.`);
     // One record per region: a new pick replaces that socket's old record.
     data.records = data.records.filter(id => bank.find(item => item.id === id)?.fieldEvidence.chapter !== chapter);
@@ -423,6 +446,11 @@ function bookAction(field,data,type,p,done,fail) {
     data.records.sort((a,b) => bank.find(item => item.id === a).fieldEvidence.chapter - bank.find(item => item.id === b).fieldEvidence.chapter);
     for (const key of Object.keys(data.matches)) if (!data.records.includes(data.matches[key])) delete data.matches[key];
     if (!data.records.includes(data.legacyEvidence)) delete data.legacyEvidence;
+    if(task&&task.request!=='season'){
+      data.matches[task.request]=record.id;
+      if(task.request==='observation')delete data.legacyEvidence;
+    }
+    if(task)return done('근거를 찾았어. 시계탑에 네 사진이 이어졌어!');
     return done(`${TOWER_REGIONS[chapter]} 칸에 기록을 끼웠어. 톱니가 맞물렸어!`);
   }
   if (type === 'book-move') {
@@ -445,11 +473,11 @@ function bookAction(field,data,type,p,done,fail) {
     data.matches[p.request]=record.id;if(p.request==='observation')delete data.legacyEvidence;return done('주장과 증거를 실로 이었어!');
   }
   if (type === 'tower-run') {
-    if (!slotsDone(field) || !matchesDone(field) || !noteDone(data)) return fail('기록 끼우기, 증거 잇기, 연구 노트를 먼저 마쳐 줘.');
+    if (!slotsDone(field) || !matchesDone(field) || !noteDone(data) || !planDone(data)) return fail('증거와 연구 노트를 모으고 실제 관찰 약속을 먼저 남겨 줘.');
     data.towerRun = true; return done('생명 시계탑이 다시 움직여! 네 기록이 차례로 빛났어.');
   }
   if (type === 'observation-plan') {
-    if (!data.towerRun) return fail('시곗바늘을 돌려 시계탑을 먼저 깨워 줘.');
+    if (!slotsDone(field)||!matchesDone(field)||!noteDone(data)) return fail('증거와 연구 노트를 먼저 모아 줘.');
     const plan=Object.fromEntries(['subject','when','what'].map(key => [key,textValue(typeof p[key] === 'string' ? p[key] : data.plan[key],PLAN_LIMITS[key])]));
     if (meaningfulText(plan.subject) < 2 || meaningfulText(plan.when) < 2 || meaningfulText(plan.what) < 4) return fail('관찰할 생물과 언제 볼지 각각 두 글자 이상, 무엇을 기록할지 네 글자 이상으로 세 칸을 모두 써 줘.');
     data.plan=plan;if(data.drafts)data.drafts.plan={};
@@ -516,6 +544,10 @@ export function restoreField(raw) {
     task.photos=[0];
     if (source.tool !== task.variable) return;
     task.tool=source.tool;task.photos=photos;task.day=numberIn(source.day,0,2) ? source.day : 0;
+    if(carePhotosDone(task)){
+      if(source.comparison===careChange(task))task.comparison=source.comparison;
+      else if(!Object.hasOwn(source,'comparison')||source.comparison==='legacy')task.comparison='legacy';
+    }
   });
   care.case=c2.case === 1 && careDone(care.cases[0]) ? 1 : 0;
 
@@ -561,7 +593,7 @@ export function restoreField(raw) {
   const legacy=c4.towerRun===undefined&&['observation','retry','care'].every(request => bank.some(record => record.id === object(c4.matches)[request]));
   if (legacy) for (const c of [0,1,2,3]) if (!book.records.some(id => bank.find(record => record.id === id).fieldEvidence.chapter === c)) {const record=bank.find(item => item.fieldEvidence.chapter === c);if(record)book.records.push(record.id);}
   book.records.sort((a,b) => bank.find(record => record.id === a).fieldEvidence.chapter - bank.find(record => record.id === b).fieldEvidence.chapter);
-  if (slotsDone(field)) {
+  {
     for (const {request} of TOWER_CLAIMS) {
       const id=legacy?bank.find(record => book.records.includes(record.id) && claimFits(request,record))?.id:object(c4.matches)[request];
       if (book.records.includes(id) && claimFits(request,bank.find(record => record.id === id))) book.matches[request]=id;
@@ -571,7 +603,7 @@ export function restoreField(raw) {
     if (!book.matches.observation && (c4.towerRun===true || legacy) && book.records.includes(oldGrowth) && bank.find(record => record.id === oldGrowth)?.fieldEvidence.type === 'comparison') {book.legacyEvidence=oldGrowth;book.matches.observation=oldGrowth;}
   }
   book.towerRun=matchesDone(field)&&noteDone(book)&&(c4.towerRun===true||legacy);
-  if (book.towerRun) for (const key of ['subject','when','what']) book.plan[key]=textValue(object(c4.plan)[key],PLAN_LIMITS[key]);
+  if (matchesDone(field)&&noteDone(book)) for (const key of ['subject','when','what']) book.plan[key]=textValue(object(c4.plan)[key],PLAN_LIMITS[key]);
 
   // Completed flags alone are not evidence. Keep only a contiguous, supported path.
   const claimed=integerList(parsed.completed,0,4);

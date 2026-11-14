@@ -32,9 +32,9 @@ function finishCare(field) {
   for (const variable of ['water','light']) {
     for (const sensor of ['water','light']) act(field,'care-measure',{sensor});
     act(field,'care-pin',{symptom:variable === 'water' ? 'dry' : 'pale'});
-    act(field,'care-photo');act(field,'care-tool',{tool:variable});
-    act(field,'care-day',{day:2});act(field,'care-photo');
-    if (variable === 'water') act(field,'care-next');
+    act(field,'care-tool',{tool:variable});
+    act(field,'care-day',{day:2});
+    act(field,'care-compare',{change:variable==='water'?'upright-leaves':'green-leaves'});
   }
 }
 function finishComparison(field) {
@@ -114,17 +114,24 @@ test('predictions may differ from outcomes without preventing completion',() => 
   assert.equal(fieldRecords(field).filter(record => record.fieldEvidence.type === 'retry').length,2);
 });
 
-test('care wrong tool keeps measured evidence and requires before and final photographs for both plants',() => {
+test('care preserves measured evidence and requires an observed change before advancing',() => {
   const field=completedThrough(1);act(field,'chapter-enter',{chapter:2});
   assert.equal(fieldAction(field,'care-tool',{tool:'water'}).ok,false);
   for (const sensor of ['water','light']) act(field,'care-measure',{sensor});
-  act(field,'care-pin',{symptom:'dry'});assert.equal(fieldAction(field,'care-tool',{tool:'water'}).ok,false);
-  act(field,'care-photo');assert.equal(fieldAction(field,'care-tool',{tool:'light'}).ok,false);
+  act(field,'care-pin',{symptom:'dry'});
+  const task=field.chapters[2].cases[0];
+  assert.equal(fieldAction(field,'care-tool',{tool:'light'}).ok,false);
+  assert.deepEqual(task.photos,[]);
   assert.deepEqual(field.chapters[2].cases[0].measured,['water','light']);
   assert.equal(field.chapters[2].cases[0].symptom,'dry');
-  act(field,'care-tool',{tool:'water'});act(field,'care-day',{day:2});
-  assert.equal(fieldAction(field,'care-next').ok,false);
-  act(field,'care-photo');act(field,'care-next');assert.equal(fieldReady(field),false);
+  act(field,'care-tool',{tool:'water'});assert.deepEqual(task.photos,[0]);
+  assert.equal(fieldAction(field,'care-compare',{change:'upright-leaves'}).ok,false);
+  act(field,'care-day',{day:2});assert.deepEqual(task.photos,[0,2]);
+  assert.equal(roomPhase(restoreField(field)),'care-compare');
+  assert.equal(fieldAction(field,'care-compare',{change:'green-leaves'}).ok,false);
+  assert.equal(field.chapters[2].case,0);
+  act(field,'care-compare',{change:'upright-leaves'});
+  assert.equal(restoreField(field).chapters[2].case,1);assert.equal(fieldReady(field),false);
 });
 
 test('animal clocks are independent and next generation is not the same individual',() => {
@@ -152,12 +159,13 @@ test('final book uses real records, both life kinds, reasoning and three evidenc
   assert.equal(fieldBookReady(field),true);
   assert.equal(fieldAction(field,'help-match',{request:'care',recordId:'field-observation-larva'}).ok,false);
   for (const [request,recordId] of [['observation','field-observation-larva'],['retry','field-seed-water'],['care','field-care-water']]) act(field,'help-match',{request,recordId});
-  act(field,'tower-run');
+  assert.equal(fieldAction(field,'tower-run').ok,false);
   assert.equal(fieldAction(field,'chapter-complete').ok,false);
   assert.equal(fieldAction(field,'observation-plan',{subject:'',when:'',what:''}).ok,false);
   assert.deepEqual(field.chapters[4].plan,{subject:'',when:'',what:''});
   act(field,'observation-plan',{subject:'학교 화단 봉선화',when:'매주 월요일',what:'잎과 줄기의 모습을 그림과 글로 남기기'});
-  assert.equal(fieldReady(field),true);act(field,'chapter-complete');
+  assert.equal(roomPhase(restoreField(field)),'tower-run');
+  act(field,'tower-run');assert.equal(fieldReady(field),true);act(field,'chapter-complete');
   assert.equal(fieldCompletedCount(field),5);
   const restored=restoreField(JSON.stringify(field));
   assert.equal(fieldCompletedCount(restored),5);assert.equal(fieldRecords(restored).length,12);
@@ -208,8 +216,7 @@ test('teacher preview unlocks entry while requiring genuine work and is discarde
 test('chapter restart clears only the active challenge and preserves earned records, rewards and published book',() => {
   const field=completedThrough(3);composeBook(field);
   for (const [request,recordId] of [['observation','field-observation-larva'],['retry','field-seed-water'],['care','field-care-water']]) act(field,'help-match',{request,recordId});
-  act(field,'tower-run');
-  act(field,'observation-plan',{subject:'학교 봉선화',when:'매주 월요일',what:'잎과 줄기를 그림으로 남기기'});act(field,'chapter-complete');
+  act(field,'observation-plan',{subject:'학교 봉선화',when:'매주 월요일',what:'잎과 줄기를 그림으로 남기기'});act(field,'tower-run');act(field,'chapter-complete');
   const records=fieldRecords(field),book=structuredClone(field.chapters[4]);
   for (const chapter of [0,1,2,3,4]) {
     act(field,'chapter-restart',{chapter});
@@ -298,7 +305,7 @@ test('tower claims accept only records that show the claimed change',() => {
   assert.equal(fieldAction(field,'help-match',{request:'retry',recordId:'field-care-water'}).ok,false);
   act(field,'help-match',{request:'retry',recordId:'field-seed-water'});
   act(field,'help-match',{request:'care',recordId:'field-care-water'});
-  act(field,'tower-run');
+  assert.equal(roomPhase(field),'plan');
 });
 
 test('one-condition evidence narrows the claim to the condition that was compared',() => {
@@ -315,7 +322,7 @@ test('one-condition evidence narrows the claim to the condition that was compare
 test('a finished tower that linked the life cycle to the old growth note keeps its completion after restore',() => {
   const field=completedThrough(3);composeBook(field);
   for (const [request,recordId] of [['observation','field-observation-larva'],['retry','field-seed-water'],['care','field-care-water']]) act(field,'help-match',{request,recordId});
-  act(field,'tower-run');act(field,'observation-plan',{subject:'학교 봉선화',when:'매주 월요일',what:'잎과 줄기를 사진으로 남기기'});act(field,'chapter-complete');
+  act(field,'observation-plan',{subject:'학교 봉선화',when:'매주 월요일',what:'잎과 줄기를 사진으로 남기기'});act(field,'tower-run');act(field,'chapter-complete');
   // Saved by the earlier version, where this note claimed growth and took the life-cycle record.
   const old=JSON.parse(JSON.stringify(field));for (const book of [old.chapters[4],old.snapshots[4]]) {book.records[3]='field-animal-butterfly';book.matches.observation='field-animal-butterfly';}
   const restored=restoreField(JSON.stringify(old));
@@ -341,4 +348,29 @@ test('the last time-dial frame stays until the learner finishes observing, and n
   releaseObservation(field);assert.equal(roomPhase(field),'reason');
   // Other actions never hold the screen.
   holdObservation(field,'reason','seed-report');assert.equal(roomPhase(field),'reason');
+});
+
+test('tower evidence selection fills only the matching socket and resumes midway through the same board',()=>{
+ let f=completedThrough(3);act(f,'chapter-enter',{chapter:4});
+ assert.equal(fieldAction(f,'book-evidence',{request:'retry',id:'field-care-water'}).ok,false);
+ assert.deepEqual(f.chapters[4].records,[]);
+ act(f,'book-evidence',{request:'observation',id:'field-observation-larva'});
+ f=restoreField(f);assert.equal(f.chapters[4].matches.observation,'field-observation-larva');
+ act(f,'book-evidence',{request:'retry',id:'field-seed-warm'});
+ act(f,'book-evidence',{request:'care',id:'field-care-light'});
+ assert.equal(fieldAction(f,'book-evidence',{request:'season',id:'field-animal-dog'}).ok,false);
+ act(f,'book-evidence',{request:'season',id:'field-season-apple'});
+ assert.equal(roomPhase(restoreField(f)),'tower-note');
+});
+
+test('temperature investigation requires its own causal answer, without repeating the water report',()=>{
+ const f=completedThrough(0);act(f,'chapter-enter',{chapter:1});
+ for (const side of ['a','b']) act(f,'seed-prepare',{side,soil:true,seeds:3});
+ act(f,'seed-condition',{key:'water'});act(f,'seed-predict',{choice:'b'});act(f,'seed-run');act(f,'seed-day',{day:7});
+ act(f,'seed-report',{reason:'water',result:'b',expectation:'same'});act(f,'seed-next');
+ act(f,'seed-condition',{key:'warm'});act(f,'seed-predict',{choice:'both'});act(f,'seed-run');act(f,'seed-day',{day:7});
+ assert.equal(fieldAction(f,'seed-report',{reason:'water'}).ok,false);
+ act(f,'seed-report',{reason:'warm'});
+ assert.equal(fieldReady(restoreField(f)),true);
+ assert.equal(f.chapters[1].rounds[1].report.expectation,'');
 });

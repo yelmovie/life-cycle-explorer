@@ -42,9 +42,9 @@ test('light care uses observation stages rather than an unsupported universal tw
  for(const variable of ['water','light']){
   const task=f.chapters[2].cases[f.chapters[2].case];
   for(const sensor of ['water','light'])act(f,'care-measure',{sensor});
-  act(f,'care-pin',{symptom:variable==='water'?'dry':'pale'});act(f,'care-photo');
-  act(f,'care-tool',{tool:variable});act(f,'care-day',{day:2});act(f,'care-photo');
-  if(variable==='water')act(f,'care-next');else{
+  act(f,'care-pin',{symptom:variable==='water'?'dry':'pale'});
+  act(f,'care-tool',{tool:variable});act(f,'care-day',{day:2});act(f,'care-compare',{change:variable==='water'?'upright-leaves':'green-leaves'});
+  if(variable==='light'){
    assert.deepEqual(careTimeLabels(task),['돌봄 전','며칠 뒤','새잎이 자란 뒤']);
    const record=fieldRecords(f).find(r=>r.id==='field-care-light');assert.ok(record);assert.match(record.detail,/새잎이 자란 뒤/);assert.doesNotMatch(record.detail,/이틀/);
   }

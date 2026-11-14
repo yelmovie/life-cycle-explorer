@@ -64,9 +64,20 @@ export function renderFieldRoom(v,ctx){
  if(c===3){
   if(phase==='animals'||phase==='animal-birth'){
    // Centres of the two easel boards painted in the garden background.
-   const BX=[452,825],a=q.animals;v.pic(['egg','larva','pupa','adult'][phase==='animal-birth'?3:a.butterfly.step],BX[0],345,phase==='animal-birth'?200:a.butterfly.step===0?160:230);v.pic(['puppy','dogYoung','dog'][a.dog.step],BX[1],345,250,230);v.label(BX[0],205,'나비의 시간',26,300);v.label(BX[1],205,'개의 시간',26,300);
+   const BX=[452,825],a=q.animals,reused=phase==='animals'&&[0,3].every(n=>a.butterfly.photos.includes(n));
+   v.label(BX[0],205,reused?'나비의 숲에서 본 나비':'나비의 시간',25,345);v.label(BX[1],205,'개의 시간',26,300);
+   if(reused){
+    for(const [i,id] of ['egg','larva','pupa','adult'].entries()){
+     const x=305+(i%2)*286,y=295+Math.floor(i/2)*156;
+     v.pic(id,x,y,id==='egg'?52:120,105);
+     v.text(x,y+62,FORM_NAMES[id],19,124);
+    }
+    v.label(BX[0],600,'내가 관찰한 한살이',21,300);
+   }else v.pic(['egg','larva','pupa','adult'][phase==='animal-birth'?3:a.butterfly.step],BX[0],345,phase==='animal-birth'?200:a.butterfly.step===0?160:230);
+   v.pic(['puppy','dogYoung','dog'][a.dog.step],BX[1],345,250,230);
    if(phase==='animals'){
-    v.dial('timeWheel',BX[0],598,a.butterfly.step,3,'animal-dial-butterfly',['알','애벌레','번데기','어른벌레'],168);v.dial('timeWheel',BX[1],598,a.dog.step,2,'animal-dial-dog',['갓 태어난 강아지','어린 개','다 자란 개'],168);
+    if(!reused)v.dial('timeWheel',BX[0],598,a.butterfly.step,3,'animal-dial-butterfly',['알','애벌레','번데기','어른벌레'],168);
+    v.dial('timeWheel',BX[1],598,a.dog.step,2,'animal-dial-dog',['갓 태어난 강아지','어린 개','다 자란 개'],168);
    }else{v.pic('egg',BX[0],590,60);v.pic('puppy',BX[1],590,130);target(630,465,220,95,'birth-different','부모와 다른 생명');v.label(630,465,'부모와 다른 생명',24,250);target(630,590,220,85,'birth-same','부모와 같은 몸');v.label(630,590,'부모와 같은 몸',24,230);token('다음 세대',638,290,'birth',{},170);}
    return;
   }

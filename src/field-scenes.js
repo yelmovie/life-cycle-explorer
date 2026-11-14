@@ -174,7 +174,7 @@ export function createFieldGame(context){
    if(missing.length){this.loading=true;this.input.enabled=false;context.focusTargets([]);context.emit('assets-loading');this.load.once('complete',()=>{this.loading=false;this.refresh();});for(const key of missing)key==='walker'?this.load.spritesheet(key,this.paths[key],{frameWidth:256,frameHeight:256}):this.load.image(key,this.paths[key]);this.load.start();return;}
    this.clearMapInput?.();this.clearMapInput=null;
    if(mode!=='map')this.priorMapView=null;
-   this.renderToken++;this.walking=false;this.guidedWalk=false;this.autoPlay=null;this.focusTargets=[];context.noteBox?.(null);this.tweens.killAll();this.time.removeAllEvents();this.input.removeAllListeners();this.input.keyboard?.removeAllListeners();
+   this.renderToken++;this.walking=false;this.guidedWalk=false;this.autoPlay=null;this.startTower=null;this.focusTargets=[];context.noteBox?.(null);this.tweens.killAll();this.time.removeAllEvents();this.input.removeAllListeners();this.input.keyboard?.removeAllListeners();
    this.children.removeAll(true);for(const key of this.recordTextures||[])if(this.textures.exists(key))this.textures.remove(key);this.recordTextures=[];
    for(const mask of this.worldMasks||[])mask.destroy();this.worldMasks=[];
    if(this.lensMask){this.lensMask.destroy();this.lensMask=null;}
