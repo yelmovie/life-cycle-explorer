@@ -14,14 +14,22 @@ async function report(state,extra={}){
  for(const client of clients)client.postMessage({type:'life-clock-cache',state,...extra});
 }
 async function digest(data){return [...new Uint8Array(await crypto.subtle.digest('SHA-256',data))].map(n=>n.toString(16).padStart(2,'0')).join('');}
-self.addEventListener('install',event=>event.waitUntil((async()=>{
+self.addEventListener('install',event=>event.waitUntil(installRelease()));
+async function installRelease(){
  const cache=await caches.open(NAME);let cursor=0,done=0;
  try{
+  const registry=await caches.open(registryName);
+  const oldName=await (await registry.match(current))?.text();
+  const previous=oldName&&oldName!==NAME&&await caches.has(oldName)?await caches.open(oldName):null;
   const results=await Promise.allSettled(Array.from({length:3},async()=>{
    while(cursor<FILES.length){
     const file=FILES[cursor++],url=new URL(file.path,base).href;
-    let response=await fetch(url,{cache:'no-cache'});
-    if(!response.ok||await digest(await response.clone().arrayBuffer())!==file.sha256)throw new Error('Release file unavailable');
+    let response=await previous?.match(url,{ignoreVary:true});
+    // Reuse unchanged, verified bytes so returning learners only download what changed.
+    if(!response?.ok||await digest(await response.clone().arrayBuffer())!==file.sha256){
+     response=await fetch(url,{cache:'no-cache'});
+     if(!response.ok||await digest(await response.clone().arrayBuffer())!==file.sha256)throw new Error('Release file unavailable');
+    }
     // Hosts such as Cloudflare Pages redirect index.html to ./; a redirected response cannot answer a page navigation.
     if(response.redirected){const headers=new Headers(response.headers);headers.delete('content-encoding');headers.delete('content-length');response=new Response(await response.blob(),{status:200,headers});}
     await cache.put(url,response);done++;await report('progress',{percent:Math.round(done/FILES.length*100)});
@@ -32,7 +40,10 @@ self.addEventListener('install',event=>event.waitUntil((async()=>{
  }catch(error){await caches.delete(NAME);await report('failed');throw error;}
  // Every file has been verified. Open pages keep their own snapshot after activation.
  await self.skipWaiting();
-})()));
+}
+function readyFor(client,name){
+ client?.postMessage({type:'life-clock-cache',state:'ready',updateAvailable:!!name&&name!==NAME});
+}
 self.addEventListener('activate',event=>event.waitUntil((async()=>{
  const registry=await caches.open(registryName);
  const names=(await caches.keys()).filter(key=>key.startsWith(PREFIX));
@@ -42,6 +53,7 @@ self.addEventListener('activate',event=>event.waitUntil((async()=>{
   for(const name of names)if(name!==NAME&&await(await caches.open(name)).match(marker)){previous=name;break;}
  }
  const keep=new Set([NAME]);
+ const pins=new Map();
  const windows=await self.clients.matchAll({type:'window',includeUncontrolled:true});
  const liveIds=new Set(windows.map(client=>pinKey(client.id)));
  for(const key of await registry.keys())if(key.url!==current&&!liveIds.has(key.url))await registry.delete(key);
@@ -49,15 +61,19 @@ self.addEventListener('activate',event=>event.waitUntil((async()=>{
   const key=pinKey(client.id);
   let name=await (await registry.match(key))?.text();
   if(!names.includes(name))name=names.includes(previous)?previous:NAME;
-  keep.add(name);await registry.put(key,new Response(name));
+  keep.add(name);pins.set(client,name);await registry.put(key,new Response(name));
  }
  await registry.put(current,new Response(NAME));
  for(const key of names)if(!keep.has(key))await caches.delete(key);
  if(!previous)await self.clients.claim();
+ for(const [client,name] of pins)readyFor(client,name);
 })()));
 self.addEventListener('message',event=>{
  if(event.data?.type==='CACHE_STATUS')event.waitUntil((async()=>{
-  const cache=await caches.open(NAME);if(await cache.match(marker))event.source?.postMessage({type:'life-clock-cache',state:'ready'});
+  const client=event.source;
+  if(!client?.id||!await (await caches.open(NAME)).match(marker))return;
+  const registry=await caches.open(registryName);
+  readyFor(client,await (await registry.match(pinKey(client.id)))?.text());
  })());
 });
 async function fromCache(request,url,name=NAME){
@@ -77,13 +93,13 @@ self.addEventListener('fetch',event=>{
  const url=new URL(request.url);if(url.origin!==base.origin)return;
  if(request.mode==='navigate'&&(url.pathname===base.pathname||url.pathname===base.pathname+'index.html')){
   event.respondWith((async()=>{
+   const cache=await caches.open(NAME);
+   const page=await cache.match(new URL('index.html',base).href,{ignoreVary:true});
+   if(!page)return fetch(request);
    if(event.resultingClientId){
     const registry=await caches.open(registryName);
     await registry.put(pinKey(event.resultingClientId),new Response(NAME));
    }
-   const cache=await caches.open(NAME);
-   const page=await cache.match(new URL('index.html',base).href,{ignoreVary:true});
-   if(!page)return fetch(request);
    const headers=new Headers(page.headers);
    headers.delete('content-encoding');headers.delete('content-length');
    return new Response(page.body,{headers});

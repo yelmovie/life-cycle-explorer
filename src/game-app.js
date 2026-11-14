@@ -159,6 +159,8 @@ function queueOffline(){
  offlineQueued=true;
  setTimeout(()=>void import('./game-network.js').then(({prepareOffline})=>prepareOffline()).catch(()=>{}),3000);
 }
+// Returning browsers can check for an update on the title screen as well.
+if(navigator.serviceWorker?.controller)queueOffline();
 function loadFieldEngine(){
  if(engineLoad)return engineLoad;
  const engine=globalThis.Phaser?Promise.resolve():new Promise((resolve,reject)=>{

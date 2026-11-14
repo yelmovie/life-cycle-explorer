@@ -1,33 +1,38 @@
 // Only release builds contain offline-config.json. Local source editing stays uncached.
 export async function prepareOffline(){
  const panel=document.getElementById('connection-status'),label=panel.querySelector('span'),retry=panel.querySelector('button');
- let registration=null,ready=false,percent=0,problem=false,update=false,hideTimer=null,enabled=false;
+ let registration=null,ready=false,percent=0,problem=false,updateReady=false,hideTimer=null,enabled=false;
  const show=()=>{
   clearTimeout(hideTimer);panel.hidden=!enabled&&navigator.onLine;if(panel.hidden)return;panel.dataset.offline=String(!navigator.onLine);
-  retry.hidden=!problem||!navigator.onLine;
+  retry.hidden=!(problem||updateReady)||!navigator.onLine;
+  retry.textContent=updateReady?'새 버전 열기':'준비 다시 하기';
   label.textContent=!navigator.onLine?(ready?'인터넷이 잠시 끊겼어. 탐험과 기록은 계속할 수 있어.':'인터넷이 잠시 끊겼어. 연결되면 필요한 그림을 다시 불러올게.'):
-   update?'새 버전을 확인하고 있어. 준비되면 다음에 다시 열 때 적용돼.':
+   updateReady?'새 버전이 준비됐어. 탐구 기록은 그대로 남아 있어.':
    ready?'연결 없이도 탐험할 준비가 됐어.':
    problem?'오프라인 준비를 마치지 못했어. 연결된 동안 탐험을 계속할 수 있어.':
    '연결이 끊겨도 탐험할 수 있게 준비 중… '+percent+'%';
   // A failed cache only matters offline; online it would sit over the bottom controls, and 'online' retries anyway.
-  if(ready&&!update||problem&&navigator.onLine)hideTimer=setTimeout(()=>{panel.hidden=true;},ready?5000:8000);
+  if(!updateReady&&(ready||problem&&navigator.onLine))hideTimer=setTimeout(()=>{panel.hidden=true;},ready?5000:8000);
  };
- window.addEventListener('offline',show);window.addEventListener('online',()=>{show();if(problem)void register();});
+ const inspect=()=>registration?.active?.postMessage({type:'CACHE_STATUS'});
+ const checkUpdate=()=>{
+  if(!registration||!navigator.onLine)return;
+  inspect();
+  if(!registration.installing&&!registration.waiting)void registration.update().catch(()=>{});
+ };
+ window.addEventListener('offline',show);window.addEventListener('online',()=>{show();if(problem)void register();else checkUpdate();});
  if(!('serviceWorker' in navigator)||!window.isSecureContext){
   if(!navigator.onLine)show();return;
  }
  navigator.serviceWorker.addEventListener('message',event=>{
   const info=event.data;if(info?.type!=='life-clock-cache')return;
-  if(info.state==='ready'){ready=true;update=false;}
+  if(info.state==='ready'){ready=true;problem=false;updateReady=info.updateAvailable===true;}
   if(info.state==='failed')problem=true;
   if(info.state==='progress'){percent=info.percent;problem=false;}
   show();
  });
- function inspect(){
-  if(registration.waiting&&navigator.serviceWorker.controller){update=true;show();}
-  registration.active?.postMessage({type:'CACHE_STATUS'});
- }
+ navigator.serviceWorker.addEventListener('controllerchange',inspect);
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkUpdate();});
  async function register(){
   try{
    problem=false;
@@ -42,7 +47,7 @@ export async function prepareOffline(){
    await navigator.serviceWorker.ready;inspect();
   }catch{problem=true;show();}
  }
- retry.addEventListener('click',()=>void register());
+ retry.addEventListener('click',()=>{if(updateReady)location.reload();else void register();});
  try{
   const config=await fetch('./offline-config.json',{cache:'no-cache'});
   if(!config.ok){if(!navigator.onLine)show();return;}
