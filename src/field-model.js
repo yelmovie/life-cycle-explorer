@@ -115,6 +115,9 @@ export function towerStep(field) {
 
 const matchesDone = field => {const book=field.chapters[4],bank=fieldRecords(field);return TOWER_CLAIMS.every(({request}) => book.records.includes(book.matches[request]) && claimFits(request,bank.find(record => record.id === book.matches[request]),book));};
 const planDone = book => meaningfulText(book.plan.subject) >= 2 && meaningfulText(book.plan.when) >= 2 && meaningfulText(book.plan.what) >= 4;
+const readPlan=(book,values)=>Object.fromEntries(['subject','when','what'].map(key=>[key,textValue(typeof values[key]==='string'?values[key]:book.plan[key],PLAN_LIMITS[key])]));
+const PLAN_PROMPT='관찰할 생물과 언제 볼지 각각 두 글자 이상, 무엇을 기록할지 네 글자 이상으로 세 칸을 모두 써 줘.';
+
 
 export function fieldReady(field, chapter=field.active) {
   if (!numberIn(chapter,0,4)) return false;
@@ -457,6 +460,15 @@ function bookAction(field,data,type,p,done,fail) {
     if (!numberIn(p.from,0,data.records.length-1) || !numberIn(p.to,0,data.records.length-1)) return fail('책에 넣은 기록을 끌어서 순서를 바꿔 줘.');
     const [id] = data.records.splice(p.from,1); data.records.splice(p.to,0,id); return done('읽는 순서에 맞게 기록을 놓았어.');
   }
+  if (type === 'book-finish-writing') {
+    if (!slotsDone(field)||!matchesDone(field)) return fail('먼저 내 사진에서 증거를 찾아 줘.');
+    const title=textValue(p.title,TEXT_LIMITS.title),summary=textValue(p.summary,TEXT_LIMITS.summary),plan=readPlan(data,p);
+    if(!noteDone({title,summary}))return fail('발견 이름은 두 글자 이상, 내가 알아낸 것은 여덟 글자 이상으로 적어 줘.');
+    if(!planDone({plan}))return fail(PLAN_PROMPT);
+    Object.assign(data,{title,summary,plan});
+    if(data.drafts){data.drafts.story={};data.drafts.plan={};}
+    return done('내 발견과 실제 관찰 약속이 노트에 남았어.');
+  }
   if (type === 'book-title') {data.title=textValue(p.text,TEXT_LIMITS.title);if(data.drafts?.story)delete data.drafts.story.title;return done('나만의 책 제목을 남겼어.');}
   if (type === 'book-summary') {data.summary=textValue(p.text,TEXT_LIMITS.summary);if(data.drafts?.story)delete data.drafts.story.summary;return done('관찰해서 알게 된 생각을 남겼어.');}
   if (type === 'book-caption') {
@@ -478,8 +490,8 @@ function bookAction(field,data,type,p,done,fail) {
   }
   if (type === 'observation-plan') {
     if (!slotsDone(field)||!matchesDone(field)||!noteDone(data)) return fail('증거와 연구 노트를 먼저 모아 줘.');
-    const plan=Object.fromEntries(['subject','when','what'].map(key => [key,textValue(typeof p[key] === 'string' ? p[key] : data.plan[key],PLAN_LIMITS[key])]));
-    if (meaningfulText(plan.subject) < 2 || meaningfulText(plan.when) < 2 || meaningfulText(plan.what) < 4) return fail('관찰할 생물과 언제 볼지 각각 두 글자 이상, 무엇을 기록할지 네 글자 이상으로 세 칸을 모두 써 줘.');
+    const plan=readPlan(data,p);
+    if (!planDone({plan})) return fail(PLAN_PROMPT);
     data.plan=plan;if(data.drafts)data.drafts.plan={};
     return done('교실 밖에서도 이어 갈 나의 실제 관찰 계획을 세웠어.');
   }

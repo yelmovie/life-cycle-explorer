@@ -56,7 +56,6 @@ export function previewFieldForPhase(source,chapter,phase){
   if(phase==='tower-evidence')Object.assign(e,{records:[],matches:{},title:'',summary:'',towerRun:false,plan:empty});
   else if(phase==='tower-note')Object.assign(e,{title:'',summary:'',towerRun:false,plan:empty});
   else if(phase==='tower-run')e.towerRun=false;
-  else if(phase==='plan')Object.assign(e,{towerRun:false,plan:empty});
  }
  // Fail immediately if a later code change disconnects sample evidence.
  if(chapter===4&&!e.records.every(id=>fieldRecords(f).some(r=>r.id===id)))throw new Error('시연용 증거를 준비하지 못했어.');

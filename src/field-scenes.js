@@ -131,18 +131,22 @@ export function createFieldGame(context){
    const zone=this.add.zone(x,y,w,h).setRectangleDropZone(w,h).setData('target',id);
    if(tap)this.click(x,y,w,h,tap,label);return zone;
   }
-  draggable(object,kind,data={},label='끌어 옮기기'){
+  draggable(object,kind,data={},label='끌어 옮기기',tapTarget){
    const min=this.theme.touch/this.screenScale(),w=Math.max(object.width,min/Math.abs(object.scaleX)),h=Math.max(object.height,min/Math.abs(object.scaleY));
    object.setInteractive(new P.Geom.Rectangle((object.width-w)/2,(object.height-h)/2,w,h),P.Geom.Rectangle.Contains);object.input.cursor='pointer';this.input.setDraggable(object);const x=object.x,y=object.y;
    // The picked object keeps an outline until the pick is used or replaced; a rebuilt scene redraws it.
    const pick=()=>{this.markPick(object);context.emit('select',{kind,...data});},picked=context.ui.selection;
-   object.on('pointerdown',pick);
-   object.on('dragstart',()=>{this.pickMark?.destroy();object.setDepth(30).setScale(object.scale*1.05);});
+   const otherCardSelected=()=>tapTarget&&context.ui.selection?.kind===kind&&context.ui.selection.from!==data.from;
+   const tap=()=>{if(otherCardSelected())context.emit('target',tapTarget);else pick();};
+   let targetTap=false;
+   object.on('pointerdown',()=>{targetTap=!!otherCardSelected();if(!targetTap)pick();});
+   object.on('pointerup',()=>{if(targetTap){targetTap=false;context.emit('target',tapTarget);}});
+   object.on('dragstart',()=>{if(targetTap){targetTap=false;pick();}this.pickMark?.destroy();object.setDepth(30).setScale(object.scale*1.05);});
    object.on('drag',(_,dx,dy)=>object.setPosition(dx,dy));
    object.on('drop',(_,zone)=>context.emit('drop',{kind,...data,target:zone.getData('target')}));
    object.on('dragend',(_,dx,dy,dropped)=>{if(!dropped)this.tweens.add({targets:object,x,y,duration:reducedMotion(context.s.settings)?1:160,onComplete:()=>{object.setScale(object.scale/1.05);this.markPick(object);}});});
    if(picked?.kind===kind&&Object.entries(data).every(([key,value])=>picked[key]===value))this.markPick(object);
-   this.focusTargets.push({x,y,w:Math.max(min,object.displayWidth),h:Math.max(min,object.displayHeight),label,fn:pick});return object;
+   this.focusTargets.push({x,y,w:Math.max(min,object.displayWidth),h:Math.max(min,object.displayHeight),label,fn:tap});return object;
   }
   markPick(object){this.pickMark?.destroy();const b=object.getBounds();this.pickMark=this.add.graphics().lineStyle(5,0xd39b36,1).strokeRoundedRect(b.x-7,b.y-7,b.width+14,b.height+14,16).setDepth(29);}
   ensureTouchTargets(){

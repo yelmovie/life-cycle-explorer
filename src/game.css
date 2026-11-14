@@ -441,3 +441,8 @@ html body dialog.settings-dialog[data-science-settings]>h2 {
  align-self:stretch;display:flex;align-items:center;min-height:48px;margin:0;padding-right:60px;text-align:left;
 }
 html body dialog[data-science-settings] .science-settings-audio>.science-settings-volume {grid-column:1}
+
+.tower-writing-book .notebook-page{align-self:start}
+.tower-writing-book .notebook-page textarea{height:92px;min-height:80px}
+#story-writing-error:empty{display:none}
+#story-writing-error{color:#72402e;margin:12px 0 0}

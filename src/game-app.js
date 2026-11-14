@@ -56,8 +56,9 @@ function rememberTeacherPreview(){
 function restoreTeacherPreview(){
  let saved;try{saved=JSON.parse(sessionStorage.getItem(TEACHER_SESSION_KEY));}catch{return;}
  if(!saved||!Number.isInteger(saved.chapter)||saved.chapter<0||saved.chapter>4||!['title','map','room'].includes(saved.view))return;
- const phase=stageProgress(saved.chapter,saved.phase,true).phase;
- if(saved.view==='room'&&phase!==saved.phase)return;
+ const savedPhase=saved.chapter===4&&saved.phase==='plan'?'tower-note':saved.phase;
+ const phase=stageProgress(saved.chapter,savedPhase,true).phase;
+ if(saved.view==='room'&&phase!==savedPhase)return;
  previewOriginal=s;s=structuredClone(s);s.field.preview=true;
  if(saved.view==='room')s.field=previewFieldForPhase(s.field,saved.chapter,phase);
  s.fieldView=saved.view;
@@ -391,7 +392,7 @@ const ctx={get s(){return s;},saveStatus:()=>G.getSaveStatus(storage),saveDraft(
   if(!previewOriginal&&act('chapter-complete',{chapter:4}).ok){ui.pendingRestoreChapter=4;view('map');finale();}
   return;
  }
- if(type==='observe'){act('inspect',data);return;}if(type==='observe-many'){data.forEach(p=>act('inspect',{...p,quiet:true}));return;}if(type==='dial'){if(ui.dial)act(ui.dial.type,{...ui.dial.payload,...(ui.dial.type==='season'?{step:data}:{day:data})});return;}if(type.startsWith('animal-dial-')){act('animal-time',{animal:type.slice(12),step:data});return;}if(type==='caption'){dialogs.caption(data);return;}if(type==='story-info'){dialogs.storyInfo();return;}if(type==='open-plan'){audio.playSfx('bell');dialogs.plan();return;}if(type==='feedback')announce(data,true);
+ if(type==='observe'){act('inspect',data);return;}if(type==='observe-many'){data.forEach(p=>act('inspect',{...p,quiet:true}));return;}if(type==='dial'){if(ui.dial)act(ui.dial.type,{...ui.dial.payload,...(ui.dial.type==='season'?{step:data}:{day:data})});return;}if(type.startsWith('animal-dial-')){act('animal-time',{animal:type.slice(12),step:data});return;}if(type==='caption'){dialogs.caption(data);return;}if(type==='story-info'){dialogs.storyInfo();return;}if(type==='feedback')announce(data,true);
 }};
 const dialogs=createDialogs(ctx);
 const notebook=createFieldNotebook({get s(){return s;},dialog,close:()=>modal.close()});
@@ -430,20 +431,25 @@ function action(name,b){void audio.initAudio(s.audio);audio.playSfx('click');
  if(name==='sound'){const on=s.audio.bgm||s.audio.sfx;if(on){ui.previousAudio={...s.audio};s.audio.bgm=false;s.audio.sfx=false;}else s.audio=ui.previousAudio||{...s.audio,sfx:true};audio.updateAudio(s.audio);persist();render();return;}
  if(name==='audio-bgm'||name==='audio-sfx'){const k=name==='audio-bgm'?'bgm':'sfx';s.audio[k]=!s.audio[k];audio.updateAudio(s.audio);persist();render();settings();return;}
  if(name==='guide'){if(ui.guide){closeGuide();return;}if(mode()==='map'&&Number.isInteger(ui.travelChapter))ctx.scene?.cancelTravel?.();ui.hintReturn=b;ui.guide=true;if(!ui.pending)ui.message='';ui.pending=false;updateGuide();return;}if(name==='hint-close'){closeGuide();return;}if(name==='door'||name==='door-next'){if(name==='door-next')modal.close();requestDoor(Number(b.dataset.chapter));return;}if(name==='step'){ctx.scene?.step(Number(b.dataset.x),Number(b.dataset.y));return;}
- if(name==='next'){if(mode()==='map'){const c=FIELD_CHAPTERS.findIndex((_,i)=>!s.field.completed.includes(i)&&fieldUnlocked(s.field,i));if(c<0)dialogs.story();else requestDoor(c);return;}if(previewOriginal){const chapter=s.field.active,phase=stageProgress(chapter,roomPhase(s.field),true).nextPhase;if(phase){s.field=previewFieldForPhase(s.field,chapter,phase);Object.assign(ui,{selection:null,play:false,autoPlay:false,guide:false,message:''});render();ctx.scene?.refresh();}else if(chapter<4){s.field=previewFieldForPhase(s.field,chapter+1,stageProgress(chapter+1,'',true).firstPhase);view('room');}else view('map');return;}const next=roomUI(s,ui).nextAction;if(next==='complete'){const c=s.field.active,first=!s.field.completed.includes(c);if(act('chapter-complete',{chapter:c}).ok){encounterClear=first?c:null;ui.pendingRestoreChapter=c;s.resumeRoom=false;view('map');audio.playSfx('reward');dialogs.reward(c);}return;}if(next==='hint'){ui.hintReturn=b;ui.message='';ui.guide=true;updateGuide();ctx.scene?.showHint?.(hintTarget(roomPhase(s.field)));return;}if(next==='plan'){dialogs.plan();return;}if(next==='tower-start'){
+ if(name==='next'){if(mode()==='map'){const c=FIELD_CHAPTERS.findIndex((_,i)=>!s.field.completed.includes(i)&&fieldUnlocked(s.field,i));if(c<0)dialogs.story();else requestDoor(c);return;}if(previewOriginal){const chapter=s.field.active,phase=stageProgress(chapter,roomPhase(s.field),true).nextPhase;if(phase){s.field=previewFieldForPhase(s.field,chapter,phase);Object.assign(ui,{selection:null,play:false,autoPlay:false,guide:false,message:''});render();ctx.scene?.refresh();}else if(chapter<4){s.field=previewFieldForPhase(s.field,chapter+1,stageProgress(chapter+1,'',true).firstPhase);view('room');}else view('map');return;}const next=roomUI(s,ui).nextAction;if(next==='complete'){const c=s.field.active,first=!s.field.completed.includes(c);if(act('chapter-complete',{chapter:c}).ok){encounterClear=first?c:null;ui.pendingRestoreChapter=c;s.resumeRoom=false;view('map');audio.playSfx('reward');dialogs.reward(c);}return;}if(next==='hint'){ui.hintReturn=b;ui.message='';ui.guide=true;updateGuide();ctx.scene?.showHint?.(hintTarget(roomPhase(s.field)));return;}if(next==='story-info'){dialogs.storyInfo();return;}if(next==='tower-start'){
   const start=ctx.scene?.startTower;if(!start||b.disabled)return;b.disabled=true;start();return;
  }if(next==='observation-done'){releaseObservation(s.field);Object.assign(ui,{guide:false,message:'',pending:false,hintLevel:0});audio.playSfx('success');render();ctx.scene?.refresh();return;}act(next);return;}
  if(name==='clear-drawing'){s.field.chapters[0].drawing=[];persist();ctx.scene?.refresh();return;}if(name==='map-fit'){if(mode()!=='map')return;ui.mapOverview=!ui.mapOverview;ctx.scene?.setMapOverview?.(ui.mapOverview);render();return;}if(name==='map-hand'){if(mode()!=='map')return;if(ui.mapOverview){ui.mapOverview=false;ctx.scene?.setMapOverview?.(false);}ui.mapHand=!ui.mapHand;ctx.scene?.setMapHand?.(ui.mapHand);render();return;}if(name==='autoplay'){ui.autoPlay=!ui.autoPlay;render();if(ui.autoPlay)ctx.scene?.autoPlay?.();return;}if(name==='film-play'){ui.play=!ui.play;render();ctx.scene?.refresh();return;}if(name==='cross-section'){ui.crossSection=!ui.crossSection;ctx.scene?.refresh();return;}
- if(name==='save-note'){act('observation-note',{text:$('observation-note').value});modal.close();return;}if(name==='predict'){act('seed-predict',{choice:b.dataset.choice});modal.close();return;}if(name==='save-story'){const title=$('story-title').value,summary=$('story-summary').value;act('book-title',{text:title});act('book-summary',{text:summary});modal.close();return;}
+ if(name==='save-note'){act('observation-note',{text:$('observation-note').value});modal.close();return;}if(name==='predict'){act('seed-predict',{choice:b.dataset.choice});modal.close();return;}if(name==='save-story'){
+  const values={title:$('story-title').value,summary:$('story-summary').value,subject:$('plan-subject').value,when:$('plan-when').value,what:$('plan-what').value};
+  const result=act('book-finish-writing',values);
+  if(result.ok)modal.close();
+  else{const error=modal.querySelector('#story-writing-error');error.textContent=result.message;error.focus();}
+  return;
+ }
  if(name==='save-caption'){act('book-caption',{id:$('caption-record').value,text:$('story-caption').value});modal.close();return;}if(name==='remove-record'){act('book-record',{id:$('caption-record').value});modal.close();return;}
- if(name==='save-plan'){const result=act('observation-plan',{subject:$('plan-subject').value,when:$('plan-when').value,what:$('plan-what').value});if(result.ok)modal.close();return;}
  if(name==='original-backup'){const saved=G.getSaveStatus(storage);if(saved.raw!==null){downloadBlob(new Blob([saved.raw],{type:'text/plain;charset=utf-8'}),'생명시계-저장원본.txt');}return;}
  if(name==='record'){void dialogs.record(b.dataset.id);return;}if(name==='archive-page'){ui.archivePage=(ui.archivePage||0)+Number(b.dataset.delta);dialogs.records();return;}if(name==='backup'){downloadBlob(new Blob([JSON.stringify(previewOriginal||s,null,2)],{type:'application/json'}),'생명시계-진행기록.json');return;}
  if(name==='teacher-preview'){if(!previewOriginal){previewOriginal=s;s=structuredClone(s);s.field.preview=true;modal.close();view('map');announce('교사 시연을 켰어. 모든 구역과 활동 단계를 고를 수 있어.');}else{const prefs=s.audio;s=previewOriginal;s.audio=prefs;previewOriginal=null;persist();render();openFieldView();settings();}return;}
  if(name==='reset'||name==='title-restart'){ui.restartFromTitle=name==='title-restart';ui.resetSnapshot=G.getSaveStatus(storage).expectedRaw;dialog(renderResetConfirm(ui.restartFromTitle?'close':'settings'));return;}if(name==='reset-confirm'){const next=G.fresh();next.audio={...s.audio};if(previewOriginal){next.field.preview=true;s=next;persist();}else if(G.resetGame(storage,next,ui.resetSnapshot)){s=next;}else{announce(saveIssue(),true);dialog({title:'기록을 지우지 않았어',body:'<p>확인하는 동안 저장된 기록이 바뀌었거나 저장소를 사용할 수 없어. 원본을 그대로 두었어. 기록함에서 현재 활동을 먼저 보관해 줘.</p>',actions:btn('기록함 열기','records')+btn('닫기','close','','primary')});return;}ui.resetSnapshot=null;modal.close();view('title');if(ui.restartFromTitle){ui.restartFromTitle=false;intro();}return;}
  if(name==='story-auto'){ui.storyAuto?.();return;}if(name==='story-prev'||name==='story-next'){ui.storyStep?.(name==='story-next'?1:-1);return;}
  if(name==='export'){void dialogs.export(b.dataset.bookSource==='finished');return;}
- const map={note:'note',prediction:'prediction','story-info':'storyInfo','story-caption':'caption',plan:'plan',records:'records',bag:'bag',ending:'ending',certificate:'certificate','certificate-png':'certificatePNG','story-play':'story'};if(map[name]){void dialogs[map[name]]();return;}act(name,b.dataset.payload?JSON.parse(b.dataset.payload):{});
+ const map={note:'note',prediction:'prediction','story-info':'storyInfo','story-caption':'caption',records:'records',bag:'bag',ending:'ending',certificate:'certificate','certificate-png':'certificatePNG','story-play':'story'};if(map[name]){void dialogs[map[name]]();return;}act(name,b.dataset.payload?JSON.parse(b.dataset.payload):{});
 }
 document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.disabled||b.classList.contains('focus-target'))return;const name=b.dataset.action||b.dataset.fieldAction;if(name)void action(name,b);});
 document.addEventListener('input',e=>{
@@ -452,7 +458,11 @@ document.addEventListener('input',e=>{
  else if(el.id==='observation-note'){scope='observation';values={text:el.value};}
  else if(['story-title','story-summary'].includes(el.id)){scope='story';values={[el.id.slice(6)]:el.value};}
  else if(['plan-subject','plan-when','plan-what'].includes(el.id)){scope='plan';values={[el.id.slice(5)]:el.value};}
- if(scope){ctx.saveDraft(scope,values);const status=modal.querySelector('[data-draft-status]');if(status)status.textContent='초안 보관됨 · 제출은 「설명 기록」을 눌러 줘.';}
+ if(scope){
+  ctx.saveDraft(scope,values);
+  if(scope==='story'||scope==='plan'){const error=modal.querySelector('#story-writing-error');if(error?.textContent)error.textContent='';}
+  const status=modal.querySelector('[data-draft-status]');if(status)status.textContent='초안 보관됨 · 제출은 「설명 기록」을 눌러 줘.';
+ }
 });
 document.addEventListener('change',e=>{const b=e.target;if(b.matches('[data-preview-phase]')&&previewOriginal){s.field=previewFieldForPhase(s.field,s.field.active,b.value);Object.assign(ui,{selection:null,play:false,autoPlay:false,guide:false});render();ctx.scene?.refresh();return;}if(b.dataset.time)act(b.dataset.time,b.dataset.time==='animal-time'?{animal:b.dataset.animal,step:Number(b.value)}:b.dataset.time==='season'?{step:Number(b.value)}:{day:Number(b.value)});});
 document.addEventListener('input',e=>{if(e.target.id==='bgm-volume'){s.audio.volume=Number(e.target.value)/100;audio.updateAudio(s.audio);$('bgm-volume-value').textContent=e.target.value+'%';persist();}});

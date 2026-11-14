@@ -1,4 +1,4 @@
-import {fieldReady,seedReportDone,fieldPhase,towerStep} from './field-model.js';
+import {fieldReady,fieldBookReady,seedReportDone,fieldPhase,towerStep} from './field-model.js';
 import {questReady,questInfo} from './field-quests.js';
 import {FIELD_CHAPTERS,FIELD_REPLAY_GOALS} from './field-content.js';
 import {icon} from './ui-icons.js';
@@ -27,7 +27,7 @@ export function roomPhase(f){
   if(!['apple-3','balsam-3','apple-4','balsam-4'].every(k=>q.plantPhotos.includes(k))||!q.seasonCompared)return 'seasons';
   if(q.classifications.apple!=='same'||q.classifications.balsam!=='new')return 'plant-identity';return 'transfer';
  }
- {const step=towerStep(f);return step==='ready'?'plan':step;}
+ {const step=towerStep(f);return step==='plan'||step==='ready'?'tower-note':step;}
 }
 export function roomUI(s,ui){
  const f=s.field,c=f.active,q=f.chapters[c],phase=roomPhase(f),r=FIELD_CHAPTERS[c];let objective=r.goal,controls='',next='발견 기록',nextAction='hint';
@@ -64,10 +64,10 @@ export function roomUI(s,ui){
   if(phase==='transfer'){objective='식물 카드를 한해살이와 여러해살이로 나눠 봐.';next='분류 확인';}
  }
  if(c===4){
+  if((phase==='tower-note'||phase==='tower-run')&&fieldBookReady(f))controls=action('내 이야기 재생','story-play',{},'play')+action('나의 생명 관찰 노트 인쇄하기','export',{},'camera');
   if(phase==='tower-evidence'){objective='쪽지를 읽고 네가 직접 찾은 증거 사진을 골라 줘.';}
-  if(phase==='tower-note'){objective='연구 노트에 내 발견의 이름과 한 문장을 남겨 줘.';controls=action('연구 노트 쓰기','story-info',{},'pen');next='노트 확인';}
+  if(phase==='tower-note'){objective='찾은 증거로 발견 한 문장과 실제 관찰 약속을 남겨 줘.';next='연구 노트 쓰기';nextAction='story-info';}
   if(phase==='tower-run'){objective='네 증거가 모두 모였어. 시계를 깨울 차례야!';next='시계 돌리기';nextAction='tower-start';}
-  if(phase==='plan'){objective='모형 밖에서 직접 이어 갈 관찰을 약속해 줘.';controls=action('내 이야기 재생','story-play',{},'play')+action('나의 생명 관찰 노트 인쇄하기','export',{},'camera');next='실제 관찰 약속';nextAction='plan';}
  }
  if(observationHeld(f)){next='관찰을 마쳤어요';nextAction='observation-done';objective='마지막 날 A와 B를 0일 모습과 비교해 봐. 어디가 달라졌니?';}
  return {phase,objective,controls,next,nextAction,guide:r.guide};

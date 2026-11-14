@@ -2,7 +2,7 @@ import {SORT_CARDS,CORE_PLANT_CARDS} from '../src/field-content.js';
 import {roomPhase,roomUI,holdObservation,releaseObservation} from '../src/field-flow.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {initialField,restoreField,fieldAction,fieldReady,fieldPhase,fieldRecords,fieldUnlocked,fieldCompletedCount,fieldBookReady,towerClaimText,TOWER_CLAIMS,FIELD_FORMS} from '../src/field-model.js';
+import {initialField,restoreField,storeFieldDraft,fieldAction,fieldReady,fieldPhase,fieldRecords,fieldUnlocked,fieldCompletedCount,fieldBookReady,towerClaimText,TOWER_CLAIMS,FIELD_FORMS} from '../src/field-model.js';
 
 const act=(field,type,p={}) => {
   const result=fieldAction(field,type,p);
@@ -305,7 +305,7 @@ test('tower claims accept only records that show the claimed change',() => {
   assert.equal(fieldAction(field,'help-match',{request:'retry',recordId:'field-care-water'}).ok,false);
   act(field,'help-match',{request:'retry',recordId:'field-seed-water'});
   act(field,'help-match',{request:'care',recordId:'field-care-water'});
-  assert.equal(roomPhase(field),'plan');
+  assert.equal(roomPhase(field),'tower-note');
 });
 
 test('one-condition evidence narrows the claim to the condition that was compared',() => {
@@ -348,6 +348,21 @@ test('the last time-dial frame stays until the learner finishes observing, and n
   releaseObservation(field);assert.equal(roomPhase(field),'reason');
   // Other actions never hold the screen.
   holdObservation(field,'reason','seed-report');assert.equal(roomPhase(field),'reason');
+});
+
+test('the combined tower notebook preserves drafts on invalid submission and saves both parts together',()=>{
+ const field=completedThrough(3);act(field,'chapter-enter',{chapter:4});
+ for(const [request,id] of [['observation','field-observation-larva'],['retry','field-seed-warm'],['care','field-care-light'],['season','field-season-apple']])act(field,'book-evidence',{request,id});
+ const values={title:'콩 관찰',summary:'물을 똑같이 주어도 콩은 더 따뜻한 화분에서만 싹이 났어.',subject:'교실 화분',when:'매주 월요일',what:'새잎의 개수를 적기'};
+ storeFieldDraft(field,'story',{title:values.title,summary:values.summary});
+ storeFieldDraft(field,'plan',{subject:values.subject});
+ assert.equal(fieldAction(field,'book-finish-writing',{...values,what:''}).ok,false);
+ const restored=restoreField(field),book=restored.chapters[4];
+ assert.equal(book.title,'');assert.equal(book.drafts.story.summary,values.summary);assert.equal(book.drafts.plan.subject,values.subject);
+ act(restored,'book-finish-writing',values);
+ assert.equal(roomPhase(restoreField(restored)),'tower-run');
+ assert.deepEqual(book.plan,{subject:values.subject,when:values.when,what:values.what});
+ assert.deepEqual(book.drafts.story,{});assert.deepEqual(book.drafts.plan,{});
 });
 
 test('tower evidence selection fills only the matching socket and resumes midway through the same board',()=>{

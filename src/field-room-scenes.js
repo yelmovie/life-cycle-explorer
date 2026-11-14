@@ -17,7 +17,6 @@ export function renderFieldRoom(v,ctx){
  const f=ctx.s.field,c=f.active,q=f.chapters[c],phase=roomPhase(f),act=(type,payload={})=>ctx.emit('act',{type,payload});
  const target=(x,y,w,h,id,label)=>v.drop(x,y,w,h,id,label,()=>ctx.emit('target',id));
  const tool=(key,x,y,kind,data={},label='')=>{const o=v.pic(key,x,y,115);v.draggable(o,kind,data,label||key);return o;};
- const token=(text,x,y,kind,data={},w=155)=>{const plate=v.add.rectangle(0,0,w,68,0xfff7d9).setStrokeStyle(3,0xa88a43),label=v.text(0,0,text,26,w-12);const o=v.add.container(x,y,[plate,label]).setSize(w,68);v.draggable(o,kind,data,text+' 옮기기');return o;};
  // A garden name tag: pointed paper tag with an eyelet and a string loop.
  const tagShape=(text,x,y)=>{const g=v.add.graphics().fillStyle(0xfff4cf).lineStyle(3,0x8a6a35).beginPath().moveTo(-58,-30).lineTo(42,-30).lineTo(66,0).lineTo(42,30).lineTo(-58,30).closePath().fillPath().strokePath();g.fillStyle(0x8a6a35).fillCircle(46,0,6).lineStyle(2,0xb2945a).strokeEllipse(76,-10,30,40);return v.add.container(x,y,[g,v.text(-8,0,text,26,96,'#4a3a1a')]).setSize(150,64).setAngle(-6);};
  const nameTag=(text,x,y,data)=>{const o=tagShape(text,x,y);v.draggable(o,'tag',data,text+' 이름표 옮기기');return o;};
@@ -78,7 +77,11 @@ export function renderFieldRoom(v,ctx){
    if(phase==='animals'){
     if(!reused)v.dial('timeWheel',BX[0],598,a.butterfly.step,3,'animal-dial-butterfly',['알','애벌레','번데기','어른벌레'],168);
     v.dial('timeWheel',BX[1],598,a.dog.step,2,'animal-dial-dog',['갓 태어난 강아지','어린 개','다 자란 개'],168);
-   }else{v.pic('egg',BX[0],590,60);v.pic('puppy',BX[1],590,130);target(630,465,220,95,'birth-different','부모와 다른 생명');v.label(630,465,'부모와 다른 생명',24,250);target(630,590,220,85,'birth-same','부모와 같은 몸');v.label(630,590,'부모와 같은 몸',24,230);token('다음 세대',638,290,'birth',{},170);}
+   }else{
+    v.pic('egg',BX[0],484,65);v.pic('puppy',BX[1],484,120);
+    choice(432,627,300,'부모와 다른 생명',()=>act('animal-generation',{answer:'different'}),'다음 세대');
+    choice(848,627,300,'부모와 같은 몸',()=>act('animal-generation',{answer:'same'}),'다음 세대');
+   }
    return;
   }
   if(['tags','seasons','plant-identity'].includes(phase)){

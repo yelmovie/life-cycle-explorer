@@ -1,4 +1,4 @@
-import {TEXT_LIMITS,captionText,draftValue} from './field-writing.js';
+import {TEXT_LIMITS,PLAN_LIMITS,captionText,draftValue} from './field-writing.js';
 import {reducedMotion} from './game-motion.js';
 import {fieldRecords,towerStep,TOWER_REGIONS,TOWER_EVIDENCE_TASKS} from './field-model.js';
 import {esc} from './game-metadata.js';
@@ -9,7 +9,11 @@ export const storyRoomAssets=['storyCamera','researchNotebook','towerEmblem0','t
 export const towerBackdrop=f=>{const step=towerStep(f);return f.chapters[4].towerRun||step==='ready'?'towerRoomAwake':step==='tower-evidence'?'towerEvidenceBoard':'towerRoomSleep';};
 
 export function storyInfoNotebook(q){
- return `<div class="notebook-book story-writing-book"><section class="notebook-page"><p class="notebook-kicker">나의 발견 연구 노트</p><h3>내 탐구에 이름 붙이기</h3><label>이야기 이름<input id="story-title" type="text" maxlength="${TEXT_LIMITS.title}" placeholder="내가 찾은 생명의 비밀" value="${esc(draftValue(q,'story','title',q.title))}"></label><p class="story-writing-guide">관찰 사진 ${q.records.length}장이 모였어.<br>기억에 남는 발견을 제목에 담아 줘.</p></section><section class="notebook-page"><h3>내가 설명할 수 있는 것</h3><label>관찰한 모습과 나의 설명<textarea id="story-summary" maxlength="${TEXT_LIMITS.summary}" placeholder="나는 …을 관찰해서 …을 알았어.">${esc(draftValue(q,'story','summary',q.summary))}</textarea></label><p class="story-writing-guide">내 사진을 보고, 이제 무엇을 설명할 수 있는지<br>네 말로 써 줘.</p></section></div>`;
+ const plan={...q.plan,...q.drafts?.plan};
+ return `<div class="notebook-book story-writing-book tower-writing-book">
+ <section class="notebook-page"><h3>내가 알아낸 것</h3><label>발견 이름<input id="story-title" type="text" maxlength="${TEXT_LIMITS.title}" placeholder="내가 찾은 생명의 비밀" value="${esc(draftValue(q,'story','title',q.title))}"></label><label>발견 한 문장<textarea id="story-summary" maxlength="${TEXT_LIMITS.summary}" placeholder="나는 …을 관찰해서 …을 알았어.">${esc(draftValue(q,'story','summary',q.summary))}</textarea></label></section>
+ <section class="notebook-page"><h3>다음에 관찰할 것</h3><label>어떤 생물을?<input id="plan-subject" type="text" maxlength="${PLAN_LIMITS.subject}" value="${esc(plan.subject)}"></label><label>언제 볼까?<input id="plan-when" type="text" maxlength="${PLAN_LIMITS.when}" value="${esc(plan.when)}"></label><label>무엇을 기록할까?<textarea id="plan-what" maxlength="${PLAN_LIMITS.what}">${esc(plan.what)}</textarea></label></section>
+ </div><p id="story-writing-error" role="alert" tabindex="-1"></p>`;
 }
 
 export function storyCaptionNotebook(q,records,id,image){
@@ -98,18 +102,12 @@ export function renderStoryRoom(v,ctx,phase){
   v.pic('towerEmblem'+c,x+62,y-40,37);
   return card;
  });
- if(phase==='tower-note'||phase==='plan'){
+ if(phase==='tower-note'){
   v.add.graphics().fillStyle(0xfffbed,.92).fillRoundedRect(922,214,320,428,22);
-  if(phase==='plan'){
-   v.pic('towerBell',1082,365,185);
-   v.click(1082,365,240,240,()=>ctx.emit('open-plan'),'관찰 약속 쓰기');
-   v.label(1082,513,'어떤 생물을 실제로\n더 살펴보고 싶어?',24,280);
-  }else{
-   v.pic('researchNotebook',1082,400,270,335);
-   handwriting(1082,348,q.title||'제목을 붙여 줘',24,208).setMaxLines(2);
-   handwriting(1082,443,q.summary||'나는 …을 관찰해서\n…을 알았어.',22,207).setMaxLines(4);
-   v.click(1082,400,280,340,()=>ctx.emit('story-info'),'연구 노트 쓰기');
-  }
+  v.pic('researchNotebook',1082,400,270,335);
+  handwriting(1082,348,q.title||'내 발견',24,208).setMaxLines(2);
+  handwriting(1082,443,q.summary||'무엇을 알았니?\n다음엔 무엇을 볼까?',22,207).setMaxLines(4);
+  v.click(1082,400,280,340,()=>ctx.emit('story-info'),'연구 노트 쓰기');
  }
  if(phase!=='tower-run')return;
  const hand=v.add.graphics().setPosition(CX,CY).setDepth(9);

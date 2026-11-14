@@ -126,11 +126,12 @@ export function renderObservationRoom(v,ctx,phase){
  if(phase==='film'){
   for(let i=0;i<4;i++){
    const x=300+i*225;v.paper(x,400,198,280);
-   v.drop(x,390,200,265,'film-'+i,['처음','다음','다음','마지막'][i],()=>ctx.emit('target','film-'+i));
+   v.drop(x,390,200,265,'film-'+i,['첫 번째 자리','두 번째 자리','세 번째 자리','네 번째 자리'][i],()=>ctx.emit('target','film-'+i));
    v.label(x,575,['1 처음','2 다음','3 다음','4 마지막'][i],24,200);
-   const id=q.order[i],o=v.pic(id,x,385,id==='egg'?160/3:165,220);v.draggable(o,'film',{from:i},FORM_NAMES[id]+' 사진 옮기기');
+   const id=q.order[i],o=v.pic(id,x,385,id==='egg'?160/3:165,220);
+   v.draggable(o,'film',{from:i},FORM_NAMES[id]+' 사진 옮기기','film-'+i);
   }
-  v.text(640,635,'사진을 먼저 누른 뒤, 옮길 자리를 눌러도 돼.',24,900);
+  v.text(640,635,'사진을 누른 뒤 옮길 자리를 눌러 봐. 사진 위를 눌러도 돼.',24,900);
   if(ctx.ui.play){let i=0;const marker=v.add.graphics().lineStyle(5,0x4d9270).strokeRoundedRect(199,258,202,284,18),caption=v.label(640,215,'내 시간 필름 · '+FORM_NAMES[q.order[0]],27,850);v.time.addEvent({delay:1150,loop:true,callback:()=>{i=(i+1)%4;marker.x=i*225;caption.setText('내 시간 필름 · '+FORM_NAMES[q.order[i]]);}});}return;
  }
  v.paper(390,400,360,320);v.pic('adult',390,370,260);
