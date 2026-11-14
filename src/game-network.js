@@ -6,7 +6,7 @@ export async function prepareOffline(){
   clearTimeout(hideTimer);panel.hidden=!enabled&&navigator.onLine;if(panel.hidden)return;panel.dataset.offline=String(!navigator.onLine);
   retry.hidden=!problem||!navigator.onLine;
   label.textContent=!navigator.onLine?(ready?'인터넷이 잠시 끊겼어. 탐험과 기록은 계속할 수 있어.':'인터넷이 잠시 끊겼어. 연결되면 필요한 그림을 다시 불러올게.'):
-   update?'새 버전이 준비됐어. 탐험 창을 모두 닫고 다시 열면 적용돼.':
+   update?'새 버전을 확인하고 있어. 준비되면 다음에 다시 열 때 적용돼.':
    ready?'연결 없이도 탐험할 준비가 됐어.':
    problem?'오프라인 준비를 마치지 못했어. 연결된 동안 탐험을 계속할 수 있어.':
    '연결이 끊겨도 탐험할 수 있게 준비 중… '+percent+'%';
@@ -19,7 +19,7 @@ export async function prepareOffline(){
  }
  navigator.serviceWorker.addEventListener('message',event=>{
   const info=event.data;if(info?.type!=='life-clock-cache')return;
-  if(info.state==='ready')ready=true;
+  if(info.state==='ready'){ready=true;update=false;}
   if(info.state==='failed')problem=true;
   if(info.state==='progress'){percent=info.percent;problem=false;}
   show();

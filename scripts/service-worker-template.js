@@ -5,6 +5,9 @@ const PREFIX='life-clock-assets-';
 const NAME=PREFIX+VERSION;
 const base=new URL('./',self.location.href);
 const marker=new URL('.offline-ready',base).href;
+const registryName='life-clock-release-registry';
+const current=new URL('.offline-active',base).href;
+const pinKey=id=>new URL('.offline-client/'+id,base).href;
 const urls=new Set(FILES.map(file=>new URL(file.path,base).href));
 async function report(state,extra={}){
  const clients=await self.clients.matchAll({type:'window',includeUncontrolled:true});
@@ -25,21 +28,40 @@ self.addEventListener('install',event=>event.waitUntil((async()=>{
    }
   }));
   if(results.some(result=>result.status==='rejected'))throw new Error('Release cache incomplete');
-  await cache.put(marker,new Response(VERSION));await report('ready');
+  await cache.put(marker,new Response(VERSION));
  }catch(error){await caches.delete(NAME);await report('failed');throw error;}
+ // Every file has been verified. Open pages keep their own snapshot after activation.
+ await self.skipWaiting();
 })()));
 self.addEventListener('activate',event=>event.waitUntil((async()=>{
- for(const key of await caches.keys())if(key.startsWith(PREFIX)&&key!==NAME)await caches.delete(key);
- // Normal lifecycle activates updates only when no page uses the older version.
- await self.clients.claim();await report('ready');
+ const registry=await caches.open(registryName);
+ const names=(await caches.keys()).filter(key=>key.startsWith(PREFIX));
+ let previous=await (await registry.match(current))?.text();
+ if(!names.includes(previous)){
+  // Migrate from the earlier worker, which kept one complete active snapshot.
+  for(const name of names)if(name!==NAME&&await(await caches.open(name)).match(marker)){previous=name;break;}
+ }
+ const keep=new Set([NAME]);
+ const windows=await self.clients.matchAll({type:'window',includeUncontrolled:true});
+ const liveIds=new Set(windows.map(client=>pinKey(client.id)));
+ for(const key of await registry.keys())if(key.url!==current&&!liveIds.has(key.url))await registry.delete(key);
+ for(const client of windows){
+  const key=pinKey(client.id);
+  let name=await (await registry.match(key))?.text();
+  if(!names.includes(name))name=names.includes(previous)?previous:NAME;
+  keep.add(name);await registry.put(key,new Response(name));
+ }
+ await registry.put(current,new Response(NAME));
+ for(const key of names)if(!keep.has(key))await caches.delete(key);
+ if(!previous)await self.clients.claim();
 })()));
 self.addEventListener('message',event=>{
  if(event.data?.type==='CACHE_STATUS')event.waitUntil((async()=>{
   const cache=await caches.open(NAME);if(await cache.match(marker))event.source?.postMessage({type:'life-clock-cache',state:'ready'});
  })());
 });
-async function fromCache(request,url){
- const cache=await caches.open(NAME),response=await cache.match(url);
+async function fromCache(request,url,name=NAME){
+ const cache=await caches.open(name),response=await cache.match(url,{ignoreVary:true});
  if(!response||response.redirected&&request.mode==='navigate')return fetch(request);
  if(!request.headers.has('range'))return response;
  const bytes=await response.arrayBuffer(),size=bytes.byteLength;
@@ -54,7 +76,23 @@ self.addEventListener('fetch',event=>{
  const request=event.request;if(request.method!=='GET')return;
  const url=new URL(request.url);if(url.origin!==base.origin)return;
  if(request.mode==='navigate'&&(url.pathname===base.pathname||url.pathname===base.pathname+'index.html')){
-  event.respondWith(fromCache(request,new URL('index.html',base).href));return;
+  event.respondWith((async()=>{
+   if(event.resultingClientId){
+    const registry=await caches.open(registryName);
+    await registry.put(pinKey(event.resultingClientId),new Response(NAME));
+   }
+   const cache=await caches.open(NAME);
+   const page=await cache.match(new URL('index.html',base).href,{ignoreVary:true});
+   if(!page)return fetch(request);
+   const headers=new Headers(page.headers);
+   headers.delete('content-encoding');headers.delete('content-length');
+   return new Response(page.body,{headers});
+  })());return;
  }
- url.search='';url.hash='';if(urls.has(url.href))event.respondWith(fromCache(request,url.href));
+ url.search='';url.hash='';if(!urls.has(url.href)&&!/^\/(?:src|assets|vendor)\//.test(url.pathname))return;
+ event.respondWith((async()=>{
+  const key=event.clientId&&pinKey(event.clientId);
+  const name=key&&await(await(await caches.open(registryName)).match(key))?.text();
+  return fromCache(request,url.href,name||NAME);
+ })());
 });

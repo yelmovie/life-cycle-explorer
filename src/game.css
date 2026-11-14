@@ -75,7 +75,7 @@ button svg{flex:none;width:28px;height:28px;fill:none;stroke:currentColor;stroke
 @media(max-width:760px){.title-copy{left:4%;width:61%;top:50%}.title-copy .title-kicker{font-size:15px;letter-spacing:0}.title-copy .title-hook{font-size:23px}.title-copy .title-description{font-size:18px;line-height:1.5}.title-actions{flex-wrap:wrap;margin:16px 0}.title-actions .title-start{min-height:56px;min-width:180px;padding:12px 18px;font-size:23px}.title-actions .title-continue{min-height:50px;font-size:18px}.title-copy .title-reward{font-size:15px}.title-jihoon{right:-6%;width:40%;height:62%;bottom:8%}.title-spirit{right:5%;top:18%;width:13%}.title-doto{right:24%;width:10%;height:16%}}
 @media(max-width:600px) and (orientation:portrait){.title-copy{left:7%;width:86%;top:40%;transform:translateY(-50%)}.title-logo{max-height:29dvh}.title-copy .title-kicker{font-size:15px}.title-copy .title-hook{font-size:24px}.title-copy .title-description{font-size:18px}.title-actions{gap:10px;margin:20px 0 16px}.title-actions .title-start{min-width:190px}.title-jihoon{height:34%;width:43%;right:2%;bottom:1%}.title-spirit{width:16%;height:13%;right:8%;top:66%}.title-doto{width:15%;height:17%;right:38%;bottom:2%}.title-reward svg{display:none}}
 /* Each major surface owns a real grid row. The activity never sits beneath its controls. */
-.game-header{grid-area:header;position:relative;z-index:6;display:grid;gap:8px;padding:12px clamp(12px,2vw,28px);background:var(--forest-100);min-width:0}
+.game-header{grid-area:header;position:relative;z-index:6;display:grid;gap:8px;padding:12px clamp(12px,2vw,28px);min-width:0}
 .screen-nav{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:clamp(10px,1.4vw,24px);min-width:0}
 .nav-left,.nav-right{display:flex;align-items:center;gap:8px;min-width:0}
 .nav-right{grid-column:3;justify-self:end}
@@ -197,7 +197,6 @@ dialog details{margin-top:8px;border-top:1px solid var(--color-border-soft)}dial
 #app:not([data-view=title]) #stage{grid-row:1/-1;grid-column:1/-1}
 #app:not([data-view=title]) :is(.game-header,.game-footer,.screen-nav,#controls)>*{pointer-events:auto}
 #app:not([data-view=title]) :is(.game-header,.game-footer,.screen-nav,#controls,#status){pointer-events:none}
-#app:not([data-view=title]) .game-header{background:linear-gradient(#123329b8,#1233295c 62%,#12332900)}
 #app:not([data-view=title]) .game-footer{border-top:0;background:linear-gradient(#12332900,#1233296b 42%,#123329c4)}
 #app:not([data-view=title]) #status{position:absolute;left:50%;bottom:calc(100% + 6px);transform:translateX(-50%);height:auto;min-height:0;max-width:min(760px,calc(100% - 24px));padding:10px 20px}
 #app:not([data-view=title]) #status.visible{background:#fffbedf5;border:2px solid var(--color-accent);box-shadow:var(--shadow-card)}

@@ -8,6 +8,7 @@
     "test": "node scripts/sync-info.mjs && node --test tests/*.test.js",
     "check": "node scripts/sync-info.mjs && node scripts/check.mjs",
     "build": "node scripts/sync-info.mjs && node scripts/build.mjs",
+    "release:pages": "node scripts/release-pages.mjs",
     "preview": "node server.mjs --dist",
     "concepts:render": "node scripts/render-concepts.mjs",
     "check:classroom": "node scripts/qa-field-regression.mjs && node scripts/qa-classroom-media.mjs && node scripts/qa-popup-survey.mjs"

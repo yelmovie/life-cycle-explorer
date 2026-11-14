@@ -43,6 +43,7 @@ for (const relative of runtime) {
   // Templates such as scene-${String(n + 1).padStart(2,'0')}.webp become
   // a bounded filename pattern. No application code is executed by this build.
   const source = (await readFile(path.join(root,relative),'utf8')).replace(/\$\{[^}]*\}/g,'*');
+  if (/\.(?:css|js|html)$/.test(relative)&&/\b(?:Jua|jua-[a-z]+-400\.woff2)\b/i.test(source)) throw new Error(`Use NanumSquareNeo instead of Jua: ${relative}`);
   const references = new Set(source.match(/\bassets\/[A-Za-z0-9_./*\-]+\.(?:png|webp|svg|jpe?g|gif|avif|ico|woff2?|mp4|webm|wav|mp3|glb)\b/gi) || []);
   for (const reference of references) {
     const pattern = patternFor(reference);
@@ -66,8 +67,9 @@ for (const relative of selected) {
   entries.push({path:relative,bytes:content.length,sha256:createHash('sha256').update(content).digest('hex')});
 }
 const totalBytes = entries.reduce((sum,entry) => sum+entry.bytes,0);
-const cacheVersion=createHash('sha256').update(JSON.stringify(entries)).digest('hex').slice(0,20);
-const worker=(await readFile(path.join(root,'scripts/service-worker-template.js'),'utf8')).replace('__CACHE_VERSION__',JSON.stringify(cacheVersion)).replace('__CACHE_FILES__',JSON.stringify(entries));
+const template=await readFile(path.join(root,'scripts/service-worker-template.js'),'utf8');
+const cacheVersion=createHash('sha256').update(template).update(JSON.stringify(entries)).digest('hex').slice(0,20);
+const worker=template.replace('__CACHE_VERSION__',JSON.stringify(cacheVersion)).replace('__CACHE_FILES__',JSON.stringify(entries));
 
 if (!dryRun) {
   const allowed = new Set([...selected,'build-manifest.json','service-worker.js']);
