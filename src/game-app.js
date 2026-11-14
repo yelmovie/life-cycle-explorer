@@ -274,7 +274,10 @@ function positionDoors(items,companion,hero){
  if(mode()!=='map')return;const stage=$('stage'),width=stage.clientWidth,area=stage.getBoundingClientRect(),gap=12;
  // Keep doors between the floating header and footer.
  const top=Math.max(0,app.querySelector('.game-header').getBoundingClientRect().bottom-area.top),height=Math.min(stage.clientHeight,app.querySelector('.game-footer').getBoundingClientRect().top-area.top)-top;
- const boxes=items.map(item=>{const button=$('map-doors').querySelector(`[data-chapter="${item.chapter}"]`),p=coordinates({...item,w:0,h:0});if(!button||!p)return null;const rect=button.getBoundingClientRect();return {button,x:p.left,y:p.top,w:rect.width,h:rect.height};}).filter(Boolean).sort((a,b)=>a.y-b.y);
+ const boxes=items.map(item=>{const button=$('map-doors').querySelector(`[data-chapter="${item.chapter}"]`),p=coordinates({...item,w:0,h:0});if(!button||!p)return null;const rect=button.getBoundingClientRect();const patrol=stage.querySelector(`[data-encounter="${['butterfly','seed','care','season','clock'][item.chapter]}"]:not([hidden])`);
+  // Keep each sign above its occupied doorway while the patrol is still active.
+  const lift=patrol&&patrol.dataset.hit!=='3'?72:0;
+  return {button,x:p.left,y:p.top-lift,w:rect.width,h:rect.height};}).filter(Boolean).sort((a,b)=>a.y-b.y);
  const clamp=box=>{box.x=Math.max(gap+box.w/2,Math.min(width-gap-box.w/2,box.x));box.y=Math.max(top+gap+box.h/2,Math.min(top+height-gap-box.h/2,box.y));};
  for(const box of boxes)clamp(box);
  for(let pass=0;pass<5;pass++)for(let i=1;i<boxes.length;i++)for(let j=0;j<i;j++){
