@@ -2,7 +2,7 @@
 export const SETTINGS_CONTENT = Object.freeze({
   title: '설정',
   appName: '생명 시계 연구실',
-  purpose: '생명 탐험',
+  purpose: '탐험 목적',
   purposeText: '지훈과 함께 생물을 관찰하고, 조건을 바꾸어 실험하며 근거로 설명하는 힘을 연습해요.',
   rewardText: '탐구 도구와 생명 고리의 빛을 모아 숲의 생명 시계를 깨워요.',
   learningText: '처음의 예상, 관찰한 근거, 다시 확인한 결과와 실제 관찰 약속이 탐구 기록으로 남아요.',
