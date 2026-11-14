@@ -63,6 +63,8 @@ export function renderPlantRoom(v,ctx,phase){
  if(c===1){
   const r=q.rounds[q.round],started=!!r.run,day=started?r.day:0,variable=r.variable;
   const positions={a:390,b:790};
+  // The soil is viewed from above, inside the rim of vessel.webp.
+  const soilY=337;
   for(const side of ['a','b']){
    const x=positions[side],p=r.prepared[side],state=seedObservation(r,side),cond=state.condition;
    observationMat(x,405,330,310);
@@ -72,7 +74,11 @@ export function renderPlantRoom(v,ctx,phase){
    if(started){fadeSpecimen('pot'+state.level,x,410,280,`seed-${q.round}-${side}`,day);label(x,630,state.detail+(phase==='grow'&&ctx.ui.crossSection?'\n'+(state.level?'흙 속: 뿌리 먼저 → 줄기와 잎':'흙 속: 아직 뿌리가 보이지 않아'):''),21,340).setDepth(3);}
    else{
     specimen('vessel',x,410,280);
-    if(p.soil){v.add.ellipse(x,423,148,42,cond.water?0x3a2718:0x614a32);if(cond.water)v.add.ellipse(x-22,416,58,10,0xa9dcea,.55);for(let n=0;n<p.seeds;n++)v.pic('seed0',x-43+n*43,420,24);}
+    if(p.soil){
+     v.add.ellipse(x,soilY,118,43,cond.water?0x3a2718:0x614a32);
+     if(cond.water)v.add.ellipse(x-19,soilY-6,48,8,0xa9dcea,.55);
+     for(let n=0;n<p.seeds;n++)v.pic('seed0',x-34+n*34,soilY-1,24);
+    }
    }
    if(phase==='prepare'){
     const ready=p.soil&&p.seeds===3;
@@ -97,10 +103,18 @@ export function renderPlantRoom(v,ctx,phase){
   if(phase==='design'&&ctx.ui.waterFx){
    ctx.ui.waterFx=false;const x=positions.b;
    if(!reduced){
-    // Spout of the pouring-can art sits at (0.27, 0.55) of the image.
-    const can=v.pic('watercanPour',x+115,290,230).setDepth(40).setAlpha(0);
-    v.tweens.add({targets:can,alpha:1,x:x+105,duration:350,onComplete:()=>{
-     for(let i=0;i<22;i++){const d=v.add.ellipse(x+40+Math.random()*30,340,7,12,0x6dbbd1).setDepth(39).setAlpha(0);v.tweens.add({targets:d,alpha:{from:.9,to:.9},y:418,x:'-=' + Math.round(10+Math.random()*30),delay:i*55,duration:420,onComplete:()=>{d.destroy();const s=v.add.ellipse(d.x,421,14,5,0xa9dcea,.8).setDepth(39);v.tweens.add({targets:s,scaleX:2.4,alpha:0,duration:350,onComplete:()=>s.destroy()});}});}
+    // Align the painted stream with the soil, then animate drops from its spout.
+    const canSize=190,can=v.pic('watercanPour',x+98,soilY-88,canSize).setDepth(40).setAlpha(0);
+    v.tweens.add({targets:can,alpha:1,x:x+88,duration:350,onComplete:()=>{
+     for(let i=0;i<22;i++){
+      const d=v.add.ellipse(can.x-canSize*.23+(Math.random()-.5)*8,can.y+canSize*.05,7,12,0x6dbbd1).setDepth(39).setAlpha(0);
+      const landingX=x+9+Math.random()*18,landingY=soilY-5+Math.random()*7;
+      v.tweens.add({targets:d,alpha:{from:.9,to:.9},x:landingX,y:landingY,delay:i*55,duration:350,onComplete:()=>{
+       d.destroy();
+       const splash=v.add.ellipse(landingX,landingY,14,5,0xa9dcea,.8).setDepth(39);
+       v.tweens.add({targets:splash,scaleX:2.4,alpha:0,duration:350,onComplete:()=>splash.destroy()});
+      }});
+     }
      v.tweens.add({targets:can,alpha:0,delay:1500,duration:350,onComplete:()=>can.destroy()});
     }});
    }
