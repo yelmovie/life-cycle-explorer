@@ -425,3 +425,13 @@ dialog.cinema-dialog::backdrop{background:#0d1f19}
   #app[data-view="map"] #guide-bubble { bottom: calc(100% + 44px + 2 * var(--map-gap)); }
 
 }
+
+
+/* The shared settings heading is independent of the grid used by activity dialogs. */
+html body dialog.settings-dialog[data-science-settings]>.close {
+ position:absolute;top:16px;right:20px;z-index:1;
+}
+html body dialog.settings-dialog[data-science-settings]>h2 {
+ align-self:stretch;display:flex;align-items:center;min-height:48px;margin:0;padding-right:60px;text-align:left;
+}
+html body dialog[data-science-settings] .science-settings-audio>.science-settings-volume {grid-column:1}
