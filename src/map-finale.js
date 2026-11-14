@@ -10,7 +10,7 @@ export function openMapFinale(host, source) {
  const video=doc.createElement('video');video.src=source;video.playsInline=true;video.muted=true;video.controls=true;video.autoplay=true;video.preload='metadata';video.setAttribute('aria-label','지도 탐험 피날레 영상');
  Object.assign(video.style,{display:'block',width:'100%',maxHeight:'min(62dvh, calc(100dvh - 148px))',borderRadius:'8px',background:'#080e10'});
  const status=doc.createElement('p');status.hidden=true;status.role='status';
- const close=doc.createElement('button');close.type='button';close.textContent='지도로 돌아가기';Object.assign(close.style,{marginTop:'10px',minWidth:'148px',maxWidth:'100%',minHeight:'44px',padding:'6px 18px',border:'1px solid #b6cebe',borderRadius:'8px',background:'#f4f7ea',color:'#20362d',font:'600 16px/1.25 system-ui',cursor:'pointer'});
+ const close=doc.createElement('button');close.type='button';close.textContent='지도로 돌아가기';Object.assign(close.style,{marginTop:'10px',minWidth:'148px',maxWidth:'100%',minHeight:'44px',padding:'6px 18px',border:'1px solid #b6cebe',borderRadius:'8px',background:'#f4f7ea',color:'#20362d',font:'600 16px/1.25 NanumSquareNeo,system-ui',cursor:'pointer'});
  dialog.append(title,video,status,close);doc.body.append(dialog);dialog.showModal();
  // This dialog has a single column; the activity dialogs use a separate header and close-button grid.
  dialog.style.display='block';
