@@ -222,7 +222,7 @@ dialog details{margin-top:8px;border-top:1px solid var(--color-border-soft)}dial
 .flat-specimens article div{display:grid;gap:4px;width:100%}
 .flat-specimens button{min-height:44px;padding:6px;font-size:clamp(14px,1.5vw,19px)}
 @media(max-width:700px){.flat-specimens{grid-template-columns:repeat(2,minmax(0,1fr))}}
-#app[data-field-ready=false]:not([data-view=title]) .game-footer{visibility:hidden}
+#app[data-field-ready=false]:not([data-view=title]) :is(#phaser-root,.game-footer){visibility:hidden}
 #app:has(#flat-observation:not([hidden])) #objective{display:none}
 .modal-portrait{display:none}
 @media(orientation:portrait){dialog[open] .modal-portrait{display:flex;position:absolute;inset:0;z-index:50;align-items:center;justify-content:center;padding:24px;text-align:center;background:var(--cream-50);font-size:28px;line-height:1.5;border-radius:inherit}dialog[open]>.modal-body,dialog[open]>h2,dialog[open]>.close,dialog[open]>.dialog-actions{visibility:hidden}}

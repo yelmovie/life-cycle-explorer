@@ -67,11 +67,11 @@ export function renderFieldRoom(v,ctx){
    v.label(BX[0],205,reused?'나비의 숲에서 본 나비':'나비의 시간',25,345);v.label(BX[1],205,'개의 시간',26,300);
    if(reused){
     for(const [i,id] of ['egg','larva','pupa','adult'].entries()){
-     const x=305+(i%2)*286,y=295+Math.floor(i/2)*156;
+     const x=BX[0]+(i%2?91:-91),y=285+Math.floor(i/2)*141;
      v.pic(id,x,y,id==='egg'?52:120,105);
      v.text(x,y+62,FORM_NAMES[id],19,124);
     }
-    v.label(BX[0],600,'내가 관찰한 한살이',21,300);
+    v.label(BX[0],554,'내가 관찰한 한살이',21,300);
    }else v.pic(['egg','larva','pupa','adult'][phase==='animal-birth'?3:a.butterfly.step],BX[0],345,phase==='animal-birth'?200:a.butterfly.step===0?160:230);
    v.pic(['puppy','dogYoung','dog'][a.dog.step],BX[1],345,250,230);
    if(phase==='animals'){

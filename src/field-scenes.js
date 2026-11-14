@@ -167,6 +167,13 @@ export function createFieldGame(context){
   }
   showDropTargets(){this.showHint(/./,this.children.getChildren().filter(o=>o.getData?.('target')).map(o=>({x:o.x,y:o.y,w:o.width,h:o.height,label:'놓을 자리'})));}
   retryAssets(){if(this.loading)return;this.failed.clear();this.assetAttempts.clear();this.assetFailure=null;this.refresh();}
+  clearSceneContents(){
+   this.clearMapInput?.();this.clearMapInput=null;
+   this.renderToken++;this.travelId=(this.travelId||0)+1;this.walking=false;this.guidedWalk=false;this.autoPlay=null;this.startTower=null;this.focusTargets=[];context.noteBox?.(null);context.focusTargets([]);this.tweens.killAll();this.time.removeAllEvents();this.input.removeAllListeners();this.input.keyboard?.removeAllListeners();
+   this.children.removeAll(true);this.avatar=this.foot=this.spirit=this.mapLand=this.pickMark=null;this.hintMarks=[];for(const key of this.recordTextures||[])if(this.textures.exists(key))this.textures.remove(key);this.recordTextures=[];
+   for(const mask of this.worldMasks||[])mask.destroy();this.worldMasks=[];
+   if(this.lensMask){this.lensMask.destroy();this.lensMask=null;}
+  }
   refresh(){
    if(this.loading)return;
    const css=typeof getComputedStyle==='function'&&globalThis.document?.documentElement?getComputedStyle(document.documentElement):null,token=(name,fallback)=>css?.getPropertyValue(name).trim()||fallback;
@@ -175,13 +182,14 @@ export function createFieldGame(context){
    const keys=mode==='room'?[...fieldRoomAssets(context),...['guideLook','guideCare','guideTime','guideStory']]:mode==='map'?['forestMap','ipsae','guideLook','guideStory','walker','doto']:[];
    const unavailable=[...new Set(keys)].filter(key=>!this.textures.exists(key));
    const missing=unavailable.filter(key=>this.paths[key]&&(this.assetAttempts.get(key)||0)<2);
-   if(missing.length){this.loading=true;this.input.enabled=false;context.focusTargets([]);context.emit('assets-loading');this.load.once('complete',()=>{this.loading=false;this.refresh();});for(const key of missing)key==='walker'?this.load.spritesheet(key,this.paths[key],{frameWidth:256,frameHeight:256}):this.load.image(key,this.paths[key]);this.load.start();return;}
-   this.clearMapInput?.();this.clearMapInput=null;
+   if(missing.length){
+    this.loading=true;this.input.enabled=false;
+    // A previous room's viewer, delayed actions or tweens must never run underneath a new room's loader.
+    this.clearSceneContents();
+    context.emit('assets-loading');
+    this.load.once('complete',()=>{this.loading=false;this.refresh();});for(const key of missing)key==='walker'?this.load.spritesheet(key,this.paths[key],{frameWidth:256,frameHeight:256}):this.load.image(key,this.paths[key]);this.load.start();return;}
+   this.clearSceneContents();
    if(mode!=='map')this.priorMapView=null;
-   this.renderToken++;this.walking=false;this.guidedWalk=false;this.autoPlay=null;this.startTower=null;this.focusTargets=[];context.noteBox?.(null);this.tweens.killAll();this.time.removeAllEvents();this.input.removeAllListeners();this.input.keyboard?.removeAllListeners();
-   this.children.removeAll(true);for(const key of this.recordTextures||[])if(this.textures.exists(key))this.textures.remove(key);this.recordTextures=[];
-   for(const mask of this.worldMasks||[])mask.destroy();this.worldMasks=[];
-   if(this.lensMask){this.lensMask.destroy();this.lensMask=null;}
    this.input.enabled=!context.modalOpen();this.configureViewport(mode);
    if(unavailable.length){
     this.input.enabled=false;

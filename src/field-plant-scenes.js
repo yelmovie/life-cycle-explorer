@@ -27,7 +27,7 @@ export function renderPlantRoom(v,ctx,phase){
  const dial=(x,y,value,max,type,labels)=>{v.dial('timeWheel',x,y,value,max,'dial',labels);ctx.ui.dial={type,payload:{}};};
  const fadeSpecimen=(key,x,y,size,id,frame)=>{
   const next=specimen(key,x,y,size);ctx.ui.plantFrames||={};const previous=ctx.ui.plantFrames[id];ctx.ui.plantFrames[id]={key,frame};
-  if(previous&&previous.frame!==frame&&!reduced){const old=v.pic(previous.key,x,y,size,size);next.setAlpha(0);v.tweens.add({targets:old,alpha:0,duration:600,onComplete:()=>old.destroy()});v.tweens.add({targets:next,alpha:1,duration:700});}
+  if(previous&&previous.key!==key&&previous.frame!==frame&&!reduced){const old=v.pic(previous.key,x,y,size,size);next.setAlpha(0);v.tweens.add({targets:old,alpha:0,duration:320,onComplete:()=>old.destroy()});v.tweens.add({targets:next,alpha:1,duration:320});}
   return next;
  };
  const thermo=(x,y,temp,h=140)=>{
@@ -72,7 +72,7 @@ export function renderPlantRoom(v,ctx,phase){
    if(started){fadeSpecimen('pot'+state.level,x,410,280,`seed-${q.round}-${side}`,day);label(x,630,state.detail+(phase==='grow'&&ctx.ui.crossSection?'\n'+(state.level?'흙 속: 뿌리 먼저 → 줄기와 잎':'흙 속: 아직 뿌리가 보이지 않아'):''),21,340).setDepth(3);}
    else{
     specimen('vessel',x,410,280);
-    if(p.soil){v.add.ellipse(x,423,148,42,cond.water?0x3a2718:0x614a32);if(cond.water)v.add.ellipse(x-22,416,58,10,0xa9dcea,.55);for(let n=0;n<p.seeds;n++)v.pic('seed0',x-35+n*35,420,10);}
+    if(p.soil){v.add.ellipse(x,423,148,42,cond.water?0x3a2718:0x614a32);if(cond.water)v.add.ellipse(x-22,416,58,10,0xa9dcea,.55);for(let n=0;n<p.seeds;n++)v.pic('seed0',x-43+n*43,420,24);}
    }
    if(phase==='prepare'){
     const ready=p.soil&&p.seeds===3;
