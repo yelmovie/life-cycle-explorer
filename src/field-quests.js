@@ -9,7 +9,10 @@ const bank=field=>fieldRecords(field);
 const state=(field,c=field.active)=>normalizeDiscovery(c,field.chapters[c]?.discovery,bank(field));
 export const questReady=(field,c=field.active)=>{const a=state(field,c),records=bank(field);return [0,1].every(step=>discoveryStepDone(c,step,a[step],records));};
 const currentStep=(field,c=field.active)=>{const a=state(field,c);return discoveryStepDone(c,0,a[0],bank(field))?1:0;};
-export function questInfo(field){const c=field.active,step=currentStep(field);return {objective:`추가 발견 ${step+1}/2 · ${DISCOVERY_MISSIONS[c].objectives[step]}`,controls:'',next:'발견 미션 안내',nextAction:'hint'};}
+export function questInfo(field){
+ const c=field.active,step=currentStep(field),clue=DISCOVERY_MISSIONS[c].objectives[step];
+ return {step,clue,objective:`추가 발견 ${step+1}/2 · ${clue}`,controls:'',next:'발견 미션 안내',nextAction:'hint'};
+}
 
 export function applyQuest(field,payload={}){
  const c=field.active,q=field.chapters[c],records=bank(field),p=payload&&typeof payload==='object'?payload:{};

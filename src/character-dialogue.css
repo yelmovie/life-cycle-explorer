@@ -142,7 +142,7 @@ body dialog.npc-dialogue-stage > :is(.dialog-body,.modal-body) {
   font-size: clamp(16px, 1.8vw, 20px);
 }
 @media (prefers-reduced-motion: no-preference) {
-  .doto-hint[data-speaking="true"] .npc-dialogue-portrait { animation: npc-dialogue-speech 840ms step-end 2; }
+  .doto-hint[data-speaking="true"] .npc-dialogue-portrait { animation: npc-dialogue-speech 840ms step-end infinite; }
 }
 @media (max-height: 520px) {
   .npc-dialogue-portrait { width: min(45dvh, 58vw); }

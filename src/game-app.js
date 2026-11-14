@@ -21,7 +21,7 @@ import {previewFieldForPhase} from './field-preview.js';
 import {autoPlayable} from './field-autoplay.js';
 import {openConcept} from './field-concepts.js';
 import {openCinema} from './field-cinema.js';
-import {COMPANION_ART,companionHint,stageProgress,hintTarget} from './field-companion.js';
+import {COMPANION_ART,companionLine,companionMapLine,companionDiscoveryLine,stageProgress,hintTarget} from './field-companion.js';
 
 const storage={getItem(key){return window.localStorage.getItem(key);},setItem(key,value){window.localStorage.setItem(key,value);}};
 const TEACHER_SESSION_KEY='life-clock-lab.teacher-preview.1';
@@ -52,11 +52,35 @@ guideBubble.innerHTML=`<div class="npc-dialogue-portrait" aria-hidden="true"></d
 const guidePortrait=guideBubble.querySelector('.npc-dialogue-portrait'),guideText=$('guide-text');
 const guidePoint=guideBubble.querySelector('[data-action=hint-point]'),guideMore=guideBubble.querySelector('[data-action=hint-more]'),guideClose=guideBubble.querySelector('[data-action=hint-close]');
 guidePortrait.style.setProperty('--npc-dialogue-art',`url("${dialogueCast.find(c=>c.id==='doto').image}")`);
-function stopGuideMotion(){delete guideBubble.dataset.speaking;}
-guidePortrait.addEventListener('animationend',stopGuideMotion);
-modal.addEventListener('modal-dismiss',stopGuideMotion);
-document.addEventListener('visibilitychange',()=>{if(document.hidden)stopGuideMotion();});
-window.addEventListener('pagehide',stopGuideMotion);
+let guidePlayer=null,guideLineKey=null;
+function setGuideMotion(speaking){
+ guideBubble.dataset.speaking=String(speaking&&!reducedMotion(s.settings));
+}
+function stopGuideVoice(){
+ const player=guidePlayer;guidePlayer=null;setGuideMotion(false);
+ if(!player)return;
+ player.onplaying=player.onpause=player.onwaiting=player.onended=player.onerror=null;
+ player.pause();player.removeAttribute('src');player.load();
+ if(player.dataset.holdingMusic==='true')audio.resumeAudio();
+}
+function speakGuide(key){
+ stopGuideVoice();
+ if(!key||!s.audio.sfx||document.hidden||modal.open)return;
+ const player=guidePlayer=new Audio(`assets/audio/doto-hints/${key}.mp3`);
+ player.volume=.7;
+ player.onplaying=()=>{
+  if(guidePlayer!==player)return;
+  if(player.dataset.holdingMusic!=='true'){audio.pauseAudio();player.dataset.holdingMusic='true';}
+  setGuideMotion(true);
+ };
+ player.onpause=player.onwaiting=()=>{if(guidePlayer===player)setGuideMotion(false);};
+ const done=()=>{if(guidePlayer===player)stopGuideVoice();};
+ player.onended=player.onerror=done;
+ void player.play().catch(done);
+}
+modal.addEventListener('modal-dismiss',stopGuideVoice);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)stopGuideVoice();});
+window.addEventListener('pagehide',stopGuideVoice);
 // Keep only the teacher's mode/location in this tab. Student answers stay in
 // their existing storage; demonstration answers are rebuilt from sample data.
 function rememberTeacherPreview(){
@@ -75,9 +99,14 @@ function restoreTeacherPreview(){
 function saveIssue(){const reason=G.getSaveStatus(storage).reason;return reason==='conflict'?'다른 창에서 기록이 바뀌어 덮어쓰기를 멈췄어. 기록함에서 지금 활동을 보관한 뒤 새로고침해 줘.':['invalid-json','invalid-structure','unsupported-version'].includes(reason)?'저장된 기록을 읽지 못해서 원본을 보호하고 있어. 기록함에서 기존 원본과 지금 활동을 따로 보관할 수 있어.':'기기에 저장하지 못했어. 기록함에서 지금까지의 활동을 파일로 보관해 줘.';}
 function persist(){if(previewOriginal){previewOriginal.audio={...s.audio};return true;}const ok=G.saveGame(storage,s);if(!ok){ui.message=saveIssue();ui.pending=true;$('status').textContent=ui.message;$('status').classList.add('visible');}return ok;}
 function announce(message,error=false){ui.message=message;ui.pending=error;$('status').textContent=message;$('status').classList.add('visible');clearTimeout(statusTimer);statusTimer=setTimeout(()=>$('status').classList.remove('visible'),3400);audio.playSfx(error?'error':'place');updateGuide();}
-function hint(){
- if(mode()==='map'){const n=[0,1,2,3,4].find(c=>!s.field.completed.includes(c));return n===undefined?'다섯 장소의 시간이 이어졌어. 다시 걸어가 기록을 더 살펴보자.':FIELD_CHAPTERS[n].title+'로 가 보자. 장소나 길을 누르면 내가 길을 따라 걸어갈게.';}
- return FIELD_CHAPTERS[s.field.active].start;
+function currentGuideLine(phase){
+ if(phase==='discovery'&&ui.hintLevel===0){
+  const {step,clue}=questInfo(s.field);
+  return companionDiscoveryLine(s.field.active,step,clue);
+ }
+ if(phase)return companionLine(phase,ui.hintLevel);
+ const chapter=FIELD_CHAPTERS.findIndex((_,i)=>!s.field.completed.includes(i));
+ return chapter<0?companionMapLine():companionMapLine(chapter,FIELD_CHAPTERS[chapter].title);
 }
 function syncOrientationFocus(){
  const portrait=innerHeight>innerWidth,notice=modal.querySelector('.modal-portrait');
@@ -85,28 +114,25 @@ function syncOrientationFocus(){
  else if(!portrait&&ui.rotationFocus?.isConnected){ui.rotationFocus.focus({preventScroll:true});ui.rotationFocus=null;}
 }
 function closeGuide(){ui.guide=false;updateGuide();const target=ui.hintReturn?.isConnected?ui.hintReturn:$('guide');target.focus({preventScroll:true});ui.hintReturn=null;}
-function updateGuide(){
+function updateGuide(speak=false){
  const button=$('guide'),map=mode()==='map',host=app.querySelector(map?'.map-companion-layer':'.guide-tools');
  if(button.parentElement!==host){if(!map)button.removeAttribute('style');button.hidden=map;host.prepend(button);}
  button.querySelector('img').src=COMPANION_ART;button.querySelector('span').textContent=map?'…':ui.pending?'도토 !':'도토 힌트';
  button.setAttribute('aria-label','다람쥐 도토의 힌트');button.setAttribute('aria-controls','guide-bubble');button.setAttribute('aria-expanded',String(ui.guide));
  const opening=guideBubble.hidden&&ui.guide;
  guideBubble.hidden=!ui.guide;
- if(!ui.guide){stopGuideMotion();return;}
+ if(!ui.guide){guideLineKey=null;stopGuideVoice();return;}
  const phase=mode()==='room'?roomPhase(s.field):null;
- const text=phase?(phase==='discovery'&&ui.hintLevel===0?questInfo(s.field).objective:companionHint(phase,ui.hintLevel)):hint();
+ const {key,text}=currentGuideLine(phase);
  const focused=document.activeElement;
  guidePoint.hidden=!phase||!hintTarget(phase);
  guideMore.hidden=!phase||ui.hintLevel!==0;
  if((focused===guideMore||focused===guidePoint)&&focused.hidden)(guidePoint.hidden?guideClose:guidePoint).focus({preventScroll:true});
- if(opening||guideText.textContent!==text){
+ if(opening||guideLineKey!==key||guideText.textContent!==text){
+  guideLineKey=key;
   guideText.textContent=text;
-  stopGuideMotion();
-  if(!modal.open&&!document.hidden&&!reducedMotion(s.settings)){
-   // Restart the same two-frame animation when a new hint replaces the line.
-   void guidePortrait.offsetWidth;
-   guideBubble.dataset.speaking='true';
-  }
+  if(speak)speakGuide(key);
+  else stopGuideVoice();
  }
 }
 
@@ -454,11 +480,11 @@ function action(name,b){void audio.initAudio(s.audio);audio.playSfx('click');
  if(name==='reward-continue'){if(Number(b.dataset.chapter)===4){finale();return;}modal.close();return;}
  if(name==='reward-concept'){const c=Number(b.dataset.chapter);if(s.field.completed.includes(c))concept(c,true);return;}
  if(name==='time-stop'){act(b.dataset.type,b.dataset.type==='season'?{step:Number(b.dataset.value)}:{day:Number(b.dataset.value)});return;}
- if(name==='hint-more'){ui.message='';ui.hintLevel=Math.min(1,ui.hintLevel+1);updateGuide();return;}if(name==='hint-point'){ctx.scene?.showHint?.(hintTarget(roomPhase(s.field)));return;}
- if(name==='sound'){const on=s.audio.bgm||s.audio.sfx;if(on){ui.previousAudio={...s.audio};s.audio.bgm=false;s.audio.sfx=false;}else s.audio=ui.previousAudio||{...s.audio,sfx:true};audio.updateAudio(s.audio);persist();render();return;}
+ if(name==='hint-more'){ui.message='';ui.hintLevel=Math.min(1,ui.hintLevel+1);updateGuide(true);return;}if(name==='hint-point'){ctx.scene?.showHint?.(hintTarget(roomPhase(s.field)));return;}
+ if(name==='sound'){const on=s.audio.bgm||s.audio.sfx;if(on){ui.previousAudio={...s.audio};s.audio.bgm=false;s.audio.sfx=false;}else s.audio=ui.previousAudio||{...s.audio,sfx:true};if(!s.audio.sfx)stopGuideVoice();audio.updateAudio(s.audio);persist();render();return;}
  if(name==='audio-bgm'||name==='audio-sfx'){const k=name==='audio-bgm'?'bgm':'sfx';s.audio[k]=!s.audio[k];audio.updateAudio(s.audio);persist();render();settings();return;}
- if(name==='guide'){if(ui.guide){closeGuide();return;}if(mode()==='map'&&Number.isInteger(ui.travelChapter))ctx.scene?.cancelTravel?.();ui.hintReturn=b;ui.guide=true;if(!ui.pending)ui.message='';ui.pending=false;updateGuide();return;}if(name==='hint-close'){closeGuide();return;}if(name==='door'||name==='door-next'){if(name==='door-next')modal.close();requestDoor(Number(b.dataset.chapter));return;}if(name==='step'){ctx.scene?.step(Number(b.dataset.x),Number(b.dataset.y));return;}
- if(name==='next'){if(mode()==='map'){const c=FIELD_CHAPTERS.findIndex((_,i)=>!s.field.completed.includes(i)&&fieldUnlocked(s.field,i));if(c<0)dialogs.story();else requestDoor(c);return;}if(previewOriginal){const chapter=s.field.active,phase=stageProgress(chapter,roomPhase(s.field),true).nextPhase;if(phase){s.field=previewFieldForPhase(s.field,chapter,phase);Object.assign(ui,{selection:null,play:false,autoPlay:false,guide:false,message:''});render();ctx.scene?.refresh();}else if(chapter<4){s.field=previewFieldForPhase(s.field,chapter+1,stageProgress(chapter+1,'',true).firstPhase);view('room');}else view('map');return;}const next=roomUI(s,ui).nextAction;if(next==='complete'){const c=s.field.active,first=!s.field.completed.includes(c);if(act('chapter-complete',{chapter:c}).ok){encounterClear=first?c:null;ui.pendingRestoreChapter=c;s.resumeRoom=false;view('map');audio.playSfx('reward');dialogs.reward(c);}return;}if(next==='hint'){ui.hintReturn=b;ui.message='';ui.guide=true;updateGuide();ctx.scene?.showHint?.(hintTarget(roomPhase(s.field)));return;}if(next==='story-info'){dialogs.storyInfo();return;}if(next==='tower-start'){
+ if(name==='guide'){if(ui.guide){closeGuide();return;}if(mode()==='map'&&Number.isInteger(ui.travelChapter))ctx.scene?.cancelTravel?.();ui.hintReturn=b;ui.guide=true;if(!ui.pending)ui.message='';ui.pending=false;updateGuide(true);return;}if(name==='hint-close'){closeGuide();return;}if(name==='door'||name==='door-next'){if(name==='door-next')modal.close();requestDoor(Number(b.dataset.chapter));return;}if(name==='step'){ctx.scene?.step(Number(b.dataset.x),Number(b.dataset.y));return;}
+ if(name==='next'){if(mode()==='map'){const c=FIELD_CHAPTERS.findIndex((_,i)=>!s.field.completed.includes(i)&&fieldUnlocked(s.field,i));if(c<0)dialogs.story();else requestDoor(c);return;}if(previewOriginal){const chapter=s.field.active,phase=stageProgress(chapter,roomPhase(s.field),true).nextPhase;if(phase){s.field=previewFieldForPhase(s.field,chapter,phase);Object.assign(ui,{selection:null,play:false,autoPlay:false,guide:false,message:''});render();ctx.scene?.refresh();}else if(chapter<4){s.field=previewFieldForPhase(s.field,chapter+1,stageProgress(chapter+1,'',true).firstPhase);view('room');}else view('map');return;}const next=roomUI(s,ui).nextAction;if(next==='complete'){const c=s.field.active,first=!s.field.completed.includes(c);if(act('chapter-complete',{chapter:c}).ok){encounterClear=first?c:null;ui.pendingRestoreChapter=c;s.resumeRoom=false;view('map');audio.playSfx('reward');dialogs.reward(c);}return;}if(next==='hint'){ui.hintReturn=b;ui.message='';ui.guide=true;updateGuide(true);ctx.scene?.showHint?.(hintTarget(roomPhase(s.field)));return;}if(next==='story-info'){dialogs.storyInfo();return;}if(next==='tower-start'){
   const start=ctx.scene?.startTower;if(!start||b.disabled)return;b.disabled=true;start();return;
  }if(next==='observation-done'){releaseObservation(s.field);Object.assign(ui,{guide:false,message:'',pending:false,hintLevel:0});audio.playSfx('success');render();ctx.scene?.refresh();return;}act(next);return;}
  if(name==='clear-drawing'){s.field.chapters[0].drawing=[];persist();ctx.scene?.refresh();return;}if(name==='map-fit'){if(mode()!=='map')return;ui.mapOverview=!ui.mapOverview;ctx.scene?.setMapOverview?.(ui.mapOverview);render();return;}if(name==='map-hand'){if(mode()!=='map')return;if(ui.mapOverview){ui.mapOverview=false;ctx.scene?.setMapOverview?.(false);}ui.mapHand=!ui.mapHand;ctx.scene?.setMapHand?.(ui.mapHand);render();return;}if(name==='autoplay'){ui.autoPlay=!ui.autoPlay;render();if(ui.autoPlay)ctx.scene?.autoPlay?.();return;}if(name==='film-play'){ui.play=!ui.play;render();ctx.scene?.refresh();return;}if(name==='cross-section'){ui.crossSection=!ui.crossSection;ctx.scene?.refresh();return;}
@@ -497,7 +523,7 @@ modal.addEventListener('toggle',e=>{const detail=e.target;if(detail instanceof H
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&ui.guide&&!modal.open){e.preventDefault();e.stopPropagation();closeGuide();}});
 const motionPreference=matchMedia('(prefers-reduced-motion: reduce)');
 motionPreference.addEventListener('change',()=>{
- if(motionPreference.matches)stopGuideMotion();
+ setGuideMotion(!!guidePlayer&&!guidePlayer.paused&&guidePlayer.readyState>=3);
  if(reducedMotion(s.settings)){ui.play=false;ui.storyStop?.();document.querySelector('#concept-video')?.pause();document.querySelectorAll('[data-handwriting]').forEach(el=>{el.classList.remove('writing');el.textContent=el.dataset.handwriting;});}
  const travel=ui.travelChapter;ctx.scene?.refresh();if(Number.isInteger(travel)&&mode()==='map')ctx.scene?.walkDoor(travel);
 });

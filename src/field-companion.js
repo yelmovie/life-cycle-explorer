@@ -11,13 +11,13 @@ const HINTS={
  draw:['종이 칸을 눌러 본 특징을 바로 적어 봐. 다 쓰고 칸 밖을 누르면 저장돼.','아래 모습을 골라 그림을 보며 써도 돼.'],
  film:['사진을 옆자리로 끌어 순서를 바꿔 봐.','내 순서 재생으로 몸의 변화가 자연스러운지 확인해.'],
  generation:['알을 잡고 새 잎으로 옮겨 봐.','부모와 새로 태어날 생명을 구분해 봐.'],
- prepare:['화분 아래 버튼을 눌러 같은 흙과 콩 세 알을 넣어 봐.','A와 B에 같은 양의 재료를 넣어야 나중에 조건 하나만 비교할 수 있어.'],
+ prepare:['화분 아래 버튼을 눌러 같은 흙과 콩 세 알을 넣어 봐.','두 화분에 같은 양을 넣어야 나중에 조건 하나만 비교할 수 있어.'],
  design:['B 조건 버튼으로 조건 하나만 바꿔 봐.','내 예상을 남긴 뒤 비교 실험을 시작해.'],
  grow:['시간 손잡이를 돌리거나 날짜 버튼을 눌러 봐.','처음·중간·마지막에 사진을 남겨 비교해.'],
- reason:['마지막 사진에서 A와 B의 싹을 먼저 비교해 봐.','두 화분에서 같게 둔 조건과 다르게 둔 조건을 살펴봐.'],
+ reason:['마지막 사진에서 A와 B의 싹을 먼저 비교해 봐.','두 화분에서 어떤 조건은 같고 어떤 조건은 다른지 살펴봐.'],
  'seed-next':['다른 조건에서도 같은 방법이 통할까?','다음 씨앗에서도 한 조건만 바꿔 비교해.'],
  measure:['물기와 빛을 재는 도구를 화분 위에 놓아 봐.','물과 빛을 모두 재면 숨은 원인을 알 수 있어.'],
- symptom:['흙 또는 잎에 표시하기 버튼을 눌러 봐.','측정한 값과 겉모습이 이어지는 부분을 찾아 봐.'],
+ symptom:['흙이나 잎에 표시하는 버튼을 눌러 봐.','측정한 값과 겉모습이 이어지는 부분을 찾아 봐.'],
  care:['측정값을 보고 알맞은 도구를 화분에 놓아 봐.','시든 모습만 보고 정하지 말고 물과 빛을 비교해.'],
  'care-after':['마지막 시간으로 옮겨 돌봄 뒤 모습을 살펴봐.','돌봄 전과 나중 모습은 노트에 자동으로 남아.'],
  'care-compare':['두 사진을 나란히 보고 달라진 점을 골라 봐.','잎이 선 방향이나 새잎의 색을 자세히 봐.'],
@@ -28,12 +28,26 @@ const HINTS={
  seasons:['계절을 돌려 겨울과 다음 봄을 찾아 봐.','아래 이름표 줄을 봐. 줄이 끝까지 이어지는지, 씨앗에서 끊기는지 살펴봐.'],
  'plant-identity':['겨울과 다음 봄의 사진을 다시 보고 이름표를 비교해 봐.','두 시점의 이름표 줄을 따라가 봐. 같은 개체인지 판단할 단서를 사진에서 찾아봐.'],
  transfer:['식물 카드를 알맞은 상자에 넣어 봐.','상자 속 사과나무·봉선화 이름표 줄과 비교해 봐. 여러 해 살아가는지, 한 해 살고 씨앗을 남기는지 생각해 봐. 겨울에 땅 위가 시들어도 땅속 부분이 살아 있다가 다시 자라는 여러해살이 식물도 있어.'],
- 'tower-evidence':['쪽지의 질문에 답해 주는 네 사진을 골라 봐.','사진 속에서 그때 무엇을 관찰하고 비교했는지 떠올려 봐.'],
+ 'tower-evidence':['질문을 읽고, 답을 보여 주는 사진을 골라 봐.','사진 속에서 그때 무엇을 관찰하고 비교했는지 떠올려 봐.'],
  'tower-note':['「연구 노트 쓰기」에서 발견과 다음 관찰 약속을 한 번에 남겨.','"나는 …을 관찰해서 …을 알았어."로 시작해 봐.'],
  'tower-run':['시계 돌리기를 한 번 누르면 바늘이 네 기록을 차례로 지나가.','네가 고른 사진 네 장으로 숲의 시간이 다시 움직여.'],
  discovery:['화면에서 새 단서를 찾아 네가 배운 방법을 써 봐.','연결하거나 표시한 다음 발견 기록을 남겨 줘.'],
  ready:['기록을 모두 모았어! 오른쪽에서 보상을 받아.','발견 영상으로 네 탐구 개념을 다시 볼 수 있어.'],
 };
-export function companionHint(phase,level=0){const hints=HINTS[phase]||HINTS.ready;return hints[Math.min(level,hints.length-1)];}
+export function companionLine(phase,level=0){
+ const key=Object.hasOwn(HINTS,phase)?phase:'ready';
+ const index=Math.min(level,HINTS[key].length-1);
+ return {key:key+'-'+index,text:HINTS[key][index]};
+}
+export function companionHint(phase,level=0){return companionLine(phase,level).text;}
+export const COMPANION_HINT_LINES=Object.keys(HINTS).flatMap(phase=>HINTS[phase].map((_,index)=>companionLine(phase,index)));
+export function companionMapLine(chapter,title){
+ if(!Number.isInteger(chapter))return {key:'map-done',text:'다섯 장소의 시간이 이어졌어. 다시 걸어가 기록을 더 살펴보자.'};
+ if(chapter===0)return {key:'map-0',text:'나비의 숲에 가 보자. 장소나 길을 누르면 내가 길을 따라 걸어갈게.'};
+ const final=(title.charCodeAt(title.length-1)-0xac00)%28;
+ const direction=final&&final!==8?'으로':'로';
+ return {key:'map-'+chapter,text:title+direction+' 가 보자. 장소나 길을 누르면 내가 길을 따라 걸어갈게.'};
+}
+export function companionDiscoveryLine(chapter,step,text){return {key:`discovery-${chapter}-${step}`,text};}
 export function stageProgress(chapter,phase,preview=false){const steps=preview||phase==='discovery'?[...STEPS[chapter],['discovery','추가 발견']]:STEPS[chapter],index=phase==='ready'?steps.length:Math.max(0,steps.findIndex(([p])=>p===phase));return {index,total:steps.length,phase:steps[index]?.[0]||'ready',nextPhase:steps[index+1]?.[0],firstPhase:steps[0][0],label:phase==='ready'?'탐사 완료':steps[index][1],html:preview?`<select class="teacher-phase" aria-label="시연할 활동 단계" data-preview-phase>${steps.map(([id,label],i)=>`<option value="${id}" ${id===phase?'selected':''}>활동 바로가기 · ${i+1}. ${label}</option>`).join('')}</select>`:steps.map(([,label],i)=>`<span class="phase-dot ${i<index?'done':i===index?'current':''}" title="${label}">${i<index?'✓':i+1}</span>`).join('')};}
 export function hintTarget(phase){return ({search:/확대|보기/,draw:/보며 쓰기/,film:/사진 옮기기/,grow:/시간/,measure:/재기|재는 도구/,seasons:/시간/,'tower-run':/시곗바늘/})[phase]??null;}

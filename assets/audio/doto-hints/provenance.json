@@ -1,0 +1,695 @@
+{
+  "provider": "Higgsfield",
+  "engine": "ElevenLabs via text2speech_v2",
+  "preset": "Jake",
+  "reference": [
+    "doto-hello.mp3",
+    "doto-clue.mp3"
+  ],
+  "comparison": {
+    "metric": "Earshot mean cosine against the two references for the seed hint sample",
+    "Jake (ElevenLabs)": 0.612,
+    "Jake (Seed Audio)": 0.159,
+    "Benji (Seed Audio)": 0.132
+  },
+  "editing": "Grouped takes split at pauses; individually recorded where needed. Playback levels checked with Earshot; transcripts reviewed with Whisper Korean ASR.",
+  "lines": [
+    {
+      "key": "search-0",
+      "text": "보기 버튼을 누르면 크게 확대돼. 위쪽 이름을 눌러 네 모습을 하나씩 살펴봐.",
+      "sha256": "bc7d9ced8d3fd6b38d9cd066a5a417a7a1ef0b6d9bcd24388ef5c56fe91a0860",
+      "higgsfieldJobId": "300207f5-1165-4666-8b1a-560d89d3a123",
+      "asr": "보기 버튼을 누르면 크게 확대돼. 위쪽 이름을 눌러 네 모습을 하나씩 살펴봐."
+    },
+    {
+      "key": "search-1",
+      "text": "애벌레와 어른벌레를 나란히 보면 없던 부분이 어디에 생겼는지 찾을 수 있어.",
+      "sha256": "d97fbd58348c86388ef7b3e813505075902d2cd375b8c7e4d5f7bc0bcdcad28f",
+      "sourceRangeSeconds": [
+        0,
+        5.82077
+      ],
+      "higgsfieldJobId": "00aae0fb-6523-4c51-8588-5057423a9137",
+      "asr": "애벌레와 어른벌레를 나란히 보면 없던 부분이 어디에 생겼는지 찾을 수 있어."
+    },
+    {
+      "key": "draw-0",
+      "text": "종이 칸을 눌러 본 특징을 바로 적어 봐. 다 쓰고 칸 밖을 누르면 저장돼.",
+      "sha256": "3acd1cf10ff4b4e1b057cef2a4933cf114909308dbb627eefff43f6c055e47b5",
+      "sourceRangeSeconds": [
+        6.90553,
+        12.8347
+      ],
+      "higgsfieldJobId": "00aae0fb-6523-4c51-8588-5057423a9137",
+      "asr": "종이칸을 눌러본 특징을 바로 적어봐. 다 쓰고 칸 밖을 누르면 저장돼."
+    },
+    {
+      "key": "draw-1",
+      "text": "아래 모습을 골라 그림을 보며 써도 돼.",
+      "sha256": "99f2e6fd7482f6ec5ee823242c716b6a2285a6410c6c3343efa620bf117f9700",
+      "higgsfieldJobId": "b958414c-8f20-4985-b581-bd9ba5be58aa",
+      "asr": "아래 모습을 골라 그림을 보며 써도 돼."
+    },
+    {
+      "key": "film-0",
+      "text": "사진을 옆자리로 끌어 순서를 바꿔 봐.",
+      "sha256": "0cc49b9d31d077677482fe5ca650cd1729518ea603a2614df7f5f5801d8847b4",
+      "higgsfieldJobId": "7f02f98c-797c-4c91-9f45-4d54eb4e3d6a",
+      "asr": "사진을 옆자리로 끌어 순서를 바꿔봐."
+    },
+    {
+      "key": "film-1",
+      "text": "내 순서 재생으로 몸의 변화가 자연스러운지 확인해.",
+      "sha256": "ee4e24baafc2f47d1168a5632fd6607d0610576fe04d6d258bbc573ac77c21d3",
+      "higgsfieldJobId": "81fe3eb4-0af0-4b3e-bb89-9be3946f9b76",
+      "asr": "내 순서 재생으로 몸의 변화가 자연스러운지 확인해."
+    },
+    {
+      "key": "generation-0",
+      "text": "알을 잡고 새 잎으로 옮겨 봐.",
+      "sha256": "d64841a58a257275046074e6cf19ab471db4c3fdde0f48c4a966da8ea20ff75e",
+      "sourceRangeSeconds": [
+        13.943900000000001,
+        16.5364
+      ],
+      "higgsfieldJobId": "00aae0fb-6523-4c51-8588-5057423a9137",
+      "asr": "알을 잡고 새잎으로 옮겨 봐."
+    },
+    {
+      "key": "generation-1",
+      "text": "부모와 새로 태어날 생명을 구분해 봐.",
+      "sha256": "bc98031171c8ae8cee91eab4e426a0fbe99500cdbeef9e994c1522b597e4f135",
+      "sourceRangeSeconds": [
+        17.5931,
+        20.5054
+      ],
+      "higgsfieldJobId": "00aae0fb-6523-4c51-8588-5057423a9137",
+      "asr": "부모와 새로 태어날 생명을 구분해봐."
+    },
+    {
+      "key": "prepare-0",
+      "text": "화분 아래 버튼을 눌러 같은 흙과 콩 세 알을 넣어 봐.",
+      "sha256": "b511856f61abb15cefaa691bceb788b5113f5d7c10342a0dc5f91e15c97c4dc1",
+      "higgsfieldJobId": "d5012d72-cbfb-4d86-92bb-3d5fb7cfa9e9",
+      "asr": "화분 아래 버튼을 눌러 같은 흙과 콩 세 알을 넣어봐."
+    },
+    {
+      "key": "prepare-1",
+      "text": "두 화분에 같은 양을 넣어야 나중에 조건 하나만 비교할 수 있어.",
+      "sha256": "2d66de66c7b2e35f3b9bcda1f1515d9cfcd79f353b2d137879db712cdbaee3f3",
+      "higgsfieldJobId": "cdd0fda6-2982-4811-bb73-1d07720622aa",
+      "asr": "두 화분에 같은 양을 넣어야 나중에 조건 하나만 비교할 수 있어."
+    },
+    {
+      "key": "design-0",
+      "text": "B 조건 버튼으로 조건 하나만 바꿔 봐.",
+      "sha256": "31243a581790ba5643901aa62a6a944f1431a576d29ca153491c783166402913",
+      "higgsfieldJobId": "054245e0-9111-4683-b5ee-105f3e3450a2",
+      "asr": "B 조건 버튼으로 조건 하나만 바꿔봐."
+    },
+    {
+      "key": "design-1",
+      "text": "내 예상을 남긴 뒤 비교 실험을 시작해.",
+      "sha256": "36a92792c580711c4f3519147cd473cc744390255ca8bc8af4c8d7d69073cb40",
+      "sourceRangeSeconds": [
+        4.132289999999999,
+        7.61202
+      ],
+      "higgsfieldJobId": "1e82bf6b-c033-4d04-b69a-d7988a3863d4",
+      "asr": "내 예상을 남긴 뒤 비교 실험을 시작해."
+    },
+    {
+      "key": "grow-0",
+      "text": "시간 손잡이를 돌리거나 날짜 버튼을 눌러 봐.",
+      "sha256": "d2565a0b894764a377c84aae12bf63556af9fef19d078cc92707155c0458e3b8",
+      "sourceRangeSeconds": [
+        7.8905,
+        11.718499999999999
+      ],
+      "higgsfieldJobId": "1e82bf6b-c033-4d04-b69a-d7988a3863d4",
+      "asr": "시간 손잡이를 돌리거나 날짜 버튼을 눌러봐."
+    },
+    {
+      "key": "grow-1",
+      "text": "처음·중간·마지막에 사진을 남겨 비교해.",
+      "sha256": "496da17db955f0c4c50ade9cf66164e6e1350582e1c1edb540156f2b34c3389a",
+      "sourceRangeSeconds": [
+        12.5373,
+        16.713
+      ],
+      "higgsfieldJobId": "1e82bf6b-c033-4d04-b69a-d7988a3863d4",
+      "asr": "처음, 중간, 마지막에 사진을 남겨 비교해."
+    },
+    {
+      "key": "reason-0",
+      "text": "마지막 사진에서 A와 B의 싹을 먼저 비교해 봐.",
+      "sha256": "f3216c2e5975ae400f5c945a535d6fc66f23d34a2619c7ab51f0ef788a990935",
+      "sourceRangeSeconds": [
+        17.5522,
+        21.707755
+      ],
+      "higgsfieldJobId": "1e82bf6b-c033-4d04-b69a-d7988a3863d4",
+      "asr": "마지막 사진에서 A와 B의 싹을 먼저 비교해봐."
+    },
+    {
+      "key": "reason-1",
+      "text": "두 화분에서 어떤 조건은 같고 어떤 조건은 다른지 살펴봐.",
+      "sha256": "cbe656d5b7e16c47c6531bae41d86fe88d27d0f18f6bce9c28dbeaabe353207f",
+      "higgsfieldJobId": "0805da69-218f-426b-82ec-e9e41de02995",
+      "asr": "두 화분에서 어떤 조건은 같고 어떤 조건은 다른지 살펴봐."
+    },
+    {
+      "key": "seed-next-0",
+      "text": "다른 조건에서도 같은 방법이 통할까?",
+      "sha256": "261c8a8f86f042afe69c5774feef5722270e90e0e18a4de81339780245951c7c",
+      "sourceRangeSeconds": [
+        5.49086,
+        8.78553
+      ],
+      "higgsfieldJobId": "0556a07f-ea52-4cf2-b513-1a8338af8226",
+      "asr": "다른 조건에서도 같은 방법이 통할까?"
+    },
+    {
+      "key": "seed-next-1",
+      "text": "다음 씨앗에서도 한 조건만 바꿔 비교해.",
+      "sha256": "47f871d679da6e8c10941a6e8d6c0b0f9bf5925b5a691b78f2239c994bde0e78",
+      "sourceRangeSeconds": [
+        9.56615,
+        13.1703
+      ],
+      "higgsfieldJobId": "0556a07f-ea52-4cf2-b513-1a8338af8226",
+      "asr": "다음 씨앗에서도 한 조건만 바꿔 비교해."
+    },
+    {
+      "key": "measure-0",
+      "text": "물기와 빛을 재는 도구를 화분 위에 놓아 봐.",
+      "sha256": "d4c6a7d8a0bf6f5364b1403ba11e4b62b36ae5cfcd486e69513c5743361e019d",
+      "sourceRangeSeconds": [
+        13.9549,
+        17.7054
+      ],
+      "higgsfieldJobId": "0556a07f-ea52-4cf2-b513-1a8338af8226",
+      "asr": "물기와 빛을 재는 도구를 화분 위에 놓아봐."
+    },
+    {
+      "key": "measure-1",
+      "text": "물과 빛을 모두 재면 숨은 원인을 알 수 있어.",
+      "sha256": "4d366d170fdf1ffd6dda815de933b2c40077e117985aa4c5dfe6515ae23b6820",
+      "sourceRangeSeconds": [
+        18.627200000000002,
+        22.439184
+      ],
+      "higgsfieldJobId": "0556a07f-ea52-4cf2-b513-1a8338af8226",
+      "asr": "물과 빛을 모두 재면 숨은 원인을 알 수 있어."
+    },
+    {
+      "key": "symptom-0",
+      "text": "흙이나 잎에 표시하는 버튼을 눌러 봐.",
+      "sha256": "dbc93153611d5edd2e8de007386f283f522821af40d2b3c8c50c96e9f16927bc",
+      "higgsfieldJobId": "002eb02b-9f30-41c1-aede-a7a443673501",
+      "asr": "흙이나 잎에 표시하는 버튼을 눌러봐."
+    },
+    {
+      "key": "symptom-1",
+      "text": "측정한 값과 겉모습이 이어지는 부분을 찾아 봐.",
+      "sha256": "d7709362100c2bd76c593b56d7172a683bae4e4751db35444081309c158ad5cd",
+      "sourceRangeSeconds": [
+        4.42395,
+        8.47707
+      ],
+      "higgsfieldJobId": "9196e5cc-a1d5-4745-bca9-88b9f5fb2666",
+      "asr": "측정한 값과 겉모습이 이어지는 부분을 찾아봐."
+    },
+    {
+      "key": "care-0",
+      "text": "측정값을 보고 알맞은 도구를 화분에 놓아 봐.",
+      "sha256": "b6cbcaf4f5fec4404d4eaaf409c7cb41c1b93911618bf6e082de680e2980865c",
+      "sourceRangeSeconds": [
+        9.49399,
+        13.339699999999999
+      ],
+      "higgsfieldJobId": "9196e5cc-a1d5-4745-bca9-88b9f5fb2666",
+      "asr": "측정 값을 보고 알맞은 도구를 화분에 놓아봐."
+    },
+    {
+      "key": "care-1",
+      "text": "시든 모습만 보고 정하지 말고 물과 빛을 비교해.",
+      "sha256": "c6db83e84759cbe8868954291ffcc502311902efb4a267c723e78a5ba3a8ee64",
+      "sourceRangeSeconds": [
+        14.296100000000001,
+        18.8288
+      ],
+      "higgsfieldJobId": "9196e5cc-a1d5-4745-bca9-88b9f5fb2666",
+      "asr": "시든 모습만 보고 정하지 말고 물과 빛을 비교해."
+    },
+    {
+      "key": "care-after-0",
+      "text": "마지막 시간으로 옮겨 돌봄 뒤 모습을 살펴봐.",
+      "sha256": "3d721f280d7636385c2b40d49a32a7150874e28bf072c5329f9cd4491efbf470",
+      "sourceRangeSeconds": [
+        19.8719,
+        23.875918
+      ],
+      "higgsfieldJobId": "9196e5cc-a1d5-4745-bca9-88b9f5fb2666",
+      "asr": "마지막 시간으로 옮겨 돌봄 뒤 모습을 살펴봐."
+    },
+    {
+      "key": "care-after-1",
+      "text": "돌봄 전과 나중 모습은 노트에 자동으로 남아.",
+      "sha256": "b4afa3401bd76be52549622aeaac64629c26e70a43cc806c1082e9c4c2624590",
+      "sourceRangeSeconds": [
+        0,
+        3.4255999999999998
+      ],
+      "higgsfieldJobId": "e317fdb6-525e-4192-9e89-6305cc01bcd4",
+      "asr": "돌봄 전과 나중 모습은 노트에 자동으로 남아."
+    },
+    {
+      "key": "care-compare-0",
+      "text": "두 사진을 나란히 보고 달라진 점을 골라 봐.",
+      "sha256": "67a7cff33f039d544c9ce29cd16316cbd322357546a18839cb5a41c1ff577282",
+      "sourceRangeSeconds": [
+        4.5225599999999995,
+        7.73653
+      ],
+      "higgsfieldJobId": "e317fdb6-525e-4192-9e89-6305cc01bcd4",
+      "asr": "두 사진을 나란히 보고 달라진 점을 골라봐."
+    },
+    {
+      "key": "care-compare-1",
+      "text": "잎이 선 방향이나 새잎의 색을 자세히 봐.",
+      "sha256": "ed14e64c231765378f9f3b9bcebea854f00dae523813d87ec38cdd0e16c9ed9e",
+      "sourceRangeSeconds": [
+        8.678230000000001,
+        12.0651
+      ],
+      "higgsfieldJobId": "e317fdb6-525e-4192-9e89-6305cc01bcd4",
+      "asr": "잎이 선 방향이나 새 잎의 색을 자세히 봐."
+    },
+    {
+      "key": "care-next-0",
+      "text": "다른 화분도 직접 조사해 보자.",
+      "sha256": "c9712f8ddbbe9772d48458076d1bd748e45a61060f2c52acf2ea5563b24d3605",
+      "sourceRangeSeconds": [
+        12.8719,
+        15.162099999999999
+      ],
+      "higgsfieldJobId": "e317fdb6-525e-4192-9e89-6305cc01bcd4",
+      "asr": "다른 화분도 직접 조사해보자."
+    },
+    {
+      "key": "care-next-1",
+      "text": "같은 증상이어도 원인이 같을까?",
+      "sha256": "b747166c8eb5c51e331832a6e20e5bee4eed96e62b0ccdb1c668f371b4872563",
+      "sourceRangeSeconds": [
+        15.8701,
+        18.285714
+      ],
+      "higgsfieldJobId": "e317fdb6-525e-4192-9e89-6305cc01bcd4",
+      "asr": "같은 증상이어도 원인이 같을까?"
+    },
+    {
+      "key": "animals-0",
+      "text": "나비의 숲에서 본 나비와 개를 비교해 봐.",
+      "sha256": "b1c6de1053570d437bf05c37e3e07abc8c20b76e04683987b6fffb67c80c85e7",
+      "sourceRangeSeconds": [
+        0,
+        3.45252
+      ],
+      "higgsfieldJobId": "e1079226-5ac1-4694-a65e-6373c1404e37",
+      "asr": "나비의 숲에서 본 나비와 개를 비교해봐."
+    },
+    {
+      "key": "animals-1",
+      "text": "개의 시간을 다 자란 모습까지 움직이면 자동으로 기록돼.",
+      "sha256": "a0c4e3a3498a288158cb6fbc10397710f25c7284b5e72f80c10708c43516c9c2",
+      "sourceRangeSeconds": [
+        4.19896,
+        9.010729999999999
+      ],
+      "higgsfieldJobId": "e1079226-5ac1-4694-a65e-6373c1404e37",
+      "asr": "개의 시간을 다 자란 모습까지 움직이면 자동으로 기록돼."
+    },
+    {
+      "key": "animal-birth-0",
+      "text": "새로 태어난 생명이 부모와 어떤 관계인지 골라 봐.",
+      "sha256": "f4e2515ad1dcf929ac8f54bd7cda1da47435570337c957cb6df743292ad184dc",
+      "sourceRangeSeconds": [
+        9.80109,
+        14.190999999999999
+      ],
+      "higgsfieldJobId": "e1079226-5ac1-4694-a65e-6373c1404e37",
+      "asr": "새로 태어난 생명이 부모와 어떤 관계인지 골라봐."
+    },
+    {
+      "key": "animal-birth-1",
+      "text": "태어난 새 생명과 부모의 몸이 같은지 생각해.",
+      "sha256": "d2b7feeeceb3fa975d7def1aacf9b7b3bde42d7004ac83c917a3a60d1eb2e40f",
+      "sourceRangeSeconds": [
+        15.0142,
+        19.113400000000002
+      ],
+      "higgsfieldJobId": "e1079226-5ac1-4694-a65e-6373c1404e37",
+      "asr": "태어난 새 생명과 부모의 몸이 같은지 생각해."
+    },
+    {
+      "key": "tags-0",
+      "text": "이름표를 두 식물에 하나씩 달아 봐.",
+      "sha256": "82633ca73cb8a6982efe9d0d36316b16a0ae2364ad701720172746d83665196f",
+      "sourceRangeSeconds": [
+        19.9177,
+        22.595918
+      ],
+      "higgsfieldJobId": "e1079226-5ac1-4694-a65e-6373c1404e37",
+      "asr": "이름표를 두 식물에 하나씩 달아봐."
+    },
+    {
+      "key": "tags-1",
+      "text": "첫봄의 모습은 이름표를 달면 자동으로 기록돼.",
+      "sha256": "019a1ca9329f6beec0644ba0872522262a2dcd931e814bfb4e66d78b6b40392e",
+      "sourceRangeSeconds": [
+        0,
+        3.85601
+      ],
+      "higgsfieldJobId": "4071d895-e61e-4d43-8c87-1ae3fd115bbf",
+      "asr": "첫 봄의 모습은 이름표를 달면 자동으로 기록돼."
+    },
+    {
+      "key": "seasons-0",
+      "text": "계절을 돌려 겨울과 다음 봄을 찾아 봐.",
+      "sha256": "41481f65f93bac68f4eb8f75208bbc92e36ec17bf0462432d698da712e66849b",
+      "sourceRangeSeconds": [
+        4.67993,
+        8.01948
+      ],
+      "higgsfieldJobId": "4071d895-e61e-4d43-8c87-1ae3fd115bbf",
+      "asr": "계절을 돌려 겨울과 다음 봄을 찾아봐."
+    },
+    {
+      "key": "seasons-1",
+      "text": "아래 이름표 줄을 봐. 줄이 끝까지 이어지는지, 씨앗에서 끊기는지 살펴봐.",
+      "sha256": "21db145baecc10ba93d6256791e9b0c1357cb5d9f6d3c890b27501699d2b2588",
+      "sourceRangeSeconds": [
+        8.95787,
+        15.8154
+      ],
+      "higgsfieldJobId": "4071d895-e61e-4d43-8c87-1ae3fd115bbf",
+      "asr": "아래 이름표 줄을 봐. 줄이 끝까지 이어지는지, 씨앗에서 끊기는지 살펴봐."
+    },
+    {
+      "key": "plant-identity-0",
+      "text": "겨울과 다음 봄의 사진을 다시 보고 이름표를 비교해 봐.",
+      "sha256": "c31dee5ae8ae69ec98dbe69a62541fba9d11aa246f32d77043325846bf4df1be",
+      "sourceRangeSeconds": [
+        16.7,
+        21.1938
+      ],
+      "higgsfieldJobId": "4071d895-e61e-4d43-8c87-1ae3fd115bbf",
+      "asr": "겨울과 다음 봄의 사진을 다시 보고 이름표를 비교해봐."
+    },
+    {
+      "key": "plant-identity-1",
+      "text": "두 시점의 이름표 줄을 따라가 봐. 같은 개체인지 판단할 단서를 사진에서 찾아봐.",
+      "sha256": "089bcb5eef837606553537dacfeb5791d96e7cb7806470cd248cdc6896af5a21",
+      "sourceRangeSeconds": [
+        22.1202,
+        28.995918
+      ],
+      "higgsfieldJobId": "4071d895-e61e-4d43-8c87-1ae3fd115bbf",
+      "asr": "두 시점의 이름표 줄을 따라가 봐. 같은 개체인지 판단할 단서를 사진에서 찾아봐."
+    },
+    {
+      "key": "transfer-0",
+      "text": "식물 카드를 알맞은 상자에 넣어 봐.",
+      "sha256": "4e47a1ffa24229639d40a10fa90dd33c1d2da41226e092c1956a51f61db43966",
+      "sourceRangeSeconds": [
+        0,
+        2.9767099999999997
+      ],
+      "higgsfieldJobId": "4e848709-a0cc-47dc-9e58-fbc347e68c1d",
+      "asr": "식물 카드를 알맞은 상자에 넣어봐."
+    },
+    {
+      "key": "transfer-1",
+      "text": "상자 속 사과나무·봉선화 이름표 줄과 비교해 봐. 여러 해 살아가는지, 한 해 살고 씨앗을 남기는지 생각해 봐. 겨울에 땅 위가 시들어도 땅속 부분이 살아 있다가 다시 자라는 여러해살이 식물도 있어.",
+      "sha256": "c3211fe02ce08ba853d9e6e59a3e14de0d730e8c1e72812e5627c2c1f6cf57a0",
+      "sourceRangeSeconds": [
+        3.43283,
+        21.148600000000002
+      ],
+      "higgsfieldJobId": "4e848709-a0cc-47dc-9e58-fbc347e68c1d",
+      "asr": "상자 속 사과나무 봉선화 이름표 줄과 비교해봐. 여러 해 살아가는지 한 해 살고 씨앗을 남기는지 생각해봐. 겨울에 땅 위가 시들어도 땅 속 부분이 살아있다가 다시 자라는 여러 해사리 식물도 있어."
+    },
+    {
+      "key": "tower-evidence-0",
+      "text": "질문을 읽고, 답을 보여 주는 사진을 골라 봐.",
+      "sha256": "9d3b9fbdba152c9e39c028cddb38d16d34bec8d061eadc62f2fb81b6d33417ff",
+      "higgsfieldJobId": "805dac2b-43d5-4e91-a82d-ddb4020bbc4d",
+      "asr": "질문을 읽고 답을 보여주는 사진을 골라봐."
+    },
+    {
+      "key": "tower-evidence-1",
+      "text": "사진 속에서 그때 무엇을 관찰하고 비교했는지 떠올려 봐.",
+      "sha256": "f01994d96a28b7588a7b0f1808e2fd4a3aa36f7ab6e3d78f132eedd7e1ebd098",
+      "sourceRangeSeconds": [
+        26.3895,
+        31.561500000000002
+      ],
+      "higgsfieldJobId": "4e848709-a0cc-47dc-9e58-fbc347e68c1d",
+      "asr": "사진 속에서 그때 무엇을 관찰하고 비교했는지 떠올려봐."
+    },
+    {
+      "key": "tower-note-0",
+      "text": "「연구 노트 쓰기」에서 발견과 다음 관찰 약속을 한 번에 남겨.",
+      "sha256": "5bee538ab13924a9093e046437c84a2c32da4e44c7d5b07a75ebfb99840f377b",
+      "sourceRangeSeconds": [
+        32.6972,
+        37.720816
+      ],
+      "higgsfieldJobId": "4e848709-a0cc-47dc-9e58-fbc347e68c1d",
+      "asr": "연구노트 쓰기에서 발견과 다음 관찰 약속을 한 번에 남겨"
+    },
+    {
+      "key": "tower-note-1",
+      "text": "\"나는 …을 관찰해서 …을 알았어.\"로 시작해 봐.",
+      "sha256": "d410e25b60be210fb811b445f05d2c60a5bfa81b103a370beb9d1d794ba73eb3",
+      "sourceRangeSeconds": [
+        0,
+        4.31991
+      ],
+      "higgsfieldJobId": "c1141a7b-c0f1-45f3-b127-68a685f34e65",
+      "asr": "나는 을관찰해서 을알았어 로 시작해봐"
+    },
+    {
+      "key": "tower-run-0",
+      "text": "시계 돌리기를 한 번 누르면 바늘이 네 기록을 차례로 지나가.",
+      "sha256": "4459cbfa93f5f3a72831146e3302e3a2fcbe6a01a21d478b9b525a2fb2f6350b",
+      "sourceRangeSeconds": [
+        5.40168,
+        10.0556
+      ],
+      "higgsfieldJobId": "c1141a7b-c0f1-45f3-b127-68a685f34e65",
+      "asr": "시계 돌리기를 한 번 누르면 바늘이 네 기록을 차례로 지나가."
+    },
+    {
+      "key": "tower-run-1",
+      "text": "네가 고른 사진 네 장으로 숲의 시간이 다시 움직여.",
+      "sha256": "c1c390766dc1a5fd0a6606f4fb712897127c3abbd385753dc3d986c56a0d292c",
+      "sourceRangeSeconds": [
+        10.7162,
+        14.873199999999999
+      ],
+      "higgsfieldJobId": "c1141a7b-c0f1-45f3-b127-68a685f34e65",
+      "asr": "네가 고른 사진 4장으로 숲의 시간이 다시 움직여."
+    },
+    {
+      "key": "discovery-1",
+      "text": "연결하거나 표시한 다음 발견 기록을 남겨 줘.",
+      "sha256": "d4d8d68eabb62a84fd12c3acfd785b489e271ea1266f0997e268d28f51bf5a97",
+      "sourceRangeSeconds": [
+        15.635200000000001,
+        19.3335
+      ],
+      "higgsfieldJobId": "c1141a7b-c0f1-45f3-b127-68a685f34e65",
+      "asr": "연결하거나 표시한 다음 발견 기록을 남겨줘."
+    },
+    {
+      "key": "ready-0",
+      "text": "기록을 모두 모았어! 오른쪽에서 보상을 받아.",
+      "sha256": "3e798bff41c1d8bc749c58f12e186eea7ce828d39d2030f5ac3b0ca8f8381d4b",
+      "sourceRangeSeconds": [
+        19.979300000000002,
+        24.189388
+      ],
+      "higgsfieldJobId": "c1141a7b-c0f1-45f3-b127-68a685f34e65",
+      "asr": "기록을 모두 모았어 오른쪽에서 보상을 받아"
+    },
+    {
+      "key": "ready-1",
+      "text": "발견 영상으로 네 탐구 개념을 다시 볼 수 있어.",
+      "sha256": "63a6fc0bf12064ae4d4d40165a0024266a8855fe8d4d187b0952e6f91cdb6efb",
+      "sourceRangeSeconds": [
+        0,
+        3.97272
+      ],
+      "higgsfieldJobId": "045041bf-c420-4e50-acd1-f85f91beca0b",
+      "asr": "발견 영상으로 네 탐구 개념을 다시 볼 수 있어."
+    },
+    {
+      "key": "map-0",
+      "text": "나비의 숲에 가 보자. 장소나 길을 누르면 내가 길을 따라 걸어갈게.",
+      "sha256": "28c45b0964e0377269098b5c15cee1f630b25053d1b3a0234feaef329f426079",
+      "higgsfieldJobId": "4a5b6a26-91c7-411e-acf6-03390722885e",
+      "asr": "나비의 숲에 가보자. 장소나 길을 누르면 내가 길을 따라 걸어갈게."
+    },
+    {
+      "key": "map-1",
+      "text": "씨앗 연구소로 가 보자. 장소나 길을 누르면 내가 길을 따라 걸어갈게.",
+      "sha256": "b9e0f98159067d902a788605fb0a8bcb18e1aa12982946027145b0a3c0938377",
+      "sourceRangeSeconds": [
+        12.6156,
+        19.9524
+      ],
+      "higgsfieldJobId": "045041bf-c420-4e50-acd1-f85f91beca0b",
+      "asr": "씨앗연구소로 가보자. 장소나 길을 누르면 내가 길을 따라 걸어갈게."
+    },
+    {
+      "key": "map-2",
+      "text": "햇살 온실로 가 보자. 장소나 길을 누르면 내가 길을 따라 걸어갈게.",
+      "sha256": "539c56592a312696ef27ebdb9a54bd137da8fc90082706d16506fa56b4d18700",
+      "sourceRangeSeconds": [
+        20.7931,
+        27.976100000000002
+      ],
+      "higgsfieldJobId": "045041bf-c420-4e50-acd1-f85f91beca0b",
+      "asr": "햇살 온실로 가보자. 장소나 길을 누르면 내가 길을 따라 걸어갈게."
+    },
+    {
+      "key": "map-3",
+      "text": "사계절 정원으로 가 보자. 장소나 길을 누르면 내가 길을 따라 걸어갈게.",
+      "sha256": "9ace761c939911622e9e48a0acedff148c4145cd456b30fb441228319fef6bd8",
+      "higgsfieldJobId": "93bc4a76-9f1f-469e-8940-0697b235238e",
+      "asr": "사계절 정원으로 가보자. 장소나 길을 누르면 내가 길을 따라 걸어갈게."
+    },
+    {
+      "key": "map-4",
+      "text": "생명 시계탑으로 가 보자. 장소나 길을 누르면 내가 길을 따라 걸어갈게.",
+      "sha256": "7c719f71a3d48e1328b54a085be9df87398eb89440e813fea2dc18ed9b14ac9e",
+      "higgsfieldJobId": "986b3160-1b0c-4a32-ad3e-bf39ee66209c",
+      "asr": "생명시계탑으로 가보자. 장소나 길을 누르면 내가 길을 따라 걸어갈게."
+    },
+    {
+      "key": "map-done",
+      "text": "다섯 장소의 시간이 이어졌어. 다시 걸어가 기록을 더 살펴보자.",
+      "sha256": "f88d661d71cead3d63929da74fc9b4fac5b80c12772867d884afd45b13144166",
+      "sourceRangeSeconds": [
+        7.34993,
+        12.8432
+      ],
+      "higgsfieldJobId": "d4918051-af8d-4a84-b96c-75f01a9f6b97",
+      "asr": "다섯 장소의 시간이 이어졌어. 다시 걸어가 기록을 더 살펴보자."
+    },
+    {
+      "key": "discovery-0-0",
+      "text": "도토의 메모를 읽고 잎을 먹은 생물과 연결해 줘.",
+      "sha256": "0e43ed68d0127b9254b71ccefdebf676a7f6dd3570864daa0dcbc090e6a1c4c6",
+      "sourceRangeSeconds": [
+        14.1178,
+        18.3379
+      ],
+      "higgsfieldJobId": "d4918051-af8d-4a84-b96c-75f01a9f6b97",
+      "asr": "도토의 메모를 읽고 잎을 먹은 생물과 연결해줘."
+    },
+    {
+      "key": "discovery-0-1",
+      "text": "도토가 본 날개 있는 모습을 메모와 연결해 줘.",
+      "sha256": "67f138dac8af3e1a2f3e35208736331ef869a82fd86a7d0dcbac7edf8301987e",
+      "sourceRangeSeconds": [
+        19.400100000000002,
+        23.130200000000002
+      ],
+      "higgsfieldJobId": "d4918051-af8d-4a84-b96c-75f01a9f6b97",
+      "asr": "도토가 본 날개 있는 모습을 메모와 연결해줘."
+    },
+    {
+      "key": "discovery-1-0",
+      "text": "물의 영향만 알 수 있도록 A의 조건을 고쳐 줘.",
+      "sha256": "1de09d70856e8937f772e837bee3602c8b7110d330aa7c748fec703ea105a814",
+      "sourceRangeSeconds": [
+        24.0643,
+        27.637551
+      ],
+      "higgsfieldJobId": "d4918051-af8d-4a84-b96c-75f01a9f6b97",
+      "asr": "물의 영향만 알 수 있도록 A의 조건을 고쳐줘."
+    },
+    {
+      "key": "discovery-1-1",
+      "text": "콩이 아직 싹트지 않았다고 판단하기 전에 단서 세 가지를 확인해 줘.",
+      "sha256": "103a39b4041b74e4a66b37213c721145cd074a40b506fc5ed68d79fbaf480aa4",
+      "higgsfieldJobId": "7567b366-2f18-4759-b0c2-461a2cd510f7",
+      "asr": "콩이 아직 싹트지 않았다고 판단하기 전에 단서 3가지를 확인해줘."
+    },
+    {
+      "key": "discovery-2-0",
+      "text": "물과 빛이 충분한 새 화분을 어떻게 돌볼지 정해 줘.",
+      "sha256": "7e0d282025461f8316977e59822ee9e584eccf63fa7ef82ca731eb4a91f4207c",
+      "sourceRangeSeconds": [
+        5.217569999999999,
+        9.63018
+      ],
+      "higgsfieldJobId": "647fa4d2-7e32-48ae-8763-0c70292ba6f0",
+      "asr": "물과 빛이 충분한 새 화분을 어떻게 돌볼지 정해줘."
+    },
+    {
+      "key": "discovery-2-1",
+      "text": "빛을 받은 뒤 새로 자란 잎을 찾아 기록해 줘.",
+      "sha256": "8d5f440035e93dc4d417488904ca7f83b29c379596e20dcb2cd4b02c2668436e",
+      "sourceRangeSeconds": [
+        10.4588,
+        13.975399999999999
+      ],
+      "higgsfieldJobId": "647fa4d2-7e32-48ae-8763-0c70292ba6f0",
+      "asr": "빛을 받은 뒤 새로 자란 잎을 찾아 기록해줘."
+    },
+    {
+      "key": "discovery-3-0",
+      "text": "지난해 이름표가 이어지는 같은 나무를 찾아 줘.",
+      "sha256": "3e49d55b79e08cce712d22a80cddd3ec19193e9fdbe208c6558fc78416f8c3d8",
+      "higgsfieldJobId": "43a24341-1ef3-4c7e-8111-658dd595c5d1",
+      "asr": "지난해 이름표가 이어지는 같은 나무를 찾아줘"
+    },
+    {
+      "key": "discovery-3-1",
+      "text": "생물을 지키며 비교할 수 있는 사진 계획을 완성해 줘.",
+      "sha256": "62a6321d47be057745b43c6f61c740f1eda2d1d74c55117ce3399c95aa87ae3f",
+      "sourceRangeSeconds": [
+        19.0657,
+        23.066122
+      ],
+      "higgsfieldJobId": "647fa4d2-7e32-48ae-8763-0c70292ba6f0",
+      "asr": "생물을 지키며 비교할 수 있는 사진 계획을 완성해줘."
+    },
+    {
+      "key": "discovery-4-0",
+      "text": "직접 만든 관찰·비교·돌봄 기록에 발견 도장을 붙여 줘.",
+      "sha256": "9c61d5c999ed2a21f5c5b51093572c5b68b9ebfe757552eab795e210ccda2f7d",
+      "sourceRangeSeconds": [
+        0,
+        5.082680000000001
+      ],
+      "higgsfieldJobId": "603e2c26-b9c6-4c16-a3ca-992ef2fb840d",
+      "asr": "직접 만든 관찰, 비교, 돌봄 기록에 발견 도장을 붙여줘."
+    },
+    {
+      "key": "discovery-4-1",
+      "text": "다음 탐험에서 알아보고 싶은 너의 궁금증을 써 줘.",
+      "sha256": "f4671b8b1e63b62c8bbb2543f86284ef6487dd5992caf465ac1108a7bbcf3fa4",
+      "sourceRangeSeconds": [
+        5.919639999999999,
+        9.717551
+      ],
+      "higgsfieldJobId": "603e2c26-b9c6-4c16-a3ca-992ef2fb840d",
+      "asr": "다음 탐험에서 알아보고 싶은 너의 궁금증을 써줘."
+    }
+  ]
+}
