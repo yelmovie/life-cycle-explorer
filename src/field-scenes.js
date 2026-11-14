@@ -40,9 +40,9 @@ export function createFieldGame(context){
   hudInsets(){
    const canvas=this.game?.canvas?.getBoundingClientRect?.(),doc=globalThis.document;if(!canvas?.height||!doc?.querySelector)return {top:0,bottom:0};
    const box=selector=>{const r=doc.querySelector(selector)?.getBoundingClientRect?.();return r?.height?r:null;};
-   const head=box('.game-header'),foot=box('.game-footer'),bubble=context.mode()==='room'?box('#guide-bubble:not([hidden])'):null,k=this.viewportSize().height/canvas.height;
-   // An open hint bubble floats above the footer, so the activity steps up instead of hiding under it.
-   const floor=Math.min(foot?foot.top:Infinity,bubble?bubble.top-8:Infinity);
+   const head=box('.game-header'),foot=box('.game-footer'),k=this.viewportSize().height/canvas.height;
+   // Hint overlays must not move the scene or change a tool's position.
+   const floor=foot?foot.top:Infinity;
    return {top:Math.round(Math.max(0,head?head.bottom-canvas.top:0)*k),bottom:Math.round(Math.max(0,floor===Infinity?0:canvas.bottom-floor)*k)};
   }
   syncInsets(){const now=this.hudInsets(),was=this.viewport?.insets;if(!this.loading&&was&&(now.top!==was.top||now.bottom!==was.bottom))this.relayout();}
@@ -156,6 +156,7 @@ export function createFieldGame(context){
   dial(key,x,y,value,max,event,labels,size){return renderLifeClock(this,context,key,x,y,value,max,event,labels,size);}
   showHint(pattern,items=this.focusTargets){
    this.hintMarks?.forEach(o=>o.destroy());this.hintMarks=[];
+   if(!pattern)return;
    const targets=items.filter(item=>pattern.test(item.label)).slice(0,4);
    for(const item of targets){const o=this.add.graphics().lineStyle(Math.max(3,3/this.screenScale()),0x2d7550,.95).strokeRoundedRect(item.x-item.w/2-5,item.y-item.h/2-5,item.w+10,item.h+10,14).setDepth(45);this.hintMarks.push(o);if(!reducedMotion(context.s.settings))this.tweens.add({targets:o,alpha:.4,duration:500,yoyo:true,repeat:2});}
    this.time.delayedCall(4000,()=>this.hintMarks?.forEach(o=>o.destroy()));

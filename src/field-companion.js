@@ -7,7 +7,7 @@ const STEPS=[
  [['tower-slots','기록 끼우기'],['tower-evidence','증거 잇기'],['tower-note','연구 노트'],['tower-run','시계 깨우기'],['plan','관찰 약속']],
 ];
 const HINTS={
- search:['보기 버튼을 누르면 크게 확대돼. ◀ ▶로 넘겨 보고 「관찰 마치기」를 누르면 본 특징이 모두 남아.','돋보기를 몸 위로 옮겨 놓아도 기록돼. 네 모습에서 특징을 하나씩 찾아봐.'],
+ search:['보기 버튼을 누르면 크게 확대돼. ◀ ▶로 넘겨 보고 「관찰 마치기」를 누르면 본 특징이 모두 남아.','「보기」를 눌러 닮아 보이는 두 모습을 다시 봐. 몸의 겉모양과 눈에 띄는 부분이 어떻게 다른지 비교해 봐.'],
  draw:['종이 칸을 눌러 본 특징을 바로 적어 봐. 다 쓰고 칸 밖을 누르면 저장돼.','아래 모습을 골라 그림을 보며 써도 돼.'],
  film:['사진을 옆자리로 끌어 순서를 바꿔 봐.','내 순서 재생으로 몸의 변화가 자연스러운지 확인해.'],
  generation:['알을 잡고 새 잎으로 옮겨 봐.','부모와 새로 태어날 생명을 구분해 봐.'],
@@ -26,10 +26,10 @@ const HINTS={
  'animal-birth':['다음 세대 표를 알맞은 자리에 옮겨 봐.','태어난 새 생명과 부모의 몸이 같은지 생각해.'],
  tags:['이름표를 두 식물에 하나씩 달아 봐.','첫봄의 모습은 이름표를 달면 자동으로 기록돼.'],
  seasons:['계절을 돌려 겨울과 다음 봄을 찾아 봐.','아래 이름표 줄을 봐. 줄이 끝까지 이어지는지, 씨앗에서 끊기는지 살펴봐.'],
- 'plant-identity':['사과나무는 A-01 줄이 끝까지 이어졌어. 봉선화는 어땠지?','줄이 이어지면 작년 그 식물, 씨앗에서 끊기면 새로 자란 식물이야.'],
+ 'plant-identity':['겨울과 다음 봄의 사진을 다시 보고 이름표를 비교해 봐.','두 시점의 이름표 줄을 따라가 봐. 같은 개체인지 판단할 단서를 사진에서 찾아봐.'],
  transfer:['식물 카드를 알맞은 상자에 넣어 봐.','상자 속 사과나무·봉선화 이름표 줄과 비교해 봐. 여러 해 살아가는지, 한 해 살고 씨앗을 남기는지 생각해 봐. 겨울에 땅 위가 시들어도 땅속 부분이 살아 있다가 다시 자라는 여러해살이 식물도 있어.'],
  'tower-slots':['오른쪽 내 사진을 끌어 같은 지역 칸에 끼워 봐.','사진을 누르면 알맞은 칸에 바로 들어가. 칸마다 지역 이름이 있어.'],
- 'tower-evidence':['주장 쪽지를 끌어 그걸 증명하는 사진 위에 놓아 봐.','사진이 그 주장을 정말 보여 주는지 생각해 봐. 사진 하나는 남아.'],
+ 'tower-evidence':['주장 쪽지를 고르고 그 주장을 뒷받침하는 사진을 찾아봐.','쪽지의 문장과 후보 사진의 관찰 내용을 다시 읽어 봐. 어느 사진에서 같은 변화를 볼 수 있을까?'],
  'tower-note':['「연구 노트 쓰기」를 눌러 제목과 한 문장을 써 줘.','"나는 …을 관찰해서 …을 알았어."로 시작해 봐.'],
  'tower-run':['시곗바늘 끝의 손잡이를 잡고 시계 방향으로 한 바퀴 돌려 봐.','바늘이 지나는 칸마다 네 기록이 빛나.'],
  plan:['내 기록을 재생하고 실제 관찰 계획을 남겨 봐.','언제, 어떤 생물을, 무엇에 주목해 볼까?'],
@@ -38,4 +38,4 @@ const HINTS={
 };
 export function companionHint(phase,level=0){const hints=HINTS[phase]||HINTS.ready;return hints[Math.min(level,hints.length-1)];}
 export function stageProgress(chapter,phase,preview=false){const steps=preview||phase==='discovery'?[...STEPS[chapter],['discovery','추가 발견']]:STEPS[chapter],index=phase==='ready'?steps.length:Math.max(0,steps.findIndex(([p])=>p===phase));return {index,total:steps.length,phase:steps[index]?.[0]||'ready',nextPhase:steps[index+1]?.[0],firstPhase:steps[0][0],label:phase==='ready'?'탐사 완료':steps[index][1],html:preview?`<select class="teacher-phase" aria-label="시연할 활동 단계" data-preview-phase>${steps.map(([id,label],i)=>`<option value="${id}" ${id===phase?'selected':''}>활동 바로가기 · ${i+1}. ${label}</option>`).join('')}</select>`:steps.map(([,label],i)=>`<span class="phase-dot ${i<index?'done':i===index?'current':''}" title="${label}">${i<index?'✓':i+1}</span>`).join('')};}
-export function hintTarget(phase){return ({search:/확대/,draw:/보며 쓰기/,film:/사진 옮기기/,generation:/새 알|다음 세대가/,prepare:/흙 주머니|씨앗 한 알|화분/,design:/B의/,grow:/시간/,reason:/기록 연결|결과를 바꾼/,measure:/재기|재는 도구/,symptom:/표시하기/,care:/돌보기/,'animal-birth':/다음 세대|생명|몸/,tags:/이름표/,seasons:/시간/,'plant-identity':/작년 그 식물|새로 자란 식물/,transfer:/카드 옮기기|상자/,'tower-slots':/칸에 끼우기/,'tower-evidence':/쪽지/,'tower-run':/시곗바늘/})[phase]||/시간|사진/;}
+export function hintTarget(phase){return ({search:/확대|보기/,draw:/보며 쓰기/,film:/사진 옮기기/,grow:/시간/,measure:/재기|재는 도구/,seasons:/시간/,'tower-run':/시곗바늘/})[phase]??null;}

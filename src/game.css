@@ -43,6 +43,7 @@ button svg{flex:none;width:28px;height:28px;fill:none;stroke:currentColor;stroke
 #app{--stage-min-height:420px;position:relative;display:grid;grid-template-rows:auto minmax(var(--stage-min-height),1fr) auto;grid-template-areas:"header" "stage" "footer";width:100%;height:100dvh;min-height:0;isolation:isolate;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;background:var(--forest-100)}
 #focus-targets{position:absolute;inset:0;z-index:4;pointer-events:none}
 .focus-target{position:absolute;transform:translate(-50%,-50%);opacity:0;pointer-events:none;padding:0;background:transparent;box-shadow:none;border:0}
+.focus-target.tap-observation{pointer-events:auto}
 .focus-target:focus-visible{opacity:1;background:#ffdf7520;outline:4px solid #ffd56b}
 #title-screen{position:absolute;inset:0;z-index:4;pointer-events:none;background:linear-gradient(90deg,#102e27eb 0%,#173c32c2 30%,#1d44374d 56%,transparent 78%),linear-gradient(0deg,#0f302975,transparent 38%)}
 .title-copy{position:absolute;z-index:2;left:6.5%;top:50%;transform:translateY(-48%);width:47%;max-width:720px;color:var(--cream-50);text-align:center;text-shadow:0 2px 5px #0b291dcc}
@@ -424,4 +425,11 @@ dialog.cinema-dialog::backdrop{background:#0d1f19}
   #app[data-view="map"] .map-camera-tools :is(#map-hand, #map-fit) { width: 44px; min-width: 44px; padding: 7px; }
   #app[data-view="map"] #guide-bubble { bottom: calc(100% + 44px + 2 * var(--map-gap)); }
 
+}
+
+@media (max-height:480px) and (orientation:landscape){
+ #app[data-view=room]{--stage-min-height:0px}
+ #app[data-view=room] #guide-bubble [data-npc-audio]{display:none}
+ #app[data-view=room] #guide-bubble{max-width:min(680px,calc(100% - 24px));padding:6px 10px}
+ #app[data-view=room] #guide-bubble p{font-size:16px;line-height:1.35}
 }

@@ -36,7 +36,7 @@ export function roomUI(s,ui){
  if(phase==='discovery')return {phase,...questInfo(f),controls:action('나중에 할게','discovery-exit',{},'left')};
  if(phase==='ready')return {phase,objective:f.completed.includes(c)?FIELD_REPLAY_GOALS[c]:'네가 찾은 기록으로 숲을 깨울 준비가 됐어.',controls:(!questReady(f,c)?fieldButton('(선택) 새 발견 미션','discovery-enter',{chapter:c},'lens'):'')+(f.completed.includes(c)?fieldButton(c===4?'새 이야기 만들기':'다시 탐사하기','chapter-restart',{chapter:c},'reset'):''),next:c===4?'숲의 시간 잇기':f.completed.includes(c)?'숲으로 돌아가기':r.reward+' 받기',nextAction:'complete'};
  if(c===0){
-  if(phase==='search'){objective='돋보기를 움직여 나비의 네 모습을 살펴봐.';next='관찰한 단서 보기';}
+  if(phase==='search'){objective='나비 그림의 ‘보기’를 눌러 확대해 봐. 돋보기를 끌어도 돼.';next='관찰한 단서 보기';}
   if(phase==='draw'){objective='직접 본 특징을 한 문장으로 남겨 줘.';controls='';next='내 기록 확인';}
   if(phase==='film'){objective='흩어진 사진을 자라는 순서로 이어 줘.';controls=action(ui.play?'재생 멈춤':'내 순서 재생','film-play',{},'play');next='시간길 확인';}
   if(phase==='generation'){objective='어른벌레가 낳은 알로 다음 세대를 이어 줘.';controls='';next='다음 세대 확인';}

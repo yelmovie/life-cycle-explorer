@@ -7,7 +7,7 @@
 #modal .dialog-actions{gap:12px;flex-wrap:wrap}
 @media(prefers-reduced-transparency:reduce){#app :is(.game-header,.game-footer){background:#fffbed}}
 
-@media(max-height:640px) and (min-width:700px){#app:not([data-view=title]) .game-footer{grid-template-columns:60px minmax(0,1fr) 180px;align-items:end;gap:8px}#app #controls{gap:6px;flex-wrap:wrap}#app .time-tools{flex-wrap:wrap;justify-content:center;gap:6px}#app .time-slider{flex:1 1 100%;justify-content:center}#app #next{max-width:180px;font-size:18px;padding:8px;line-height:1.3}}
+@media(max-height:640px) and (min-width:700px){#app[data-view=room] .game-footer{grid-template-columns:60px minmax(0,1fr) 180px;align-items:end;gap:8px}#app #controls{gap:6px;flex-wrap:wrap}#app .time-tools{flex-wrap:wrap;justify-content:center;gap:6px}#app .time-slider{flex:1 1 100%;justify-content:center}#app #next{max-width:180px;font-size:18px;padding:8px;line-height:1.3}}
 #app :is(.record-grid>*,.settings-dialog,.compare-dialog,.concept-dialog){border-radius:18px}
 #app .record-grid{gap:12px}
 
