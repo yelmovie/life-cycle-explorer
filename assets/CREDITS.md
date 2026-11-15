@@ -132,3 +132,5 @@
 ### 인트로·파이널 영상 (2026-10-27)
 
 사용자가 제작해 제공한 인트로·파이널 영상(1920×1080 HEVC, 30fps, 무음 트랙)을 원본 그대로 `_source/video/intro-master-20261027.mp4`(17.4초), `_source/video/final-master-20261027.mp4`(24.5초)로 옮겼다. 게임용은 ffmpeg(h264_qsv)로 1280×720 H.264 High · 약 2.8Mbps · faststart · 소리 트랙 없음으로 다시 만든 `assets/video/intro.mp4`(5.7MB), `assets/video/final.mp4`(8.1MB)이다. 첫 프레임 `intro-poster.jpg`·`final-poster.jpg`와 파이널 21초 지점 장면 `final-still.jpg`(엔딩 기록 화면 그림)를 함께 뽑았다. 자막·장소 표시·도장 연출은 영상에 굽지 않고 `src/field-cinema.js`가 화면 위에 올리며, 소리는 게임 배경 음악(인트로 main-theme, 파이널 ending-theme)을 그대로 쓴다.
+
+2026-11-15: 게임용 파이널의 3.60–7.80초 구간을 씨앗 연구소의 실험 준비 장면으로 교체했다. 게임에 쓰이는 온실 배경과 0일차 화분 그림으로 같은 흙과 콩 세 알씩 넣은 두 화분을 보여 준다. 교체 대사는 게임의 지훈 음성을 기준으로 Qwen3-TTS에서 합성한 뒤 기존 배경 음악 위에 맞췄다. 원본 마스터와 나머지 장면의 흐름은 유지했다.
