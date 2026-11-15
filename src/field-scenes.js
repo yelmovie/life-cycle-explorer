@@ -56,10 +56,14 @@ export function createFieldGame(context){
    if(room)camera.removeBounds?.();else camera.setBounds(0,0,W,H);
    camera.centerOn(center.x,center.y);
   }
-  // Mirror the room art past its edges so wide or tall screens never show bare canvas.
   backdrop(key){
    const {width,height,zoom,center}=this.viewport,hw=width/2/zoom,hh=height/2/zoom;
-   for(const i of [-1,0,1])for(const j of [-1,0,1]){
+   if(key==='bg2'){
+    // The seed lab is one panorama. Cover the whole camera without reflecting the shelves.
+    const source=this.textures.get(key).getSourceImage();
+    const cover=Math.max((hw*2+2)/source.width,(hh*2+2)/source.height);
+    this.pic(key,center.x,center.y,source.width*cover,source.height*cover);
+   }else for(const i of [-1,0,1])for(const j of [-1,0,1]){
     if(i*W+W<center.x-hw||i*W>center.x+hw||j*H+H<center.y-hh||j*H>center.y+hh)continue;
     this.pic(key,W/2+i*W,H/2+j*H,W,H).setDisplaySize(W,H).setFlip(i!==0,j!==0);
     if(i||j)this.add.rectangle(W/2+i*W,H/2+j*H,W,H,0x173d2e,.18);

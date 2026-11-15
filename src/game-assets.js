@@ -110,7 +110,7 @@ export const ART={
 };
 // Room backdrops still in use; the other early scene renders moved to _unused/ on 2026-10-25.
 export const SCENES={
-  "bg2": "assets/game/bg2.webp",
+  "bg2": "assets/game/seed-lab-greenhouse-v2.jpg",
   "bg4": "assets/game/bg4.webp",
   "bg8": "assets/game/bg8.webp"
 };
