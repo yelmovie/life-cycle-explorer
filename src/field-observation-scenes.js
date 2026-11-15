@@ -15,6 +15,8 @@ export function renderObservationRoom(v,ctx,phase){
   return [plate,text,v.click(x,y,w,h,fn,label).setDepth(z+2)];
  };
  if(phase==='search'){
+  const roomToken=v.renderToken;
+  const inObservation=()=>v.renderToken===roomToken&&ctx.mode()==='room'&&ctx.s.field.active===0;
   const next=FORMS.map(form=>({form})).find(({form})=>!q.inspected[form].length);
   const spots=[],specimens=[];
   // A quiet specimen mat, number and name separate each organism from the busy forest.
@@ -71,6 +73,7 @@ export function renderObservationRoom(v,ctx,phase){
    popup={items,targets};
   };
   const focusSpot=(form,spot,compare=false)=>{
+   if(!inObservation())return;
    if(!popup)openViewer();
    page.forEach(o=>o.destroy());page=[];v.focusTargets=[];
    if(!compare){

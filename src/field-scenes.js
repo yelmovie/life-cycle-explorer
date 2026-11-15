@@ -122,10 +122,17 @@ export function createFieldGame(context){
    const xs=[x-w/2,x-w/2+c,x+w/2-c],ws=[c,w-2*c,c],ys=[y-h/2,y-h/2+c,y+h/2-c],hs=[c,h-2*c,c];
    return this.add.container(0,0,[...Array(9)].map((_,n)=>this.add.image(xs[n%3],ys[n/3|0],'paperCard','paper'+n).setOrigin(0).setDisplaySize(ws[n%3]+.6,hs[n/3|0]+.6)));
   }
+  guardRoomAction(fn){
+   const token=this.renderToken,mode=context.mode(),chapter=context.s.field?.active;
+   return (...args)=>{
+    if(token===this.renderToken&&mode===context.mode()&&chapter===context.s.field?.active&&!this.loading&&!context.modalOpen())return fn(...args);
+   };
+  }
   click(x,y,w,h,fn,label='대상 살펴보기'){
    const min=this.theme.touch/this.screenScale();w=Math.max(w,min);h=Math.max(h,min);
-   const zone=this.add.zone(x,y,w,h).setInteractive({useHandCursor:true});zone.on('pointerdown',fn);
-   this.focusTargets.push({x,y,w,h,label,fn});return zone;
+   const invoke=this.guardRoomAction(fn);
+   const zone=this.add.zone(x,y,w,h).setInteractive({useHandCursor:true});zone.on('pointerdown',invoke);
+   this.focusTargets.push({x,y,w,h,label,fn:invoke});return zone;
   }
   drop(x,y,w,h,id,label='여기에 놓기',tap){
    const zone=this.add.zone(x,y,w,h).setRectangleDropZone(w,h).setData('target',id);
@@ -146,7 +153,7 @@ export function createFieldGame(context){
    object.on('drop',(_,zone)=>context.emit('drop',{kind,...data,target:zone.getData('target')}));
    object.on('dragend',(_,dx,dy,dropped)=>{if(!dropped)this.tweens.add({targets:object,x,y,duration:reducedMotion(context.s.settings)?1:160,onComplete:()=>{object.setScale(object.scale/1.05);this.markPick(object);}});});
    if(picked?.kind===kind&&Object.entries(data).every(([key,value])=>picked[key]===value))this.markPick(object);
-   this.focusTargets.push({x,y,w:Math.max(min,object.displayWidth),h:Math.max(min,object.displayHeight),label,fn:tap});return object;
+   this.focusTargets.push({x,y,w:Math.max(min,object.displayWidth),h:Math.max(min,object.displayHeight),label,fn:this.guardRoomAction(tap)});return object;
   }
   markPick(object){this.pickMark?.destroy();const b=object.getBounds();this.pickMark=this.add.graphics().lineStyle(5,0xd39b36,1).strokeRoundedRect(b.x-7,b.y-7,b.width+14,b.height+14,16).setDepth(29);}
   ensureTouchTargets(){
@@ -170,7 +177,10 @@ export function createFieldGame(context){
   clearSceneContents(){
    this.clearMapInput?.();this.clearMapInput=null;
    this.renderToken++;this.travelId=(this.travelId||0)+1;this.walking=false;this.guidedWalk=false;this.autoPlay=null;this.startTower=null;this.focusTargets=[];context.noteBox?.(null);context.focusTargets([]);this.tweens.killAll();this.time.removeAllEvents();this.input.removeAllListeners();this.input.keyboard?.removeAllListeners();
-   this.children.removeAll(true);this.avatar=this.foot=this.spirit=this.mapLand=this.pickMark=null;this.hintMarks=[];for(const key of this.recordTextures||[])if(this.textures.exists(key))this.textures.remove(key);this.recordTextures=[];
+   // Phaser DisplayList.removeAll(true) only detaches objects and skips removal callbacks.
+   // Destroy the old zones too so Phaser cannot hit them and run callbacks from the last room.
+   for(const object of [...this.children.getChildren()])object.destroy();
+   this.avatar=this.foot=this.spirit=this.mapLand=this.pickMark=null;this.hintMarks=[];for(const key of this.recordTextures||[])if(this.textures.exists(key))this.textures.remove(key);this.recordTextures=[];
    for(const mask of this.worldMasks||[])mask.destroy();this.worldMasks=[];
    if(this.lensMask){this.lensMask.destroy();this.lensMask=null;}
   }

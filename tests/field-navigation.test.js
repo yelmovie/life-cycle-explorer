@@ -48,7 +48,7 @@ test('새 구역 그림을 기다리는 동안 이전 지도 콜백과 조작 �
  n.scene.paths={forestMap:'map.webp'};
  n.scene.assetAttempts=new Map();
  n.scene.input={enabled:true,removeAllListeners(){}};
- n.scene.children={removeAll(destroy){if(destroy)previousCanvasObjects=0;}};
+ n.scene.children={getChildren:()=>[{destroy(){previousCanvasObjects=0;}}]};
  n.scene.time.removeAllEvents=()=>{};
  n.scene.tweens.killAll=()=>{};
  n.scene.load={once:(_,callback)=>{afterLoad=callback;},image(){},start(){
@@ -66,4 +66,21 @@ test('새 구역 그림을 기다리는 동안 이전 지도 콜백과 조작 �
  afterLoad();
  assert.equal(resumed,true);
  assert.equal(n.scene.loading,false);
+});
+
+test('나비 비교 버튼의 Phaser 입력과 키보드 콜백은 씨앗 연구소에서 실행되지 않는다',()=>{
+ const {scene,s,context}=navigation();
+ s.field={active:0};context.mode=()=> 'room';
+ scene.renderToken=1;scene.focusTargets=[];scene.theme={touch:48};scene.screenScale=()=>1;
+ let opens=0,pointerDown,destroyed=false;
+ const zone={setInteractive(){return this;},on(_,fn){pointerDown=fn;return this;},destroy(){destroyed=true;}};
+ scene.add={zone:()=>zone};scene.children={getChildren:()=>[zone]};
+ scene.tweens.killAll=()=>{};scene.time.removeAllEvents=()=>{};scene.input={removeAllListeners(){}};context.focusTargets=()=>{};
+ scene.click(400,400,100,50,()=>opens++,'애벌레와 어른벌레 비교');
+ const oldKeyboardAction=scene.focusTargets[0].fn;
+ pointerDown();assert.equal(opens,1);
+ s.field.active=1;
+ pointerDown();assert.equal(opens,1,'새 구역을 설정한 순간부터 이전 입력을 막는다');
+ scene.clearSceneContents();assert.equal(destroyed,true,'Phaser 목록에서 빼는 것만으로는 입력이 제거되지 않는다');
+ oldKeyboardAction();pointerDown();assert.equal(opens,1);
 });

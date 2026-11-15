@@ -11,7 +11,7 @@ function assets(chapter=1){
  scene.load={image(key){queued.push(key);},spritesheet(){},on(event,fn){handlers.set(event,fn);},once(event,fn){handlers.set(event,fn);},start(){}};
  scene.preload();queued.length=0;
  scene.textures={exists:key=>textures.has(key)};scene.input={enabled:true,removeAllListeners(){}};
- scene.tweens={killAll(){}};scene.time={removeAllEvents(){}};scene.children={removeAll(){}};
+ scene.tweens={killAll(){}};scene.time={removeAllEvents(){}};scene.children={getChildren:()=>[]};
  const camera={stopFollow(){},setZoom(){return this;},setBounds(){return this;},centerOn(){}};
  scene.cameras={main:camera};scene.pic=()=>({setDisplaySize(){}});scene.add={rectangle(){}};scene.label=()=>{};
  return {scene,context,events,textures,queued,handlers};
