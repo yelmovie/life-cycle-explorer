@@ -26,7 +26,7 @@ export async function fieldRecordArt(r,{img,text,parts}){
  }else if(e.type==='retry'){
   const day=Math.max(...e.photos),growth=condition=>condition.water&&condition.warm?(day>=6?3:day>=4?2:day>=2?1:0):0;
   for(const[side,i]of ['a','b'].map((k,i)=>[k,i])){const c=e.conditions[side],x=180+i*360;await img('pot'+growth(c),x-155,50,310,290);text(x,35,'화분 '+side.toUpperCase());text(x,365,'물 '+(c.water?'있음':'없음')+' · '+(c.warm?'따뜻함':'차가움'));}
-  text(360,410,'바꾼 조건: '+(e.variable==='water'?'물':'온도')+' 하나');text(360,448,'직접 찍은 날: '+e.photos.map(d=>d+'일').join(' · '),21);text(180,480,'내 예상: '+({a:'A만',b:'B만',both:'둘 다',neither:'둘 다 안 틈',unsure:'아직 모름'}[e.prediction]),18);text(540,480,e.legacyReport?'이전 기록 · 비교 응답 없음':'사진 B만 · '+({same:'예상과 같음',changed:'생각을 수정함',unsure:'처음엔 몰랐음'}[e.report?.expectation]||''),18);
+  text(360,410,'바꾼 조건: '+(e.variable==='water'?'물':'온도')+' 하나');text(360,448,'직접 찍은 날: '+e.photos.map(d=>d+'일').join(' · '),21);text(180,480,e.prediction?'내 예상: '+({a:'A만',b:'B만',both:'둘 다',neither:'둘 다 안 틈',unsure:'아직 모름'}[e.prediction]):'같게 둔 것: 물의 양',18);text(540,480,e.legacyReport?'이전 기록 · 비교 응답 없음':'사진 B만 · '+({same:'예상과 같음',changed:'생각을 수정함',unsure:'처음엔 몰랐음'}[e.report?.expectation]||''),18);
  }else if(e.type==='care'){
   const light=e.variable==='light',labels=careTimeLabels(e);
   await img(light?'pale':'dry',25,45,310,310);await img(light?'paleRecover2':'pot3',385,45,310,310);

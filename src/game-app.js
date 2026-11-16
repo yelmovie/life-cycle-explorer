@@ -138,7 +138,7 @@ function updateGuide(speak=false){
 
 function canResumeRoom(){return s.resumeRoom&&fieldUnlocked(s.field,s.field.active);}
 function view(next){
- if(next==='room')s.resumeRoom=true;
+ if(next==='room'){s.resumeRoom=true;armIdleHint();}
  if(next!=='map')clearEncounters();
  audio.setMusicTheme('main');s.fieldView=next;
  Object.assign(ui,{selection:null,guide:false,message:'',play:false,autoPlay:false,mapHand:false,travelChapter:null,hintLevel:0,hintReturn:null,dial:null,crossSection:false,plantFrames:null,waterFx:false,tempFx:false});
@@ -242,7 +242,7 @@ function render(){rememberTeacherPreview();const m=mode(),room=m==='room';if(m!=
  const nextChapter=FIELD_CHAPTERS.findIndex((_,i)=>!s.field.completed.includes(i)&&fieldUnlocked(s.field,i));
  $('title-screen').querySelector('[data-action=start] span').textContent=nextChapter<0?'숲 다시 둘러보기':nextChapter===0?'나비 관찰 시작':FIELD_CHAPTERS[nextChapter].title+' 탐사 시작';
  $('title-screen').querySelector('[data-action=continue]').hidden=!canResumeRoom()&&!s.field.completed.length;$('title-screen').querySelector('[data-action=title-restart]').hidden=s.field.completed.length<5;
- if(room){const info=roomUI(s,ui),progress=stageProgress(s.field.active,info.phase,!!previewOriginal);$('scene-title').innerHTML=esc((previewOriginal?'교사 시연 · ':'')+FIELD_CHAPTERS[s.field.active].title)+`<span class="progress-rail" aria-label="${progress.label}, ${Math.min(progress.index+1,progress.total)} / ${progress.total}">${progress.html}</span><span>${progress.label}</span>`;$('objective').textContent=info.objective;$('controls').innerHTML=`<div class="field-menu">${info.controls}${info.phase==='ready'?btn('(선택) 개념 영상','concept'):''}</div>`+`<div class="time-tools">${rangeControl()}${timeStops()}</div>`;$('next').textContent=previewOriginal?(progress.nextPhase?'다음 활동으로 건너뛰기':s.field.active<4?'다음 구역 시연':'시연 마치고 지도'):(info.nextAction==='hint'?'다음 할 일 보기':info.next);}
+ if(room){const info=roomUI(s,ui),progress=stageProgress(s.field.active,info.phase,!!previewOriginal);$('scene-title').innerHTML=esc((previewOriginal?'교사 시연 · ':'')+FIELD_CHAPTERS[s.field.active].title)+`<span class="progress-rail" aria-label="${progress.label}, ${Math.min(progress.index+1,progress.total)} / ${progress.total}">${progress.html}</span><span>${progress.label}</span>`;$('objective').textContent=info.objective;$('controls').innerHTML=`<div class="field-menu">${info.controls}${info.phase==='ready'?btn('(선택) 개념 영상','concept'):''}</div>`+`<div class="time-tools">${rangeControl()}${timeStops()}</div>`;$('next').textContent=previewOriginal?(progress.nextPhase?'다음 활동으로 건너뛰기':s.field.active<4?'다음 구역 시연':'시연 마치고 지도'):info.next;$('next').hidden=!previewOriginal&&info.nextAction==='hint';}
  if(m==='map'){
   const c=FIELD_CHAPTERS.findIndex((_,i)=>!s.field.completed.includes(i)&&fieldUnlocked(s.field,i)),travelling=Number.isInteger(ui.travelChapter);
   $('objective').textContent='';
@@ -381,7 +381,18 @@ function requestDoor(chapter){
  if(previewOriginal){s.field=previewFieldForPhase(s.field,chapter,stageProgress(chapter,'',true).firstPhase);view('room');return;}
  ctx.scene?.walkDoor(chapter);
 }
-function act(type,payload={}){const before=roomPhase(s.field),result=type==='quest-answer'?applyQuest(s.field,payload):fieldAction(s.field,type,payload);if(result.ok)holdObservation(s.field,before,type);ui.selection=null;if(result.ok&&type==='seed-condition'){if(payload.key==='water')ui.waterFx=true;if(payload.key==='warm')ui.tempFx=true;}announce(result.message,!result.ok);if(result.ok)audio.playSfx(type.includes('photo')?'photo':type==='inspect'?'inspect':roomPhase(s.field)!==before?'success':['seed-day','care-day','season','animal-time'].includes(type)?'time':'place');if(result.ok&&type==='inspect')ui.message=FORM_TRAITS[payload.form][payload.spot];if(result.ok&&roomPhase(s.field)!==before)Object.assign(ui,{guide:false,message:'',pending:false,recordPage:0,hintLevel:0});persist();render();ctx.scene?.refresh();if(result.ok&&type==='inspect'&&!payload.quiet)notebook.observe(payload.form,payload.spot);if(result.ok&&/^(seed|animal|season)-photo$/.test(type))notebook.capture(type,payload);return result;}
+// Doto steps in by himself: after a quiet spell (once per page) or after two misses in a row.
+let idleHintTimer=null,missStreak=0,idleHintShown='';
+function autoHint(missed=false){
+ if(mode()!=='room'||previewOriginal||ui.guide||ui.autoPlay||modal.open||!fieldReady||document.hidden)return;
+ const phase=roomPhase(s.field),key=s.field.active+':'+phase;
+ if(!missed&&(roomUI(s,ui).nextAction!=='hint'||idleHintShown===key))return;
+ idleHintShown=key;ui.guide=true;updateGuide(true);ctx.scene?.showHint?.(hintTarget(phase));
+}
+function armIdleHint(){clearTimeout(idleHintTimer);idleHintTimer=setTimeout(()=>autoHint(),15000);}
+function countMiss(ok){if(ok){missStreak=0;return;}if(++missStreak>=2){missStreak=0;autoHint(true);}}
+document.addEventListener('pointerdown',armIdleHint,true);document.addEventListener('keydown',armIdleHint,true);
+function act(type,payload={}){const before=roomPhase(s.field),result=type==='quest-answer'?applyQuest(s.field,payload):fieldAction(s.field,type,payload);if(result.ok)holdObservation(s.field,before,type);countMiss(result.ok);ui.selection=null;if(result.ok&&type==='seed-condition'){if(payload.key==='water')ui.waterFx=true;if(payload.key==='warm')ui.tempFx=true;}announce(result.message,!result.ok);if(result.ok)audio.playSfx(type.includes('photo')?'photo':type==='inspect'?'inspect':roomPhase(s.field)!==before?'success':['seed-day','care-day','season','animal-time'].includes(type)?'time':'place');if(result.ok&&type==='inspect')ui.message=FORM_TRAITS[payload.form][payload.spot];if(result.ok&&roomPhase(s.field)!==before)Object.assign(ui,{guide:false,message:'',pending:false,recordPage:0,hintLevel:0});persist();render();ctx.scene?.refresh();if(result.ok&&type==='inspect'&&!payload.quiet)notebook.observe(payload.form,payload.spot);if(result.ok&&/^(seed|animal|season)-photo$/.test(type))notebook.capture(type,payload);return result;}
 // What the learner just picked and where it goes. Every listed target also accepts a tap after picking.
 function pickGuide(d){const q=s.field.chapters[s.field.active],tool={water:'물뿌리개',warm:'온도계',light:'빛 램프'};
  const [name,goal]=d.kind==='film'?[FORM_NAMES[q.order?.[d.from]]+' 사진','옮길 자리를 눌러 줘.']
@@ -389,7 +400,8 @@ function pickGuide(d){const q=s.field.chapters[s.field.active],tool={water:'물�
  :d.kind==='soil'?['흙 주머니','흙을 담을 화분을 눌러 줘.']
  :d.kind==='seed'?['콩 한 알','심을 화분을 눌러 줘.']
  :d.kind==='seed-condition'?[tool[d.key],`B 화분을 눌러 ${d.key==='water'?'물':'온도'} 조건만 바꿔 줘.`]
- :d.kind==='sensor'?[(d.sensor==='water'?'물기':'빛')+' 재는 도구','잴 화분을 눌러 줘.']
+ :d.kind==='sensor'?[(d.sensor==='both'?'물기·빛':d.sensor==='water'?'물기':'빛')+' 재는 도구','잴 화분을 눌러 줘.']
+ :d.kind==='seed-reason'?[(d.reason==='water'?'물':'온도')+' 꼬리표','싹이 난 화분을 눌러 붙여 줘.']
  :d.kind==='care-tool'?[tool[d.tool],'돌볼 화분을 눌러 줘.']
  :d.kind==='birth'?['다음 세대 카드','알맞은 설명 칸을 눌러 줘.']
  :d.kind==='tag'?[(d.plant==='apple'?'A-01':'B-01')+' 이름표',(d.plant==='apple'?'사과나무':'봉선화')+'를 눌러 붙여 줘.']
@@ -403,7 +415,7 @@ function drop(data){const {kind,target}=data,q=s.field.chapters[s.field.active];
  else if(kind==='generation'){type='generation';p={target};}
  else if(['soil','seed'].includes(kind)&&target.startsWith('pot-')){const side=target.slice(4),prep=q.rounds[q.round].prepared[side];type='seed-prepare';p=kind==='soil'?{side,soil:true}:{side,seeds:Math.min(3,prep.seeds+1)};}
  else if(kind==='seed-condition'&&target==='pot-b'){type='seed-condition';p={key:data.key,side:'b'};}
- else if(kind==='seed-reason'&&target==='reason'){type='seed-report';p={reason:data.reason};}
+ else if(kind==='seed-reason'&&target?.startsWith('reason-')){type='seed-report';p={reason:data.reason,result:target.slice(7)};}
  else if(kind==='sensor'&&target==='plant'){type='care-measure';p={sensor:data.sensor};}
  else if(kind==='symptom'&&['dry','pale'].includes(target)){type='care-pin';p={symptom:target};}
  else if(kind==='care-tool'&&target==='plant'){type='care-tool';p={tool:data.tool};}
@@ -414,7 +426,7 @@ function drop(data){const {kind,target}=data,q=s.field.chapters[s.field.active];
  else if(kind==='record'&&target.startsWith('slot-')){type='book-record';p={id:data.id,slot:Number(target.slice(5))};}
  else if(kind==='claim'&&target.startsWith('evid-')){type='help-match';p={request:data.request,recordId:target.slice(5)};}
  else if(kind==='book'&&target.startsWith('book-')){type='book-move';p={from:data.from,to:Number(target.slice(5))};}
- if(type)act(type,p);else{announce(kind==='seed-condition'?'A는 그대로 두고 B에서 조건 하나를 바꿔 보자.':pickGuide(data).refused,true);ctx.scene?.refresh();}}
+ if(type)act(type,p);else{countMiss(false);announce(kind==='seed-condition'?'A는 그대로 두고 B에서 조건 하나를 바꿔 보자.':pickGuide(data).refused,true);ctx.scene?.refresh();}}
 const ctx={get s(){return s;},saveStatus:()=>G.getSaveStatus(storage),saveDraft(scope,values){if(storeFieldDraft(s.field,scope,values))persist();},ui,mode,dialog,announce,modalOpen:()=>modal.open,recordImage,focusTargets,sceneReady:positionFocus,noteBox:placeNoteBox,placeDoors:positionDoors,emit(type,data){
  if(type==='assets-loading'){
   if(flatObservation||mode()==='title')return;

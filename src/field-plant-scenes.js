@@ -43,20 +43,27 @@ export function renderPlantRoom(v,ctx,phase){
   card(275,302,300,165);label(275,302,r.variable==='warm'?'두 화분 모두 물 있음\nA 5°C · B 22°C':'내 첫 예상\n'+names[r.run.prediction],24,275);
   const days=[0,r.photos.find(d=>d>=2&&d<=4),r.photos.find(d=>d>=6)];
   days.forEach((day,i)=>{const x=590+i*235;observationMat(x,302,215,165);for(const[side,dx]of [['a',-43],['b',43]]){const frame=seedObservation({...r,day},side);v.pic('pot'+frame.level,x+dx,290,84,100);v.text(x+dx,335,side.toUpperCase(),18,60);}label(x,367,day+'일 노트 사진',20,180);});
-  // One question at a time keeps the comparison page calm.
-  const steps=r.variable==='warm'?[
-   {done:r.reason==='warm',q:'둘 다 물을 줬는데 왜 B에서만 싹이 났을까?',opts:[['water','B에만 물을 줬기 때문에'],['warm','B를 더 따뜻하게 두었기 때문에']],key:'reason',value:r.reason}
-  ]:[
-   {done:r.report?.result==='b',q:'① 마지막 사진에서 무엇이 달라졌니?',opts:[['a','A에서만 싹이 났어'],['b','B에서만 싹이 났어'],['both','둘 다 싹이 났어']],key:'result',value:r.report?.result},
-   {done:r.reason===r.variable,q:'② 두 화분에서 다르게 둔 조건은?',opts:[['water','물 조건'],['warm','온도 조건']],key:'reason',value:r.reason},
-   {done:r.report?.expectation===seedExpectation(r),q:'③ 처음 예상과 비교하면?',opts:[['same','예상과 같았어'],['changed','달라서 생각을 바꿨어'],['unsure','처음엔 몰랐어']],key:'expectation',value:r.report?.expectation}];
-  const answered=steps.filter(st=>st.done).map(st=>'✓ '+st.opts.find(([k])=>k===st.value)[1]);
-  if(answered.length)label(640,455,answered.join('   '),21,1100);
-  const cur=steps.find(st=>!st.done);
-  if(cur){
-   label(640,530,cur.q,26,900);
-   const w=cur.opts.length===3?300:410,gap=cur.opts.length===3?340:450,x0=640-(cur.opts.length-1)*gap/2;
-   cur.opts.forEach(([value,text],i)=>button(x0+i*gap,620,w,text,()=>act('seed-report',{[cur.key]:value})));
+  // One placement answers both questions: which pot sprouted, and which condition was different.
+  // The reflection on the first prediction follows from the learner's own choice, so it is told, not asked.
+  const lastDay=days[2],done=r.reason===r.variable&&r.report?.result==='b';
+  const pots={a:360,b:920};
+  for(const side of ['a','b']){
+   const x=pots[side],frame=seedObservation({...r,day:lastDay},side);
+   observationMat(x,575,300,190);
+   v.pic('pot'+frame.level,x,560,110,130);
+   v.text(x,648,`화분 ${side.toUpperCase()} · ${lastDay}일`,20,260);
+   if(!done)drop(x,575,300,190,'reason-'+side,`화분 ${side.toUpperCase()}에 꼬리표 붙이기`);
+  }
+  if(done){
+   label(920,455,'✓ '+(r.variable==='water'?'물을':'온도를')+' 다르게 했어',22,300);
+   label(640,712,r.variable==='water'?{same:'처음 예상과 같았어!',changed:'처음 예상과 달랐지만, 사진으로 확인했어.',unsure:'처음엔 몰랐지만, 사진으로 알아냈어.'}[seedExpectation(r)]:'물은 같게, 온도만 다르게 두었어.',23,900);
+  }else{
+   label(640,445,'싹이 난 화분에 ‘다르게 둔 조건’ 꼬리표를 붙여 줘.',24,900);
+   for(const [i,[reason,text]] of [['water','물을 다르게 했어'],['warm','온도를 다르게 했어']].entries()){
+    const y=540+i*80,g=v.add.graphics().fillStyle(0xfff4cf).lineStyle(3,0x8a6a35).fillRoundedRect(-100,-30,200,60,14).strokeRoundedRect(-100,-30,200,60,14);
+    const tag=v.add.container(640,y,[g,v.text(0,0,text,21,186,'#4a3a1a')]).setSize(200,60);
+    v.draggable(tag,'seed-reason',{reason},text+' 꼬리표 옮기기');
+   }
   }
   return true;
  }
@@ -119,7 +126,7 @@ export function renderPlantRoom(v,ctx,phase){
     }});
    }
   }
-  if(phase==='design'&&ctx.ui.tempFx){
+  if(['design','grow'].includes(phase)&&ctx.ui.tempFx){
    ctx.ui.tempFx=false;const x=positions.b;
    if(!reduced){
     const glow=v.add.circle(x,410,150,0xffb347,0).setDepth(38),th=thermo(x+120,360,5,170).setDepth(40).setAlpha(0),t={v:5};
@@ -139,9 +146,10 @@ export function renderPlantRoom(v,ctx,phase){
    button(1060,438,245,variable==='water'?(changed?'✓ B에 물을 주었어':'① B에 물 주기'):(changed?'✓ B를 22°C로 맞췄어':'① B를 22°C로 올리기'),()=>act('seed-condition',{side:'b',key:variable,value:true}),changed);
    label(1060,540,variable==='warm'?(changed?'A 5°C · B 22°C\n두 화분의 차이: 온도':'콩은 20~25°C에서\n싹이 잘 터.'):changed?'두 화분의 차이: 물':'먼저 B의 조건을 바꿔 줘.',22,270);
    label(640,609,variable==='water'?'같게 둔 것: 온도·빛·공기·흙·콩 종류와 수':'같게 둔 것: 물의 양·빛·공기·흙·콩 종류와 수',20,910);
-   label(640,650,'어느 쪽에서 싹이 날까? 내 예상 고르기',22,950);
+   if(variable==='water'){label(640,650,'어느 쪽에서 싹이 날까? 내 예상 고르기',22,950);
    const predictions=[['a','A만'],['b','B만'],['both','둘 다'],['neither','둘 다 안 틈'],['unsure','아직 모르겠어']];
-   predictions.forEach(([id,title],i)=>button(220+i*210,704,192,title,()=>act('seed-predict',{choice:id}),r.prediction===id));
+   predictions.forEach(([id,title],i)=>button(220+i*210,704,192,title,()=>act('seed-predict',{choice:id}),r.prediction===id));}
+   else label(640,660,'B를 따뜻하게 하면 바로 실험이 시작돼.',22,950);
   }
   if(phase==='grow'){
    dial(1070,397,day,7,'seed-day');
@@ -178,11 +186,9 @@ export function renderPlantRoom(v,ctx,phase){
  }
  if(after)cardText(350,410,255,78,`적용한 돌봄\n${isLight?'빛이 드는 곳으로':'알맞게 물 주기'}`);
  if(phase==='measure'){
-  for(const[sensor,x,key]of [['water',350,'moistureSensor'],['light',970,'lightSensor']]){
-   tool(key,x,490,'sensor',{sensor},sensor==='water'?'물기 재는 도구를 화분으로':'빛 재는 도구를 화분으로',105);
-   button(x,595,250,check(r.measured.includes(sensor),sensor==='water'?'물기 재기':'빛 재기'),()=>act('care-measure',{sensor}),r.measured.includes(sensor));
-  }
-  label(655,655,q.case?'이번 화분도 물기와 빛을 재 줘.':'양쪽의 물기 재기·빛 재기 버튼을 눌러 줘.',23,620);
+  // Either meter carried to the pot reads water and light together: one measuring step, two readings.
+  for(const[x,key]of [[350,'moistureSensor'],[970,'lightSensor']])tool(key,x,490,'sensor',{sensor:'both'},'물기·빛 재는 도구를 화분으로',105);
+  button(655,660,360,q.case?'이 화분도 물기·빛 재기':'물기·빛 함께 재기',()=>act('care-measure',{sensor:'both'}));
  }
  if(phase==='symptom'){
   let pinBusy=false;

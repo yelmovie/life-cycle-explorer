@@ -383,9 +383,31 @@ test('temperature investigation requires its own causal answer, without repeatin
  for (const side of ['a','b']) act(f,'seed-prepare',{side,soil:true,seeds:3});
  act(f,'seed-condition',{key:'water'});act(f,'seed-predict',{choice:'b'});act(f,'seed-run');act(f,'seed-day',{day:7});
  act(f,'seed-report',{reason:'water',result:'b',expectation:'same'});act(f,'seed-next');
- act(f,'seed-condition',{key:'warm'});act(f,'seed-predict',{choice:'both'});act(f,'seed-run');act(f,'seed-day',{day:7});
+ // The second experiment starts as soon as B is warmed: no prediction or start press.
+ act(f,'seed-condition',{key:'warm'});assert.equal(f.chapters[1].rounds[1].run.prediction,'');assert.deepEqual(f.chapters[1].rounds[1].photos,[0]);act(f,'seed-day',{day:7});
  assert.equal(fieldAction(f,'seed-report',{reason:'water'}).ok,false);
  act(f,'seed-report',{reason:'warm'});
  assert.equal(fieldReady(restoreField(f)),true);
  assert.equal(f.chapters[1].rounds[1].report.expectation,'');
+});
+
+test('one tag placement answers the seed report and fills the prediction reflection',()=>{
+ const f=completedThrough(0);act(f,'chapter-enter',{chapter:1});
+ for (const side of ['a','b']) act(f,'seed-prepare',{side,soil:true,seeds:3});
+ act(f,'seed-predict',{choice:'a'});act(f,'seed-condition',{key:'water'});act(f,'seed-run');act(f,'seed-day',{day:7});
+ assert.equal(fieldAction(f,'seed-report',{reason:'water',result:'a'}).ok,false);
+ assert.equal(fieldAction(f,'seed-report',{reason:'warm',result:'b'}).ok,false);
+ act(f,'seed-report',{reason:'water',result:'b'});
+ assert.equal(f.chapters[1].rounds[0].report.expectation,'changed');
+ act(f,'seed-next');
+ act(f,'seed-condition',{key:'warm'});act(f,'seed-day',{day:7});act(f,'seed-report',{reason:'warm',result:'b'});
+ const restored=restoreField(structuredClone(f));
+ assert.equal(restored.chapters[1].rounds[1].run.prediction,'');
+ assert.equal(fieldReady(restored,1),true);
+});
+
+test('one measuring step reads both water and light',()=>{
+ const f=completedThrough(1);act(f,'chapter-enter',{chapter:2});
+ act(f,'care-measure',{sensor:'both'});
+ assert.deepEqual(f.chapters[2].cases[0].measured,['water','light']);
 });

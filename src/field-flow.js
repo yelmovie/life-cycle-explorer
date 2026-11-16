@@ -42,7 +42,7 @@ export function roomUI(s,ui){
  }
  if(c===1){
   if(phase==='prepare'){objective='두 화분에 같은 흙과 씨앗 세 알을 놓아 줘.';next='준비 확인';}
-  if(phase==='design'){objective=q.round===0?'A는 그대로, B에만 물을 주면 어떻게 될까?':'온도만 다르게 두면 씨앗은 어떻게 될까?';next='비교 실험 시작';nextAction='seed-run';}
+  if(phase==='design'){objective=q.round===0?'A는 그대로, B에만 물을 주면 어떻게 될까?':'온도만 다르게 두면 씨앗은 어떻게 될까?';if(q.round===0){next='비교 실험 시작';nextAction='seed-run';}}
   if(phase==='grow'){objective='시간 손잡이를 돌려 0일부터 7일까지 지켜봐.';controls=action('흙 속 단면','cross-section',{},'lens');}
   if(phase==='reason'){objective='노트에 남은 사진을 비교해 보자.';next='비교 기록 확인';}
   if(phase==='seed-next'){objective='네가 바꾼 조건과 씨앗의 변화가 기록됐어.';next='다른 씨앗 돕기';nextAction='seed-next';}

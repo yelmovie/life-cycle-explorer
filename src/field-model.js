@@ -267,6 +267,11 @@ export function fieldAction(field, type, payload={}) {
   return fail('이 활동을 찾지 못했어.');
 }
 
+function startSeedRun(round) {
+  round.run = {a:baseline(round.variable),b:copy(round.b),prepared:copy(round.prepared),prediction:round.prediction};
+  round.day = 0; round.photos = unique([...round.photos,0]);
+}
+
 function seedAction(data,type,p,done,fail) {
   const round = data.rounds[data.round];
   if (type === 'seed-next') {
@@ -291,15 +296,17 @@ function seedAction(data,type,p,done,fail) {
     if (!['water','warm'].includes(p.key)) return fail('물과 온도 중 알아볼 조건을 골라 줘.');
     if(p.key!==round.variable) return fail(`이번에는 ${round.variable==='water'?'물':'온도'}만 바꿔 비교해. ${round.variable==='water'?'온도는':'물의 양은'} 두 화분을 같게 두자.`);
     const next=typeof p.value==='boolean'?p.value:!round.b[p.key];
-    round.b[p.key] = next; return done(`화분 B: ${p.key==='water'?(next?'물을 주었어. A는 물 없음, B는 물 있음이야.':'물을 주지 않는 조건이야. 두 화분이 같은 상태인지 확인해.'):(next?'B를 22°C로 따뜻하게 맞췄어. 콩은 20~25°C에서 싹이 잘 터. A는 5°C 그대로야.':'낮은 온도 조건으로 바꿨어. A와 다른 조건인지 확인해.')} 예상을 남기고 실험을 시작하자.`);
+    round.b[p.key] = next;
+    // The second experiment repeats a set-up the learner already did, so warming B starts it at once.
+    if(round.variable==='warm'&&validPrep(round)&&validSeedChange(round)){startSeedRun(round);return done('B를 22°C로 맞췄어. A는 5°C 그대로야. 실험 시작! 0일 모습이 노트에 남았어. 시간 손잡이를 돌려 봐.');}
+    return done(`화분 B: ${p.key==='water'?(next?'물을 주었어. A는 물 없음, B는 물 있음이야.':'물을 주지 않는 조건이야. 두 화분이 같은 상태인지 확인해.'):(next?'B를 22°C로 따뜻하게 맞췄어. 콩은 20~25°C에서 싹이 잘 터. A는 5°C 그대로야.':'낮은 온도 조건으로 바꿨어. A와 다른 조건인지 확인해.')} 예상을 남기고 실험을 시작하자.`);
   }
   if (type === 'seed-run') {
     if (!validPrep(round)) return fail('A와 B 모두 같은 흙에 씨앗 세 개를 준비해 줘.');
-    if (!round.prediction) return fail('실험하기 전에 예상부터 남겨 줘. 아직 모르겠다고 해도 괜찮아.');
+    if (!round.prediction && round.variable === 'water') return fail('실험하기 전에 예상부터 남겨 줘. 아직 모르겠다고 해도 괜찮아.');
     if (!validSeedChange(round)) return fail(`아직 두 화분의 조건이 같아. B 옆의 '${round.variable === 'water' ? 'B에 물 주기' : 'B를 22°C로 올리기'}'를 눌러 한 조건만 다르게 두자.`);
     if (round.run) return done('시작한 실험의 조건은 그대로 보관하고 있어.');
-    round.run = {a:baseline(round.variable),b:copy(round.b),prepared:copy(round.prepared),prediction:round.prediction};
-    round.day = 0; round.photos = unique([...round.photos,0]); return done('실험 시작! 0일 모습이 노트에 남았어. 시간 손잡이를 돌려 봐.');
+    startSeedRun(round); return done('실험 시작! 0일 모습이 노트에 남았어. 시간 손잡이를 돌려 봐.');
   }
   if (!round.run) return fail('화분을 준비하고 실험을 시작해 줘.');
   if (type === 'seed-day') {
@@ -322,6 +329,8 @@ function seedAction(data,type,p,done,fail) {
     round.report||={result:'',expectation:''};
     if(p.result!==undefined)round.report.result=p.result;
     if(p.expectation!==undefined)round.report.expectation=p.expectation;
+    if(round.variable==='water'&&round.report.result==='b'&&round.reason===round.variable)round.report.expectation=seedExpectation(round);
+    if(p.result!==undefined&&p.reason!==undefined&&seedDone(round))return done(`맞아! B에서만 싹이 났고, 다르게 둔 건 ${round.variable==='water'?'물':'온도'}이야.${round.variable==='water'?' '+{same:'처음 예상과 같았어.',changed:'처음 예상과 달랐지만 사진으로 확인했어.',unsure:'처음엔 몰랐지만 사진으로 알아냈어.'}[seedExpectation(round)]:''}`);
     return done(seedDone(round)?'사진의 변화, 바꾼 조건, 처음 예상과의 비교를 기록했어.':'선택한 내용을 보관했어. 사진의 변화·바꾼 조건·예상 비교를 모두 살펴봐.');
   }
   return fail('실험에서 할 활동을 다시 골라 줘.');
@@ -334,7 +343,8 @@ function careAction(data,type,p,done,fail) {
     data.case = 1; return done('다음 화분도 물기와 빛을 재고 돌보자.');
   }
   if (type === 'care-measure') {
-    if (!['water','light'].includes(p.sensor)) return fail('물기와 빛을 재는 도구를 화분에 가져가 보자.');
+    if (!['water','light','both'].includes(p.sensor)) return fail('물기와 빛을 재는 도구를 화분에 가져가 보자.');
+    if (p.sensor === 'both') {task.measured = ['water','light']; return done(`흙의 물기와 빛의 양을 함께 쟀어. ${task.variable === 'water' ? '물기가 부족하고 빛은 충분해.' : '물기는 충분하고 빛이 부족해.'}`);}
     task.measured = unique([...task.measured,p.sensor]); return done(`${p.sensor === 'water' ? '흙의 물기를' : '빛의 양을'} 측정했어.`);
   }
   if (type === 'care-pin') {
@@ -529,7 +539,7 @@ export function restoreField(raw) {
     round.prediction=FIELD_PREDICTIONS.includes(source.prediction) ? source.prediction : '';
     for (const key of ['water','warm']) if (typeof object(source.b)[key] === 'boolean') round.b[key]=source.b[key];
     const run=object(source.run), runPrepared=sanitizedPrepared(run.prepared);
-    const validRun=conditionEquals(run.a,baseline(round.variable)) && conditionEquals(run.b,{water:true,warm:true}) && validPrep({prepared:runPrepared}) && FIELD_PREDICTIONS.includes(run.prediction);
+    const validRun=conditionEquals(run.a,baseline(round.variable)) && conditionEquals(run.b,{water:true,warm:true}) && validPrep({prepared:runPrepared}) && (FIELD_PREDICTIONS.includes(run.prediction) || round.variable==='warm' && run.prediction==='');
     if (!validRun) return;
     round.run={a:baseline(round.variable),b:{water:true,warm:true},prepared:runPrepared,prediction:run.prediction};
     round.prepared=copy(runPrepared);round.prediction=run.prediction;round.b={water:true,warm:true};
