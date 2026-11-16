@@ -69,4 +69,26 @@ export function lightRestoredLandmarks(v,ctx){
   }
   if(fresh&&!reduced){prop.setAlpha(0);v.tweens.add({targets:prop,alpha:1,delay:220,duration:580});}
  }
+ if(RESTORED_LANDMARKS.every((_,chapter)=>ctx.s.field.completed.includes(chapter)))restoreClockHands(v,reduced,Number.isInteger(restoring));
+}
+
+// The map art paints the life clock with an empty face; the hands return only when all five regions wake.
+const CLOCK_FACE={x:.4275*1280,y:.4768*800,r:36};
+function restoreClockHands(v,reduced,fresh){
+ const {x,y,r}=CLOCK_FACE,ticks=v.add.graphics().setDepth(3);
+ for(let i=0;i<12;i++){const a=i/12*Math.PI*2,major=i%3===0;ticks.lineStyle(major?3:2,0x5a4022,.85).lineBetween(x+Math.cos(a)*r*(major?.66:.76),y+Math.sin(a)*r*(major?.66:.76),x+Math.cos(a)*r*.88,y+Math.sin(a)*r*.88);}
+ const hour=v.add.graphics({x,y}).setDepth(3).lineStyle(5,0x3b2a17,1).lineBetween(0,r*.12,0,-r*.5);
+ const minute=v.add.graphics({x,y}).setDepth(3).lineStyle(3,0x3b2a17,1).lineBetween(0,r*.16,0,-r*.78);
+ const pin=v.add.graphics({x,y}).setDepth(3).fillStyle(0xe5b84e).fillCircle(0,0,5).fillStyle(0x5a4022).fillCircle(0,0,2);
+ hour.setAngle(-60);minute.setAngle(60);
+ if(reduced)return;
+ if(fresh){
+  [ticks,hour,minute,pin].forEach(o=>o.setAlpha(0));
+  v.tweens.add({targets:[ticks,hour,minute,pin],alpha:1,delay:500,duration:700});
+  v.tweens.add({targets:minute,angle:{from:-300,to:60},delay:500,duration:1800,ease:'Cubic.easeOut'});
+  v.tweens.add({targets:hour,angle:{from:-180,to:-60},delay:500,duration:1800,ease:'Cubic.easeOut'});
+ }
+ // A steady once-a-second tick shows the forest's time running again.
+ let turns=0;
+ v.time.delayedCall(fresh?2300:0,()=>v.time.addEvent({delay:1000,loop:true,callback:()=>{turns+=1/60;minute.setAngle(60+turns*360);hour.setAngle(-60+turns*30);}}));
 }
