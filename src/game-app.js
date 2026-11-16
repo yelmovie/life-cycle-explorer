@@ -114,6 +114,9 @@ function syncOrientationFocus(){
  else if(!portrait&&ui.rotationFocus?.isConnected){ui.rotationFocus.focus({preventScroll:true});ui.rotationFocus=null;}
 }
 function closeGuide(){ui.guide=false;updateGuide();const target=ui.hintReturn?.isConnected?ui.hintReturn:$('guide');target.focus({preventScroll:true});ui.hintReturn=null;}
+// Doto's card sits over the lower scene, where answer buttons and drop spots live.
+// Putting it away must not move focus off the scene the learner is pressing.
+function hideGuide(){if(!ui.guide)return;ui.guide=false;ui.hintReturn=null;updateGuide();}
 function updateGuide(speak=false){
  const button=$('guide'),map=mode()==='map',host=app.querySelector(map?'.map-companion-layer':'.guide-tools');
  if(button.parentElement!==host){if(!map)button.removeAttribute('style');button.hidden=map;host.prepend(button);}
@@ -410,6 +413,11 @@ function autoHint(missed=false){
 function armIdleHint(){clearTimeout(idleHintTimer);idleHintTimer=setTimeout(()=>autoHint(),15000);}
 function countMiss(ok){if(ok){missStreak=0;return;}if(++missStreak>=2){missStreak=0;autoHint(true);}}
 document.addEventListener('pointerdown',armIdleHint,true);document.addEventListener('keydown',armIdleHint,true);
+// A press on the scene puts Doto's card away and still reaches the button underneath,
+// so an answer hidden by the hint is never a dead button.
+document.addEventListener('pointerdown',e=>{if(ui.guide&&mode()==='room'&&e.target.closest?.('#phaser-root,#focus-targets'))hideGuide();},true);
+// Tapping the card itself (not its buttons) also puts it away to reveal what it covered.
+guideBubble.addEventListener('click',e=>{if(ui.guide&&!e.target.closest('button'))closeGuide();});
 function completeChapter(){const c=s.field.active,first=!s.field.completed.includes(c);if(act('chapter-complete',{chapter:c}).ok){encounterClear=first?c:null;ui.pendingRestoreChapter=c;s.resumeRoom=false;view('map');audio.playSfx('reward');dialogs.reward(c);}}
 // Steps that used to wait for a confirming press now move on by themselves, after a beat to see the result.
 // Each timer re-checks that the learner is still on the same page before it acts.
@@ -426,7 +434,7 @@ function autoFlow(type){
  // Finishing a region's evidence for the first time goes straight to its reward.
  if(phase==='ready'&&c<4&&!f.completed.includes(c)&&!f.discoveryVisit)flowAfter(1400,()=>!s.field.completed.includes(c),completeChapter);
 }
-function act(type,payload={}){const before=roomPhase(s.field),result=type==='quest-answer'?applyQuest(s.field,payload):fieldAction(s.field,type,payload);if(result.ok)holdObservation(s.field,before,type);countMiss(result.ok);ui.selection=null;if(result.ok&&type==='seed-condition'){if(payload.key==='water')ui.waterFx=true;if(payload.key==='warm')ui.tempFx=true;}announce(result.message,!result.ok);if(result.ok)audio.playSfx(type.includes('photo')?'photo':type==='inspect'?'inspect':roomPhase(s.field)!==before?'success':['seed-day','care-day','season','animal-time'].includes(type)?'time':'place');if(result.ok&&type==='inspect')ui.message=FORM_TRAITS[payload.form][payload.spot];if(result.ok&&roomPhase(s.field)!==before)Object.assign(ui,{guide:false,message:'',pending:false,recordPage:0,hintLevel:0});persist();render();ctx.scene?.refresh();if(result.ok&&type==='inspect'&&!payload.quiet)notebook.observe(payload.form,payload.spot);if(result.ok&&/^(seed|animal|season)-photo$/.test(type))notebook.capture(type,payload);if(result.ok&&mode()==='room'&&!previewOriginal)autoFlow(type);return result;}
+function act(type,payload={}){const before=roomPhase(s.field),result=type==='quest-answer'?applyQuest(s.field,payload):fieldAction(s.field,type,payload);if(result.ok)holdObservation(s.field,before,type);if(mode()==='room')hideGuide();countMiss(result.ok);ui.selection=null;if(result.ok&&type==='seed-condition'){if(payload.key==='water')ui.waterFx=true;if(payload.key==='warm')ui.tempFx=true;}announce(result.message,!result.ok);if(result.ok)audio.playSfx(type.includes('photo')?'photo':type==='inspect'?'inspect':roomPhase(s.field)!==before?'success':['seed-day','care-day','season','animal-time'].includes(type)?'time':'place');if(result.ok&&type==='inspect')ui.message=FORM_TRAITS[payload.form][payload.spot];if(result.ok&&roomPhase(s.field)!==before)Object.assign(ui,{guide:false,message:'',pending:false,recordPage:0,hintLevel:0});persist();render();ctx.scene?.refresh();if(result.ok&&type==='inspect'&&!payload.quiet)notebook.observe(payload.form,payload.spot);if(result.ok&&/^(seed|animal|season)-photo$/.test(type))notebook.capture(type,payload);if(result.ok&&mode()==='room'&&!previewOriginal)autoFlow(type);return result;}
 // What the learner just picked and where it goes. Every listed target also accepts a tap after picking.
 function pickGuide(d){const q=s.field.chapters[s.field.active],tool={water:'물뿌리개',warm:'온도계',light:'빛 램프'};
  const [name,goal]=d.kind==='film'?[FORM_NAMES[q.order?.[d.from]]+' 사진','옮길 자리를 눌러 줘.']
@@ -523,7 +531,7 @@ function action(name,b){void audio.initAudio(s.audio);audio.playSfx('click');
  if(name==='reward-continue'){if(Number(b.dataset.chapter)===4){finale();return;}modal.close();return;}
  if(name==='reward-concept'){const c=Number(b.dataset.chapter);if(s.field.completed.includes(c))concept(c,true);return;}
  if(name==='time-stop'){act(b.dataset.type,b.dataset.type==='season'?{step:Number(b.dataset.value)}:{day:Number(b.dataset.value)});return;}
- if(name==='hint-more'){ui.message='';ui.hintLevel=Math.min(1,ui.hintLevel+1);updateGuide(true);return;}if(name==='hint-point'){ctx.scene?.showHint?.(hintTarget(roomPhase(s.field)));return;}
+ if(name==='hint-more'){ui.message='';ui.hintLevel=Math.min(1,ui.hintLevel+1);updateGuide(true);return;}if(name==='hint-point'){closeGuide();ctx.scene?.showHint?.(hintTarget(roomPhase(s.field)));return;}
  if(name==='sound'){const on=s.audio.bgm||s.audio.sfx;if(on){ui.previousAudio={...s.audio};s.audio.bgm=false;s.audio.sfx=false;}else s.audio=ui.previousAudio||{...s.audio,sfx:true};if(!s.audio.sfx)stopGuideVoice();audio.updateAudio(s.audio);persist();render();return;}
  if(name==='audio-bgm'||name==='audio-sfx'){const k=name==='audio-bgm'?'bgm':'sfx';s.audio[k]=!s.audio[k];audio.updateAudio(s.audio);persist();render();settings();return;}
  if(name==='guide'){if(ui.guide){closeGuide();return;}if(mode()==='map'&&Number.isInteger(ui.travelChapter))ctx.scene?.cancelTravel?.();ui.hintReturn=b;ui.guide=true;if(!ui.pending)ui.message='';ui.pending=false;updateGuide(true);return;}if(name==='hint-close'){closeGuide();return;}if(name==='door'||name==='door-next'){if(name==='door-next')modal.close();requestDoor(Number(b.dataset.chapter));return;}if(name==='step'){ctx.scene?.step(Number(b.dataset.x),Number(b.dataset.y));return;}
