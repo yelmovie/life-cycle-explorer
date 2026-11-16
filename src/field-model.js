@@ -298,7 +298,7 @@ function seedAction(data,type,p,done,fail) {
     const next=typeof p.value==='boolean'?p.value:!round.b[p.key];
     round.b[p.key] = next;
     // The second experiment repeats a set-up the learner already did, so warming B starts it at once.
-    if(round.variable==='warm'&&validPrep(round)&&validSeedChange(round)){startSeedRun(round);return done('B를 22°C로 맞췄어. A는 5°C 그대로야. 실험 시작! 0일 모습이 노트에 남았어. 시간 손잡이를 돌려 봐.');}
+    if(round.variable==='warm'&&validPrep(round)&&validSeedChange(round)){startSeedRun(round);return done('B를 22°C로 맞췄어. A는 5°C 그대로야. 실험 시작! 0일 모습이 노트에 남았어. 시간이 흘러가는 걸 지켜봐.');}
     return done(`화분 B: ${p.key==='water'?(next?'물을 주었어. A는 물 없음, B는 물 있음이야.':'물을 주지 않는 조건이야. 두 화분이 같은 상태인지 확인해.'):(next?'B를 22°C로 따뜻하게 맞췄어. 콩은 20~25°C에서 싹이 잘 터. A는 5°C 그대로야.':'낮은 온도 조건으로 바꿨어. A와 다른 조건인지 확인해.')} 예상을 남기고 실험을 시작하자.`);
   }
   if (type === 'seed-run') {
@@ -306,7 +306,7 @@ function seedAction(data,type,p,done,fail) {
     if (!round.prediction && round.variable === 'water') return fail('실험하기 전에 예상부터 남겨 줘. 아직 모르겠다고 해도 괜찮아.');
     if (!validSeedChange(round)) return fail(`아직 두 화분의 조건이 같아. B 옆의 '${round.variable === 'water' ? 'B에 물 주기' : 'B를 22°C로 올리기'}'를 눌러 한 조건만 다르게 두자.`);
     if (round.run) return done('시작한 실험의 조건은 그대로 보관하고 있어.');
-    startSeedRun(round); return done('실험 시작! 0일 모습이 노트에 남았어. 시간 손잡이를 돌려 봐.');
+    startSeedRun(round); return done('실험 시작! 0일 모습이 노트에 남았어. 시간이 흘러가는 걸 지켜봐.');
   }
   if (!round.run) return fail('화분을 준비하고 실험을 시작해 줘.');
   if (type === 'seed-day') {

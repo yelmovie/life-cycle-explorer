@@ -247,7 +247,7 @@ function render(){rememberTeacherPreview();const m=mode(),room=m==='room';if(m!=
   const c=FIELD_CHAPTERS.findIndex((_,i)=>!s.field.completed.includes(i)&&fieldUnlocked(s.field,i)),travelling=Number.isInteger(ui.travelChapter);
   $('objective').textContent='';
   $('controls').innerHTML=`<div class="row direction-pad">${[['left','왼쪽',-1,0],['up','위',0,-1],['down','아래',0,1],['right','오른쪽',1,0]].map(([i,l,x,y])=>btn(icon(i),'step',`data-x="${x}" data-y="${y}" aria-label="${l} 길로 걷기"`)).join('')}</div>`;
-  $('next').innerHTML=travelling?'길을 따라 가는 중…':c<0?'내 이야기 보기':esc(FIELD_CHAPTERS[c].title)+' 가기 <svg class="map-direction-cue" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg>';
+  $('next').innerHTML=travelling?'길을 따라 가는 중…':c<0?'내 이야기 보기':villainBlocks(c)?'태엽 도깨비를 먼저 물리쳐 줘':esc(FIELD_CHAPTERS[c].title)+' 가기 <svg class="map-direction-cue" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg>';
   // The next place to explore glows, so the map always answers "where now?".
   const nextDoor=c;
   $('map-doors').innerHTML=FIELD_CHAPTERS.map((ch,i)=>`<button class="map-door ${s.field.completed.includes(i)?'done':fieldUnlocked(s.field,i)?(i===nextDoor?'next':''):'locked'}" data-action="door" data-chapter="${i}" aria-label="${ch.title}${fieldUnlocked(s.field,i)?' 입장하기':' · 앞 탐사 뒤 열림'}"><svg class="map-lock-icon" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="${fieldUnlocked(s.field,i)?'M8 11V7a4 4 0 0 1 7.5-2':'M8 11V7a4 4 0 0 1 8 0v4'}"/></svg>${ch.title}</button>`).join('');
@@ -257,7 +257,21 @@ function render(){rememberTeacherPreview();const m=mode(),room=m==='room';if(m!=
  $('next').classList.toggle('map-next-cue',m==='map'&&!reducedMotion(s.settings)&&!!$('next').querySelector('.map-direction-cue'));
  // Rebuilt door buttons take their map positions at once instead of on the next frame.
  autoPlayButton(room);mapHandButton(m==='map');
- const b=app.querySelector('[data-action=sound]'),on=s.audio.bgm||s.audio.sfx;b.innerHTML=icon(on?'sound':'mute');b.setAttribute('aria-label',on?'소리 끄기':'소리 켜기');b.setAttribute('aria-pressed',String(on));updateGuide();if(m==='map')ctx.scene?.update?.();}
+ const b=app.querySelector('[data-action=sound]'),on=s.audio.bgm||s.audio.sfx;b.innerHTML=icon(on?'sound':'mute');b.setAttribute('aria-label',on?'소리 끄기':'소리 켜기');b.setAttribute('aria-pressed',String(on));updateGuide();if(m==='map')ctx.scene?.update?.();armTimeFlow();}
+// Time dials turn by themselves one step at a time, so the learner watches instead of tapping each day.
+// The dial can still be turned by hand; the flow carries on from wherever it is.
+function timeTarget(){const c=s.field.active,q=s.field.chapters[c],p=roomPhase(s.field);if(observationHeld(s.field))return null;
+ if(c===1&&p==='grow'){const r=q.rounds[q.round];return r.day<7?['seed-day',{day:r.day+1}]:null;}
+ if(c===2&&p==='care-after'){const t=q.cases[q.case];return t.day<2?['care-day',{day:t.day+1}]:null;}
+ if(c===3&&p==='seasons')return q.season<4?['season',{step:q.season+1}]:null;
+ if(c===3&&p==='animals')for(const [animal,max] of [['butterfly',3],['dog',2]]){const a=q.animals[animal];if([0,max].every(n=>a.photos.includes(n)))continue;return ['animal-time',{animal,step:a.photos.includes(0)?Math.min(a.step+1,max):0}];}
+ return null;}
+let timeTimer=null,timeKey='';
+function armTimeFlow(){const t=mode()==='room'&&!previewOriginal?timeTarget():null,key=t?s.field.active+':'+JSON.stringify(t):'';
+ if(key===timeKey)return;clearTimeout(timeTimer);timeKey=key;if(!t)return;
+ const tick=()=>{const now=mode()==='room'&&!previewOriginal?timeTarget():null;if(!now||s.field.active+':'+JSON.stringify(now)!==key)return;
+  if(modal.open||ui.autoPlay||!fieldReady||document.hidden){timeTimer=setTimeout(tick,1000);return;}act(now[0],now[1]);};
+ timeTimer=setTimeout(tick,1600);}
 // One top-right toggle for every page that can play itself; it hides and
 // switches off on pages where the learner has to choose an answer.
 function autoPlayButton(room){
@@ -316,7 +330,7 @@ function positionEncounters(items,companion,hero){
   if(!previewOriginal)mapEncounters=mountVillageEncounters({host:$('stage'),clearIndex:encounterClear,progress:s.mapEncounters,
    stages:items.map(({chapter,x,y,near})=>s.field.completed.includes(chapter)?{
     x:near?.x??x+28,y:near?.y??y+14,name:FIELD_CHAPTERS[chapter].title}:null),
-   onSave:next=>{s.mapEncounters={...s.mapEncounters,...next};persist();},
+   onSave:next=>{s.mapEncounters={...s.mapEncounters,...next};persist();render();},
    blocked:()=>!fieldReady||modal.open||ui.guide||ui.mapOverview||mode()!=='map',
    reduced:()=>reducedMotion(s.settings),
    tone:(kind,hits)=>audio.playSfx(kind==='finish'?'encounter-exit':kind==='contact'?'encounter-contact':hits===2?'encounter-two':'encounter-one'),
@@ -375,9 +389,13 @@ function lockedDoor(chapter){
  const first=[0,1,2,3,4].find(i=>!s.field.completed.includes(i))??0,previous=FIELD_CHAPTERS[first];
  dialog({title:'앞 탐사를 먼저 마쳐 줘.',body:`<p>${FIELD_CHAPTERS[chapter].title}에 들어가려면 앞 탐사를 먼저 끝내야 해.</p><p>먼저 ${previous.title}에서 탐사를 마치고 ${objectParticle(previous.reward)} 받아 줘. 구역을 순서대로 탐사하면 다음 길이 열려.</p>`,actions:btn('닫기','close')+btn(previous.title+' 가기','door-next',`data-chapter="${first}"`,'primary')});
 }
+// A newly opened region waits until the villain beside the region just finished has been driven off.
+function villainBlocks(chapter){const prev=chapter-1;return !previewOriginal&&!!mapEncounters&&prev>=0&&s.field.completed.includes(prev)&&!s.field.completed.includes(chapter)&&(s.mapEncounters?.[['butterfly','seed','care','season','clock'][prev]]||0)<3;}
+function villainNotice(){announce('태엽 도깨비가 길을 막고 있어! 가까이 가서 공격 버튼을 세 번 눌러 물리쳐 줘.',true);}
 function requestDoor(chapter){
  if(!Number.isInteger(chapter)||chapter<0||chapter>4||mode()!=='map')return;
  if(!fieldUnlocked(s.field,chapter)){lockedDoor(chapter);return;}
+ if(villainBlocks(chapter)){villainNotice();return;}
  if(previewOriginal){s.field=previewFieldForPhase(s.field,chapter,stageProgress(chapter,'',true).firstPhase);view('room');return;}
  ctx.scene?.walkDoor(chapter);
 }
@@ -468,7 +486,7 @@ const ctx={get s(){return s;},saveStatus:()=>G.getSaveStatus(storage),saveDraft(
  if(type==='travel-start'){if(ui.travelChapter===data.chapter&&!data.cameraChanged)return;ui.travelChapter=data.chapter;ui.guide=false;render();return;}
  if(type==='map-pan-start'){mapHandButton(true);return;}
  if(type==='travel-cancel'){if(Number.isInteger(ui.travelChapter)){ui.travelChapter=null;render();}return;}
- if(type==='arrived'){ui.travelChapter=null;if(fieldUnlocked(s.field,data)){fieldAction(s.field,'chapter-enter',{chapter:data});view('room');}else{render();lockedDoor(data);}return;}
+ if(type==='arrived'){ui.travelChapter=null;if(villainBlocks(data)){render();villainNotice();return;}if(fieldUnlocked(s.field,data)){fieldAction(s.field,'chapter-enter',{chapter:data});view('room');}else{render();lockedDoor(data);}return;}
  if(type==='select'){ui.selection=data;audio.playSfx('select');$('status').textContent=pickGuide(data).picked;$('status').classList.add('visible');clearTimeout(statusTimer);statusTimer=setTimeout(()=>$('status').classList.remove('visible'),2200);return;}if(type==='target'){if(ui.selection)drop({...ui.selection,target:data});else announce('먼저 옮길 도구나 사진을 고른 다음, 이 자리를 눌러 줘.',true);return;}if(type==='drop'){drop(data);return;}if(type==='act')return act(data.type,data.payload);
  if(type==='tower-finished'){
   if(mode()!=='room'||roomPhase(s.field)!=='tower-run'||!act('tower-run').ok)return;
@@ -502,11 +520,6 @@ function action(name,b){void audio.initAudio(s.audio);audio.playSfx('click');
  if(name==='settings'){settings();return;}if(name==='close'){modal.close();return;}if(name==='concept'){concept(Number(b.dataset.chapter??s.field.active));return;}
  if(name==='concept-list'){dialogs.concepts();return;}
  if(name==='concept-select'){const c=Number(b.dataset.chapter);if(previewOriginal||s.field.completed.includes(c))concept(c,false,true);return;}
- if(name==='reward-next'){
-  const c=Number(b.dataset.chapter);
-  if(!s.field.completed.includes(c-1)||!fieldAction(s.field,'chapter-enter',{chapter:c}).ok)return;
-  ui.pendingRestoreChapter=null;modal.close();view('room');return;
- }
  if(name==='reward-continue'){if(Number(b.dataset.chapter)===4){finale();return;}modal.close();return;}
  if(name==='reward-concept'){const c=Number(b.dataset.chapter);if(s.field.completed.includes(c))concept(c,true);return;}
  if(name==='time-stop'){act(b.dataset.type,b.dataset.type==='season'?{step:Number(b.dataset.value)}:{day:Number(b.dataset.value)});return;}

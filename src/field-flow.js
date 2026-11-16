@@ -44,7 +44,7 @@ export function roomUI(s,ui){
  if(c===1){
   if(phase==='prepare'){objective='두 화분에 같은 흙과 씨앗 세 알을 놓아 줘.';next='준비 확인';}
   if(phase==='design'){objective=q.round===0?'A는 그대로, B에만 물을 주면 어떻게 될까?':'온도만 다르게 두면 씨앗은 어떻게 될까?';const r=q.rounds[q.round];if(q.round===0&&r.prediction&&validChange(r)){next='비교 실험 시작';nextAction='seed-run';}}
-  if(phase==='grow'){objective='시간 손잡이를 돌려 0일부터 7일까지 지켜봐.';controls=action('흙 속 단면','cross-section',{},'lens');}
+  if(phase==='grow'){objective='시간이 저절로 흘러가. 0일부터 7일까지 지켜봐.';controls=action('흙 속 단면','cross-section',{},'lens');}
   if(phase==='reason'){objective='노트에 남은 사진을 비교해 보자.';next='비교 기록 확인';}
   if(phase==='seed-next'){objective='네가 바꾼 조건과 씨앗의 변화가 기록됐어.';next='다른 씨앗 돕기';nextAction='seed-next';}
  }
@@ -52,7 +52,7 @@ export function roomUI(s,ui){
   if(phase==='measure'){objective=q.case?'흙은 촉촉한데 잎빛이 옅어. 이 화분에는 무엇이 부족할까?':'물기와 빛을 재서 잎이 처진 까닭을 찾아보자.';next='물·빛 기록 확인';}
   if(phase==='symptom'){objective='물·빛을 잰 결과와 모습을 보고 흙이나 잎에 표시해 줘.';next='관찰핀 확인';}
   if(phase==='care'){objective='확인한 원인에 맞는 돌봄 도구를 놓아 줘.';next='돌봄 확인';}
-  if(phase==='care-after'){objective=plant.variable==='light'?'시간을 옮겨 새잎이 자란 뒤를 살펴봐.':'시간을 옮겨 이틀 뒤 잎을 살펴봐.';}
+  if(phase==='care-after'){objective=plant.variable==='light'?'시간이 저절로 흘러가. 새잎이 자란 뒤를 살펴봐.':'시간이 저절로 흘러가. 이틀 뒤 잎을 살펴봐.';}
   if(phase==='care-compare'){objective='돌보기 전과 나중 모습을 비교해 봐. 무엇이 달라졌니?';}
   if(phase==='care-next'){objective='다른 화분도 같은 도움이 필요할까?';next='다른 화분 조사';nextAction='care-next';}
  }

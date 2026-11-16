@@ -21,7 +21,7 @@ export function renderLifeClock(v,ctx,key,x,y,value,max,event,labels,size=204){
   ticks.lineBetween(x+Math.cos(a)*r1,y+Math.sin(a)*r1,x+Math.cos(a)*r2,y+Math.sin(a)*r2);
  }
  const caption=v.label(x,y+128*k,labels?.[value]??`${value}일째`,22,225);
- const instruction=event.startsWith('animal-')?null:v.text(x,y-126*k,'시간 손잡이를 돌려 봐',18,245);
+ const instruction=event.startsWith('animal-')?null:v.text(x,y-126*k,'시간이 저절로 흘러가',18,245);
  let next=value,moved=false;const draw=n=>{
   const a=clockAngle(n,max),long=radius*.72,short=radius*.40;
   hand.clear().lineStyle(5,0x285b45,1).lineBetween(x,y,x+Math.cos(a)*long,y+Math.sin(a)*long);
