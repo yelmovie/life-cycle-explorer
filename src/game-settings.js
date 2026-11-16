@@ -25,6 +25,8 @@ export function renderSettings(options={}) {
   <div class="settings-replays science-settings-actions">
     ${button('탐구 기록함 보기','records','wide-button science-settings-full')}
     ${button(C.intro,'intro','wide-button science-settings-full')}
+    ${button('숲 지도 보기','map-start','wide-button')}
+    ${button('친구들 만나기','npc-friends','wide-button')}
     ${button(sample?'엔딩 다시 보기 (샘플)':'엔딩 다시 보기','ending','wide-button',finished?'':sample?'data-sample="1"':'disabled aria-describedby="ending-lock"')}
     ${button(sample?'인증서 받기 (샘플)':'인증서 받기','certificate','wide-button',finished?'':sample?'data-sample="1"':'disabled aria-describedby="ending-lock"')}
     ${button('개념 영상 모아 보기 (선택)','concept-list','wide-button')}

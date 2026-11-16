@@ -38,7 +38,7 @@ const titleScreen=`<section id="title-screen" aria-label="생명 시계 연구�
   <h1 class="title-wordmark"><span class="sr-only">생명 시계 연구실</span><img class="title-logo" src="assets/field/title-logo-v1.webp" alt="" width="1200" height="668" fetchpriority="high" decoding="async" draggable="false"></h1>
   <p class="title-hook">작은 씨앗이 숲을 깨울 수 있을까?</p>
   <p class="title-description">나비의 변신부터 씨앗의 첫 새싹까지.<br>네가 찾은 생명의 비밀로 숲의 시간을 이어 줘.</p>
-  <div class="title-actions">${btn('<span>나비 관찰 시작</span>'+icon('right'),'start','','primary title-start')}${btn('이어서 탐험','continue','','title-continue')}${btn('숲 지도 보기','map-start','','title-continue')}${btn('시작 이야기 보기','intro','','title-continue')}${btn('처음부터 다시 하기','title-restart','hidden','title-continue title-restart')}${btn('친구들 만나기','npc-friends','','title-continue npc-home-entry')}</div>
+  <div class="title-actions">${btn('<span>나비 관찰 시작</span>'+icon('right'),'start','','primary title-start')}${btn('이어서 탐험','continue','','title-continue')}${btn('처음부터 다시 하기','title-restart','hidden','title-continue title-restart')}</div>
  </div>
  <div class="title-character-glow" aria-hidden="true"></div>
  <img class="title-jihoon" src="${ART.guideStory}" alt="기록책을 들고 숲으로 안내하는 지훈" draggable="false">
@@ -497,7 +497,7 @@ function action(name,b){void audio.initAudio(s.audio);audio.playSfx('click');
  if(b?.dataset.sample==='1'&&previewOriginal){const f=sampleField();if(name==='ending')dialogs.ending(f);else if(name==='certificate')dialogs.certificate(f);else if(name==='final-replay')finale(f);else if(name==='export')void dialogs.export(true,f);return;}
  if(name==='retry-assets'||name==='next'&&ctx.scene?.assetFailure){if(modal.open)modal.close();ctx.scene?.retryAssets();return;}
  if(name==='asset-map'){modal.close();view('map');return;}
- if(name==='start'){enterDirect();return;}if(name==='map-start'){view('map');return;}if(name==='intro'){intro();return;}if(name==='final-replay'){finale();return;}if(name==='continue'){view(canResumeRoom()?'room':'map');return;}if(name==='begin'){modal.close();view('map');return;}if(name==='home'){view('title');return;}if(name==='back'){if(modal.open)modal.close();else view(mode()==='room'?'map':'title');return;}
+ if(name==='start'){enterDirect();return;}if(name==='map-start'){modal.close();view('map');return;}if(name==='intro'){intro();return;}if(name==='final-replay'){finale();return;}if(name==='continue'){view(canResumeRoom()?'room':'map');return;}if(name==='begin'){modal.close();view('map');return;}if(name==='home'){view('title');return;}if(name==='back'){if(modal.open)modal.close();else view(mode()==='room'?'map':'title');return;}
  if(name==='npc-friends'){friendsDialogue();return;}
  if(name==='settings'){settings();return;}if(name==='close'){modal.close();return;}if(name==='concept'){concept(Number(b.dataset.chapter??s.field.active));return;}
  if(name==='concept-list'){dialogs.concepts();return;}
