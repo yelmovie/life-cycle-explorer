@@ -411,3 +411,11 @@ test('one measuring step reads both water and light',()=>{
  act(f,'care-measure',{sensor:'both'});
  assert.deepEqual(f.chapters[2].cases[0].measured,['water','light']);
 });
+
+test('the water experiment start button appears only after both the prediction and the B condition',()=>{
+ const f=completedThrough(0);act(f,'chapter-enter',{chapter:1});
+ for (const side of ['a','b']) act(f,'seed-prepare',{side,soil:true,seeds:3});
+ assert.equal(roomUI({field:f},{}).nextAction,'hint');
+ act(f,'seed-predict',{choice:'b'});assert.equal(roomUI({field:f},{}).nextAction,'hint');
+ act(f,'seed-condition',{key:'water'});assert.equal(roomUI({field:f},{}).nextAction,'seed-run');
+});
