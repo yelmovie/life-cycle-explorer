@@ -14,10 +14,22 @@ const EFFECTS={
   bell:[[84,.5],[91,.9]], wind:[[96,.03]],
   // Original gentle clockwork tick and forest footstep; no sampled recording required.
   time:[[79,.035],[72,.05],[84,.10]], step:[[43,.035],[48,.045]],
-  'encounter-one':[[82,.055]],'encounter-two':[[68,.06],[53,.11]],
-  'encounter-exit':[[90,.075],[83,.08],[75,.10],[65,.20]],'encounter-contact':[[83,.035],[49,.12]],
+  // Map villain fallbacks when the CC0 samples have not decoded yet.
+  'map-swing':[[88,.04]],'map-hit-light':[[82,.055]],'map-hit-heavy':[[68,.06],[53,.11]],
+  'map-exit':[[90,.075],[83,.08],[75,.10],[65,.20]],'map-bump':[[83,.035],[49,.12]],
+  'map-appear':[[79,.06],[86,.09]],'map-victory':[[72,.1],[76,.1],[79,.1],[84,.3]],
 };
-const SAMPLES={click:'assets/audio/click.wav',select:'assets/audio/select.wav',place:'assets/audio/place.wav',inspect:'assets/audio/inspect.wav',photo:'assets/audio/photo.wav',success:'assets/audio/success.wav',reward:'assets/audio/reward.wav',error:'assets/audio/error.wav',time:'assets/audio/time.wav',step:'assets/audio/step.wav',bell:'assets/audio/bell.wav',wind:'assets/audio/wind.wav'};
+// One press is one strike: swing on press, impact as the flinch peaks; the third strike also sends the villain off.
+const SEQUENCES={
+  'map-strike-1':[['map-swing',0],['map-hit-light',.06]],
+  'map-strike-2':[['map-swing',0],['map-hit-light',.06,.86]],
+  'map-strike-3':[['map-swing',0],['map-hit-heavy',.06],['map-exit',.34]],
+};
+// Per-role loudness on top of the shared effects gain (library files are not peak-matched to the Kenney set).
+// Library files sit near -18 to -25 LUFS; the Kenney UI set is near -10 LUFS. Bring combat roughly 3-6 dB under the UI cues.
+const LEVELS={'map-swing':2.7,'map-hit-light':2.4,'map-hit-heavy':4,'map-exit':1.7,'map-bump':2.8,'map-appear':1.3,'map-victory':1.9};
+const SAMPLES={click:'assets/audio/click.wav',select:'assets/audio/select.wav',place:'assets/audio/place.wav',inspect:'assets/audio/inspect.wav',photo:'assets/audio/photo.wav',success:'assets/audio/success.wav',reward:'assets/audio/reward.wav',error:'assets/audio/error.wav',time:'assets/audio/time.wav',step:'assets/audio/step.wav',bell:'assets/audio/bell.wav',wind:'assets/audio/wind.wav',
+ 'map-swing':'assets/audio/sfx/map-swing.mp3','map-hit-light':'assets/audio/sfx/map-hit-light.mp3','map-hit-heavy':'assets/audio/sfx/map-hit-heavy.mp3','map-exit':'assets/audio/sfx/map-exit.mp3','map-bump':'assets/audio/sfx/map-bump.mp3','map-appear':'assets/audio/sfx/map-appear.mp3','map-victory':'assets/audio/sfx/map-victory.mp3'};
 const sampleBuffers=new Map();let sampleLoad=null;
 async function loadSamples(){
  if(sampleLoad||!context?.decodeAudioData||typeof window==='undefined')return;
@@ -119,11 +131,20 @@ export function updateAudio(input={}){const next=normaliseAudio(input);if(!setti
 export function playSfx(kind='click'){
   if(!context||context.state!=='running'||!settings.sfx||paused||hidden())return false;
   stopNodes(effectNodes);
-  const buffer=sampleBuffers.get(({drop:'place',retry:'error',bump:'error'})[kind]||kind);
-  if(buffer){const source=context.createBufferSource();source.buffer=buffer;source.connect(effectsGain);effectNodes.add(source);source.onended=()=>{effectNodes.delete(source);source.disconnect();};source.start();return true;}
-  let when=context.currentTime+.005;
-  for(const [pitch,duration] of EFFECTS[kind]||EFFECTS.click){note(pitch,when,duration,effectsGain,'sine',effectNodes,.72);when+=duration*.8;}
+  const start=context.currentTime+.005;
+  for(const [part,offset,rate] of SEQUENCES[kind]||[[kind,0]])scheduleSfx(part,start+offset,rate);
   return true;
+}
+function scheduleSfx(kind,start,rate=1){
+  const buffer=sampleBuffers.get(({drop:'place',retry:'error',bump:'error'})[kind]||kind);
+  if(buffer){
+    const source=context.createBufferSource(),level=LEVELS[kind];source.buffer=buffer;
+    if(rate!==1&&source.playbackRate)source.playbackRate.value=rate;
+    const gain=level?context.createGain():null;if(gain){gain.gain.value=level;source.connect(gain);gain.connect(effectsGain);}else source.connect(effectsGain);
+    effectNodes.add(source);source.onended=()=>{effectNodes.delete(source);source.disconnect();gain?.disconnect();};source.start(start);return;
+  }
+  let when=start;
+  for(const [pitch,duration] of EFFECTS[kind]||EFFECTS.click){note(pitch,when,duration,effectsGain,'sine',effectNodes,.72);when+=duration*.8;}
 }
 /** Pause both recordings and effects while a concept video is open. */
 export function pauseAudio(){paused=true;stopMusic();stopNodes(effectNodes);if(context)void context.suspend().catch(()=>{});}

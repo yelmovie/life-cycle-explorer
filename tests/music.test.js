@@ -86,3 +86,15 @@ test('엔딩·기록증 창만 파이널 테마를 요청하고 미완료 상태
  dialogs.ending();dialogs.certificate();assert.equal(shown.length,0);
  field.completed=[0,1,2,3,4];dialogs.ending();dialogs.certificate();assert.deepEqual(shown.map(options=>options.music),['ending','ending']);
 });
+
+test('지도 공격은 한 번 누를 때 휘두름·명중을 한 묶음으로 내고 효과음을 끄면 내지 않는다',async()=>{
+ const e=environment();try{
+  await initAudio({bgm:false,sfx:true,volume:.2});const context=e.contexts[0];
+  const before=context.oscillators.length;assert.equal(playSfx('map-strike-1'),true);
+  assert.equal(context.oscillators.length-before,2);
+  const third=context.oscillators.length;assert.equal(playSfx('map-strike-3'),true);
+  assert.equal(context.oscillators.length-third,7);
+  for(const kind of ['map-bump','map-appear','map-victory'])assert.equal(playSfx(kind),true);
+  updateAudio({bgm:false,sfx:false,volume:.2});assert.equal(playSfx('map-strike-2'),false);
+ }finally{e.restore();}
+});

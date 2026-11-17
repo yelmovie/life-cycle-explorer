@@ -336,7 +336,7 @@ function positionEncounters(items,companion,hero){
    onSave:next=>{s.mapEncounters={...s.mapEncounters,...next};persist();render();},
    blocked:()=>!fieldReady||modal.open||ui.guide||ui.mapOverview||mode()!=='map',
    reduced:()=>reducedMotion(s.settings),
-   tone:(kind,hits)=>audio.playSfx(kind==='finish'?'encounter-exit':kind==='contact'?'encounter-contact':hits===2?'encounter-two':'encounter-one'),
+   tone:(kind,hits)=>audio.playSfx(({finish:'map-strike-3',contact:'map-bump',appear:'map-appear',victory:'map-victory'})[kind]??(hits===2?'map-strike-2':'map-strike-1')),
    actors:[visible=>owner?.avatar?.setAlpha(visible?1:0),visible=>owner?.spirit?.setAlpha(visible?1:0)],
   });
   encounterClear=null;

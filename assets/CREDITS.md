@@ -1,5 +1,23 @@
 # 에셋 출처 · 저작권 기록
 
+## 2026-11-17 · 지도 악당 공격음·타격음
+
+과학34 공통 효과음 라이브러리(`_shared/sfx-library-20261117`, CC0만 모음)에서 7개를 그대로 복사했다(재인코딩 없음, 라이브러리 처리: 앞뒤 무음 제거·음량 정규화·모노 44.1 kHz MP3). 동물의 한살이 단원에 맞춰 부드러운 팝·베개 타격·덤불 바스락·반짝 퇴장으로 골랐다. 음량은 `src/game-audio.js`의 역할별 배율(LEVELS)로 기존 Kenney UI 효과음보다 조금 작게 맞췄고, 효과음 켜기/끄기 설정을 그대로 따른다.
+
+| 파일 | 원본 | 출처 | 라이선스 |
+|---|---|---|---|
+| `audio/sfx/map-swing.mp3` | 라이브러리 `sfx/attack-swing-03.mp3` · “SWOSH-01 44.1kHz.flac” · qubodup | [freesound](https://freesound.org/people/qubodup/sounds/59988) | CC0 (2026-11-17 원본 페이지 재확인) |
+| `audio/sfx/map-hit-light.mp3` | 라이브러리 `sfx/hit-light-02.mp3` · “cartoon pop or drip” · AlaskaRobotics | [freesound](https://freesound.org/people/AlaskaRobotics/sounds/221091) | CC0 (2026-11-17 원본 페이지 재확인) |
+| `audio/sfx/map-hit-heavy.mp3` | 라이브러리 `sfx/hit-heavy-02.mp3` · “Loud Pillow Hit 2.wav” · saturdaysoundguy | [freesound](https://freesound.org/people/saturdaysoundguy/sounds/388035) | CC0 (2026-11-17 원본 페이지 재확인) |
+| `audio/sfx/map-exit.mp3` | 라이브러리 `sfx/villain-exit-04.mp3` · “Sparkling Star 01.wav” · MATRIXXX_ | [freesound](https://freesound.org/people/MATRIXXX_/sounds/462095) | CC0 (2026-11-17 원본 페이지 재확인) |
+| `audio/sfx/map-appear.mp3` | 라이브러리 `sfx/leaf-rustle-01.mp3` · “bushmovement.wav” · j1987 | [freesound](https://freesound.org/people/j1987/sounds/106114) | CC0 (2026-11-17 원본 페이지 재확인) |
+| `audio/sfx/map-bump.mp3` | 라이브러리 `sfx/hurt-bump-01.mp3` · “LowHit_01.wav” · Faulkin | [freesound](https://freesound.org/people/Faulkin/sounds/336495) | CC0 (2026-11-17 원본 페이지 재확인) |
+| `audio/sfx/map-victory.mp3` | 라이브러리 `sfx/victory-jingle-04.mp3` · “game-win.mp3” · mickleness | [freesound](https://freesound.org/people/mickleness/sounds/269198) | CC0 (2026-11-17 원본 페이지 재확인) |
+
+연결 지점(`src/map-encounters.js` → `src/game-app.js` tone): 공격 버튼 입력 1·2타는 휘두름+가벼운 타격(2타는 재생 속도 0.86으로 낮게), 3타는 휘두름+묵직한 타격+퇴장음(0.34초 뒤, 퇴장 동작 중). 타격음은 입력 0.06초 뒤 움찔 동작이 가장 클 때 난다. 접촉 피격은 기존 캐릭터별 1.05초·전체 0.3초 간격 그대로 한 번, 등장음은 악당이 화면에 처음 들어올 때 페이지당 한 번(1.5초 안에 여럿이면 한 번), 승리 징글은 모든 악당 격퇴 뒤 피날레 창을 열 때(피날레 영상은 무음이라 겹치지 않음).
+
+기존 효과음 점검(2026-11-17): 코드가 참조하는 `audio/*.wav` 12개가 모두 있고 `audio/manifest.json`의 SHA-256과 일치하며 빌드에 포함된다. Kenney 10개는 아래 0.7.0 기록, `bell.wav`(Fupi “Correct bell”, [OpenGameArt](https://opengameart.org/content/correct-bell))와 `wind.wav`(BMacZero “Clock Wind Sounds”, [OpenGameArt](https://opengameart.org/content/clock-wind-sounds))는 2026-10-29 추가분으로 CC0이며 출처·해시는 `audio/manifest.json`의 `additional`에 있다(이 파일에 빠져 있던 기록을 여기 보탠다). 교체한 기존 파일은 없다.
+
 ## 2026-10-25 · 화면 고도화 그림
 
 - 힉스필드(gpt_image_2_5)로 4장을 생성했다. 원본 PNG는 `field/source/*-20261025.png`, 실행 WebP는 `field/`에 있다.

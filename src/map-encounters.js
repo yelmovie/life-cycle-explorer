@@ -40,6 +40,8 @@ function layoutSpeech(host, entries){
 }
 
 const REPEAT=380;
+// A villain announces itself once per page visit, not on every map re-entry; one cue per burst of arrivals.
+const announced=new Set();let lastAppearTone=-Infinity;
 const CUES={
   cap:'M9 10h14v12H9zm3-4h8v4h-8z', pane:'M6 7h20v18H6zm4 4v10h12V11z',
   file:'M7 5h12l6 6v16H7zm12 2v6h5M11 17h10m-10 4h8', label:'M5 10h15l7 6-7 6H5zm5 4h5m-5 4h7',
@@ -196,6 +198,7 @@ export function mountMapEncounters({
       const off=point.x<-size||point.x>width+size||point.y<-size||point.y>height+size;
       foe.el.hidden=off;
       if(off)continue;
+      if(!stop&&foe.hits<HITS&&!announced.has(foe.s.id)){announced.add(foe.s.id);if(now-lastAppearTone>1500){lastAppearTone=now;tone('appear',0);}}
       const {el,actor}=foe;
       el.style.transform=`translate(${point.x.toFixed(1)}px,${point.y.toFixed(1)}px)`;
       el.style.setProperty('--encounter-size',size.toFixed(1)+'px');
@@ -255,7 +258,7 @@ export function mountMapEncounters({
       }
       callback.hidden=now>=clearUntil;
     }
-    if(finaleAt&&now>=finaleAt&&!stop){finaleAt=0;openMapFinale(host,"/assets/video/final.mp4");}
+    if(finaleAt&&now>=finaleAt&&!stop){finaleAt=0;tone('victory',0);openMapFinale(host,"/assets/video/final.mp4");}
     current=nearest;
     if(current&&current!==lastNear&&current.saidUntil<=now&&now-lastHit>REPEAT&&now>=clearUntil){
       const message=current.say[current.sayIndex++%current.say.length]??'다가왔구나!';
