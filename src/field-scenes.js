@@ -45,7 +45,17 @@ export function createFieldGame(context){
    const floor=foot?foot.top:Infinity;
    return {top:Math.round(Math.max(0,head?head.bottom-canvas.top:0)*k),bottom:Math.round(Math.max(0,floor===Infinity?0:canvas.bottom-floor)*k)};
   }
-  syncInsets(){const now=this.hudInsets(),was=this.viewport?.insets;if(!this.loading&&was&&(now.top!==was.top||now.bottom!==was.bottom))this.relayout();}
+  syncInsets(){const now=this.hudInsets(),was=this.viewport?.insets;if(this.loading||!was||now.top===was.top&&now.bottom===was.bottom)return;
+   // On the map the bars only shape the camera. Rebuilding the scene would put the walker back on its last path
+   // node, so a toolbar that grows near a villain (the attack button) kept pulling students back mid-walk.
+   if(context.mode()==='map'&&this.avatar){this.viewport={...this.viewport,insets:now};this.fitMapCamera();return;}
+   this.relayout();}
+  fitMapCamera(){
+   if(context.ui.mapOverview){this.setMapOverview(true);return;}
+   const cam=this.cameras.main,{top,bottom}=this.viewport.insets,zoom=context.ui.mapHand?cam.zoom:this.mapZoom;
+   cam.setBounds(0,-top/zoom,W,H+(top+bottom)/zoom);this.mapFollowOffset=(top-bottom)/2/this.mapZoom;
+   if(!context.ui.mapHand)cam.setFollowOffset(0,this.mapFollowOffset);
+  }
   viewportSize(){const size=this.scale?.gameSize||this.game?.scale?.gameSize;return {width:Math.max(1,size?.width||W),height:Math.max(1,size?.height||H)};}
   configureViewport(mode){
    const size=this.viewportSize(),camera=this.cameras.main,insets=this.hudInsets(),room=mode==='room',bounds=room?ROOM_VIEW:{x:0,y:0,width:W,height:H};

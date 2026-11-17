@@ -18,3 +18,18 @@ test('overview fits between the HUD bars and returns to the previous follow or h
   context.ui.mapHand=false;scene.setMapHand(false);
  }
 });
+test('a HUD bar that grows on the map keeps the walk going and only refits the camera',()=>{
+ const context={mode:()=> 'map',s:{settings:{reducedMotion:true}},ui:{}};
+ const {scene}=createFieldGame(context);scene.avatar={x:400,y:300};
+ const camera={zoom:1.2,bounds:null,offset:null,setBounds(...b){this.bounds=b;return this;},setFollowOffset(x,y){this.offset=[x,y];return this;}};
+ scene.cameras={main:camera};scene.mapZoom=1.2;scene.walking=true;scene.walkTarget=7;
+ let relayouts=0;scene.relayout=()=>{relayouts++;};
+ scene.viewport={width:1280,height:800,zoom:1.1,insets:{top:52,bottom:124}};
+ scene.hudInsets=()=>({top:52,bottom:128});
+ scene.syncInsets();
+ assert.equal(relayouts,0);assert.equal(scene.walking,true);assert.equal(scene.walkTarget,7);
+ assert.deepEqual(scene.viewport.insets,{top:52,bottom:128});
+ assert.deepEqual(camera.bounds,[0,-52/1.2,1280,800+180/1.2]);assert.deepEqual(camera.offset,[0,(52-128)/2/1.2]);
+ context.mode=()=> 'room';scene.hudInsets=()=>({top:60,bottom:128});scene.syncInsets();
+ assert.equal(relayouts,1);
+});
