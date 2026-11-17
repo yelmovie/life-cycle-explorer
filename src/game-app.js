@@ -337,7 +337,12 @@ function positionEncounters(items,companion,hero){
    onSave:next=>{s.mapEncounters={...s.mapEncounters,...next};persist();render();},
    blocked:()=>!fieldReady||modal.open||ui.guide||ui.mapOverview||mode()!=='map',
    reduced:()=>reducedMotion(s.settings),
-   tone:(kind,hits)=>audio.playSfx(({finish:'map-strike-3',contact:'map-bump',appear:'map-appear',victory:'map-victory'})[kind]??(hits===2?'map-strike-2':'map-strike-1')),
+   tone:(kind,hits)=>{
+    const cue=({finish:'map-strike-3',contact:'map-bump',appear:'map-appear',victory:'map-victory'})[kind]??(hits===2?'map-strike-2':'map-strike-1');
+    // Strikes come from a press on the attack button or J/Space. That button stops pointerdown from reaching the
+    // page's first-press audio unlock, so a strike unlocks audio itself (a map reopened after reload starts here).
+    if(kind==='hit'||kind==='finish')void audio.initAudio(s.audio).then(()=>audio.playSfx(cue));else audio.playSfx(cue);
+   },
    actors:[visible=>owner?.avatar?.setAlpha(visible?1:0),visible=>owner?.spirit?.setAlpha(visible?1:0)],
   });
   encounterClear=null;
