@@ -21,7 +21,9 @@
   --radius-sm:12px;--radius-md:20px;--radius-lg:28px;--radius-pill:999px;
   --button-height-md:52px;--button-height-lg:60px;--button-gap:var(--space-md);--icon-size:52px;
   --button-edge:#a59870;--shadow-card:0 8px 24px #172e3124;--shadow-popover:0 24px 80px #122b3a55;
-  --screen-inset:var(--space-lg);--question-top:88px;--controls-bottom:var(--space-lg);--modal-max-width:900px;
+  --screen-inset:var(--space-lg);--question-top:88px;--controls-bottom:var(--space-lg);--modal-max-width:min(900px,max(52vw,540px));
+  /* One scrim for every dialog except full-screen films: the scene stays readable behind it. */
+  --scrim:rgb(20 59 53 / .28);
 }
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;overscroll-behavior:none}
@@ -151,7 +153,7 @@ textarea{height:120px;resize:vertical}input[type=range]{height:48px;min-width:80
 /* Dialog header and footer never share the scrolling content row. */
 dialog{--dialog-gap:16px;position:fixed;inset:0;width:min(var(--modal-max-width),calc(100vw - 24px));max-width:calc(100vw - 24px);height:fit-content;max-height:calc(100dvh - 24px);margin:auto;padding:clamp(12px,2vw,28px);border:2px solid var(--forest-700);border-radius:var(--radius-lg);background:var(--cream-50);color:var(--color-text-main);box-shadow:var(--shadow-popover);overflow:hidden;font-size:var(--font-size-sm)}
 dialog[open]{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto minmax(0,1fr) auto;gap:var(--dialog-gap);animation:dialog-in .2s ease-out}
-dialog::backdrop{background:#143b35b8}
+dialog::backdrop{background:var(--scrim)}
 dialog>h2{grid-column:1;grid-row:1;align-self:center;min-width:0;margin:0;padding:0;font-size:var(--font-size-lg);font-weight:700;line-height:1.2;word-break:keep-all;overflow-wrap:break-word;text-wrap:balance}
 dialog>.close{grid-column:2;grid-row:1;align-self:start;justify-self:end;position:static;width:48px;height:48px;min-width:48px;min-height:48px;padding:8px;z-index:1}
 dialog>.modal-body{grid-column:1/-1;grid-row:2;min-width:0;min-height:0;max-height:none;overflow:auto;overscroll-behavior:contain;scrollbar-gutter:stable;padding:0 6px 4px 0}

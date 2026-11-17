@@ -72,7 +72,7 @@ export function renderObservationRoom(v,ctx,phase){
   };
   const openViewer=()=>{
    const targets=v.focusTargets,items=[];v.focusTargets=[];
-   items.push(v.add.rectangle(640,400,1280,800,0x0d2a20,.6).setDepth(100).setInteractive());
+   items.push(v.add.rectangle(640,400,1280,800,0x0d2a20,.28).setDepth(100).setInteractive());
    items.push(v.paper(640,437,1090,555).setDepth(101));
    popup={items,targets};
   };
