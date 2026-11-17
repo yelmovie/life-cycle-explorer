@@ -4,7 +4,9 @@ import {autoPlayRoom,autoStep} from './field-autoplay.js';
 
 const FORMS=['egg','larva','pupa','adult'];
 const PARTS={egg:['표면 보기','모양 보기'],larva:['몸마디 보기','다리 보기'],pupa:['겉모습 보기','모양 보기'],adult:['날개 보기','더듬이 보기']};
-const POSITIONS={egg:[310,310,160/3],larva:[960,310,170],pupa:[310,535,145],adult:[960,535,128]};
+// Two rows fill the room band (ROOM_VIEW y 140–740) so the table below is not left empty.
+const POSITIONS={egg:[300,287,64],larva:[980,287,204],pupa:[300,569,174],adult:[980,569,154]};
+const MAT={w:400,h:270};
 
 /** Chapter 1 has visible, tappable steps as well as optional magnifier dragging. */
 export function renderObservationRoom(v,ctx,phase){
@@ -22,20 +24,20 @@ export function renderObservationRoom(v,ctx,phase){
   // A quiet specimen mat, number and name separate each organism from the busy forest.
   for(const [i,id] of FORMS.entries()){
    const [x,y,size]=POSITIONS[id];
-   v.paper(x-3,y+10,354,216);
-   v.text(x,y-72,`${i+1}  ${FORM_NAMES[id]}${q.inspected[id].length?' · 기록 완료':''}`,26,320);
+   v.paper(x-3,y+10,MAT.w,MAT.h);
+   v.text(x,y-96,`${i+1}  ${FORM_NAMES[id]}${q.inspected[id].length?' · 기록 완료':''}`,26,320);
    // The egg remains one third its old displayed size; the whole mat is a large touch target.
    const specimenY=y+(id==='egg'?7:id==='adult'?-5:-3);
    specimens.push({id,x,y:specimenY,size});v.pic(id,x,specimenY,size,size);
-   v.click(x,y-2,330,90,()=>{const spot=[0,1].find(n=>!q.inspected[id].includes(n))??0;focusSpot(id,spot);},FORM_NAMES[id]+' 확대해서 보기');
+   v.click(x,y-8,370,120,()=>{const spot=[0,1].find(n=>!q.inspected[id].includes(n))??0;focusSpot(id,spot);},FORM_NAMES[id]+' 확대해서 보기');
    for(const spot of [0,1]){
-    const bx=x+(spot?79:-79),by=y+71,done=q.inspected[id].includes(spot);
-    button(bx,by,146,56,PARTS[id][spot],()=>focusSpot(id,spot),done);
+    const bx=x+(spot?92:-92),by=y+100,done=q.inspected[id].includes(spot);
+    button(bx,by,170,60,PARTS[id][spot],()=>focusSpot(id,spot),done);
     const [px,py]=SPOTS[id][spot],sx=x+(px-.5)*size,sy=specimenY+(py-.5)*size;
     spots.push({form:id,spot,x:sx,y:sy});
     if(done)v.add.circle(sx,sy,6,0x4a885c).setStrokeStyle(2,0xfffbed);
    }
-   if(next?.form===id){v.text(x-153,y-72,'▶',23,32,'#337b63');}
+   if(next?.form===id){v.text(x-172,y-96,'▶',23,32,'#337b63');}
   }
   // Keep the original live magnifier: moving it reveals a larger view of the
   // actual body region underneath, and releasing it records that observation.
@@ -45,12 +47,14 @@ export function renderObservationRoom(v,ctx,phase){
   const lens=v.add.container(640,350,[lensArt]).setSize(220,220).setDepth(40).setInteractive({useHandCursor:true});v.input.setDraggable(lens);
   const maskShape=v.make.graphics({add:false});maskShape.fillStyle(0xffffff).fillCircle(0,0,43);v.lensMask=maskShape;
   const mask=maskShape.createGeometryMask();let zoom=null,zoomId=null,nearest=null,viewed=null;
-  const feedback=v.label(640,590,'돋보기를 생물 위로\n옮겨서 살펴봐.',22,250);
+  // The sentence lives in #objective; the canvas only marks the tool to drag.
+  const LENS_MARK='↑ 돋보기';
+  const feedback=v.label(660,520,LENS_MARK,22,200);
   const inspect=(x,y)=>{
    lens.setPosition(x,y);maskShape.setPosition(x,y);
    nearest=spots.map(a=>({...a,d:Math.hypot(a.x-x,a.y-y)})).sort((a,b)=>a.d-b.d)[0];
    const base=specimens.find(a=>a.id===nearest.form),inside=Math.hypot(base.x-x,base.y-y)<base.size*.62+40;
-   if(!inside){zoom?.destroy();zoom=null;zoomId=null;viewed=null;feedback.setText('돋보기를 생물 위로\n옮겨서 살펴봐.');return;}
+   if(!inside){zoom?.destroy();zoom=null;zoomId=null;viewed=null;feedback.setText(LENS_MARK);return;}
    viewed={form:nearest.form,spot:nearest.spot};
    const factor=base.id==='egg'?4:2.8;
    if(zoomId!==base.id){zoom?.destroy();zoom=v.pic(base.id,x,y,base.size*factor).setDepth(41).setMask(mask);zoomId=base.id;}

@@ -85,7 +85,6 @@ export function renderStoryRoom(v,ctx,phase){
     if(result?.ok)ctx.emit('clock-tick');
    }
   }));
-  v.label(640,672,'사진을 한 번 누르면 근거가 시계탑에 연결돼.',22,920);
   return;
  }
 

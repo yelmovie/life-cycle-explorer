@@ -94,13 +94,13 @@ export function renderFieldRoom(v,ctx){
    v.label(452,205,'사과나무'+(q.tags.includes('apple')?' · A-01':''),27,340);v.label(825,205,'봉선화'+(q.tags.includes('balsam')?(balsamNew?' · B-02':' · B-01'):''),27,340);
    // Tags already hung show on the plant; unused tags wait in the tray below.
    if(q.tags.includes('apple'))tagShape('A-01',548,250);if(q.tags.includes('balsam'))tagShape(balsamNew?'B-02':'B-01',915,250);
-   if(phase==='tags'){v.label(640,535,'이름표를 끌어 식물에 달아 줘',23,420);if(!q.tags.includes('apple'))nameTag('A-01',540,610,{plant:'apple'});if(!q.tags.includes('balsam'))nameTag('B-01',740,610,{plant:'balsam'});return;}
+   if(phase==='tags'){v.label(640,535,'이름표 ↓',23,200);if(!q.tags.includes('apple'))nameTag('A-01',540,610,{plant:'apple'});if(!q.tags.includes('balsam'))nameTag('B-01',740,610,{plant:'balsam'});return;}
    // Each plant's year sits under its easel, so last year and this year are compared side by side.
    const shown=id=>n=>n<=step||q.plantPhotos.includes(`${id}-${n}`);
    yearStrip('apple',452,525,[0,1,2,3,4],{current:step,shown:shown('apple')});yearStrip('balsam',825,525,[0,1,2,3,4],{current:step,shown:shown('balsam')});
    dayDial('seasonCompass',1115,470,step,4,'season',{},seasons);
-   if(phase==='seasons')v.label(640,640,step<3?'시간을 겨울과 다음 봄까지 돌려 봐.':'이름표 줄이 끊기지 않고 이어질까?',23,620);
-   else for(const [id,x,name] of [['apple',452,'사과나무'],['balsam',825,'봉선화']]){
+   // The season dial runs by itself and #objective carries the question, so the canvas adds no sentence here.
+   if(phase!=='seasons')for(const [id,x,name] of [['apple',452,'사과나무'],['balsam',825,'봉선화']]){
     const answer=q.classifications[id];
     if(answer)v.label(x,640,answer==='same'?'✓ 작년 그 나무 · 겨울을 견뎠어':'✓ 씨앗에서 새로 자란 봉선화',21,340);
     else{choice(x-84,640,150,'작년 그 식물',()=>act('plant-classify',{plant:id,answer:'same'}),name);choice(x+86,640,176,'새로 자란 식물',()=>act('plant-classify',{plant:id,answer:'new'}),name);}
