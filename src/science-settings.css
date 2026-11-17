@@ -3,7 +3,8 @@ html [data-science-settings],html dialog:has([data-science-settings]),html [role
  --settings-ink:#243a2c;--settings-paper:#fffdf3;--settings-line:#d3dfc8;--settings-pale:#f2f6e9;--settings-green:#2d694f;
 }
 html :is(dialog[data-science-settings],dialog:has([data-science-settings]),[role=dialog][data-science-settings],[role=dialog]:has([data-science-settings])) {
-  color:var(--settings-ink);background:var(--settings-paper);width:min(940px,calc(100vw - 28px));max-width:calc(100vw - 28px);max-height:94dvh;
+  color:var(--settings-ink);background:var(--settings-paper);width:min(720px,max(52vw,540px),calc(100vw - 28px));max-width:calc(100vw - 28px);max-height:76dvh;
+  /* Settings stay under half the screen; the body scrolls inside the card. */
   box-sizing:border-box;border:1px solid var(--settings-line);border-radius:18px;padding:16px 20px 12px;overflow:hidden;
 }
 html :is(dialog[data-science-settings][open],dialog[open]:has([data-science-settings]),[role=dialog][data-science-settings],[role=dialog]:has([data-science-settings])){
