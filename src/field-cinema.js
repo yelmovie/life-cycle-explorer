@@ -1,8 +1,8 @@
 import {ART,esc} from './game-metadata.js';
 import {speakTexts,stopVoice} from './voice-lines.js';
 
-// Full-screen story films keep dialogue and score on the native video clock. Captions and
-// scene labels stay in the DOM so they scale and remain readable on classroom screens.
+// Full-screen story films keep dialogue and score on the native video clock. Captions are burned into
+// the films (docs/film-captions-20261118); the DOM caption is a screen-reader copy and the visible fallback.
 export const CINEMA={
  intro:{
   title:'멈춰 버린 숲의 시간',music:'main',seconds:17.4,
@@ -72,9 +72,9 @@ export function openCinema({id,dialog,modal,reduced=false,detail='',onFinish=()=
   if(t>=film.cardAt)showCard();
  };
  const finish=()=>{if(finished)return;finished=true;cleanup();onFinish();};
- const fallback=()=>{if(closed)return;clearTimeout(timeout);video.pause();stage.style.backgroundImage=`url("assets/video/${id}-poster.jpg")`;video.hidden=true;showCard();};
+ const fallback=()=>{if(closed)return;clearTimeout(timeout);stage.classList.remove('is-film');video.pause();stage.style.backgroundImage=`url("assets/video/${id}-poster.jpg")`;video.hidden=true;showCard();};
  const play=()=>{if(closed)return;playButton.hidden=true;clearTimeout(timeout);timeout=setTimeout(fallback,8000);video.play().catch(()=>{clearTimeout(timeout);playButton.hidden=false;playButton.focus();});};
- video.addEventListener('playing',()=>clearTimeout(timeout),opts);
+ video.addEventListener('playing',()=>{clearTimeout(timeout);if(!video.hidden)stage.classList.add('is-film');},opts);
  video.addEventListener('waiting',()=>{clearTimeout(timeout);timeout=setTimeout(fallback,8000);},opts);
  video.addEventListener('timeupdate',tick,opts);video.addEventListener('ended',()=>{tick();showCard();},opts);
  video.addEventListener('error',fallback,opts);

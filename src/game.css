@@ -244,18 +244,20 @@ dialog details{margin-top:8px;border-top:1px solid var(--color-border-soft)}dial
 .ending-reward{display:grid;justify-items:center;gap:12px}.ending-medal{width:min(100%,120px);aspect-ratio:1;object-fit:contain}
 @media(max-width:700px){.ending-record{grid-template-columns:1fr}.ending-reward{grid-template-columns:minmax(0,1fr) 88px;align-items:center}.ending-video{max-height:150px}}
 
-/* Story films: full-bleed 16:9 stage; captions, place tags and stamps are DOM layers over the silent clip. */
-dialog.cinema-dialog{width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;padding:0;border:0;border-radius:0;background:#0d1f19;box-shadow:none}
+/* Story films fill the screen (contain on black). Captions are burned into the film's bottom band, so nothing sits over the bottom 26%. */
+dialog.cinema-dialog{width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;padding:0;border:0;border-radius:0;background:#000;box-shadow:none}
 dialog.cinema-dialog[open]{grid-template:minmax(0,1fr)/minmax(0,1fr);place-items:center;gap:0;animation:cinema-in .5s ease-out}
-dialog.cinema-dialog::backdrop{background:#0d1f19}
+dialog.cinema-dialog::backdrop{background:#000}
 .cinema-dialog>h2{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
 .cinema-dialog>.close,.cinema-dialog>.dialog-actions,dialog.cinema-dialog .modal-portrait{display:none!important}
 .cinema-dialog>.modal-body{grid-area:1/1;display:grid;place-items:center;width:100%;height:100%;padding:0;overflow:hidden;scrollbar-gutter:auto}
-.cinema-stage{position:relative;container-type:inline-size;width:min(100vw,calc(100dvh * 16 / 9));aspect-ratio:16/9;overflow:hidden;background:#0d1f19 center/cover no-repeat;color:var(--cream-50);font-family:var(--font-display);font-weight:700}
-.cinema-video{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover}
-.cinema-shade{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(#0d1f1973,transparent 24%,transparent 60%,#0d1f19bf)}
+.cinema-stage{position:relative;container-type:inline-size;width:100dvw;height:100dvh;overflow:hidden;background:#000 center/contain no-repeat;color:var(--cream-50);font-family:var(--font-display);font-weight:700}
+.cinema-video{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain;background:#000}
+.cinema-shade{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(#0d1f1973,transparent 24%)}
 .cinema-caption{position:absolute;left:50%;bottom:7.5%;z-index:2;max-width:84%;margin:0;padding:.42em 1.15em .5em;border:2px solid #dfbb6480;border-radius:22px;background:#10261dcc;box-shadow:0 10px 30px #0006;color:var(--cream-50);font-size:clamp(20px,3cqw,46px);line-height:1.38;text-align:center;white-space:pre-line;word-break:keep-all;text-shadow:0 2px 6px #0009;opacity:0;transform:translate(-50%,12px);transition:opacity .35s ease,transform .35s ease;pointer-events:none}
 .cinema-caption.is-on{opacity:1;transform:translate(-50%,0)}
+/* While the captioned film plays, the DOM caption stays for screen readers only; it returns if the film fails. */
+.cinema-stage.is-film .cinema-caption{width:1px;height:1px;padding:0;border:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap;transition:none}
 .cinema-place{position:absolute;top:6.5%;left:3.5%;z-index:2;display:grid;gap:.1em;margin:0;padding:.45em 1.2em .55em .9em;border-left:6px solid var(--brass-400);border-radius:6px 20px 20px 6px;background:#fffbedeb;box-shadow:0 8px 22px #0d1f1955;color:var(--forest-900);opacity:0;transform:translateX(-18px);transition:opacity .5s ease,transform .5s ease;pointer-events:none}
 .cinema-place.is-on{opacity:1;transform:none}
 .cinema-place-kicker{color:var(--brass-700);font-size:clamp(14px,1.5cqw,22px)}
@@ -265,7 +267,7 @@ dialog.cinema-dialog::backdrop{background:#0d1f19}
 .cinema-play{position:absolute;left:50%;top:50%;z-index:5;min-height:64px;padding:12px 32px;transform:translate(-50%,-50%);border:2px solid #f6df9e;border-radius:18px;background:linear-gradient(#fff0b5,#edc76e);color:#29422c;font-size:clamp(22px,2.4cqw,32px);box-shadow:0 5px 0 #886538}
 .cinema-play:hover:not(:disabled){transform:translate(-50%,calc(-50% - 2px));background:linear-gradient(#fff4c8,#f0cf80)}
 .cinema-play[hidden],.cinema-skip[hidden],.cinema-card[hidden]{display:none}
-.cinema-progress{position:absolute;left:0;right:0;bottom:0;z-index:5;height:5px;background:#fffbed22}
+.cinema-progress{position:absolute;left:0;right:0;top:0;z-index:5;height:5px;background:#fffbed22}
 .cinema-progress span{display:block;height:100%;background:linear-gradient(90deg,var(--brass-400),#fff0b5);transform:scaleX(0);transform-origin:left;transition:transform .25s linear}
 .cinema-card{position:absolute;inset:0;z-index:3;display:grid;place-content:center;justify-items:center;gap:clamp(10px,1.6cqw,22px);padding:6%;text-align:center;background:radial-gradient(ellipse at 50% 46%,#173a2ce6,#0d1f19f5 72%);animation:cinema-card-in .7s ease-out both}
 .cinema-card p{margin:0}
@@ -280,7 +282,7 @@ dialog.cinema-dialog::backdrop{background:#0d1f19}
 .cinema-intro .cinema-card-logo{animation:cinema-medal-in .9s cubic-bezier(.2,1.3,.4,1) both}
 .cinema-final .cinema-card::before{content:'';position:absolute;left:50%;top:44%;z-index:-1;width:120cqw;aspect-ratio:1;translate:-50% -50%;background:repeating-conic-gradient(#f6d27a1f 0 6deg,transparent 6deg 18deg);-webkit-mask:radial-gradient(circle,#000 0,transparent 55%);mask:radial-gradient(circle,#000 0,transparent 55%);animation:cinema-rays 24s linear infinite}
 .cinema-card{isolation:isolate}
-.cinema-stamps{--seal:clamp(28px,3.4cqw,50px);--step:clamp(8px,1.5cqw,22px);position:absolute;left:2.4%;top:50%;z-index:2;display:flex;flex-direction:column;gap:var(--step);margin:0;padding:clamp(10px,1.4cqw,22px) clamp(12px,1.6cqw,24px) clamp(10px,1.4cqw,22px) clamp(10px,1.3cqw,20px);list-style:none;border:1px solid #dfbb6466;border-radius:clamp(16px,2cqw,28px);background:linear-gradient(160deg,#173a2ce0,#0d1f19d6);box-shadow:0 12px 30px #0007;transform:translateY(-50%);transition:box-shadow .6s ease,border-color .6s ease}
+.cinema-stamps{--seal:clamp(28px,3.4cqw,50px);--step:clamp(8px,1.5cqw,22px);position:absolute;left:2.4%;top:42%;z-index:2;display:flex;flex-direction:column;gap:var(--step);margin:0;padding:clamp(10px,1.4cqw,22px) clamp(12px,1.6cqw,24px) clamp(10px,1.4cqw,22px) clamp(10px,1.3cqw,20px);list-style:none;border:1px solid #dfbb6466;border-radius:clamp(16px,2cqw,28px);background:linear-gradient(160deg,#173a2ce0,#0d1f19d6);box-shadow:0 12px 30px #0007;transform:translateY(-50%);transition:box-shadow .6s ease,border-color .6s ease}
 .cinema-stamps li{position:relative;display:grid;grid-template-columns:var(--seal) auto;align-items:center;gap:.65em;color:#fffbed99;font-size:clamp(12px,1.35cqw,20px);white-space:nowrap;transition:color .4s ease,transform .4s ease}
 /* A trail joins each place to the next and turns gold as the recap reaches it. */
 .cinema-stamps li+li::before{content:'';position:absolute;left:calc(var(--seal) / 2 - 1.5px);bottom:100%;width:3px;height:var(--step);border-radius:2px;background:#fffbed30;transition:background .5s ease}
