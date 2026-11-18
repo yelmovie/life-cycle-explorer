@@ -120,14 +120,20 @@ export function createFieldGame(context){
   }
   dashedBox(x,y,w,h){const p=[],l=x-w/2,t=y-h/2;for(let i=0;i<=40;i++)p.push([l+w*i/40,t]);for(let i=0;i<=24;i++)p.push([l+w,t+h*i/24]);for(let i=0;i<=40;i++)p.push([l+w-w*i/40,t+h]);for(let i=0;i<=24;i++)p.push([l,t+h-h*i/24]);return this.dashed(this.add.graphics().lineStyle(4,0x337b63,.8),p);}
   shadow(x,y,w=210){return this.add.ellipse(x,y,w,25,0x173d2e,.20);}
-  // Nine-slice paper card (Canvas has no NineSlice object): taped corners keep their size, edges stretch.
+  // Rounded paper card: the paper grain from the card art inside a rounded edge, with a rounded inner line and two tape strips.
   paper(x,y,w,h){
-   if(!this.textures.exists('paperCard'))return this.add.graphics().fillStyle(0xfffbed,.97).fillRoundedRect(x-w/2,y-h/2,w,h,20);
-   const t=this.textures.get('paperCard'),{width:SW,height:SH}=t.source[0],m=Math.round(Math.min(SW,SH)*.15),c=Math.min(52,w/3,h/3);
-   const cut=[[0,m,SW-m],[m,SW-2*m,m],[0,m,SH-m],[m,SH-2*m,m]];
-   if(!t.has('paper8'))for(let n=0;n<9;n++)t.add('paper'+n,0,cut[0][n%3],cut[2][n/3|0],cut[1][n%3],cut[3][n/3|0]);
-   const xs=[x-w/2,x-w/2+c,x+w/2-c],ws=[c,w-2*c,c],ys=[y-h/2,y-h/2+c,y+h/2-c],hs=[c,h-2*c,c];
-   return this.add.container(0,0,[...Array(9)].map((_,n)=>this.add.image(xs[n%3],ys[n/3|0],'paperCard','paper'+n).setOrigin(0).setDisplaySize(ws[n%3]+.6,hs[n/3|0]+.6)));
+   const l=x-w/2,t=y-h/2,r=Math.min(22,w/6,h/6),inset=Math.min(13,w*.05,h*.05);
+   const parts=[this.add.graphics().fillStyle(0x23412f,.14).fillRoundedRect(l+3,t+5,w,h,r)];
+   if(this.textures.exists('paperCard')){
+    const tex=this.textures.get('paperCard'),{width:SW,height:SH}=tex.source[0],m=Math.round(Math.min(SW,SH)*.15);
+    if(!tex.has('paperGrain'))tex.add('paperGrain',0,m,m,SW-2*m,SH-2*m);
+    const shape=this.make.graphics({add:false}).fillStyle(0xffffff).fillRoundedRect(l,t,w,h,r);
+    parts.push(this.add.image(x,y,'paperCard','paperGrain').setDisplaySize(w,h).setMask(shape.createGeometryMask()));
+   }else parts.push(this.add.graphics().fillStyle(0xfffbed,.97).fillRoundedRect(l,t,w,h,r));
+   parts.push(this.add.graphics().lineStyle(2,0xd8c99c,1).strokeRoundedRect(l,t,w,h,r).lineStyle(2,0x5f7d45,.85).strokeRoundedRect(l+inset,t+inset,w-2*inset,h-2*inset,Math.max(6,r-inset)));
+   const tape=Math.min(46,w/5);
+   for(const [tx,angle] of [[l+tape*.45,-38],[l+w-tape*.45,38]])parts.push(this.add.rectangle(tx,t+tape*.18,tape,tape*.34,0x9dbb67,.85).setAngle(angle));
+   return this.add.container(0,0,parts);
   }
   guardRoomAction(fn){
    const token=this.renderToken,mode=context.mode(),chapter=context.s.field?.active;

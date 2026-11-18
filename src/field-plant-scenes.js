@@ -13,8 +13,10 @@ export function renderPlantRoom(v,ctx,phase){
  const cardText=(x,y,w,h,message)=>{const t=v.text(x,y,message,23,w-20).setDepth(2);card(x,y,w,Math.max(h,t.height+16));return t;};
  const label=(x,y,text,size=23,w=270)=>v.label(x,y,text,size,w);
  const button=(x,y,w,text,fn,active=false)=>{
-  const shadow=v.add.rectangle(x,y+4,w,64,0x244d3d,.94);const face=v.add.rectangle(x,y,w,64,active?0x3c7353:0xfffbee,.98).setStrokeStyle(2,active?0x2e5c41:0x829779);
-  const caption=v.text(x,y,text,23,w-20,active?'#fffbea':'#254d3b'),height=Math.max(64,caption.height+16);shadow.setSize(w,height);face.setSize(w,height);v.click(x,y,w,height+4,fn,text);return face;
+  const face=v.add.graphics();
+  const caption=v.text(x,y,text,23,w-20,active?'#fffbea':'#254d3b'),height=Math.max(64,caption.height+16);
+  face.fillStyle(0x244d3d,.94).fillRoundedRect(x-w/2,y+4-height/2,w,height,16).fillStyle(active?0x3c7353:0xfffbee,.98).fillRoundedRect(x-w/2,y-height/2,w,height,16).lineStyle(2,active?0x2e5c41:0x829779).strokeRoundedRect(x-w/2,y-height/2,w,height,16);
+  v.click(x,y,w,height+4,fn,text);return face;
  };
  const tool=(key,x,y,kind,data,text,size=100)=>{
   const o=v.pic(key,x,y,size);v.draggable(o,kind,data,text);

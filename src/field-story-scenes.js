@@ -29,14 +29,15 @@ export function renderStoryRoom(v,ctx,phase){
  const handwriting=(x,y,message,size,width)=>v.text(x,y,message,size,width,'#294e43').setFontFamily('NanumSquareNeo,Malgun Gothic,sans-serif');
  const paper=(x,y,w,h)=>{
   const group=v.add.container(x,y).setSize(w,h);
-  group.add(v.add.rectangle(3,5,w,h,0x253d2a,.16));
-  group.add(v.add.rectangle(0,0,w,h,0xfffbed).setStrokeStyle(1,0xcab88e));
+  const r=Math.min(18,w/8,h/8);
+  group.add(v.add.graphics().fillStyle(0x253d2a,.16).fillRoundedRect(3-w/2,5-h/2,w,h,r));
+  group.add(v.add.graphics().fillStyle(0xfffbed).fillRoundedRect(-w/2,-h/2,w,h,r).lineStyle(1,0xcab88e).strokeRoundedRect(-w/2,-h/2,w,h,r));
   group.add(v.add.rectangle(-w*.24,-h/2+3,54,18,0x90a78b,.86).setAngle(-9));
   return group;
  };
  const photo=(record,x,y,w,h,{caption='',captionSize=24,onTap}={})=>{
   const card=paper(x,y,w,h),imageY=-h*.13,iw=w-18,ih=h*.55;
-  card.add(v.add.rectangle(0,imageY,iw,ih,0xe9e7d5));
+  card.add(v.add.graphics().fillStyle(0xe9e7d5).fillRoundedRect(-iw/2,imageY-ih/2,iw,ih,10));
   const short=caption.length>35?caption.slice(0,34)+'…':caption;
   card.add(handwriting(0,h*.26,short,captionSize,w-18).setMaxLines(2));
   if(onTap)v.click(x,y,w,h,onTap,record.title+' 증거로 선택');

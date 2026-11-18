@@ -118,8 +118,9 @@ export function renderQuestRoom(v,ctx){
  const panel=(x,y,w,h)=>v.paper(x,y,w,h);
  const label=(x,y,text,size=23,w=350)=>v.label(x,y,text,size,w);
  const button=(x,y,w,text,payload,done=false)=>{
-  const shadow=v.add.rectangle(x,y+4,w,52,0x315742,.96),face=v.add.rectangle(x,y,w,52,done?0x4d7d56:0xfffbee,.98).setStrokeStyle(2,done?0x39613f:0x9eaf91);
-  const caption=v.text(x,y,`${done?'✓ ':''}${text}`,22,w-18,done?'#fffcef':'#244d3c'),height=Math.max(52,caption.height+16);shadow.setSize(w,height);face.setSize(w,height);v.click(x,y,w,height+8,()=>typeof payload==='function'?payload():send(payload),text);
+  const plate=v.add.graphics();
+  const caption=v.text(x,y,`${done?'✓ ':''}${text}`,22,w-18,done?'#fffcef':'#244d3c'),height=Math.max(52,caption.height+16);
+  plate.fillStyle(0x315742,.96).fillRoundedRect(x-w/2,y+4-height/2,w,height,14).fillStyle(done?0x4d7d56:0xfffbee,.98).fillRoundedRect(x-w/2,y-height/2,w,height,14).lineStyle(2,done?0x39613f:0x9eaf91).strokeRoundedRect(x-w/2,y-height/2,w,height,14);v.click(x,y,w,height+8,()=>typeof payload==='function'?payload():send(payload),text);
  };
  const sprite=(key,x,y,w=160,h=w)=>{v.shadow(x,y+h*.43,w*.55);return v.pic(key,x,y,w,h);};
  const line=(x1,y1,x2,y2)=>v.add.graphics().lineStyle(6,0x4c8963,.9).lineBetween(x1,y1,x2,y2);
@@ -202,7 +203,7 @@ export function renderQuestRoom(v,ctx){
    // Each card holds its photo, title and both buttons, so the three columns line up.
    panel(x,435,270,370);label(x,252,kinds[type],24,240);
    if(r){
-    const holder=v.add.rectangle(x,350,245,145,0xeef0dc,.9),stamped=chosen===r.id,fresh=stamped&&ctx.ui.questStamped===type;
+    const holder=v.add.graphics().fillStyle(0xeef0dc,.9).fillRoundedRect(x-122.5,350-72.5,245,145,14),stamped=chosen===r.id,fresh=stamped&&ctx.ui.questStamped===type;
     // The seal sits above the photo so it lands on top once the image has loaded.
     const seal=stamped?discoverySeal(v,x+72,392):null;
     ctx.recordImage(r,ctx.s,true).then(url=>{if(v.renderToken!==token||!v.sys.isActive())return;const image=new Image();image.onload=()=>{if(v.renderToken!==token)return;const key=`quest-${token}-${type}`;v.textures.addImage(key,image);v.recordTextures.push(key);v.pic(key,x,350,245,145);holder.destroy();seal?.setDepth(12);};image.src=url;}).catch(()=>ctx.emit('feedback','기록 사진을 다시 불러오려면 이 구역을 다시 열어 줘.'));
