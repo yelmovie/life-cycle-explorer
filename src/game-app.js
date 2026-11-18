@@ -22,6 +22,7 @@ import {autoPlayable} from './field-autoplay.js';
 import {openConcept} from './field-concepts.js';
 import {openCinema} from './field-cinema.js';
 import {COMPANION_ART,companionLine,companionMapLine,companionDiscoveryLine,stageProgress,hintTarget} from './field-companion.js';
+import {REWARD_CARDS,wonRewardCards,rewardSlotsHtml,syncRewardSlots,winRewardCard,rewardLayerOpen,watchRewardLayer} from './reward-card-set.js';
 
 const storage={getItem(key){return window.localStorage.getItem(key);},setItem(key,value){window.localStorage.setItem(key,value);}};
 const TEACHER_SESSION_KEY='life-clock-lab.teacher-preview.1';
@@ -45,7 +46,7 @@ const titleScreen=`<section id="title-screen" aria-label="생명 시계 연구�
  <img class="title-spirit" src="${ART.ipsae}" alt="숲의 친구 잎새" draggable="false">
  <img class="title-doto" src="${COMPANION_ART}" alt="함께 탐험하는 다람쥐 도토" draggable="false">
 </section>`;
-app.innerHTML=`<header class="game-header"><nav class="screen-nav" aria-label="화면 도구"><div class="nav-left">${ib('home','처음으로','home')}${ib('back','이전 화면','back')}</div><div id="scene-title"></div><div class="nav-right"><button id="save-badge" class="save-badge" data-action="records" hidden>기록 보호 중</button><button id="autoplay" class="autoplay-button" data-action="autoplay" hidden></button>${ib('sound','소리 끄기','sound')}${ib('settings','설정','settings')}</div></nav><h1 id="objective"></h1></header><main id="stage"><div id="phaser-root"></div><div id="map-doors"></div><div class="map-companion-layer"></div><div id="focus-targets"></div><section id="field-recovery" hidden><p role="status"></p>${btn('탐험 도구 다시 불러오기','field-retry','hidden','primary')}${btn('탐구부터 시작하기','field-direct','hidden')}</section><section id="flat-observation" hidden></section></main><footer class="game-footer"><div id="status" role="status" aria-live="polite"></div><div id="guide-bubble" hidden></div><div class="guide-tools"><button id="guide" data-action="guide" aria-label="지훈이의 도움 보기"><img alt="" src="${ART.guideLook}"><span>…</span></button></div><div id="controls"></div><div class="game-next"><div class="map-camera-tools"><button id="map-fit" class="map-hand" data-action="map-fit" aria-label="지도 전체 보기" title="지도 전체 보기" aria-pressed="false" hidden><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5M8 8h8v8H8z"/></svg></button><button id="map-hand" class="map-hand" data-action="map-hand" aria-pressed="false" hidden></button></div><button id="next" class="primary" data-action="next"></button></div></footer>${titleScreen}<div class="portrait" role="status">화면을 가로로 돌리면 숲을 더 넓게 볼 수 있어.</div>`;
+app.innerHTML=`<header class="game-header"><nav class="screen-nav" aria-label="화면 도구"><div class="nav-left">${ib('home','처음으로','home')}${ib('back','이전 화면','back')}</div><div id="scene-title"></div><div class="nav-right"><button id="save-badge" class="save-badge" data-action="records" hidden>기록 보호 중</button><button id="autoplay" class="autoplay-button" data-action="autoplay" hidden></button>${rewardSlotsHtml(s.mapEncounters)}${ib('sound','소리 끄기','sound')}${ib('settings','설정','settings')}</div></nav><h1 id="objective"></h1></header><main id="stage"><div id="phaser-root"></div><div id="map-doors"></div><div class="map-companion-layer"></div><div id="focus-targets"></div><section id="field-recovery" hidden><p role="status"></p>${btn('탐험 도구 다시 불러오기','field-retry','hidden','primary')}${btn('탐구부터 시작하기','field-direct','hidden')}</section><section id="flat-observation" hidden></section></main><footer class="game-footer"><div id="status" role="status" aria-live="polite"></div><div id="guide-bubble" hidden></div><div class="guide-tools"><button id="guide" data-action="guide" aria-label="지훈이의 도움 보기"><img alt="" src="${ART.guideLook}"><span>…</span></button></div><div id="controls"></div><div class="game-next"><div class="map-camera-tools"><button id="map-fit" class="map-hand" data-action="map-fit" aria-label="지도 전체 보기" title="지도 전체 보기" aria-pressed="false" hidden><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5M8 8h8v8H8z"/></svg></button><button id="map-hand" class="map-hand" data-action="map-hand" aria-pressed="false" hidden></button></div><button id="next" class="primary" data-action="next"></button></div></footer>${titleScreen}<div class="portrait" role="status">화면을 가로로 돌리면 숲을 더 넓게 볼 수 있어.</div>`;
 const guideBubble=$('guide-bubble');
 guideBubble.className='doto-hint';
 guideBubble.innerHTML=`<div class="npc-dialogue-portrait" aria-hidden="true"></div><div class="npc-dialogue-card"><h3>도토</h3><p id="guide-text" data-npc-speech aria-live="polite" aria-atomic="true"></p><div class="row">${btn('위치 보기','hint-point','hidden')}${btn('다음 단서','hint-more','hidden')}${btn('닫기','hint-close','aria-label="도토 도움말 닫기"')}</div></div>`;
@@ -261,7 +262,7 @@ function render(){rememberTeacherPreview();const m=mode(),room=m==='room';saveBa
  $('next').classList.toggle('map-next-cue',m==='map'&&!reducedMotion(s.settings)&&!!$('next').querySelector('.map-direction-cue'));
  // Rebuilt door buttons take their map positions at once instead of on the next frame.
  autoPlayButton(room);mapHandButton(m==='map');
- const b=app.querySelector('[data-action=sound]'),on=s.audio.bgm||s.audio.sfx;b.innerHTML=icon(on?'sound':'mute');b.setAttribute('aria-label',on?'소리 끄기':'소리 켜기');b.setAttribute('aria-pressed',String(on));updateGuide();if(m==='map')ctx.scene?.update?.();armTimeFlow();}
+ const b=app.querySelector('[data-action=sound]'),on=s.audio.bgm||s.audio.sfx;b.innerHTML=icon(on?'sound':'mute');b.setAttribute('aria-label',on?'소리 끄기':'소리 켜기');b.setAttribute('aria-pressed',String(on));syncRewardSlots(s.mapEncounters);updateGuide();if(m==='map')ctx.scene?.update?.();armTimeFlow();}
 // Time dials turn by themselves one step at a time, so the learner watches instead of tapping each day.
 // The dial can still be turned by hand; the flow carries on from wherever it is.
 function timeTarget(){const c=s.field.active,q=s.field.chapters[c],p=roomPhase(s.field);if(observationHeld(s.field))return null;
@@ -334,7 +335,7 @@ function positionEncounters(items,companion,hero){
   if(!previewOriginal)mapEncounters=mountVillageEncounters({host:$('stage'),clearIndex:encounterClear,progress:s.mapEncounters,
    stages:items.map(({chapter,x,y,near})=>s.field.completed.includes(chapter)?{
     x:near?.x??x+28,y:near?.y??y+14,name:FIELD_CHAPTERS[chapter].title}:null),
-   onSave:next=>{s.mapEncounters={...s.mapEncounters,...next};persist();render();},
+   onSave:next=>{const won=wonRewardCards(s.mapEncounters,next);s.mapEncounters={...s.mapEncounters,...next};persist();won.forEach(awardCard);render();},
    blocked:()=>!fieldReady||modal.open||ui.guide||ui.mapOverview||mode()!=='map',
    reduced:()=>reducedMotion(s.settings),
    tone:(kind,hits)=>{
@@ -350,6 +351,15 @@ function positionEncounters(items,companion,hero){
  mapEncounters?.update({hero,ally:companion,scale:ctx.scene?.cameras?.main?.zoom||1,
   project:point=>{const p=coordinates({...point,w:0,h:0});return p?{x:p.left,y:p.top}:null;}});
 }
+// A villain's third hit wins its achievement card. The card opens once the exit has played and covers the map like a
+// dialog (modalOpen), so the all-villains finale waits until it is put away. Leaving the map first just fills the slot.
+function awardCard(index){
+ void winRewardCard(index,{delay:reducedMotion(s.settings)?520:760,hits:()=>s.mapEncounters,
+  state:()=>mode()!=='map'?'gone':!fieldReady||document.querySelector('dialog[open]')?'wait':'open',
+  origin:()=>{const spot=$('stage').querySelector(`[data-encounter="${REWARD_CARDS[index].id}"]`)?.getClientRects()[0];return spot?{x:spot.left,y:spot.top-30}:undefined;}});
+}
+// A card or the album stops a walk as it opens, as a dialog does; when it closes the scene gets its input back.
+watchRewardLayer(open=>{if(!open){if(ctx.scene&&!modal.open)ctx.scene.input.enabled=fieldReady;}else if(mode()==='map'){ctx.scene?.cancelTravel();ui.travelChapter=null;render();}});
 function positionDoors(items,companion,hero){
  positionEncounters(items,companion,hero);
  if(mode()!=='map')return;const stage=$('stage'),width=stage.clientWidth,area=stage.getBoundingClientRect(),gap=12;
@@ -475,7 +485,7 @@ function drop(data){const {kind,target}=data,q=s.field.chapters[s.field.active];
  else if(kind==='claim'&&target.startsWith('evid-')){type='help-match';p={request:data.request,recordId:target.slice(5)};}
  else if(kind==='book'&&target.startsWith('book-')){type='book-move';p={from:data.from,to:Number(target.slice(5))};}
  if(type)act(type,p);else{countMiss(false);announce(kind==='seed-condition'?'A는 그대로 두고 B에서 조건 하나를 바꿔 보자.':pickGuide(data).refused,true);ctx.scene?.refresh();}}
-const ctx={get s(){return s;},saveStatus:()=>G.getSaveStatus(storage),saveDraft(scope,values){if(storeFieldDraft(s.field,scope,values))persist();},ui,mode,dialog,announce,modalOpen:()=>modal.open,recordImage,focusTargets,sceneReady:positionFocus,noteBox:placeNoteBox,placeDoors:positionDoors,emit(type,data){
+const ctx={get s(){return s;},saveStatus:()=>G.getSaveStatus(storage),saveDraft(scope,values){if(storeFieldDraft(s.field,scope,values))persist();},ui,mode,dialog,announce,modalOpen:()=>modal.open||rewardLayerOpen(),recordImage,focusTargets,sceneReady:positionFocus,noteBox:placeNoteBox,placeDoors:positionDoors,emit(type,data){
  if(type==='assets-loading'){
   if(flatObservation||mode()==='title')return;
   setFieldReady(false);placeNoteBox(null);fieldRecovery('탐사 그림을 불러오는 중이에요.');return;

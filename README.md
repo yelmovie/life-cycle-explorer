@@ -73,6 +73,7 @@ npm run preview
 | game-settings.js / settings-content.js / game-audio.js | 아이스크림 설정 규격, 문구, 단일 Web Audio 관리·CC0 효과음 |
 | game.css / ui-icons.js | 디자인 토큰, 로컬 나눔스퀘어네오, 전체 화면·반응형, SVG 아이콘 |
 | field-specimen-3d.js | 관찰 노트의 3D 표본(돌려 보기). 모델 출처·최적화는 `assets/models/README.md` |
+| reward-cards.js / reward-cards.css / reward-card-set.js | 지도 악당 격퇴 보상 성취 카드. 앞 두 파일은 과학34 공통 모듈을 그대로 복사한 것이라 고치지 않는다 / 이 프로젝트의 카드 5장 설정, 격퇴 기록(`mapEncounters` 3타)에서 보유 계산, 등장 시점. 새 저장 항목은 없다 |
 | core.js | 예전 상태 함수. 실행에는 쓰지 않고 `tests/core.test.js`만 쓴다 |
 | scripts/build.mjs / check.mjs / sync-info.mjs | 실행 파일·필수 에셋만 패키징, 문법·버전 동기화 |
 

@@ -1,5 +1,21 @@
 # 에셋 출처 · 저작권 기록
 
+## 2026-11-18 · 성취 카드(지도 악당 격퇴 보상)
+
+지도에서 태엽 도깨비를 물리치면(3타) 받는 카드 5장과 그 효과음이다. 카드 연출 코드(`src/reward-cards.js`·`src/reward-cards.css`)는 과학34 공통 모듈(`_shared/reward-cards`)을 그대로 복사했다.
+
+효과음 5개는 과학34 공통 효과음 라이브러리(`_shared/sfx-library-20261117`, CC0만 모음)에서 그대로 복사했다(재인코딩 없음, 라이브러리 처리: 앞뒤 무음 제거·음량 정규화·모노 44.1 kHz MP3). 음량은 `src/game-audio.js`의 역할별 배율(LEVELS)로 맞췄고 효과음 켜기/끄기 설정을 그대로 따른다.
+
+| 파일 | 원본 | 출처 | 라이선스 |
+|---|---|---|---|
+| `audio/sfx/card-whoosh.mp3` (카드 날아오기·보관함으로 날아가기) | 라이브러리 `sfx/wind-whoosh-03.mp3` · “Slow Swosh 40” · qubodup | [freesound](https://freesound.org/people/qubodup/sounds/60027) | CC0 (2026-11-17 원본 페이지 재확인) |
+| `audio/sfx/card-reveal.mp3` (카드 공개: 브론즈·실버·골드) | 라이브러리 `sfx/reward-01.mp3` · “Fantasy_ui_Button_3.wav” · ZenithInfinitiveStudios | [freesound](https://freesound.org/people/ZenithInfinitiveStudios/sounds/376745) | CC0 (2026-11-17 원본 페이지 재확인) |
+| `audio/sfx/card-epic.mp3` (카드 공개: 홀로·레전드) | 라이브러리 `sfx/reward-03.mp3` · “Achievement Happy Beeps Jingle” · CogFireStudios | [freesound](https://freesound.org/people/CogFireStudios/sounds/619838) | CC0 (2026-11-17 원본 페이지 재확인) |
+| `audio/sfx/card-slot.mp3` (보관함 칸 도착) | 라이브러리 `sfx/pickup-01.mp3` · “item-pickup-v1.wav” · DeltaCode | [freesound](https://freesound.org/people/DeltaCode/sounds/678384) | CC0 (2026-11-17 원본 페이지 재확인) |
+| `audio/sfx/card-complete.mp3` (5장 완성) | 라이브러리 `sfx/victory-jingle-01.mp3` · “Game Success Fanfare Short” · el_boss | [freesound](https://freesound.org/people/el_boss/sounds/677858) | CC0 (2026-11-17 원본 페이지 재확인) |
+
+카드 그림 5종(`reward-cards/card-{1..5}-*.webp` 640×960, `reward-cards/thumb-{1..5}-*.webp` 96×144)은 2026-11-18 ChatGPT 앱의 Codex 내장 이미지 도구(GPT 이미지)로 이 프로젝트를 위해 생성했다. 지훈·도토 자세 그림과 각 장소 배경(`field-scenes.js`의 방 배경, 시계탑은 깨어난 모습)을 화풍 참고로 붙였고, 글자 없이 생성한 뒤 테두리·별·이름은 코드로 올린다. 원본 PNG는 저장소에 넣지 않았다.
+
 ## 2026-11-17 · 지도 악당 공격음·타격음
 
 과학34 공통 효과음 라이브러리(`_shared/sfx-library-20261117`, CC0만 모음)에서 7개를 그대로 복사했다(재인코딩 없음, 라이브러리 처리: 앞뒤 무음 제거·음량 정규화·모노 44.1 kHz MP3). 동물의 한살이 단원에 맞춰 부드러운 팝·베개 타격·덤불 바스락·반짝 퇴장으로 골랐다. 음량은 `src/game-audio.js`의 역할별 배율(LEVELS)로 기존 Kenney UI 효과음보다 조금 작게 맞췄고, 효과음 켜기/끄기 설정을 그대로 따른다.

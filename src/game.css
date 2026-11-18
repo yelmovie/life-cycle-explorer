@@ -449,3 +449,10 @@ html body dialog[data-science-settings] .science-settings-audio>.science-setting
 .tower-writing-book .notebook-page textarea{height:92px;min-height:80px}
 #story-writing-error:empty{display:none}
 #story-writing-error{color:#72402e;margin:12px 0 0}
+
+/* Achievement card strip before the sound button: a header button like its neighbours, on the map only. */
+.screen-nav .rc-slots{width:auto;padding:0 9px}
+#app:not([data-view=map]) .rc-slots{display:none}
+/* The card buttons keep their own colours: the default button hover fill would hide their white text. */
+.rc-layer button.rc-take:hover:not(:disabled){background:linear-gradient(180deg,color-mix(in srgb,var(--rc-accent) 85%,#fff),var(--rc-accent))}
+.rc-layer button.rc-album-item,.rc-layer button.rc-album-item:hover:not(:disabled){background:none;box-shadow:none}

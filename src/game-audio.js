@@ -18,6 +18,9 @@ const EFFECTS={
   'map-swing':[[88,.04]],'map-hit-light':[[82,.055]],'map-hit-heavy':[[68,.06],[53,.11]],
   'map-exit':[[90,.075],[83,.08],[75,.10],[65,.20]],'map-bump':[[83,.035],[49,.12]],
   'map-appear':[[79,.06],[86,.09]],'map-victory':[[72,.1],[76,.1],[79,.1],[84,.3]],
+  // Achievement card fallbacks: fly in, reveal (the two rarest use the longer one), land in the slot, full set.
+  'card-whoosh':[[91,.05]],'card-reveal':[[76,.08],[84,.2]],'card-epic':[[72,.09],[76,.09],[79,.09],[84,.09],[88,.3]],
+  'card-slot':[[88,.05]],'card-complete':[[72,.1],[76,.1],[79,.1],[84,.12],[79,.1],[84,.4]],
 };
 // One press is one strike: swing on press, impact as the flinch peaks; the third strike also sends the villain off.
 const SEQUENCES={
@@ -27,9 +30,11 @@ const SEQUENCES={
 };
 // Per-role loudness on top of the shared effects gain (library files are not peak-matched to the Kenney set).
 // Library files sit near -18 to -25 LUFS; the Kenney UI set is near -10 LUFS. Bring combat roughly 3-6 dB under the UI cues.
-const LEVELS={'map-swing':2.7,'map-hit-light':2.4,'map-hit-heavy':4,'map-exit':1.7,'map-bump':2.8,'map-appear':1.3,'map-victory':1.9};
+const LEVELS={'map-swing':2.7,'map-hit-light':2.4,'map-hit-heavy':4,'map-exit':1.7,'map-bump':2.8,'map-appear':1.3,'map-victory':1.9,
+ 'card-whoosh':2.2,'card-reveal':1.8,'card-epic':1.8,'card-slot':2.4,'card-complete':1.9};
 const SAMPLES={click:'assets/audio/click.wav',select:'assets/audio/select.wav',place:'assets/audio/place.wav',inspect:'assets/audio/inspect.wav',photo:'assets/audio/photo.wav',success:'assets/audio/success.wav',reward:'assets/audio/reward.wav',error:'assets/audio/error.wav',time:'assets/audio/time.wav',step:'assets/audio/step.wav',bell:'assets/audio/bell.wav',wind:'assets/audio/wind.wav',
- 'map-swing':'assets/audio/sfx/map-swing.mp3','map-hit-light':'assets/audio/sfx/map-hit-light.mp3','map-hit-heavy':'assets/audio/sfx/map-hit-heavy.mp3','map-exit':'assets/audio/sfx/map-exit.mp3','map-bump':'assets/audio/sfx/map-bump.mp3','map-appear':'assets/audio/sfx/map-appear.mp3','map-victory':'assets/audio/sfx/map-victory.mp3'};
+ 'map-swing':'assets/audio/sfx/map-swing.mp3','map-hit-light':'assets/audio/sfx/map-hit-light.mp3','map-hit-heavy':'assets/audio/sfx/map-hit-heavy.mp3','map-exit':'assets/audio/sfx/map-exit.mp3','map-bump':'assets/audio/sfx/map-bump.mp3','map-appear':'assets/audio/sfx/map-appear.mp3','map-victory':'assets/audio/sfx/map-victory.mp3',
+ 'card-whoosh':'assets/audio/sfx/card-whoosh.mp3','card-reveal':'assets/audio/sfx/card-reveal.mp3','card-epic':'assets/audio/sfx/card-epic.mp3','card-slot':'assets/audio/sfx/card-slot.mp3','card-complete':'assets/audio/sfx/card-complete.mp3'};
 const sampleBuffers=new Map();let sampleLoad=null;
 async function loadSamples(){
  if(sampleLoad||!context?.decodeAudioData||typeof window==='undefined')return;
