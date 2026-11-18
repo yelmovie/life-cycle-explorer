@@ -103,3 +103,14 @@ test('초기화 확인 중 구버전 원문이 바뀌어도 오래된 확인을 
 test('older saves without a season comparison flag remain readable',()=>{const prior=G.fresh();delete prior.field.chapters[3].seasonCompared;const raw=JSON.stringify(prior),storage=fakeStorage([[G.GAME_KEY,raw]]);const state=G.loadGame(storage.storage);assert.equal(G.getSaveStatus(storage.storage).ok,true);assert.equal(state.field.chapters[3].seasonCompared,false);});
 test('pre-0.8.0 saves without a tower run flag stay readable and keep saving',()=>{const prior=G.fresh();delete prior.field.chapters[4].towerRun;const raw=JSON.stringify(prior),storage=fakeStorage([[G.GAME_KEY,raw]]);const state=G.loadGame(storage.storage);assert.equal(G.getSaveStatus(storage.storage).ok,true);assert.equal(state.field.chapters[4].towerRun,false);assert.equal(G.saveGame(storage.storage,state),true);});
 test('예전 저장의 꺼진 배경 음악은 한 번 켜고, 그 뒤에 끈 선택은 유지한다',()=>{const old=G.fresh();delete old.musicDefault;old.audio={bgm:false,sfx:false,volume:.5};const restored=G.restore(JSON.stringify(old));assert.deepEqual(restored.audio,{bgm:true,sfx:false,volume:.5});restored.audio.bgm=false;assert.equal(G.restore(JSON.stringify(restored)).audio.bgm,false);});
+test('0.8.x saves without a care comparison stay readable and keep a finished care case finished',()=>{
+ const prior=G.fresh(),[first,second]=prior.field.chapters[2].cases;
+ // A care case finished in 0.8.x: measured, pinned the cause, used the right tool, took before/after photos.
+ Object.assign(first,{measured:['water','light'],symptom:first.variable==='water'?'dry':'pale',tool:first.variable,photos:[0,1,2]});
+ for(const task of [first,second])delete task.comparison;
+ const raw=JSON.stringify(prior),storage=fakeStorage([[G.GAME_KEY,raw]]);const state=G.loadGame(storage.storage);
+ assert.equal(G.getSaveStatus(storage.storage).ok,true);
+ assert.equal(state.field.chapters[2].cases[0].comparison,'legacy');
+ assert.equal(state.field.chapters[2].cases[1].comparison,'');
+ assert.equal(G.saveGame(storage.storage,state),true);
+});

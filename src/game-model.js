@@ -36,7 +36,8 @@ for(const chapter of fieldShape.chapters)delete chapter.discovery;
 // New draft/observation fields are optional in older student saves.
 for(const key of ['drawingForm','noteDraft'])delete fieldShape.chapters[0][key];
 for(const round of fieldShape.chapters[1].rounds){delete round.report;delete round.legacyReport;}
-for(const task of fieldShape.chapters[2].cases)delete task.observations;
+// 0.8.1–0.8.8 care saves have no comparison; restoreField marks finished ones 'legacy'.
+for(const task of fieldShape.chapters[2].cases){delete task.observations;delete task.comparison;}
 delete fieldShape.chapters[3].seasonCompared;
 delete fieldShape.chapters[4].drafts;
 // Pre-0.8.0 tower saves have no towerRun; restoreField migrates them.
