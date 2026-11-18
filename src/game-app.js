@@ -22,7 +22,7 @@ import {autoPlayable} from './field-autoplay.js';
 import {openConcept} from './field-concepts.js';
 import {openCinema} from './field-cinema.js';
 import {COMPANION_ART,companionLine,companionMapLine,companionDiscoveryLine,stageProgress,hintTarget} from './field-companion.js';
-import {REWARD_CARDS,wonRewardCards,rewardSlotsHtml,syncRewardSlots,winRewardCard,rewardLayerOpen,watchRewardLayer} from './reward-card-set.js';
+import {REWARD_CARDS,wonRewardCards,rewardSlotsHtml,syncRewardSlots,winRewardCard,rewardCardDue,rewardLayerOpen,watchRewardLayer} from './reward-card-set.js';
 import {configureVoice,installVoiceStop,stopVoice} from './voice-lines.js';
 
 const storage={getItem(key){return window.localStorage.getItem(key);},setItem(key,value){window.localStorage.setItem(key,value);}};
@@ -341,7 +341,7 @@ function positionEncounters(items,companion,hero){
    stages:items.map(({chapter,x,y,near})=>s.field.completed.includes(chapter)?{
     x:near?.x??x+28,y:near?.y??y+14,name:FIELD_CHAPTERS[chapter].title}:null),
    onSave:next=>{const won=wonRewardCards(s.mapEncounters,next);s.mapEncounters={...s.mapEncounters,...next};persist();won.forEach(awardCard);render();},
-   blocked:()=>!fieldReady||modal.open||ui.guide||ui.mapOverview||mode()!=='map',
+   blocked:()=>!fieldReady||modal.open||ui.guide||ui.mapOverview||mode()!=='map'||rewardCardDue(),
    reduced:()=>reducedMotion(s.settings),
    tone:(kind,hits)=>{
     const cue=({finish:'map-strike-3',contact:'map-bump',appear:'map-appear',victory:'map-victory'})[kind]??(hits===2?'map-strike-2':'map-strike-1');
@@ -358,6 +358,7 @@ function positionEncounters(items,companion,hero){
 }
 // A villain's third hit wins its achievement card. The card opens once the exit has played and covers the map like a
 // dialog (modalOpen), so the all-villains finale waits until it is put away. Leaving the map first just fills the slot.
+// A card whose turn comes while a dialog is open waits for it; rewardCardDue() in the villains' blocked() keeps the finale behind it.
 function awardCard(index){
  void winRewardCard(index,{delay:reducedMotion(s.settings)?520:760,hits:()=>s.mapEncounters,
   state:()=>mode()!=='map'?'gone':!fieldReady||document.querySelector('dialog[open]')?'wait':'open',

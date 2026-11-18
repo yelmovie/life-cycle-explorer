@@ -46,6 +46,10 @@ export function syncRewardSlots(hits){
  else rewards().syncSlots(next);
  drawn=next;
 }
+// Cards whose villain has finished its exit and that have not been put away yet.
+let due=0;
+/** True from the moment a won card is ready to open until it sits in its slot. The map holds its villains (and the finale) meanwhile. */
+export const rewardCardDue=()=>due>0;
 const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 /**
  * The villain for `index` has just taken its third hit. After `delay` (its exit) the card opens from `origin()`.
@@ -53,12 +57,14 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
  */
 export async function winRewardCard(index,{delay,state,origin,hits}){
  flying.add(index);
+ let counted=false;
  try{
   await wait(delay);
+  due++;counted=true;
   let now;
   while((now=state())==='wait')await wait(400);
   if(now==='open')await rewards().reveal(index,origin(),ownedRewardCards(hits()));
- }finally{flying.delete(index);syncRewardSlots(hits());}
+ }finally{if(counted)due--;flying.delete(index);syncRewardSlots(hits());}
 }
 /** True while a card or the album is on screen. The map treats it like an open dialog. */
 export const rewardLayerOpen=()=>!!document.querySelector('.rc-layer');
