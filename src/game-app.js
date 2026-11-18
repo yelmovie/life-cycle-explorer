@@ -23,6 +23,7 @@ import {openConcept} from './field-concepts.js';
 import {openCinema} from './field-cinema.js';
 import {COMPANION_ART,companionLine,companionMapLine,companionDiscoveryLine,stageProgress,hintTarget} from './field-companion.js';
 import {REWARD_CARDS,wonRewardCards,rewardSlotsHtml,syncRewardSlots,winRewardCard,rewardLayerOpen,watchRewardLayer} from './reward-card-set.js';
+import {configureVoice,installVoiceStop,stopVoice} from './voice-lines.js';
 
 const storage={getItem(key){return window.localStorage.getItem(key);},setItem(key,value){window.localStorage.setItem(key,value);}};
 const TEACHER_SESSION_KEY='life-clock-lab.teacher-preview.1';
@@ -80,6 +81,7 @@ function speakGuide(key){
  void player.play().catch(done);
 }
 modal.addEventListener('modal-dismiss',stopGuideVoice);
+configureVoice({enabled:()=>s.audio.sfx,hold:()=>{audio.pauseAudio();return audio.resumeAudio;}});installVoiceStop(modal);
 document.addEventListener('visibilitychange',()=>{if(document.hidden)stopGuideVoice();});
 window.addEventListener('pagehide',stopGuideVoice);
 // Keep only the teacher's mode/location in this tab. Student answers stay in
@@ -548,7 +550,7 @@ function action(name,b){void audio.initAudio(s.audio);audio.playSfx('click');
  if(name==='reward-concept'){const c=Number(b.dataset.chapter);if(s.field.completed.includes(c))concept(c,true);return;}
  if(name==='time-stop'){act(b.dataset.type,b.dataset.type==='season'?{step:Number(b.dataset.value)}:{day:Number(b.dataset.value)});return;}
  if(name==='hint-more'){ui.message='';ui.hintLevel=Math.min(1,ui.hintLevel+1);updateGuide(true);return;}if(name==='hint-point'){closeGuide();ctx.scene?.showHint?.(hintTarget(roomPhase(s.field)));return;}
- if(name==='sound'){const on=s.audio.bgm||s.audio.sfx;if(on){ui.previousAudio={...s.audio};s.audio.bgm=false;s.audio.sfx=false;}else s.audio=ui.previousAudio||{...s.audio,sfx:true};if(!s.audio.sfx)stopGuideVoice();audio.updateAudio(s.audio);persist();render();return;}
+ if(name==='sound'){const on=s.audio.bgm||s.audio.sfx;if(on){ui.previousAudio={...s.audio};s.audio.bgm=false;s.audio.sfx=false;}else s.audio=ui.previousAudio||{...s.audio,sfx:true};if(!s.audio.sfx){stopGuideVoice();stopVoice();}audio.updateAudio(s.audio);persist();render();return;}
  if(name==='audio-bgm'||name==='audio-sfx'){const k=name==='audio-bgm'?'bgm':'sfx';s.audio[k]=!s.audio[k];audio.updateAudio(s.audio);persist();render();settings();return;}
  if(name==='guide'){if(ui.guide){closeGuide();return;}if(mode()==='map'&&Number.isInteger(ui.travelChapter))ctx.scene?.cancelTravel?.();ui.hintReturn=b;ui.guide=true;if(!ui.pending)ui.message='';ui.pending=false;updateGuide(true);return;}if(name==='hint-close'){closeGuide();return;}if(name==='door'||name==='door-next'){if(name==='door-next')modal.close();requestDoor(Number(b.dataset.chapter));return;}if(name==='step'){ctx.scene?.step(Number(b.dataset.x),Number(b.dataset.y));return;}
  if(name==='next'){if(mode()==='map'){const c=FIELD_CHAPTERS.findIndex((_,i)=>!s.field.completed.includes(i)&&fieldUnlocked(s.field,i));if(c<0)dialogs.story();else requestDoor(c);return;}if(previewOriginal){const chapter=s.field.active,phase=stageProgress(chapter,roomPhase(s.field),true).nextPhase;if(phase){s.field=previewFieldForPhase(s.field,chapter,phase);Object.assign(ui,{selection:null,play:false,autoPlay:false,guide:false,message:''});render();ctx.scene?.refresh();}else if(chapter<4){s.field=previewFieldForPhase(s.field,chapter+1,stageProgress(chapter+1,'',true).firstPhase);view('room');}else view('map');return;}const next=roomUI(s,ui).nextAction;if(next==='complete'){completeChapter();return;}if(next==='hint'){ui.hintReturn=b;ui.message='';ui.guide=true;updateGuide(true);ctx.scene?.showHint?.(hintTarget(roomPhase(s.field)));return;}if(next==='story-info'){dialogs.storyInfo();return;}if(next==='tower-start'){

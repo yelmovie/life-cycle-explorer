@@ -1,5 +1,6 @@
 import {bindConceptFocus} from './concept-focus.js';
 import {esc} from './game-metadata.js';
+import {speakTexts,stopVoice} from './voice-lines.js';
 
 // Captions stay in the DOM, so classroom text scales independently of video.
 export const CONCEPTS=[
@@ -23,7 +24,7 @@ export function openConcept({chapter,dialog,modal,audio,reduced=false,onFinish=(
  const labels=[['알','애벌레','번데기','어른벌레'],['물 없음','낮은 온도','물 + 알맞은 온도'],['물 부족','빛 부족'],['나비','개'],['자세히 관찰','조건 비교','변화 기록']];
  const showLabels=t=>{const list=chapter===3&&t>=4?['사과나무 · 같은 줄기','봉선화 · 씨앗에서 새 생명']:labels[chapter];legend.style.gridTemplateColumns=`repeat(${list.length},1fr)`;legend.innerHTML=list.map(text=>`<span>${esc(text)}</span>`).join('');};showLabels(0);
  const video=modal.querySelector('video'),caption=modal.querySelector('#concept-caption'),seek=modal.querySelector('#concept-seek'),toggle=modal.querySelector('#concept-toggle'),controller=new AbortController(),opts={signal:controller.signal};
- const cue=()=>{const t=video.currentTime||0,i=clip.cues.findLastIndex(([start])=>t>=start);if(i!==lastCue){lastCue=i;caption.textContent=clip.cues[Math.max(0,i)][1];showLabels(t);}seek.value=t;modal.querySelector('#concept-clock').value=`${Math.floor(t)} / 12초`;};
+ const cue=()=>{const t=video.currentTime||0,i=clip.cues.findLastIndex(([start])=>t>=start);if(i!==lastCue){lastCue=i;caption.textContent=clip.cues[Math.max(0,i)][1];showLabels(t);speakTexts([caption.textContent],{hold:false});}seek.value=t;modal.querySelector('#concept-clock').value=`${Math.floor(t)} / 12초`;};
  const fallback=()=>{if(closed)return;failed=true;clearTimeout(timeout);video.pause();video.hidden=true;modal.classList.add('is-fallback');modal.querySelector('.concept-stage').style.backgroundImage=`url("assets/concepts/${clip.id}.webp")`;modal.querySelector('#concept-fallback').hidden=false;modal.querySelector('.concept-playback').hidden=true;caption.textContent=clip.cues[2][1];};
  const armTimeout=()=>{clearTimeout(timeout);timeout=setTimeout(fallback,8000);};
  const play=()=>{if(closed||failed)return;video.hidden=false;armTimeout();video.play().catch(()=>{clearTimeout(timeout);toggle.textContent='재생';toggle.focus();});};
@@ -40,7 +41,7 @@ export function openConcept({chapter,dialog,modal,audio,reduced=false,onFinish=(
  modal.querySelector('#concept-finish').addEventListener('click',()=>{modal.close();if(!returnToList)onFinish();},opts);
  document.addEventListener('visibilitychange',()=>{if(document.hidden)video.pause();},opts);
  let releaseFocus=()=>{};
- const cleanup=()=>{if(closed)return;releaseFocus();closed=true;clearTimeout(timeout);controller.abort();video.pause();video.removeAttribute('src');video.querySelectorAll('source').forEach(n=>n.remove());video.load();audio.resumeAudio();if(returnToList&&!modal.open)queueMicrotask(onFinish);};
+ const cleanup=()=>{if(closed)return;releaseFocus();closed=true;stopVoice();clearTimeout(timeout);controller.abort();video.pause();video.removeAttribute('src');video.querySelectorAll('source').forEach(n=>n.remove());video.load();audio.resumeAudio();if(returnToList&&!modal.open)queueMicrotask(onFinish);};
  modal.addEventListener('close',cleanup,opts);modal.addEventListener('modal-dismiss',cleanup,opts);
  cue();video.innerHTML=`<source src="assets/concepts/${clip.id}.webm" type="video/webm"><source src="assets/concepts/${clip.id}.mp4" type="video/mp4">`;video.querySelectorAll('source').item(1)?.addEventListener('error',fallback,opts);video.load();armTimeout();
  const words=[['알','애벌레','번데기','어른벌레','다음 세대'],['조건','물','알맞은 온도','발아'],['물','빛','비교'],['한살이','나비','자라는 과정','같은','다음 세대'],['관찰','조건','기록']][chapter];

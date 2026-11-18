@@ -1,4 +1,5 @@
 import {ART,esc} from './game-metadata.js';
+import {speakTexts,stopVoice} from './voice-lines.js';
 
 // Full-screen story films keep dialogue and score on the native video clock. Captions and
 // scene labels stay in the DOM so they scale and remain readable on classroom screens.
@@ -54,7 +55,14 @@ export function openCinema({id,dialog,modal,reduced=false,detail='',onFinish=()=
  const releaseMusic=holdMusic();
  video.muted=volume<=0;
  video.volume=Math.min(1,Math.max(0,volume));
- const showCard=()=>{if(cardShown)return;cardShown=true;caption.classList.remove('is-on');stage.classList.add('is-card');stage.querySelector('.cinema-card').hidden=false;stage.querySelector('[data-cinema-skip]').hidden=true;stage.querySelector('[data-cinema-finish]').focus({preventScroll:true});};
+ // Final film 3.4–7.6 s: the Jihoon line is re-voiced with ElevenLabs taemin over the same music bed
+ // (assets/audio/jihoon-film-seed-mix.mp3). The film's own track is muted only inside that window, so the two never overlap.
+ const DUB=[3.4,7.6],dub=id==='final'&&volume>0&&typeof Audio!=='undefined'?Object.assign(new Audio('assets/audio/jihoon-film-seed-mix.mp3'),{preload:'auto',volume:video.volume}):null;let dubFrame=0;
+ const syncDub=()=>{if(!dub)return;cancelAnimationFrame(dubFrame);const t=video.currentTime||0,inside=!closed&&!video.paused&&!video.ended&&t>=DUB[0]&&t<DUB[1];
+  if(inside){if(dub.paused){dub.currentTime=t-DUB[0];void dub.play().catch(()=>{});}video.muted=true;}else{if(!dub.paused)dub.pause();video.muted=false;}
+  if(!closed&&!video.paused)dubFrame=requestAnimationFrame(syncDub);};
+ if(dub){video.addEventListener('playing',syncDub,opts);video.addEventListener('pause',syncDub,opts);video.addEventListener('seeking',()=>{dub.pause();},opts);video.addEventListener('seeked',syncDub,opts);}
+ const showCard=()=>{if(cardShown)return;cardShown=true;if(id==='intro'&&volume>0)speakTexts([stage.querySelector('.cinema-card-line')?.textContent],{hold:false});caption.classList.remove('is-on');stage.classList.add('is-card');stage.querySelector('.cinema-card').hidden=false;stage.querySelector('[data-cinema-skip]').hidden=true;stage.querySelector('[data-cinema-finish]').focus({preventScroll:true});};
  const tick=()=>{
   const t=video.currentTime||0;bar.style.transform=`scaleX(${Math.min(1,t/film.seconds)})`;
   const i=film.cues.findIndex(([start,end])=>t>=start&&t<end);
@@ -76,7 +84,7 @@ export function openCinema({id,dialog,modal,reduced=false,detail='',onFinish=()=
  // Escape skips ahead instead of dropping the learner out of the story flow.
  modal.addEventListener('cancel',e=>{e.preventDefault();if(cardShown)finish();else stage.querySelector('[data-cinema-skip]').click();},opts);
  document.addEventListener('visibilitychange',()=>{if(document.hidden)video.pause();else if(!cardShown&&!reduced&&video.paused&&video.currentTime>0)play();},opts);
- const cleanup=()=>{if(closed)return;closed=true;clearTimeout(timeout);controller.abort();video.pause();video.removeAttribute('src');video.load();releaseMusic();};
+ const cleanup=()=>{if(closed)return;closed=true;clearTimeout(timeout);controller.abort();cancelAnimationFrame(dubFrame);dub?.pause();stopVoice();video.pause();video.removeAttribute('src');video.load();releaseMusic();};
  // A close queued by the previous dialog can arrive after the film has reopened the modal; only a real close ends it.
  modal.addEventListener('close',()=>{if(!modal.open)cleanup();},opts);modal.addEventListener('modal-dismiss',cleanup,opts);
  video.src=`assets/video/${id}.mp4`;video.load();

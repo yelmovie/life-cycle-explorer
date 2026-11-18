@@ -23,3 +23,6 @@
 - 각 프로젝트 graphify update . 완료. 커밋·푸시·배포 없음.
 - 실제 게임의 정상 시작/첫 장소/힌트 UI를 통해 대표 안내자 인사 버튼과 펼친 자막을 확인했다. 1024×768 및 873×580에서 버튼과 인사 패널이 화면 안에 들어왔다. #1은 기존 기본 음소거를 UI로 켜고 시작 전 예상을 선택한 뒤 검사했다. #4는 안내 갱신 때 음성 컨트롤 노드를 보존해 재생/중지 표시와 자막이 유지되게 했다.
 - #1·3은 실제 Chrome 네트워크 차단 뒤 신규 MP3의 재생 시간 증가(약 0.47/0.45초)를 확인했다. 이는 전체 게임의 오프라인 완주 검증은 아니다.
+
+## 2026-11-18 갱신
+- 위 Qwen3-TTS `npc-welcome.mp3`는 앱에서 쓰지 않는다(파일만 보관). 파이널 영상의 Qwen3-TTS 교체 대사도 재생 시 ElevenLabs taemin 음성으로 바뀐다. 현재 음성 출처는 `docs/VOICE-FILL-20261118.json`과 `assets/audio/npc-dialogue/provenance.json`, `assets/audio/doto-hints/provenance.json`.
