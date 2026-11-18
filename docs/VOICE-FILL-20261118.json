@@ -240,7 +240,8 @@
    "sha256": "023e7d5cade710a2fd70c10fa7d8e49ee52b7f8142396fb484001575c10ff897",
    "file": "assets/audio/jihoon-concept-butterfly-1.mp3",
    "screen": "concept video caption",
-   "reviewNote": "\"어른벌레\"를 세 번(MCP 1·API 1 포함) 모두 \"얼음벌레\"로 받아씀. 같은 결과가 반복돼 받아쓰기 쪽 문제로 보고 연결함 — 사람 청취 확인 권장"
+   "reviewNote": "\"어른벌레\"를 세 번(MCP 1·API 1 포함) 모두 \"얼음벌레\"로 받아씀. 같은 결과가 반복돼 받아쓰기 쪽 문제로 보고 연결함 — 사람 청취 확인 권장",
+   "userCheck": "사용자 청취 확인(2026-11-18): 지금 파일 유지(재생성 없음)"
   },
   {
    "key": "jihoon-concept-care-0",
@@ -962,7 +963,8 @@
    "file": "assets/audio/goblin-clock-4.mp3",
    "screen": "map villain bubble",
    "reviewNote": "앞 감탄사 \"흥,\"을 받아쓰기가 빠뜨리고 \"가져\"를 \"가죠\"로 적음. 재생성 1회도 같음 — 사람 청취 확인 권장",
-   "retakeRequestId": "bY7mxMKza3soMnaICdts"
+   "retakeRequestId": "bY7mxMKza3soMnaICdts",
+   "userCheck": "사용자 청취 확인(2026-11-18): 지금 파일 유지(재생성 없음)"
   },
   {
    "key": "doto-search-0",
