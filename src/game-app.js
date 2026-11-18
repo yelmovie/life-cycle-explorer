@@ -65,10 +65,13 @@ function stopGuideVoice(){
  player.pause();player.removeAttribute('src');player.load();
  if(player.dataset.holdingMusic==='true')audio.resumeAudio();
 }
-function speakGuide(key){
+// Doto speaks with ElevenLabs "Deok su" (2026-11-18, docs/VOICE-FILL-20261118.json). After the first discovery hints,
+// Doto also reads the quoted observation memo shown on the panel.
+const DOTO_MEMO={'discovery-0-0':'memo-0','discovery-0-1':'memo-1'};
+function speakGuide(key,then=DOTO_MEMO[key]){
  stopGuideVoice();
  if(!key||!s.audio.sfx||document.hidden||modal.open)return;
- const player=guidePlayer=new Audio(`assets/audio/doto-hints/${key}.mp3`);
+ const player=guidePlayer=new Audio(key.startsWith('memo-')?`assets/audio/doto-memo-el/${key}.mp3`:`assets/audio/doto-hints-el/${key}.mp3`);
  player.volume=.7;
  player.onplaying=()=>{
   if(guidePlayer!==player)return;
@@ -77,7 +80,7 @@ function speakGuide(key){
  };
  player.onpause=player.onwaiting=()=>{if(guidePlayer===player)setGuideMotion(false);};
  const done=()=>{if(guidePlayer===player)stopGuideVoice();};
- player.onended=player.onerror=done;
+ player.onended=()=>{if(guidePlayer!==player)return;if(then)speakGuide(then,null);else done();};player.onerror=done;
  void player.play().catch(done);
 }
 modal.addEventListener('modal-dismiss',stopGuideVoice);

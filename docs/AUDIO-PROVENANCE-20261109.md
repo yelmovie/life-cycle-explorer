@@ -26,3 +26,4 @@
 
 ## 2026-11-18 갱신
 - 위 Qwen3-TTS `npc-welcome.mp3`는 앱에서 쓰지 않는다(파일만 보관). 파이널 영상의 Qwen3-TTS 교체 대사도 재생 시 ElevenLabs taemin 음성으로 바뀐다. 현재 음성 출처는 `docs/VOICE-FILL-20261118.json`과 `assets/audio/npc-dialogue/provenance.json`, `assets/audio/doto-hints/provenance.json`.
+- (같은 날 추가) 도토 음성은 모두 ElevenLabs "Deok su"(eleven_v4)로 바뀌었다: `assets/audio/doto-hints-el/provenance.json`. 예전 `doto-hints/`(Higgsfield Jake + 피치 편집)와 Jusen 대화 파일은 보관만 한다.

@@ -6,7 +6,7 @@ import {FIELD_CHAPTERS} from '../src/field-content.js';
 import {DISCOVERY_MISSIONS} from '../src/field-mission-data.js';
 
 test('도토 음원은 각 탐구 단계와 지도·추가 발견에서 실제로 보이는 문장과 일치한다',()=>{
- const dir=new URL('../assets/audio/doto-hints/',import.meta.url);
+ const dir=new URL('../assets/audio/doto-hints-el/',import.meta.url);
  const source=JSON.parse(readFileSync(new URL('provenance.json',dir),'utf8'));
  const lines=[
   ...COMPANION_HINT_LINES.filter(line=>line.key!=='discovery-0'),

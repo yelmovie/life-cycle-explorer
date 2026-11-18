@@ -41,12 +41,12 @@ export const dialogueCast = [
       {
         "label": "인사",
         "text": "안녕! 나는 도토야. 시간이 흐르면서 생물이 어떻게 자라는지 함께 관찰해 보자. 생김새의 변화와 자라는 데 필요한 것을 차근차근 기록해 보자!",
-        "src": "/assets/audio/npc-dialogue/doto-hello.mp3"
+        "src": "/assets/audio/npc-dialogue/el-doto-hello.mp3"
       },
       {
         "label": "탐구 단서",
         "text": "길에서 도움이 필요하면 내 그림을 눌러 줘. 어디를 살펴보면 좋을지 함께 찾아볼게!",
-        "src": "/assets/audio/npc-dialogue/doto-clue.mp3"
+        "src": "/assets/audio/npc-dialogue/el-doto-clue.mp3"
       }
     ]
   }
