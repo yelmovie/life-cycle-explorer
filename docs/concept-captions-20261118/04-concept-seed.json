@@ -1,0 +1,30 @@
+{
+ "src": "src/seed.mp4",
+ "out": "out/seed.mp4",
+ "out_webm": "out/seed.webm",
+ "theme": {
+  "box": "#10261d",
+  "accent": "#e8c46a",
+  "hot": "#ffd98a"
+ },
+ "speakers": {},
+ "bottom": 64,
+ "sweep": false,
+ "cues": [
+  {
+   "s": 0,
+   "e": 3.9,
+   "text": "같은 씨앗과 흙에서 [조건] 하나만 바꿔 비교해."
+  },
+  {
+   "s": 4,
+   "e": 7.9,
+   "text": "[물]과 [알맞은 온도]가 갖춰지면 싹이 터."
+  },
+  {
+   "s": 8,
+   "e": 12,
+   "text": "[발아] [조건]을 비교할 때 다른 [조건]은 같게 유지해."
+  }
+ ]
+}

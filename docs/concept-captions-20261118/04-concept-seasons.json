@@ -1,0 +1,30 @@
+{
+ "src": "src/seasons.mp4",
+ "out": "out/seasons.mp4",
+ "out_webm": "out/seasons.webm",
+ "theme": {
+  "box": "#10261d",
+  "accent": "#e8c46a",
+  "hot": "#ffd98a"
+ },
+ "speakers": {},
+ "bottom": 40,
+ "sweep": false,
+ "cues": [
+  {
+   "s": 0,
+   "e": 3.9,
+   "text": "[나비]와 개는 태어난 모습과 [자라는 과정]이 달라."
+  },
+  {
+   "s": 4,
+   "e": 7.9,
+   "text": "겨울을 지난 사과나무는 작년 그 나무야. 줄기가 이어져 있어."
+  },
+  {
+   "s": 8,
+   "e": 12,
+   "text": "봉선화가 남긴 씨앗에서 자란 새싹은 [다음 세대]야."
+  }
+ ]
+}

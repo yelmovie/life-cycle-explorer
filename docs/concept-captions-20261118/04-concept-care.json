@@ -1,0 +1,30 @@
+{
+ "src": "src/care.mp4",
+ "out": "out/care.mp4",
+ "out_webm": "out/care.webm",
+ "theme": {
+  "box": "#10261d",
+  "accent": "#e8c46a",
+  "hot": "#ffd98a"
+ },
+ "speakers": {},
+ "bottom": 64,
+ "sweep": false,
+ "cues": [
+  {
+   "s": 0,
+   "e": 3.9,
+   "text": "잎이 달라졌다면 흙 속 [물]과 받은 [빛]을 함께 살펴봐."
+  },
+  {
+   "s": 4,
+   "e": 7.9,
+   "text": "부족한 조건에 맞춰 [물]이나 [빛]을 도와줘."
+  },
+  {
+   "s": 8,
+   "e": 12,
+   "text": "시간이 지난 뒤 새잎과 돌봄 전 사진을 [비교]해."
+  }
+ ]
+}

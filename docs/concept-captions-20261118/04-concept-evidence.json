@@ -1,0 +1,30 @@
+{
+ "src": "src/evidence.mp4",
+ "out": "out/evidence.mp4",
+ "out_webm": "out/evidence.webm",
+ "theme": {
+  "box": "#10261d",
+  "accent": "#e8c46a",
+  "hot": "#ffd98a"
+ },
+ "speakers": {},
+ "bottom": 64,
+ "sweep": false,
+ "cues": [
+  {
+   "s": 0,
+   "e": 3.9,
+   "text": "자세히 [관찰]하고, [조건]을 바꾸고, 변화를 [기록]해."
+  },
+  {
+   "s": 4,
+   "e": 7.9,
+   "text": "사진 [기록]을 이어 무엇을 알아냈는지 설명해."
+  },
+  {
+   "s": 8,
+   "e": 12,
+   "text": "실제 생물도 여러 날 [관찰]하며 내 생각을 확인해."
+  }
+ ]
+}

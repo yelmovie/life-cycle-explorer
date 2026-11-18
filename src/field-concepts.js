@@ -2,7 +2,7 @@ import {bindConceptFocus} from './concept-focus.js';
 import {esc} from './game-metadata.js';
 import {speakTexts,stopVoice} from './voice-lines.js';
 
-// Captions stay in the DOM, so classroom text scales independently of video.
+// Captions are burned into the clips (docs/concept-captions-20261118); the DOM caption is a screen-reader copy and the visible fallback.
 export const CONCEPTS=[
  {id:'butterfly',title:'모습이 달라져도 이어지는 한살이',seconds:12,cues:[
   [0,'알에서 깨어난 애벌레가 먹이를 먹으며 자라.'],[4,'번데기를 거쳐 날개가 있는 어른벌레가 돼.'],[8,'어른벌레가 낳은 알은 다음 세대의 새 생명이야.']]},
@@ -29,15 +29,17 @@ export function openConcept({chapter,dialog,modal,audio,reduced=false,onFinish=(
  const say=text=>{if(speaking){pending=text;return;}pending=null;speaking=speakTexts([text],{hold:false,onEnd:()=>{speaking=false;if(pending&&!closed)say(pending);}});};
  const quiet=()=>{speaking=false;pending=null;stopVoice();};
  const cue=()=>{const t=video.currentTime||0,i=clip.cues.findLastIndex(([start])=>t>=start);if(i!==lastCue){lastCue=i;caption.textContent=clip.cues[Math.max(0,i)][1];showLabels(t);say(caption.textContent);}seek.value=t;modal.querySelector('#concept-clock').value=`${Math.floor(t)} / 12초`;};
- const fallback=()=>{if(closed)return;failed=true;clearTimeout(timeout);video.pause();video.hidden=true;modal.classList.add('is-fallback');modal.querySelector('.concept-stage').style.backgroundImage=`url("assets/concepts/${clip.id}.webp")`;modal.querySelector('#concept-fallback').hidden=false;modal.querySelector('.concept-playback').hidden=true;caption.textContent=clip.cues[2][1];};
+ const fallback=()=>{if(closed)return;failed=true;clearTimeout(timeout);modal.classList.remove('is-film','is-playing');video.pause();video.hidden=true;modal.classList.add('is-fallback');modal.querySelector('.concept-stage').style.backgroundImage=`url("assets/concepts/${clip.id}.webp")`;modal.querySelector('#concept-fallback').hidden=false;modal.querySelector('.concept-playback').hidden=true;caption.textContent=clip.cues[2][1];};
  const armTimeout=()=>{clearTimeout(timeout);timeout=setTimeout(fallback,8000);};
  const play=()=>{if(closed||failed)return;video.hidden=false;armTimeout();video.play().catch(()=>{clearTimeout(timeout);toggle.textContent='재생';toggle.focus();});};
  const replay=()=>{quiet();if(failed){failed=false;video.hidden=false;modal.classList.remove('is-fallback');modal.querySelector('#concept-fallback').hidden=true;modal.querySelector('.concept-playback').hidden=false;video.load();}video.currentTime=0;cue();play();};
  video.addEventListener('loadedmetadata',()=>{clearTimeout(timeout);if(!reduced)play();},opts);
- video.addEventListener('timeupdate',cue,opts);video.addEventListener('playing',()=>{clearTimeout(timeout);toggle.textContent='일시정지';},opts);
- video.addEventListener('pause',()=>{clearTimeout(timeout);toggle.textContent='재생';},opts);
+ video.addEventListener('timeupdate',cue,opts);video.addEventListener('playing',()=>{clearTimeout(timeout);toggle.textContent='일시정지';if(!failed&&!video.hidden)modal.classList.add('is-film','is-playing');},opts);
+ video.addEventListener('pause',()=>{clearTimeout(timeout);toggle.textContent='재생';modal.classList.remove('is-playing');},opts);
+ // Full-screen film: tapping the picture pauses it and brings the controls back.
+ video.addEventListener('click',()=>toggle.click(),opts);
  video.addEventListener('waiting',armTimeout,opts);video.addEventListener('error',fallback,opts);
- video.addEventListener('ended',()=>{clearTimeout(timeout);video.hidden=true;modal.querySelector('.concept-stage').style.backgroundImage=`url("assets/concepts/${clip.id}.webp")`;toggle.textContent='다시 재생';modal.querySelector('#concept-finish').focus();},opts);
+ video.addEventListener('ended',()=>{clearTimeout(timeout);modal.classList.remove('is-playing');video.hidden=true;modal.querySelector('.concept-stage').style.backgroundImage=`url("assets/concepts/${clip.id}.webp")`;toggle.textContent='다시 재생';modal.querySelector('#concept-finish').focus();},opts);
  toggle.addEventListener('click',()=>video.paused?(video.ended?replay():play()):video.pause(),opts);
  seek.addEventListener('input',()=>{if(Number.isFinite(video.duration)){quiet();video.hidden=false;video.currentTime=Number(seek.value);cue();}},opts);
  modal.querySelector('#concept-replay').addEventListener('click',replay,opts);

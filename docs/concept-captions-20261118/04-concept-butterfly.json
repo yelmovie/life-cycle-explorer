@@ -1,0 +1,30 @@
+{
+ "src": "src/butterfly.mp4",
+ "out": "out/butterfly.mp4",
+ "out_webm": "out/butterfly.webm",
+ "theme": {
+  "box": "#10261d",
+  "accent": "#e8c46a",
+  "hot": "#ffd98a"
+ },
+ "speakers": {},
+ "bottom": 64,
+ "sweep": false,
+ "cues": [
+  {
+   "s": 0,
+   "e": 3.9,
+   "text": "[알]에서 깨어난 [애벌레]가 먹이를 먹으며 자라."
+  },
+  {
+   "s": 4,
+   "e": 7.9,
+   "text": "[번데기]를 거쳐 날개가 있는 [어른벌레]가 돼."
+  },
+  {
+   "s": 8,
+   "e": 12,
+   "text": "[어른벌레]가 낳은 [알]은 [다음 세대]의 새 생명이야."
+  }
+ ]
+}
