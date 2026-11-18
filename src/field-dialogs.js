@@ -8,6 +8,7 @@ import {exportStorybook} from './adventure-export.js';
 import * as G from './game-model.js';
 import {storyInfoNotebook,storyCaptionNotebook} from './field-story-scenes.js';
 import {CONCEPTS} from './field-concepts.js';
+import {reducedMotion} from './game-motion.js';
 export const btn=(label,action,extra='',cls='')=>`<button data-action="${action}" ${extra} class="${cls}">${label}</button>`;
 export function createDialogs(ctx){
  const show=ctx.dialog,s=()=>ctx.s;
