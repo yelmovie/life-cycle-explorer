@@ -4,10 +4,9 @@ import assert from 'node:assert/strict';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {initialField} from '../src/field-model.js';
-import {readEarned} from './qa-fixture.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),out=path.join(root,'.tmp/popup-survey');await mkdir(out,{recursive:true});process.env.TEMP=out;process.env.TMP=out;
 const require=createRequire(import.meta.url),{chromium}=require(process.env.PLAYWRIGHT_MODULE||'C:/Users/bongb/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
-const browser=await chromium.launch({channel:'chrome',headless:true}),earned=await readEarned(root),results=[],errors=[],base=process.env.BASE_URL||'http://127.0.0.1:4186';
+const browser=await chromium.launch({channel:'chrome',headless:true}),earned=JSON.parse(await readFile(path.join(root,'.tmp/field-play/earned-state.json'),'utf8')),results=[],errors=[],base=process.env.BASE_URL||'http://127.0.0.1:4186';
 const click=async(p,s)=>p.locator(s).click();
 // Opening, note, prediction, story-info, caption and care-compare no longer open dialogs (they became scene steps in 0.9.0–0.9.2).
 const cases=[

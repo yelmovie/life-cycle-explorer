@@ -5,10 +5,9 @@ import {fileURLToPath} from 'node:url';
 import assert from 'node:assert/strict';
 import {fresh} from '../src/game-model.js';
 import {initialField} from '../src/field-model.js';
-import {readEarned} from './qa-fixture.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),out=path.join(root,'.tmp','field-regression');await mkdir(out,{recursive:true});process.env.TEMP=out;process.env.TMP=out;
 const require=createRequire(import.meta.url),{chromium}=require(process.env.PLAYWRIGHT_MODULE||'C:/Users/bongb/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
-const browser=await chromium.launch({channel:'chrome',headless:true}),earned=await readEarned(root),base=process.env.BASE_URL||'http://127.0.0.1:4202',errors=[],results=[];
+const browser=await chromium.launch({channel:'chrome',headless:true}),earned=JSON.parse(await readFile(path.join(root,'.tmp/field-play/earned-state.json'),'utf8')),base=process.env.BASE_URL||'http://127.0.0.1:4202',errors=[],results=[];
 async function open(context,fixture){const p=await context.newPage();p.on('pageerror',e=>errors.push(e.message));p.on('response',r=>{if(r.status()>=400)errors.push(r.status()+' '+r.url());});await p.addInitScript(value=>{if(!sessionStorage.getItem('seeded')){localStorage.setItem('life-clock-lab.phaser.4',JSON.stringify(value));sessionStorage.setItem('seeded','1');}},fixture);await p.goto(base);await p.locator('.boot').waitFor({state:'detached'});await p.waitForTimeout(250);return p;}
 const click=async(p,selector)=>{await p.locator(selector).click();await p.waitForTimeout(90);},get=p=>p.evaluate(()=>JSON.parse(localStorage.getItem('life-clock-lab.phaser.4')));
 // Background music starts on (0.8.2), the start button goes straight into the first activity (0.9.2), a replay restarts at the magnifier step,
