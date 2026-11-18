@@ -275,7 +275,7 @@ function armTimeFlow(){const t=mode()==='room'&&!previewOriginal?timeTarget():nu
  if(key===timeKey)return;clearTimeout(timeTimer);timeKey=key;if(!t)return;
  const tick=()=>{const now=mode()==='room'&&!previewOriginal?timeTarget():null;if(!now||s.field.active+':'+JSON.stringify(now)!==key)return;
   if(modal.open||ui.autoPlay||!fieldReady||document.hidden){timeTimer=setTimeout(tick,1000);return;}act(now[0],now[1]);};
- timeTimer=setTimeout(tick,1600);}
+ timeTimer=setTimeout(tick,800);}
 // One top-right toggle for every page that can play itself; it hides and
 // switches off on pages where the learner has to choose an answer.
 function autoPlayButton(room){
