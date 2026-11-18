@@ -15,7 +15,7 @@ export function photoNotebookEntry(s,type,p={}){
   const r=f.chapters[1].rounds[f.chapters[1].round];if(!r.run)return null;
   const cards=['a','b'].map(side=>{const observed=seedObservation(r,side),c=observed.condition;return {art:'pot'+observed.level,label:`화분 ${side.toUpperCase()} · ${r.day}일`,detail:`물 ${c.water?'있음':'없음'} · ${c.warm?'22°C 따뜻함':'5°C 차가움'}`};});
   const complete=[d=>d===0,d=>d>=2&&d<=4,d=>d>=6].every(test=>r.photos.some(test));
-  return {title:`씨앗 비교 · ${r.day}일`,cards,note:r.day===0?'두 화분의 처음 모습을 남겼다. 며칠 뒤 모습과 비교해 보자.':cards.every(c=>c.art==='pot0')?'아직 싹이 보이지 않는다. 같은 조건을 유지하고 더 관찰해 보자.':'두 화분에서 싹이 보이는지 살펴보았다. 바꾼 조건과 함께 비교해 보자.',next:complete?'사진을 닫고 결과를 바꾼 조건을 연결해 줘.':'사진을 닫고 시간을 돌려 다음 모습을 찍어 줘.',stamp:'비교 사진 기록'};
+  return {title:`씨앗 비교 · ${r.day}일`,cards,note:r.day===0?'두 화분의 처음 모습을 남겼다. 며칠 뒤 모습과 비교해 보자.':cards.every(c=>c.art==='pot0')?'아직 싹이 보이지 않는다. 같은 조건을 유지하고 더 관찰해 보자.':'두 화분에서 싹이 보이는지 살펴보았다. 바꾼 조건과 함께 비교해 보자.',next:complete?'사진을 닫고 결과와 바꾼 조건을 연결해 줘.':'사진을 닫고 시간을 돌려 다음 모습을 찍어 줘.',stamp:'비교 사진 기록'};
  }
  if(type==='care-photo'){
   const r=f.chapters[2].cases[f.chapters[2].case],when=careTimeLabels(r)[r.day],recovered=r.day===2&&!!r.tool,art=r.variable==='light'?['pale','paleRecover1','paleRecover2'][r.tool?r.day:0]:['dry','dryRecover1','pot3'][r.tool?r.day:0];

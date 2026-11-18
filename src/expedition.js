@@ -88,7 +88,7 @@ export function questAction(s,type,value={}){
     }
     if(type==='seed-record'){
       if(!q.running||q.day<6||!fairRescue(problem,q.after))return result(false,'6일 뒤까지 돌려 두 씨앗의 차이를 확인해 줘.');
-      q.recorded=true;return result(true,i===0?'물이 싹 트는 데 필요했어. 이번엔 추운 씨앗을 도와주자.':'물과 알맞은 온도가 필요하다는 두 비교 기록을 얻었어!');
+      q.recorded=true;return result(true,i===0?'물이 싹트는 데 필요했어. 이번엔 추운 씨앗을 도와주자.':'물과 알맞은 온도가 필요하다는 두 비교 기록을 얻었어!');
     }
   }
   if(c===2){
