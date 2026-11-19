@@ -47,14 +47,14 @@ export const VOICE_LINES={
 };
 export const voiceSrc=text=>{const key=VOICE_LINES[String(text??'').replace(/\s+/g,' ').trim()];return key?`assets/audio/${key}.mp3`:null;};
 let player=null,release=null,options={enabled:()=>true,hold:()=>()=>{}};
-// game-app.js supplies the effects switch and the same music pause the Doto hint voice uses.
+// game-app.js supplies the effects switch and the same music duck the Doto hint voice uses.
 export function configureVoice(next){options={...options,...next};}
 export function stopVoice(){
  const current=player;player=null;
  if(current){current.onended=current.onerror=null;current.pause();current.removeAttribute('src');current.load();}
  release?.();release=null;
 }
-// hold:false inside films and concept clips, which already hold the music themselves.
+// hold:false inside films and concept clips, which already pause the music themselves.
 // Returns whether a line started. onEnd runs when the lines finish or fail to play, not when stopped or replaced.
 export function speakTexts(texts,{hold=true,onEnd=()=>{}}={}){
  const queue=texts.map(voiceSrc).filter(Boolean);

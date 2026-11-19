@@ -54,16 +54,17 @@ guideBubble.innerHTML=`<div class="npc-dialogue-portrait" aria-hidden="true"></d
 const guidePortrait=guideBubble.querySelector('.npc-dialogue-portrait'),guideText=$('guide-text');
 const guidePoint=guideBubble.querySelector('[data-action=hint-point]'),guideMore=guideBubble.querySelector('[data-action=hint-more]'),guideClose=guideBubble.querySelector('[data-action=hint-close]');
 guidePortrait.style.setProperty('--npc-dialogue-art',`url("${dialogueCast.find(c=>c.id==='doto').image}")`);
-let guidePlayer=null,guideLineKey=null;
+let guidePlayer=null,guideLineKey=null,guideDuck=null;
 function setGuideMotion(speaking){
  guideBubble.dataset.speaking=String(speaking&&!reducedMotion(s.settings));
 }
 function stopGuideVoice(){
  const player=guidePlayer;guidePlayer=null;setGuideMotion(false);
+ // The music stays on under Doto's voice at a quarter of its level; stopping the line for any reason hands the level back.
+ guideDuck?.();guideDuck=null;
  if(!player)return;
  player.onplaying=player.onpause=player.onwaiting=player.onended=player.onerror=null;
  player.pause();player.removeAttribute('src');player.load();
- if(player.dataset.holdingMusic==='true')audio.resumeAudio();
 }
 // Doto speaks with ElevenLabs "Deok su" (2026-11-18, docs/VOICE-FILL-20261118.json). After the first discovery hints,
 // Doto also reads the quoted observation memo shown on the panel.
@@ -72,19 +73,15 @@ function speakGuide(key,then=DOTO_MEMO[key]){
  stopGuideVoice();
  if(!key||!s.audio.sfx||document.hidden||modal.open)return;
  const player=guidePlayer=new Audio(key.startsWith('memo-')?`assets/audio/doto-memo-el/${key}.mp3`:`assets/audio/doto-hints-el/${key}.mp3`);
- player.volume=.7;
- player.onplaying=()=>{
-  if(guidePlayer!==player)return;
-  if(player.dataset.holdingMusic!=='true'){audio.pauseAudio();player.dataset.holdingMusic='true';}
-  setGuideMotion(true);
- };
+ player.volume=.7;guideDuck=audio.duckMusic('guide');
+ player.onplaying=()=>{if(guidePlayer===player)setGuideMotion(true);};
  player.onpause=player.onwaiting=()=>{if(guidePlayer===player)setGuideMotion(false);};
  const done=()=>{if(guidePlayer===player)stopGuideVoice();};
  player.onended=()=>{if(guidePlayer!==player)return;if(then)speakGuide(then,null);else done();};player.onerror=done;
  void player.play().catch(done);
 }
 modal.addEventListener('modal-dismiss',stopGuideVoice);
-configureVoice({enabled:()=>s.audio.sfx,hold:()=>{audio.pauseAudio();return audio.resumeAudio;}});installVoiceStop(modal);
+configureVoice({enabled:()=>s.audio.sfx,hold:()=>audio.duckMusic('voice')});installVoiceStop(modal);
 document.addEventListener('visibilitychange',()=>{if(document.hidden)stopGuideVoice();});
 window.addEventListener('pagehide',stopGuideVoice);
 // Keep only the teacher's mode/location in this tab. Student answers stay in
@@ -394,17 +391,15 @@ function positionDoors(items,companion,hero){
  guide.style.left=Math.round(x)+'px';guide.style.top=Math.round(y)+'px';guide.hidden=false;
 }
 function dialog({title,body,actions=btn('계속 탐험','close','','primary'),className='',music='main',values={}}){mediaCleanup?.();mediaCleanup=null;modal.dispatchEvent(new Event('modal-dismiss'));audio.setMusicTheme(music);if(!modal.open)dialogFocus=document.activeElement;if(mode()==='map'){ctx.scene?.cancelTravel();ui.travelChapter=null;render();}modal.className=className;const scienceSettings=className==='settings-dialog';modal.toggleAttribute('data-science-settings',scienceSettings);modal.setAttribute('aria-labelledby','dialog-title');modal.innerHTML=`<h2 id="dialog-title">${esc(title)}</h2><button class="close icon-button" data-action="close" aria-label="닫기">${icon('close')}</button><div class="modal-portrait" tabindex="-1" role="status">화면을 가로로 돌리면 작성 중인 내용을 이어 갈 수 있어.</div><div class="modal-body${scienceSettings?' science-settings-body':''}">${body}</div><div class="dialog-actions${scienceSettings?' science-settings-footer':''}">${actions}</div>`;for(const[id,value]of Object.entries(values)){const input=modal.querySelector('#'+id);if(input)input.value=value;}if(!modal.open)modal.showModal();syncOrientationFocus();if(ctx.scene)ctx.scene.input.enabled=false;modal.querySelector('.modal-body').scrollTop=0;modal.querySelector('[autofocus]')?.focus();}
-modal.addEventListener('close',()=>{if(modal.open)return;mediaCleanup?.();mediaCleanup=null;if(ctx.scene)ctx.scene.input.enabled=fieldReady;audio.setMusicTheme('main');audio.resumeAudio();if(Number.isInteger(ui.pendingRestoreChapter)&&mode()==='map'){ui.restoreChapter=ui.pendingRestoreChapter;ui.pendingRestoreChapter=null;ctx.scene?.refresh();}if(dialogFocus?.isConnected)dialogFocus.focus({preventScroll:true});else if(mode()==='room')$('next')?.focus({preventScroll:true});});
+modal.addEventListener('close',()=>{if(modal.open)return;mediaCleanup?.();mediaCleanup=null;if(ctx.scene)ctx.scene.input.enabled=fieldReady;if(!document.querySelector('.map-finale-dialog'))audio.setMusicTheme('main');audio.resumeAudio();if(Number.isInteger(ui.pendingRestoreChapter)&&mode()==='map'){ui.restoreChapter=ui.pendingRestoreChapter;ui.pendingRestoreChapter=null;ctx.scene?.refresh();}if(dialogFocus?.isConnected)dialogFocus.focus({preventScroll:true});else if(mode()==='room')$('next')?.focus({preventScroll:true});});
 function friendsDialogue(initial=0){
  dialog({title:'생명 시계 친구들과 이야기',body:characterDialogueMarkup,actions:'',className:'npc-dialogue-stage'});
- mountCharacterDialogue(modal,{characters:dialogueCast,initial,enabled:()=>s.audio.sfx,reduced:()=>reducedMotion(s.settings),hold:()=>{
-  audio.pauseAudio();
-  return ()=>{if(![...document.querySelectorAll('video')].some(v=>!v.paused&&!v.ended))audio.resumeAudio();};
- }});
+ mountCharacterDialogue(modal,{characters:dialogueCast,initial,enabled:()=>s.audio.sfx,reduced:()=>reducedMotion(s.settings),hold:()=>audio.duckMusic('dialogue')});
 }
 function concept(chapter=s.field.active,finish=false,returnToList=false){mediaCleanup=openConcept({chapter,dialog,modal,audio,reduced:reducedMotion(s.settings),returnToList,finishLabel:returnToList?'영상 목록으로':undefined,onFinish:()=>{if(returnToList)dialogs.concepts();else if(finish&&chapter===4)finale();}});}
 // Story films: the intro leads into the opening briefing, the finale into the ending record.
-const cinemaAudio=()=>({volume:s.audio.bgm||s.audio.sfx?Math.min(1,s.audio.volume*3.5):0,holdMusic:()=>{audio.pauseAudio();return audio.resumeAudio;}});
+// Both films carry their own score (intro: main theme, final: ending theme), so the game music pauses instead of doubling it.
+const cinemaAudio=()=>({volume:s.audio.bgm||s.audio.sfx?Math.min(1,s.audio.volume*3.5):0,holdMusic:()=>audio.pauseAudio('cinema')});
 function intro(){mediaCleanup=openCinema({id:'intro',dialog,modal,...cinemaAudio(),reduced:reducedMotion(s.settings),onFinish:()=>dialogs.opening()});}
 function finale(f=s.field){if(f.completed.length<5)return;mediaCleanup=openCinema({id:'final',dialog,modal,...cinemaAudio(),reduced:reducedMotion(s.settings),detail:`관찰·실험 기록 ${fieldRecords(f).length}개로 다섯 장소의 시간을 다시 이었어.`,onFinish:()=>dialogs.ending(f)});}
 // Teacher preview shows the ending and certificate built from example records; nothing is saved or awarded.
@@ -600,7 +595,12 @@ motionPreference.addEventListener('change',()=>{
  if(reducedMotion(s.settings)){ui.play=false;ui.storyStop?.();document.querySelector('#concept-video')?.pause();document.querySelectorAll('[data-handwriting]').forEach(el=>{el.classList.remove('writing');el.textContent=el.dataset.handwriting;});}
  const travel=ui.travelChapter;ctx.scene?.refresh();if(Number.isInteger(travel)&&mode()==='map')ctx.scene?.walkDoor(travel);
 });
-document.addEventListener('pointerdown',()=>void audio.initAudio(s.audio),{once:true});window.addEventListener('resize',()=>{positionFocus();app.classList.toggle('portrait-display',innerHeight>innerWidth);syncOrientationFocus();});window.addEventListener('pagehide',persist);
+// The first press or key starts the music; the listeners stay until the browser actually lets the audio run.
+const unlockAudio=()=>void audio.initAudio(s.audio).then(running=>{if(running)for(const type of ['pointerdown','keydown'])document.removeEventListener(type,unlockAudio);});
+for(const type of ['pointerdown','keydown'])document.addEventListener(type,unlockAudio);
+// The all-villains film on the map stays muted: the ending theme plays while it is open, the main theme when it closes.
+document.addEventListener('map-finale',event=>audio.setMusicTheme(event.detail?.open?'ending':'main'));
+window.addEventListener('resize',()=>{positionFocus();app.classList.toggle('portrait-display',innerHeight>innerWidth);syncOrientationFocus();});window.addEventListener('pagehide',persist);
 window.addEventListener('online',()=>{if(!ctx.scene?.failed?.size)return;if(modal.classList.contains('asset-error')&&modal.open)modal.close();ctx.scene.retryAssets();});
 // Phaser's window listeners must not interpret an HTML tool press as a ground press.
 for(const event of ['pointerdown','mousedown','touchstart'])for(const surface of [app,modal])surface.addEventListener(event,e=>{if(!e.target.closest('canvas'))e.stopPropagation();});

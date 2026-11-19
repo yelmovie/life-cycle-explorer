@@ -2,7 +2,9 @@
 export const DEFAULT_AUDIO = Object.freeze({bgm:true,sfx:true,volume:.2});
 export const MUSIC_TRACKS=Object.freeze({main:{src:'assets/audio/music/main-theme.mp3',loop:true},ending:{src:'assets/audio/music/ending-theme.mp3',loop:false}});
 const SFX_GAIN=.16;
-const MUSIC_LEVEL=.5;
+// Music and voice files are level-matched (about -16.5 LUFS). The default volume .2 puts the music at .21,
+// about 0.3 of the .7 voice lines; under a spoken line it drops to a quarter of that.
+const MUSIC_LEVEL=1.05,VOICE_DUCK=.25;
 const MELODY=[72,76,79,76,74,77,81,77,71,74,79,74,72,76,79,83,81,77,74,77,79,76,72,76,74,71,67,71,72,null,67,null];
 const BASS=[48,53,55,48,53,48,55,48];
 const EFFECTS={
@@ -42,7 +44,11 @@ async function loadSamples(){
  await sampleLoad;
 }
 let context=null, musicGain=null,effectsGain=null,settings={...DEFAULT_AUDIO};
-let timer=null,nextNote=0,step=0,paused=false,unavailable=false,installed=false;
+let timer=null,nextNote=0,step=0,unavailable=false,installed=false;
+// Every film that pauses the audio and every voice that lowers the music holds its own tag; the audio comes back when all are released.
+const pauseHolds=new Set(),duckHolds=new Set();
+const paused=()=>pauseHolds.size>0;
+const musicLevel=()=>Math.min(1,MUSIC_LEVEL*settings.volume)*(duckHolds.size?VOICE_DUCK:1);
 let musicPlayer=null,playerSource=null,musicTheme='main',endingFinished=false,playPending=false,playEpoch=0;
 const failedTracks=new Set();
 const musicNodes=new Set(), effectNodes=new Set();
@@ -79,7 +85,7 @@ function note(pitch,time,length,gain,type,nodes,level=.55){
   oscillator.start(time);oscillator.stop(time+length+.025);
 }
 function scheduleMusic(){
-  if(!context||context.state!=='running'||!settings.bgm||paused||hidden())return;
+  if(!context||context.state!=='running'||!settings.bgm||paused()||hidden())return;
   const horizon=context.currentTime+.32;
   if(nextNote<context.currentTime)nextNote=context.currentTime+.05;
   while(nextNote<horizon){
@@ -92,16 +98,17 @@ function syncMusic(){
   if(!context)return;
   effectsGain.gain.setValueAtTime(settings.sfx?SFX_GAIN:0,context.currentTime);
   if(!settings.sfx)stopNodes(effectNodes);
-  if(!settings.bgm||paused||hidden()||context.state!=='running'){stopMusic();return;}
+  if(!settings.bgm||paused()||hidden()||context.state!=='running'){stopMusic();return;}
   const player=ensureMusicPlayer();
   if(player&&!failedTracks.has(musicTheme)){
-    stopSynthesis();musicGain.gain.setTargetAtTime(MUSIC_LEVEL*settings.volume,context.currentTime,.06);player.volume=playerSource?1:MUSIC_LEVEL*settings.volume;
+    // Time constant .06 s: a level change (volume, voice duck) settles in about 0.2 s.
+    stopSynthesis();musicGain.gain.setTargetAtTime(musicLevel(),context.currentTime,.06);player.volume=playerSource?1:musicLevel();
     if(endingFinished&&musicTheme==='ending')return;
     if(player.dataset.musicTheme!==musicTheme){const track=MUSIC_TRACKS[musicTheme];player.loop=track.loop;player.dataset.musicTheme=musicTheme;player.src=track.src;}
     if(player.paused&&!playPending){const epoch=++playEpoch;playPending=true;Promise.resolve(player.play()).catch(error=>{if(epoch!==playEpoch||['NotAllowedError','AbortError'].includes(error.name))return;failedTracks.add(musicTheme);syncMusic();}).finally(()=>{if(epoch===playEpoch)playPending=false;});}
     return;
   }
-  player?.pause();musicGain.gain.setTargetAtTime(SFX_GAIN*.7*settings.volume,context.currentTime,.06);
+  player?.pause();musicGain.gain.setTargetAtTime(SFX_GAIN*.7*settings.volume*(duckHolds.size?VOICE_DUCK:1),context.currentTime,.06);
   if(timer!==null)return;
   nextNote=context.currentTime+.05;scheduleMusic();timer=setInterval(scheduleMusic,120);
 }
@@ -113,7 +120,7 @@ export function setMusicTheme(theme){
 function visibilityChanged(){
   if(!context)return;
   if(hidden()){stopMusic();stopNodes(effectNodes);void context.suspend().catch(()=>{});}
-  else if(!paused)void context.resume().then(syncMusic).catch(()=>{});
+  else if(!paused())void context.resume().then(syncMusic).catch(()=>{});
 }
 
 /** Call from a real pointer/keyboard gesture. Repeated calls reuse one context. */
@@ -128,13 +135,13 @@ export async function initAudio(input=settings){
       musicGain.connect(context.destination);effectsGain.connect(context.destination);
       if(typeof document!=='undefined'&&!installed){document.addEventListener('visibilitychange',visibilityChanged);installed=true;}
     }
-    if(!hidden()&&!paused&&context.state==='suspended')await context.resume();
+    if(!hidden()&&!paused()&&context.state==='suspended')await context.resume();
     syncMusic();void loadSamples();return context.state==='running';
   }catch{unavailable=true;stopMusic();return false;}
 }
 export function updateAudio(input={}){const next=normaliseAudio(input);if(!settings.bgm&&next.bgm&&failedTracks.has(musicTheme)){failedTracks.delete(musicTheme);musicPlayer?.load();}settings=next;syncMusic();return {...settings};}
 export function playSfx(kind='click'){
-  if(!context||context.state!=='running'||!settings.sfx||paused||hidden())return false;
+  if(!context||context.state!=='running'||!settings.sfx||paused()||hidden())return false;
   stopNodes(effectNodes);
   const start=context.currentTime+.005;
   for(const [part,offset,rate] of SEQUENCES[kind]||[[kind,0]])scheduleSfx(part,start+offset,rate);
@@ -151,14 +158,26 @@ function scheduleSfx(kind,start,rate=1){
   let when=start;
   for(const [pitch,duration] of EFFECTS[kind]||EFFECTS.click){note(pitch,when,duration,effectsGain,'sine',effectNodes,.72);when+=duration*.8;}
 }
-/** Pause both recordings and effects while a concept video is open. */
-export function pauseAudio(){paused=true;stopMusic();stopNodes(effectNodes);if(context)void context.suspend().catch(()=>{});}
-export function resumeAudio(){paused=false;if(context&&!hidden())void context.resume().then(syncMusic).catch(()=>{});}
+const resumeIfFree=()=>{if(!paused()&&context&&!hidden())void context.resume().then(syncMusic).catch(()=>{});};
+/** Pause both recordings and effects while a film or concept video plays. Returns the release for this hold only. */
+export function pauseAudio(reason='video'){
+  const hold={reason};pauseHolds.add(hold);stopMusic();stopNodes(effectNodes);if(context)void context.suspend().catch(()=>{});
+  return ()=>{if(pauseHolds.delete(hold))resumeIfFree();};
+}
+/** Drop every pause hold: the dialog that owned the films has closed. Voice ducks keep their own releases. */
+export function resumeAudio(){pauseHolds.clear();resumeIfFree();}
+/** Lower the music under a spoken line; effects keep playing. Returns the release for this hold only. */
+export function duckMusic(reason='voice'){
+  const hold={reason};duckHolds.add(hold);syncMusic();
+  return ()=>{if(duckHolds.delete(hold))syncMusic();};
+}
+/** Read-only snapshot for tests and QA probes. */
+export function audioState(){return {theme:musicTheme,pauses:[...pauseHolds].map(hold=>hold.reason),ducks:[...duckHolds].map(hold=>hold.reason),level:musicLevel(),gain:musicGain?.gain.value??null,context:context?.state??null};}
 export function dispose(){
   stopMusic();stopNodes(effectNodes);
   const player=musicPlayer;musicPlayer=null;playerSource?.disconnect();playerSource=null;if(player){player.removeAttribute('src');player.load();player.remove();}
   musicTheme='main';endingFinished=false;failedTracks.clear();
   if(installed&&typeof document!=='undefined')document.removeEventListener('visibilitychange',visibilityChanged);
-  installed=false;const old=context;context=null;musicGain=null;effectsGain=null;step=0;paused=false;sampleBuffers.clear();sampleLoad=null;
+  installed=false;const old=context;context=null;musicGain=null;effectsGain=null;step=0;pauseHolds.clear();duckHolds.clear();sampleBuffers.clear();sampleLoad=null;
   if(old&&old.state!=='closed')void old.close().catch(()=>{});
 }

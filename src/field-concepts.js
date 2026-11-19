@@ -19,7 +19,7 @@ export const CONCEPTS=[
 export function openConcept({chapter,dialog,modal,audio,reduced=false,onFinish=()=>{},returnToList=false,finishLabel}){
  const clip=CONCEPTS[chapter];let closed=false,timeout=null,lastCue=-1,failed=false;
  dialog({title:clip.title,className:'concept-dialog',body:`<div class="concept-stage"><video id="concept-video" playsinline muted preload="metadata" poster="assets/concepts/${clip.id}.webp" aria-label="${esc(clip.title)} 모션 그래픽"></video><p id="concept-caption" role="status"></p><span class="concept-duration">12초 개념 발견</span></div><div class="concept-playback"><button type="button" id="concept-toggle">재생</button><label class="concept-seek-label">영상 시간<input id="concept-seek" type="range" min="0" max="12" step="0.1" value="0" aria-label="개념 영상 시간"></label><output id="concept-clock">0 / 12초</output></div><div id="concept-fallback" hidden><p>영상 대신 핵심 장면을 함께 살펴봐.</p><ol>${clip.cues.map(([,text])=>`<li>${esc(text)}</li>`).join('')}</ol></div>`,actions:`<button id="concept-replay">다시 보기</button><button id="concept-finish" class="primary">${chapter===4?'탐험 마무리':'숲으로 돌아가기'}</button>`});
- audio.pauseAudio();
+ const releaseAudio=audio.pauseAudio('concept');
  const legend=document.createElement('div');legend.className='concept-labels';modal.querySelector('.concept-stage').append(legend);
  const labels=[['알','애벌레','번데기','어른벌레'],['물 없음','낮은 온도','물 + 알맞은 온도'],['물 부족','빛 부족'],['나비','개'],['자세히 관찰','조건 비교','변화 기록']];
  const showLabels=t=>{const list=chapter===3&&t>=4?['사과나무 · 같은 줄기','봉선화 · 씨앗에서 새 생명']:labels[chapter];legend.style.gridTemplateColumns=`repeat(${list.length},1fr)`;legend.innerHTML=list.map(text=>`<span>${esc(text)}</span>`).join('');};showLabels(0);
@@ -47,7 +47,7 @@ export function openConcept({chapter,dialog,modal,audio,reduced=false,onFinish=(
  modal.querySelector('#concept-finish').addEventListener('click',()=>{modal.close();if(!returnToList)onFinish();},opts);
  document.addEventListener('visibilitychange',()=>{if(document.hidden){quiet();video.pause();}},opts);
  let releaseFocus=()=>{};
- const cleanup=()=>{if(closed)return;releaseFocus();closed=true;quiet();clearTimeout(timeout);controller.abort();video.pause();video.removeAttribute('src');video.querySelectorAll('source').forEach(n=>n.remove());video.load();audio.resumeAudio();if(returnToList&&!modal.open)queueMicrotask(onFinish);};
+ const cleanup=()=>{if(closed)return;releaseFocus();closed=true;quiet();clearTimeout(timeout);controller.abort();video.pause();video.removeAttribute('src');video.querySelectorAll('source').forEach(n=>n.remove());video.load();releaseAudio();if(returnToList&&!modal.open)queueMicrotask(onFinish);};
  modal.addEventListener('close',cleanup,opts);modal.addEventListener('modal-dismiss',cleanup,opts);
  cue();video.innerHTML=`<source src="assets/concepts/${clip.id}.webm" type="video/webm"><source src="assets/concepts/${clip.id}.mp4" type="video/mp4">`;video.querySelectorAll('source').item(1)?.addEventListener('error',fallback,opts);video.load();armTimeout();
  const words=[['알','애벌레','번데기','어른벌레','다음 세대'],['조건','물','알맞은 온도','발아'],['물','빛','비교'],['한살이','나비','자라는 과정','같은','다음 세대'],['관찰','조건','기록']][chapter];

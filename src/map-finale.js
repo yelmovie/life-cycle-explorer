@@ -15,9 +15,11 @@ export function openMapFinale(host, source) {
  dialog.append(title,video,status,close);doc.body.append(dialog);dialog.showModal();
  // This dialog has a single column; the activity dialogs use a separate header and close-button grid.
  dialog.style.display='block';
+ // game-app.js plays the ending theme while this dialog is open (the film itself stays muted) and the main theme after it.
+ const announce=open=>doc.dispatchEvent(new CustomEvent('map-finale',{detail:{open}}));announce(true);
  close.addEventListener('click',()=>dialog.close());
  video.addEventListener('error',()=>{status.hidden=false;status.textContent='지금은 영상을 열 수 없어. 지도 퇴치 기록은 저장됐어.';});
- dialog.addEventListener('close',()=>{video.pause();dialog.remove();},{once:true});
+ dialog.addEventListener('close',()=>{video.pause();dialog.remove();announce(false);},{once:true});
  // Muted autoplay normally starts; if it is blocked, show native controls so the learner can start it.
  video.play().catch(()=>{video.controls=true;});
 }
