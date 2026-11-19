@@ -4,7 +4,8 @@
 /* 1. 위·아래 띠: 버튼 크기(터치 48px 이상)는 그대로 두고 띠 안쪽 여백만 줄인다.
    field-scenes.js의 hudInsets가 띠의 실제 높이를 읽어 활동 장면을 다시 맞추므로, 줄인 만큼 장면이 커진다.
    활동·지도 화면의 상태 문구(#status)는 띠 위에 따로 뜨므로 비어 있는 첫 줄의 간격(8px)도 없앤다. */
-#app:not([data-view=title]) .game-header{padding-block:8px 6px;gap:6px}
+/* 높이 640px 이하(폰 가로)는 game.css가 이미 6px/4px로 더 좁히므로 덮어쓰지 않는다. */
+@media(min-height:641px){#app:not([data-view=title]) .game-header{padding-block:8px 6px;gap:6px}}
 #app:not([data-view=title]) #objective{padding-block:6px}
 #app:not([data-view=title]) .game-footer{row-gap:0;padding-bottom:10px}
 
