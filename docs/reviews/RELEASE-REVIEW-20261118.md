@@ -1,6 +1,6 @@
 # 배포 검토 보고서 — 생명 시계 연구실 0.9.15 (놀이 화면 비율·중복 조작 정리 뒤)
 
-> 작성일: 2026-11-19(작업일 11-18 기준 파일명) · 브랜치: main · 커밋: `3ce7217` + 폰 가로 보정 커밋 · 배포 대상: Cloudflare Pages `life-clock-lab`(직접 업로드)
+> 작성일: 2026-11-19(작업일 11-18 기준 파일명) · 브랜치: main · 커밋: `3ce7217` + 폰 가로 보정 `0c07b59` · 배포 대상: Cloudflare Pages `life-clock-lab`(직접 업로드)
 > 점검 환경: macOS(Darwin 27.2), Node v24.22.2, 헤드리스 Chrome(Playwright). 실기기 미검증.
 > 이전 보고서: [FINAL-CHECK-20261025-2](FINAL-CHECK-20261025-2.md)(228/230), [STARTUP-PILOT-20261113](STARTUP-PILOT-20261113.md). 이번에 바꾸지 않은 학습·저장·판정 항목은 이전 판정을 인용하고 "인용"으로 표시했다.
 
@@ -16,7 +16,7 @@
 
 ### 배포 전 처리할 조건
 
-1. 없음. 이번 범위에서 고칠 FAIL이 없어 운영에 반영했다(배포 `2e441441`).
+1. 없음. 이번 범위에서 고칠 FAIL이 없어 운영에 반영했다(배포 `2e441441`, 폰 가로 보정 뒤 `33917f9f`. 운영 `src/layout-balance.css` SHA-256이 빌드와 같음).
 
 ### 배포 후 확인할 것
 
@@ -44,7 +44,7 @@
 |---|---|
 | package manager | npm 스크립트만 사용(의존성 없음, lock 파일 없음) |
 | 실행 명령 | `npm start`(개발 4186) / 이번 점검은 `.claude/launch.json` `life-clock-lab-alt`(4191) |
-| 배포 URL | https://life-clock-lab.pages.dev (배포 `2e441441`, 커밋 `3ce7217`) |
+| 배포 URL | https://life-clock-lab.pages.dev (배포 `33917f9f`, 커밋 `0c07b59`. 그 전 `2e441441`/`3ce7217`) |
 
 | 명령 | 결과 | 비고 |
 |---|---|---|
