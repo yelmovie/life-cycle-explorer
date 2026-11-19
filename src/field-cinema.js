@@ -62,7 +62,8 @@ export function openCinema({id,dialog,modal,reduced=false,detail='',onFinish=()=
   if(inside){if(dub.paused){dub.currentTime=t-DUB[0];void dub.play().catch(()=>{});}video.muted=true;}else{if(!dub.paused)dub.pause();video.muted=false;}
   if(!closed&&!video.paused)dubFrame=requestAnimationFrame(syncDub);};
  if(dub){video.addEventListener('playing',syncDub,opts);video.addEventListener('pause',syncDub,opts);video.addEventListener('seeking',()=>{dub.pause();},opts);video.addEventListener('seeked',syncDub,opts);}
- const showCard=()=>{if(cardShown)return;cardShown=true;if(id==='intro'&&volume>0)speakTexts([stage.querySelector('.cinema-card-line')?.textContent],{hold:false});caption.classList.remove('is-on');stage.classList.add('is-card');stage.querySelector('.cinema-card').hidden=false;stage.querySelector('[data-cinema-skip]').hidden=true;stage.querySelector('[data-cinema-finish]').focus({preventScroll:true});};
+ // The card line follows the voice switch (speakTexts checks it), not the film volume.
+ const showCard=()=>{if(cardShown)return;cardShown=true;if(id==='intro')speakTexts([stage.querySelector('.cinema-card-line')?.textContent],{hold:false});caption.classList.remove('is-on');stage.classList.add('is-card');stage.querySelector('.cinema-card').hidden=false;stage.querySelector('[data-cinema-skip]').hidden=true;stage.querySelector('[data-cinema-finish]').focus({preventScroll:true});};
  const tick=()=>{
   const t=video.currentTime||0;bar.style.transform=`scaleX(${Math.min(1,t/film.seconds)})`;
   const i=film.cues.findIndex(([start,end])=>t>=start&&t<end);

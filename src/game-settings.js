@@ -11,15 +11,17 @@ const switchRow = (label, action, enabled, disabled) => `<div class="sound-row">
 export function renderSettings(options={}) {
   const {audio={}, completed=0,total=5,teacherPreview=false,version='dev',audioAvailable=true} = options;
   const finished = Array.isArray(completed) ? completed.length >= total : Number(completed) >= total, sample = teacherPreview && !finished;
-  const bgm = audio.bgm === true, sfx = audio.sfx !== false;
-  const rawVolume = Number(audio.volume ?? .2);
-  const volume = Math.round(Math.max(0, Math.min(1,Number.isFinite(rawVolume)?rawVolume:.2))*100);
+  const bgm = audio.bgm === true, sfx = audio.sfx !== false, voice = typeof audio.voice === 'boolean' ? audio.voice : sfx;
+  const percent = (value, fallback) => {const raw = Number(value ?? fallback);return Math.round(Math.max(0, Math.min(1,Number.isFinite(raw)?raw:fallback))*100);};
+  const volume = percent(audio.volume, .2), sfxVolume = percent(audio.sfxVolume, 1);
   const standards = options.standards?.length ? options.standards : C.standards;
   const standardMarkup = standards.map(item => typeof item === 'string' ? `<p>${esc(item)}</p>` : `<p><strong>[${esc(item.code)}]</strong> ${esc(item.text)}</p>`).join('');
   const body = `<div class="settings-sound science-settings-audio" aria-label="소리 설정">
     ${switchRow('배경 음악','audio-bgm',bgm,!audioAvailable)}
     ${switchRow('효과음','audio-sfx',sfx,!audioAvailable)}
     <label class="volume-row science-settings-volume" for="bgm-volume"><span>배경 음악 크기</span><output id="bgm-volume-value">${volume}%</output><input id="bgm-volume" data-action="audio-volume" type="range" min="0" max="100" step="5" value="${volume}" ${!bgm||!audioAvailable?'disabled':''} aria-label="배경 음악 크기"></label>
+    <label class="volume-row science-settings-sfx-volume" for="sfx-volume"><span>효과음 크기</span><output id="sfx-volume-value">${sfxVolume}%</output><input id="sfx-volume" data-action="audio-sfx-volume" type="range" min="0" max="100" step="5" value="${sfxVolume}" ${!sfx||!audioAvailable?'disabled':''} aria-label="효과음 크기"></label>
+    ${switchRow('목소리','audio-voice',voice,!audioAvailable)}
     ${!audioAvailable?'<p class="settings-note" role="status">이 브라우저에서는 소리를 재생할 수 없어요. 소리 없이도 모든 활동을 할 수 있어요.</p>':''}
   </div>
   <div class="settings-replays science-settings-actions">

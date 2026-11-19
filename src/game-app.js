@@ -72,7 +72,7 @@ function stopGuideVoice(){
 const DOTO_MEMO={'discovery-0-0':'memo-0','discovery-0-1':'memo-1'};
 function speakGuide(key,then=DOTO_MEMO[key],since=Date.now()){
  stopGuideVoice();
- if(!key||!s.audio.sfx||document.hidden||modal.open)return;
+ if(!key||!s.audio.voice||document.hidden||modal.open)return;
  // A villain line that has already started finishes first; Doto waits for it (at most 2 s) instead of talking over it.
  if(villainSpeaking()&&Date.now()-since<2000){guideWait=setTimeout(()=>speakGuide(key,then,since),150);return;}
  const player=guidePlayer=new Audio(key.startsWith('memo-')?`assets/audio/doto-memo-el/${key}.mp3`:`assets/audio/doto-hints-el/${key}.mp3`);
@@ -84,7 +84,7 @@ function speakGuide(key,then=DOTO_MEMO[key],since=Date.now()){
  void player.play().catch(done);
 }
 modal.addEventListener('modal-dismiss',stopGuideVoice);
-configureVoice({enabled:()=>s.audio.sfx,hold:()=>audio.duckMusic('voice'),busy:()=>!!guidePlayer||guideWait!==null});installVoiceStop(modal);
+configureVoice({enabled:()=>s.audio.voice,hold:()=>audio.duckMusic('voice'),busy:()=>!!guidePlayer||guideWait!==null});installVoiceStop(modal);
 document.addEventListener('visibilitychange',()=>{if(document.hidden)stopGuideVoice();});
 window.addEventListener('pagehide',stopGuideVoice);
 // Keep only the teacher's mode/location in this tab. Student answers stay in
@@ -267,7 +267,7 @@ function render(){rememberTeacherPreview();const m=mode(),room=m==='room';saveBa
  $('next').classList.toggle('map-next-cue',m==='map'&&!reducedMotion(s.settings)&&!!$('next').querySelector('.map-direction-cue'));
  // Rebuilt door buttons take their map positions at once instead of on the next frame.
  autoPlayButton(room);mapHandButton(m==='map');
- const b=app.querySelector('[data-action=sound]'),on=s.audio.bgm||s.audio.sfx;b.innerHTML=icon(on?'sound':'mute');b.setAttribute('aria-label',on?'소리 끄기':'소리 켜기');b.setAttribute('aria-pressed',String(on));syncRewardSlots(s.mapEncounters);updateGuide();if(m==='map')ctx.scene?.update?.();armTimeFlow();}
+ const b=app.querySelector('[data-action=sound]'),on=s.audio.bgm||s.audio.sfx||s.audio.voice;b.innerHTML=icon(on?'sound':'mute');b.setAttribute('aria-label',on?'소리 끄기':'소리 켜기');b.setAttribute('aria-pressed',String(on));syncRewardSlots(s.mapEncounters);updateGuide();if(m==='map')ctx.scene?.update?.();armTimeFlow();}
 // Time dials turn by themselves one step at a time, so the learner watches instead of tapping each day.
 // The dial can still be turned by hand; the flow carries on from wherever it is.
 function timeTarget(){const c=s.field.active,q=s.field.chapters[c],p=roomPhase(s.field);if(observationHeld(s.field))return null;
@@ -415,11 +415,11 @@ function positionDoors(items,companion,hero){
  const [x,y]=spots.find(([x,y])=>boxes.every(b=>avoids(x,y,b))&&patrolBoxes.every(b=>avoids(x,y,b)))||spots.find(([x,y])=>boxes.every(b=>avoids(x,y,b)))||spots[0];
  guide.style.left=Math.round(x)+'px';guide.style.top=Math.round(y)+'px';guide.hidden=false;
 }
-function dialog({title,body,actions=btn('계속 탐험','close','','primary'),className='',music='main',values={}}){mediaCleanup?.();mediaCleanup=null;modal.dispatchEvent(new Event('modal-dismiss'));audio.setMusicTheme(music);if(!modal.open)dialogFocus=document.activeElement;if(mode()==='map'){ctx.scene?.cancelTravel();ui.travelChapter=null;render();}modal.className=className;const scienceSettings=className==='settings-dialog';modal.toggleAttribute('data-science-settings',scienceSettings);modal.setAttribute('aria-labelledby','dialog-title');modal.innerHTML=`<h2 id="dialog-title">${esc(title)}</h2><button class="close icon-button" data-action="close" aria-label="닫기">${icon('close')}</button><div class="modal-portrait" tabindex="-1" role="status">화면을 가로로 돌리면 작성 중인 내용을 이어 갈 수 있어.</div><div class="modal-body${scienceSettings?' science-settings-body':''}">${body}</div><div class="dialog-actions${scienceSettings?' science-settings-footer':''}">${actions}</div>`;for(const[id,value]of Object.entries(values)){const input=modal.querySelector('#'+id);if(input)input.value=value;}if(!modal.open)modal.showModal();syncOrientationFocus();if(ctx.scene)ctx.scene.input.enabled=false;modal.querySelector('.modal-body').scrollTop=0;modal.querySelector('[autofocus]')?.focus();}
+function dialog({title,body,actions=btn('계속 탐험','close','','primary'),className='',music='main',values={}}){mediaCleanup?.();mediaCleanup=null;modal.dispatchEvent(new Event('modal-dismiss'));audio.setMusicTheme(music);if(!modal.open)dialogFocus=document.activeElement;if(mode()==='map'){ctx.scene?.cancelTravel();ui.travelChapter=null;render();}modal.className=className;const scienceSettings=className==='settings-dialog';modal.toggleAttribute('data-science-settings',scienceSettings);modal.setAttribute('aria-labelledby','dialog-title');modal.innerHTML=`<h2 id="dialog-title">${esc(title)}</h2>${scienceSettings?'':`<button class="close icon-button" data-action="close" aria-label="닫기">${icon('close')}</button>`}<div class="modal-portrait" tabindex="-1" role="status">화면을 가로로 돌리면 작성 중인 내용을 이어 갈 수 있어.</div><div class="modal-body${scienceSettings?' science-settings-body':''}">${body}</div><div class="dialog-actions${scienceSettings?' science-settings-footer':''}">${actions}</div>`;for(const[id,value]of Object.entries(values)){const input=modal.querySelector('#'+id);if(input)input.value=value;}if(!modal.open)modal.showModal();syncOrientationFocus();if(ctx.scene)ctx.scene.input.enabled=false;modal.querySelector('.modal-body').scrollTop=0;modal.querySelector('[autofocus]')?.focus();}
 modal.addEventListener('close',()=>{if(modal.open)return;mediaCleanup?.();mediaCleanup=null;if(ctx.scene)ctx.scene.input.enabled=fieldReady;if(!document.querySelector('.map-finale-dialog'))audio.setMusicTheme('main');audio.resumeAudio();if(Number.isInteger(ui.pendingRestoreChapter)&&mode()==='map'){ui.restoreChapter=ui.pendingRestoreChapter;ui.pendingRestoreChapter=null;ctx.scene?.refresh();}if(dialogFocus?.isConnected)dialogFocus.focus({preventScroll:true});else if(mode()==='room')$('next')?.focus({preventScroll:true});});
 function friendsDialogue(initial=0){
  dialog({title:'생명 시계 친구들과 이야기',body:characterDialogueMarkup,actions:'',className:'npc-dialogue-stage'});
- mountCharacterDialogue(modal,{characters:dialogueCast,initial,enabled:()=>s.audio.sfx,reduced:()=>reducedMotion(s.settings),hold:()=>audio.duckMusic('dialogue')});
+ mountCharacterDialogue(modal,{characters:dialogueCast,initial,enabled:()=>s.audio.voice,reduced:()=>reducedMotion(s.settings),hold:()=>audio.duckMusic('dialogue')});
 }
 function concept(chapter=s.field.active,finish=false,returnToList=false){mediaCleanup=openConcept({chapter,dialog,modal,audio,reduced:reducedMotion(s.settings),returnToList,finishLabel:returnToList?'영상 목록으로':undefined,onFinish:()=>{if(returnToList)dialogs.concepts();else if(finish&&chapter===4)finale();}});}
 // Story films: the intro leads into the opening briefing, the finale into the ending record.
@@ -574,8 +574,8 @@ function action(name,b){void audio.initAudio(s.audio);audio.playSfx('click');
  if(name==='reward-concept'){const c=Number(b.dataset.chapter);if(s.field.completed.includes(c))concept(c,true);return;}
  if(name==='time-stop'){act(b.dataset.type,b.dataset.type==='season'?{step:Number(b.dataset.value)}:{day:Number(b.dataset.value)});return;}
  if(name==='hint-more'){ui.message='';ui.hintLevel=Math.min(1,ui.hintLevel+1);updateGuide(true);return;}if(name==='hint-point'){closeGuide();ctx.scene?.showHint?.(hintTarget(roomPhase(s.field)));return;}
- if(name==='sound'){const on=s.audio.bgm||s.audio.sfx;if(on){ui.previousAudio={...s.audio};s.audio.bgm=false;s.audio.sfx=false;}else s.audio=ui.previousAudio||{...s.audio,sfx:true};if(!s.audio.sfx){stopGuideVoice();stopVoice();}audio.updateAudio(s.audio);persist();render();return;}
- if(name==='audio-bgm'||name==='audio-sfx'){const k=name==='audio-bgm'?'bgm':'sfx';s.audio[k]=!s.audio[k];audio.updateAudio(s.audio);persist();render();settings();return;}
+ if(name==='sound'){const on=s.audio.bgm||s.audio.sfx||s.audio.voice;if(on){ui.previousAudio={...s.audio};s.audio.bgm=false;s.audio.sfx=false;s.audio.voice=false;}else s.audio=ui.previousAudio||{...s.audio,sfx:true,voice:true};if(!s.audio.voice){stopGuideVoice();stopVoice();}audio.updateAudio(s.audio);persist();render();return;}
+ if(name==='audio-bgm'||name==='audio-sfx'||name==='audio-voice'){const k=name.slice(6);s.audio[k]=!s.audio[k];if(!s.audio.voice){stopGuideVoice();stopVoice();}audio.updateAudio(s.audio);persist();render();settings();return;}
  if(name==='guide'){if(ui.guide){closeGuide();return;}if(mode()==='map'&&Number.isInteger(ui.travelChapter))ctx.scene?.cancelTravel?.();ui.hintReturn=b;ui.guide=true;if(!ui.pending)ui.message='';ui.pending=false;updateGuide(true);return;}if(name==='hint-close'){closeGuide();return;}if(name==='door'||name==='door-next'){if(name==='door-next')modal.close();requestDoor(Number(b.dataset.chapter));return;}if(name==='step'){ctx.scene?.step(Number(b.dataset.x),Number(b.dataset.y));return;}
  if(name==='next'){if(mode()==='map'){const c=FIELD_CHAPTERS.findIndex((_,i)=>!s.field.completed.includes(i)&&fieldUnlocked(s.field,i));if(c<0)dialogs.story();else requestDoor(c);return;}if(previewOriginal){const chapter=s.field.active,phase=stageProgress(chapter,roomPhase(s.field),true).nextPhase;if(phase){s.field=previewFieldForPhase(s.field,chapter,phase);Object.assign(ui,{selection:null,play:false,autoPlay:false,guide:false,message:''});render();ctx.scene?.refresh();}else if(chapter<4){s.field=previewFieldForPhase(s.field,chapter+1,stageProgress(chapter+1,'',true).firstPhase);view('room');}else view('map');return;}const next=roomUI(s,ui).nextAction;if(next==='complete'){completeChapter();return;}if(next==='hint'){ui.hintReturn=b;ui.message='';ui.guide=true;updateGuide(true);ctx.scene?.showHint?.(hintTarget(roomPhase(s.field)));return;}if(next==='story-info'){dialogs.storyInfo();return;}if(next==='tower-start'){
   const start=ctx.scene?.startTower;if(!start||b.disabled)return;b.disabled=true;start();return;
@@ -611,7 +611,8 @@ document.addEventListener('input',e=>{
  }
 });
 document.addEventListener('change',e=>{const b=e.target;if(b.matches('[data-preview-phase]')&&previewOriginal){s.field=previewFieldForPhase(s.field,s.field.active,b.value);Object.assign(ui,{selection:null,play:false,autoPlay:false,guide:false});render();ctx.scene?.refresh();return;}if(b.dataset.time)act(b.dataset.time,b.dataset.time==='animal-time'?{animal:b.dataset.animal,step:Number(b.value)}:b.dataset.time==='season'?{step:Number(b.value)}:{day:Number(b.value)});});
-document.addEventListener('input',e=>{if(e.target.id==='bgm-volume'){s.audio.volume=Number(e.target.value)/100;audio.updateAudio(s.audio);$('bgm-volume-value').textContent=e.target.value+'%';persist();}});
+document.addEventListener('input',e=>{if(e.target.id==='bgm-volume'){s.audio.volume=Number(e.target.value)/100;audio.updateAudio(s.audio);$('bgm-volume-value').textContent=e.target.value+'%';persist();}
+ if(e.target.id==='sfx-volume'){s.audio.sfxVolume=Number(e.target.value)/100;audio.updateAudio(s.audio);$('sfx-volume-value').textContent=e.target.value+'%';persist();}});
 modal.addEventListener('toggle',e=>{const detail=e.target;if(detail instanceof HTMLDetailsElement&&detail.open&&detail.classList.contains('settings-section')){for(const sibling of detail.parentElement.children)if(sibling!==detail&&sibling instanceof HTMLDetailsElement)sibling.open=false;}},true);
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&ui.guide&&!modal.open){e.preventDefault();e.stopPropagation();closeGuide();}});
 const motionPreference=matchMedia('(prefers-reduced-motion: reduce)');

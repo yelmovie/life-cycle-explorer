@@ -21,6 +21,14 @@ test('settings separates sound controls, escapes provided copy and preserves res
   assert.match(body,/data-action="audio-bgm"[^>]+disabled/);
   assert.match(body,/data-action="audio-sfx"[^>]+disabled/);
   assert.match(body,/id="bgm-volume"[^>]+value="35" disabled/);
+  assert.match(body,/data-action="audio-voice"[^>]+disabled/);
+  assert.match(body,/id="sfx-volume"[^>]+value="100" disabled/);
+  const split=renderSettings({audio:{bgm:true,sfx:false,voice:true,volume:.2,sfxVolume:.45}}).body;
+  assert.match(split,/>효과음<\/span><button[^>]+aria-checked="false"/);
+  assert.match(split,/>목소리<\/span><button[^>]+aria-checked="true"/);
+  assert.match(split,/id="sfx-volume"[^>]+value="45" disabled/);
+  // Older saves without a voice value show it following the effects switch.
+  assert.match(renderSettings({audio:{bgm:true,sfx:false,volume:.2}}).body,/>목소리<\/span><button[^>]+aria-checked="false"/);
   assert.match(body,/&lt;script&gt;/);
   assert.doesNotMatch(body,/<a\s|mailto:|\bhttps?:/);
   assert.match(renderResetConfirm().actions,/data-action="settings" autofocus/);
@@ -28,8 +36,12 @@ test('settings separates sound controls, escapes provided copy and preserves res
 });
 
 test('music and effects are on by default and unavailable browsers can continue without an audio context',async()=>{
-  assert.deepEqual(DEFAULT_AUDIO,{bgm:true,sfx:true,volume:.2});
-  assert.deepEqual(normaliseAudio({volume:NaN}),{bgm:true,sfx:true,volume:.2});
+  assert.deepEqual(DEFAULT_AUDIO,{bgm:true,sfx:true,voice:true,volume:.2,sfxVolume:1});
+  assert.deepEqual(normaliseAudio({volume:NaN}),{bgm:true,sfx:true,voice:true,volume:.2,sfxVolume:1});
+  // Before the voice switch the voice followed the effects switch.
+  assert.equal(normaliseAudio({sfx:false}).voice,false);
+  assert.equal(normaliseAudio({sfx:false,voice:true}).voice,true);
+  assert.equal(normaliseAudio({sfxVolume:7}).sfxVolume,1);
   assert.equal(await initAudio(),false);
   assert.equal(playSfx('success'),false);
 });
@@ -55,6 +67,11 @@ test('audio reuses one context, replaces effects and keeps effect volume indepen
     assert.ok(first.every(node=>node.stopped));
     updateAudio({bgm:false,sfx:true,volume:0});
     assert.equal(context.gains[1].gain.value,effectGain);
+    // Effects volume 100% (the default) keeps the level the effects always had; other values scale it.
+    assert.equal(effectGain,.16);
+    updateAudio({bgm:false,sfx:true,volume:0,sfxVolume:.5});
+    assert.equal(context.gains[1].gain.value,.08);
+    updateAudio({bgm:false,sfx:true,volume:0,sfxVolume:1});
     pauseAudio();assert.equal(playSfx('click'),false);
     resumeAudio();await Promise.resolve();
     updateAudio({bgm:false,sfx:false,volume:1});assert.equal(playSfx('success'),false);

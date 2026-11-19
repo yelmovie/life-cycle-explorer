@@ -1,7 +1,10 @@
 // Local theme recordings and CC0 Kenney/OpenGameArt effects, with synthesized fallbacks.
-export const DEFAULT_AUDIO = Object.freeze({bgm:true,sfx:true,volume:.2});
+// voice: character lines, narration, villain lines and concept captions. sfxVolume multiplies every effects lane; 1 keeps
+// the level the effects have always had (SFX_GAIN).
+export const DEFAULT_AUDIO = Object.freeze({bgm:true,sfx:true,voice:true,volume:.2,sfxVolume:1});
 export const MUSIC_TRACKS=Object.freeze({main:{src:'assets/audio/music/main-theme.mp3',loop:true},ending:{src:'assets/audio/music/ending-theme.mp3',loop:false}});
 const SFX_GAIN=.16;
+const unit=(value,fallback)=>{const v=Number(value??fallback);return Number.isFinite(v)?Math.max(0,Math.min(1,v)):fallback;};
 // Music and voice files are level-matched (about -16.5 LUFS). The default volume .2 puts the music at .21,
 // about 0.3 of the .7 voice lines; under a spoken line it drops to a quarter of that.
 const MUSIC_LEVEL=1.05,VOICE_DUCK=.25;
@@ -60,6 +63,7 @@ let musicPlayer=null,playerSource=null,musicTheme='main',endingFinished=false,pl
 const endingTail=()=>musicTheme==='ending'&&endingFinished;
 const musicLevel=()=>Math.min(1,MUSIC_LEVEL*settings.volume)*(duckHolds.size?VOICE_DUCK:1)*(endingTail()?ENDING_TAIL:1);
 const failedTracks=new Set();
+const effectsLevel=()=>settings.sfx?SFX_GAIN*settings.sfxVolume:0;
 // Effects run in three lanes. UI cues (click, answer, drop) cut only the previous UI cue; footsteps keep their own lane;
 // combat and reward cues (strikes, villain cues, cards, jingles, region opening) overlap each other, up to four at once,
 // and nothing in the other lanes stops them.
@@ -72,8 +76,9 @@ const midi=value=>440*Math.pow(2,(value-69)/12);
 
 export function isAudioAvailable(){return !unavailable&&typeof audioConstructor()==='function';}
 export function normaliseAudio(input={}) {
-  const v=Number(input.volume??DEFAULT_AUDIO.volume);
-  return {bgm:input.bgm!==false,sfx:input.sfx!==false,volume:Number.isFinite(v)?Math.max(0,Math.min(1,v)):DEFAULT_AUDIO.volume};
+  // Before the voice switch existed the voice followed the effects switch, so a missing value inherits it.
+  const sfx=input.sfx!==false;
+  return {bgm:input.bgm!==false,sfx,voice:typeof input.voice==='boolean'?input.voice:sfx,volume:unit(input.volume,DEFAULT_AUDIO.volume),sfxVolume:unit(input.sfxVolume,DEFAULT_AUDIO.sfxVolume)};
 }
 function stopNodes(nodes){for(const node of nodes){try{node.stop();}catch{}try{node.disconnect();}catch{}}nodes.clear();}
 function stopEffects(){stopNodes(uiNodes);stopNodes(stepNodes);for(const cue of combatCues.splice(0))stopNodes(cue);}
@@ -111,7 +116,7 @@ function scheduleMusic(){
 }
 function syncMusic(){
   if(!context)return;
-  effectsGain.gain.setValueAtTime(settings.sfx?SFX_GAIN:0,context.currentTime);
+  effectsGain.gain.setValueAtTime(effectsLevel(),context.currentTime);
   if(!settings.sfx)stopEffects();
   if(!settings.bgm||paused()||hidden()||context.state!=='running'){stopMusic();return;}
   const player=ensureMusicPlayer();
@@ -150,7 +155,7 @@ export async function initAudio(input=settings){
     if(!context){
       const Context=audioConstructor();context=new Context();
       musicGain=context.createGain();effectsGain=context.createGain();
-      musicGain.gain.value=0;effectsGain.gain.value=SFX_GAIN;
+      musicGain.gain.value=0;effectsGain.gain.value=effectsLevel();
       musicGain.connect(context.destination);effectsGain.connect(context.destination);
       if(typeof document!=='undefined'&&!installed){document.addEventListener('visibilitychange',visibilityChanged);installed=true;}
     }
@@ -196,7 +201,7 @@ export function duckMusic(reason='voice'){
   return ()=>{if(duckHolds.delete(hold))syncMusic();};
 }
 /** Read-only snapshot for tests and QA probes. */
-export function audioState(){return {theme:musicTheme,endingTail:endingTail(),effects:{ui:uiNodes.size,step:stepNodes.size,combat:combatCues.reduce((sum,cue)=>sum+cue.size,0)},pauses:[...pauseHolds].map(hold=>hold.reason),ducks:[...duckHolds].map(hold=>hold.reason),level:musicLevel(),gain:musicGain?.gain.value??null,context:context?.state??null};}
+export function audioState(){return {theme:musicTheme,endingTail:endingTail(),effects:{ui:uiNodes.size,step:stepNodes.size,combat:combatCues.reduce((sum,cue)=>sum+cue.size,0)},pauses:[...pauseHolds].map(hold=>hold.reason),ducks:[...duckHolds].map(hold=>hold.reason),level:musicLevel(),gain:musicGain?.gain.value??null,effectsGain:effectsGain?.gain.value??null,context:context?.state??null};}
 export function dispose(){
   stopMusic();stopEffects();
   const player=musicPlayer;musicPlayer=null;playerSource?.disconnect();playerSource=null;if(player){player.removeAttribute('src');player.load();player.remove();}
