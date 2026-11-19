@@ -424,7 +424,9 @@ function friendsDialogue(initial=0){
 function concept(chapter=s.field.active,finish=false,returnToList=false){mediaCleanup=openConcept({chapter,dialog,modal,audio,reduced:reducedMotion(s.settings),returnToList,finishLabel:returnToList?'영상 목록으로':undefined,onFinish:()=>{if(returnToList)dialogs.concepts();else if(finish&&chapter===4)finale();}});}
 // Story films: the intro leads into the opening briefing, the finale into the ending record.
 // Both films carry their own score (intro: main theme, final: ending theme), so the game music pauses instead of doubling it.
-const cinemaAudio=()=>({volume:s.audio.bgm||s.audio.sfx?Math.min(1,s.audio.volume*3.5):0,holdMusic:()=>audio.pauseAudio('cinema')});
+// Their soundtracks also carry the narration (and the Jihoon dub), so with the voice switch off the film plays muted,
+// no dub starts, and the game music keeps playing as usual.
+const cinemaAudio=()=>s.audio.voice?{volume:s.audio.bgm||s.audio.sfx?Math.min(1,s.audio.volume*3.5):0,holdMusic:()=>audio.pauseAudio('cinema')}:{volume:0,holdMusic:()=>()=>{}};
 function intro(){mediaCleanup=openCinema({id:'intro',dialog,modal,...cinemaAudio(),reduced:reducedMotion(s.settings),onFinish:()=>dialogs.opening()});}
 function finale(f=s.field){if(f.completed.length<5)return;mediaCleanup=openCinema({id:'final',dialog,modal,...cinemaAudio(),reduced:reducedMotion(s.settings),detail:`관찰·실험 기록 ${fieldRecords(f).length}개로 다섯 장소의 시간을 다시 이었어.`,onFinish:()=>dialogs.ending(f)});}
 // Teacher preview shows the ending and certificate built from example records; nothing is saved or awarded.
