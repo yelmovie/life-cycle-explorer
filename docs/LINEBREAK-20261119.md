@@ -56,3 +56,7 @@
 
 - 커밋 96af470(origin/main) → `deploy.sh 04 "4 lifecycle" pages life-clock-lab` → https://9335c7a3.life-clock-lab.pages.dev, 운영 https://life-clock-lab.pages.dev
 - `cmp.sh`: `src/field-dialogs.js`, `src/korean-linebreak.css`, `index.html` 빌드=운영 MATCH. 운영 `service-worker.js`에 새 CSS 포함 확인.
+
+## 추가 수정 (2026-11-20, 사용자 승인)
+
+- 성취 카드 보관함 잠긴 문구 「악당을 물리치면 / 열려요」: `src/reward-cards.css`의 `.rc-locked small` 아래에 공통 네 줄(컨테이너 쿼리 폭 152px 이하에서 `max-width: 4.6em`) 추가. 로컬에서 1280×800·1920×1080은 한 줄, 1024×768은 「악당을 / 물리치면 / 열려요」 세 줄, 카드 넘침 없음. 커밋 a925469 → 운영 https://346b2581.life-clock-lab.pages.dev, `cmp.sh` MATCH.
