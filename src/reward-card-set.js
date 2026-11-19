@@ -50,16 +50,20 @@ export function syncRewardSlots(hits){
 let due=0;
 /** True from the moment a won card is ready to open until it sits in its slot. The map holds its villains (and the finale) meanwhile. */
 export const rewardCardDue=()=>due>0;
+/** True from the third hit until the card sits in its slot, including the wait for the villain's exit line. The finale waits for it. */
+export const rewardCardPending=()=>flying.size>0;
 const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 /**
  * The villain for `index` has just taken its third hit. After `delay` (its exit) the card opens from `origin()`.
  * `state()` answers 'open', 'wait' (a dialog covers the map) or 'gone' (the learner left the map: the slot just fills).
+ * `hold()` keeps the card back while it is true (the villain's exit line is still playing); the map keeps running meanwhile.
  */
-export async function winRewardCard(index,{delay,state,origin,hits}){
+export async function winRewardCard(index,{delay,state,origin,hits,hold=()=>false}){
  flying.add(index);
  let counted=false;
  try{
   await wait(delay);
+  while(hold())await wait(150);
   due++;counted=true;
   let now;
   while((now=state())==='wait')await wait(400);

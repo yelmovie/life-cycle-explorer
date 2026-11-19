@@ -36,7 +36,7 @@ test('카드 그림·효과음 파일이 있고 배포본과 개발 서버 목�
 
 test('카드 차례가 파이널보다 먼저다: 카드가 뜰 차례부터 칸에 들어갈 때까지 악당 모듈이 멈춘다',()=>{
  const set=readFileSync(new URL('src/reward-card-set.js',root),'utf8'),app=readFileSync(new URL('src/game-app.js',root),'utf8');
- assert.match(set,/await wait\(delay\);\n  due\+\+;counted=true;/);
+ assert.match(set,/await wait\(delay\);\n  while\(hold\(\)\)await wait\(150\);\n  due\+\+;counted=true;/);
  assert.match(set,/finally\{if\(counted\)due--;/);
  assert.match(app,/blocked:\(\)=>[^,\n]*mode\(\)!=='map'\|\|rewardCardDue\(\),/);
 });

@@ -1,5 +1,14 @@
 # 에셋 출처 · 저작권 기록
 
+## 2026-11-19 · 지도 구역 열림 소리
+
+지도에서 새 구역이 처음 열린 것으로 보일 때 한 번 나는 「잠금이 풀리고 반짝」 소리다. 과학34 공통 효과음 라이브러리(`_shared/sfx-library-20261117`, CC0만 모음)에서 2개를 그대로 복사했다(재인코딩 없음). 부드러운 열림 소리 뒤 0.12초에 작은 종소리를 겹쳐 생명 시계 단원 분위기에 맞췄다. 음량은 `src/game-audio.js`의 역할별 배율(LEVELS: 열림 2, 종 1.6)로 맞췄고 효과음 켜기/끄기 설정을 따른다.
+
+| 파일 | 원본 | 출처 | 라이선스 |
+|---|---|---|---|
+| `audio/sfx/stage-open.mp3` (구역 열림) | 라이브러리 `sfx/open-01.mp3` · “maximize_008” · Kenney Interface Sounds 1.0 | [kenney.nl](https://kenney.nl/assets/interface-sounds) | CC0 |
+| `audio/sfx/stage-twinkle.mp3` (열림 뒤 반짝) | 라이브러리 `sfx/twinkle-03.mp3` · “Fantasy_ui_Button_2.wav” · ZenithInfinitiveStudios | [freesound](https://freesound.org/people/ZenithInfinitiveStudios/sounds/376746) | CC0 (2026-11-17 원본 페이지 재확인) |
+
 ## 2026-11-18 · 성취 카드(지도 악당 격퇴 보상)
 
 지도에서 태엽 도깨비를 물리치면(3타) 받는 카드 5장과 그 효과음이다. 카드 연출 코드(`src/reward-cards.js`·`src/reward-cards.css`)는 과학34 공통 모듈(`_shared/reward-cards`)을 그대로 복사했다.

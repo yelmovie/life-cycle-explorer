@@ -1,5 +1,5 @@
 import {mountMapEncounters,normalizeMapHits} from './map-encounters.js';
-import {speakTexts} from './voice-lines.js';
+import {speakVillain} from './voice-lines.js';
 // Villain lines lower the music like every other spoken line; the strike sounds keep playing over them.
 
 // This copy ships with its own map so offline play needs no cross-project request.
@@ -29,14 +29,14 @@ export function normalizeVillageEncounters(value,legacy) {
   return {...normalizeMapHits(previous,STAGES.map(([id])=>id)),...normalizeMapHits(value,STAGES.map(([id])=>id))};
 }
 
-export function mountVillageEncounters({host,stages,progress,onSave,blocked,reduced,tone,actors,clearIndex}) {
+export function mountVillageEncounters({host,stages,progress,onSave,blocked,reduced,tone,actors,clearIndex,holdFinale}) {
   const points=stages.flatMap((stage,i)=>{
     if(!stage||!STAGES[i])return [];
     const [id,prop,first,again,hitOne,hitTwo,finish]=STAGES[i];
     return [{id,prop,lines:[first,again],hit:[hitOne,hitTwo],finish,speaker:"태엽 도깨비",...stage}];
   });
   if(!points.some(({id})=>(progress?.[id]||0)<3))return null;
-  const runtime=mountMapEncounters({requiredFoes:5,host,stages:points,progress,onSave,blocked,reduced,tone,art,palette,clearStage:()=>STAGES[clearIndex]?.[0],voice:text=>speakTexts([text]),
+  const runtime=mountMapEncounters({requiredFoes:5,host,stages:points,progress,onSave,blocked,reduced,tone,holdFinale,art,palette,clearStage:()=>STAGES[clearIndex]?.[0],voice:text=>speakVillain(text),
     reach:88,contact:25});
   const layer=host.querySelector('.map-encounter-layer');
   const poses=reactions.map((src,i)=>{

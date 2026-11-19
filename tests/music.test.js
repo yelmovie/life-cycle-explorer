@@ -20,7 +20,7 @@ function environment(){
   constructor(){this.currentTime=0;this.state='running';this.destination={};this.gains=[];this.oscillators=[];contexts.push(this);}
   createGain(){const node={gain:{value:0,setValueAtTime(value){this.value=value;},setTargetAtTime(value){this.value=value;},exponentialRampToValueAtTime(value){this.value=value;}},connect(){},disconnect(){}};this.gains.push(node);return node;}
   createMediaElementSource(){return {connect(){},disconnect(){}};}
-  createOscillator(){const node={frequency:{setValueAtTime(){}},connect(){},disconnect(){},start(){},stop(){this.stopped=true;}};this.oscillators.push(node);return node;}
+  createOscillator(){const node={frequency:{setValueAtTime(){}},connect(){},disconnect(){},start(){},stop(when){this.stopped=true;if(when===undefined)this.cut=true;}};this.oscillators.push(node);return node;}
   async resume(){this.state='running';}async suspend(){this.state='suspended';}async close(){this.state='closed';}
  }
  const document=new EventTarget();document.hidden=false;document.body={append(){}};
@@ -43,9 +43,14 @@ test('엔딩으로 바꿀 때 플레이어를 재사용하며 마지막 곡을 �
   await initAudio({bgm:true,sfx:true,volume:.2});await flush();const player=e.players[0];
   setMusicTheme('ending');await flush();assert.equal(e.players.length,1);assert.equal(player.src,MUSIC_TRACKS.ending.src);assert.equal(player.loop,false);
   const count=player.playCount;player.currentTime=42;setMusicTheme('ending');await flush();assert.equal(player.playCount,count);assert.equal(player.currentTime,42);
+  // When the ending theme runs out with the screen still open, the main theme carries on at 0.45 of its level (no silence).
   player.paused=true;player.dispatchEvent(new Event('ended'));updateAudio({bgm:true,sfx:true,volume:.4});await initAudio({bgm:true,sfx:true,volume:.4});await flush();
-  assert.equal(player.paused,true);assert.equal(player.playCount,count);
-  setMusicTheme('main');await flush();assert.equal(player.src,MUSIC_TRACKS.main.src);assert.equal(player.loop,true);assert.equal(player.paused,false);
+  assert.equal(player.src,MUSIC_TRACKS.main.src);assert.equal(player.loop,true);assert.equal(player.paused,false);
+  assert.equal(audioState().endingTail,true);near(audioState().level,.42*.45);
+  // Asking for the ending again on the same screen does not restart it.
+  const tailCount=player.playCount;setMusicTheme('ending');await flush();assert.equal(player.src,MUSIC_TRACKS.main.src);assert.equal(player.playCount,tailCount);
+  player.currentTime=31;setMusicTheme('main');await flush();assert.equal(player.src,MUSIC_TRACKS.main.src);assert.equal(player.loop,true);assert.equal(player.paused,false);
+  assert.equal(player.currentTime,31);assert.equal(audioState().endingTail,false);near(audioState().level,.42);
  }finally{e.restore();}
 });
 
@@ -140,5 +145,26 @@ test('지도 공격은 한 번 누를 때 휘두름·명중을 한 묶음으로 
   assert.equal(context.oscillators.length-third,7);
   for(const kind of ['map-bump','map-appear','map-victory'])assert.equal(playSfx(kind),true);
   updateAudio({bgm:false,sfx:false,volume:.2});assert.equal(playSfx('map-strike-2'),false);
+ }finally{e.restore();}
+});
+
+test('효과음 갈래: UI 소리와 발자국은 전투·보상 소리를 끊지 않고, 전투·보상은 최대 4개까지 겹친다',async()=>{
+ const e=environment();try{
+  await initAudio({bgm:true,sfx:true,volume:.2});await flush();const context=e.contexts[0];
+  const made=()=>context.oscillators.length,since=start=>context.oscillators.slice(start);
+  let mark=made();playSfx('map-strike-3');const strike=since(mark);assert.ok(strike.length>0);
+  mark=made();playSfx('card-complete');const jingle=since(mark);
+  mark=made();playSfx('click');const click=since(mark);
+  for(let i=0;i<6;i++)playSfx('step');
+  playSfx('select');
+  assert.ok(strike.every(node=>!node.cut),'strike survives UI and footsteps');
+  assert.ok(jingle.every(node=>!node.cut),'card jingle survives UI and footsteps');
+  assert.ok(click.every(node=>node.cut),'a new UI cue replaces the previous UI cue');
+  assert.ok(audioState().effects.step>0);
+  mark=made();playSfx('stage-unlock');assert.ok(since(mark).length>0);
+  playSfx('map-appear');playSfx('map-bump');
+  assert.ok(strike.every(node=>node.cut),'the oldest of five combat cues gives way');
+  assert.ok(jingle.every(node=>!node.cut));
+  updateAudio({bgm:true,sfx:false,volume:.2});assert.deepEqual(audioState().effects,{ui:0,step:0,combat:0});
  }finally{e.restore();}
 });

@@ -46,9 +46,25 @@ export const VOICE_LINES={
  "흥, 탑은 가져. 나는 늦잠이나 잘래!":"goblin-clock-4"
 };
 export const voiceSrc=text=>{const key=VOICE_LINES[String(text??'').replace(/\s+/g,' ').trim()];return key?`assets/audio/${key}.mp3`:null;};
-let player=null,release=null,options={enabled:()=>true,hold:()=>()=>{}};
+let player=null,release=null,villainLine=false,options={enabled:()=>true,hold:()=>()=>{},busy:()=>false};
 // game-app.js supplies the effects switch and the same music duck the Doto hint voice uses.
 export function configureVoice(next){options={...options,...next};}
+/** True while a line from this player is loading or playing (the reward card waits for a villain's exit line). */
+export const voiceBusy=()=>player!==null;
+/** True while a villain's short reaction line is playing (another speaker's guidance waits for it, at most 2 s). */
+export const villainSpeaking=()=>player!==null&&villainLine;
+/**
+ * A villain's short reaction never cuts another character: while someone else is speaking (another line on this player,
+ * or `busy()` — Doto's hint voice) it waits up to `wait` ms for them to finish, then is skipped.
+ */
+export function speakVillain(text,{wait=2000}={}){
+ const start=Date.now();
+ const attempt=()=>{
+  if(options.busy()||player&&!villainLine){if(Date.now()-start<wait)setTimeout(attempt,150);return;}
+  if(speakTexts([text]))villainLine=true;
+ };
+ attempt();
+}
 export function stopVoice(){
  const current=player;player=null;
  if(current){current.onended=current.onerror=null;current.pause();current.removeAttribute('src');current.load();}
@@ -58,7 +74,7 @@ export function stopVoice(){
 // Returns whether a line started. onEnd runs when the lines finish or fail to play, not when stopped or replaced.
 export function speakTexts(texts,{hold=true,onEnd=()=>{}}={}){
  const queue=texts.map(voiceSrc).filter(Boolean);
- stopVoice();
+ stopVoice();villainLine=false;
  if(!queue.length||!options.enabled()||globalThis.document?.hidden||typeof Audio==='undefined')return false;
  if(hold)release=options.hold();
  const fail=audio=>{if(player===audio){stopVoice();onEnd();}};

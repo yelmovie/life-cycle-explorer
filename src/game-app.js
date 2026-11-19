@@ -22,8 +22,8 @@ import {autoPlayable} from './field-autoplay.js';
 import {openConcept} from './field-concepts.js';
 import {openCinema} from './field-cinema.js';
 import {COMPANION_ART,companionLine,companionMapLine,companionDiscoveryLine,stageProgress,hintTarget} from './field-companion.js';
-import {REWARD_CARDS,wonRewardCards,rewardSlotsHtml,syncRewardSlots,winRewardCard,rewardCardDue,rewardLayerOpen,watchRewardLayer} from './reward-card-set.js';
-import {configureVoice,installVoiceStop,stopVoice} from './voice-lines.js';
+import {REWARD_CARDS,ownedRewardCards,wonRewardCards,rewardSlotsHtml,syncRewardSlots,winRewardCard,rewardCardDue,rewardCardPending,rewardLayerOpen,watchRewardLayer} from './reward-card-set.js';
+import {configureVoice,installVoiceStop,stopVoice,voiceBusy,villainSpeaking} from './voice-lines.js';
 
 const storage={getItem(key){return window.localStorage.getItem(key);},setItem(key,value){window.localStorage.setItem(key,value);}};
 const TEACHER_SESSION_KEY='life-clock-lab.teacher-preview.1';
@@ -54,11 +54,12 @@ guideBubble.innerHTML=`<div class="npc-dialogue-portrait" aria-hidden="true"></d
 const guidePortrait=guideBubble.querySelector('.npc-dialogue-portrait'),guideText=$('guide-text');
 const guidePoint=guideBubble.querySelector('[data-action=hint-point]'),guideMore=guideBubble.querySelector('[data-action=hint-more]'),guideClose=guideBubble.querySelector('[data-action=hint-close]');
 guidePortrait.style.setProperty('--npc-dialogue-art',`url("${dialogueCast.find(c=>c.id==='doto').image}")`);
-let guidePlayer=null,guideLineKey=null,guideDuck=null;
+let guidePlayer=null,guideLineKey=null,guideDuck=null,guideWait=null;
 function setGuideMotion(speaking){
  guideBubble.dataset.speaking=String(speaking&&!reducedMotion(s.settings));
 }
 function stopGuideVoice(){
+ clearTimeout(guideWait);guideWait=null;
  const player=guidePlayer;guidePlayer=null;setGuideMotion(false);
  // The music stays on under Doto's voice at a quarter of its level; stopping the line for any reason hands the level back.
  guideDuck?.();guideDuck=null;
@@ -69,9 +70,11 @@ function stopGuideVoice(){
 // Doto speaks with ElevenLabs "Deok su" (2026-11-18, docs/VOICE-FILL-20261118.json). After the first discovery hints,
 // Doto also reads the quoted observation memo shown on the panel.
 const DOTO_MEMO={'discovery-0-0':'memo-0','discovery-0-1':'memo-1'};
-function speakGuide(key,then=DOTO_MEMO[key]){
+function speakGuide(key,then=DOTO_MEMO[key],since=Date.now()){
  stopGuideVoice();
  if(!key||!s.audio.sfx||document.hidden||modal.open)return;
+ // A villain line that has already started finishes first; Doto waits for it (at most 2 s) instead of talking over it.
+ if(villainSpeaking()&&Date.now()-since<2000){guideWait=setTimeout(()=>speakGuide(key,then,since),150);return;}
  const player=guidePlayer=new Audio(key.startsWith('memo-')?`assets/audio/doto-memo-el/${key}.mp3`:`assets/audio/doto-hints-el/${key}.mp3`);
  player.volume=.7;guideDuck=audio.duckMusic('guide');
  player.onplaying=()=>{if(guidePlayer===player)setGuideMotion(true);};
@@ -81,7 +84,7 @@ function speakGuide(key,then=DOTO_MEMO[key]){
  void player.play().catch(done);
 }
 modal.addEventListener('modal-dismiss',stopGuideVoice);
-configureVoice({enabled:()=>s.audio.sfx,hold:()=>audio.duckMusic('voice')});installVoiceStop(modal);
+configureVoice({enabled:()=>s.audio.sfx,hold:()=>audio.duckMusic('voice'),busy:()=>!!guidePlayer||guideWait!==null});installVoiceStop(modal);
 document.addEventListener('visibilitychange',()=>{if(document.hidden)stopGuideVoice();});
 window.addEventListener('pagehide',stopGuideVoice);
 // Keep only the teacher's mode/location in this tab. Student answers stay in
@@ -339,8 +342,12 @@ function positionEncounters(items,companion,hero){
     x:near?.x??x+28,y:near?.y??y+14,name:FIELD_CHAPTERS[chapter].title}:null),
    onSave:next=>{const won=wonRewardCards(s.mapEncounters,next);s.mapEncounters={...s.mapEncounters,...next};persist();won.forEach(awardCard);render();},
    blocked:()=>!fieldReady||modal.open||ui.guide||ui.mapOverview||mode()!=='map'||rewardCardDue(),
+   // The finale waits for the last card (and its set jingle), including the wait for the exit line.
+   holdFinale:rewardCardPending,
    reduced:()=>reducedMotion(s.settings),
    tone:(kind,hits)=>{
+    // The card-set jingle is the all-villains celebration; the separate victory jingle is only for a map without the full set.
+    if(kind==='victory'&&ownedRewardCards(s.mapEncounters).every(Boolean))return;
     const cue=({finish:'map-strike-3',contact:'map-bump',appear:'map-appear',victory:'map-victory'})[kind]??(hits===2?'map-strike-2':'map-strike-1');
     // Strikes come from a press on the attack button or J/Space. That button stops pointerdown from reaching the
     // page's first-press audio unlock, so a strike unlocks audio itself (a map reopened after reload starts here).
@@ -357,10 +364,28 @@ function positionEncounters(items,companion,hero){
 // dialog (modalOpen), so the all-villains finale waits until it is put away. Leaving the map first just fills the slot.
 // A card whose turn comes while a dialog is open waits for it; rewardCardDue() in the villains' blocked() keeps the finale behind it.
 function awardCard(index){
- void winRewardCard(index,{delay:reducedMotion(s.settings)?520:760,hits:()=>s.mapEncounters,
+ // The card comes after the villain's exit line (it starts 300 ms after the strike), waiting at most 5 s from the strike.
+ const until=performance.now()+5000;
+ void winRewardCard(index,{delay:reducedMotion(s.settings)?520:760,hits:()=>s.mapEncounters,hold:()=>voiceBusy()&&performance.now()<until,
   state:()=>mode()!=='map'?'gone':!fieldReady||document.querySelector('dialog[open]')?'wait':'open',
   origin:()=>{const spot=$('stage').querySelector(`[data-encounter="${REWARD_CARDS[index].id}"]`)?.getClientRects()[0];return spot?{x:spot.left,y:spot.top-30}:undefined;}});
 }
+// A region that has just opened on the map gets one latch-and-bell cue, the first moment the map is free to show it:
+// after the activity-complete sound and the reward popup (and any card). The reward popup's close calls this at once,
+// so the cue comes just before the villain line that greets the learner back on the map (it never cuts that line:
+// they run in different lanes). What has been announced is kept in memory and starts from the loaded save, so a
+// reload or revisit never repeats it. Teacher preview (everything open at once) is never announced.
+let openingsHeard=null;
+const openRegions=()=>FIELD_CHAPTERS.reduce((count,_,chapter)=>count+(fieldUnlocked(s.field,chapter)?1:0),0);
+const openingQuiet=()=>mode()==='map'&&fieldReady&&!modal.open&&!rewardLayerOpen()&&!rewardCardPending()&&!document.hidden&&!document.querySelector('dialog[open]');
+function checkOpenings(){
+ if(previewOriginal)return;
+ const open=openRegions();
+ if(openingsHeard===null||open<openingsHeard){openingsHeard=open;return;}
+ if(open===openingsHeard||!openingQuiet())return;
+ openingsHeard=open;audio.playSfx('stage-unlock');
+}
+checkOpenings();setInterval(checkOpenings,400);modal.addEventListener('close',()=>checkOpenings());
 // A card or the album stops a walk as it opens, as a dialog does; when it closes the scene gets its input back.
 watchRewardLayer(open=>{if(!open){if(ctx.scene&&!modal.open)ctx.scene.input.enabled=fieldReady;}else if(mode()==='map'){ctx.scene?.cancelTravel();ui.travelChapter=null;render();}});
 function positionDoors(items,companion,hero){
