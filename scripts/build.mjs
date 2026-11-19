@@ -36,6 +36,7 @@ required.push('src/science-settings.css','src/map-villain-patrol.js','src/map-at
 const generated=new Map([['offline-config.json',Buffer.from('{"enabled":true}\n')]]);
 required.push('src/glass-ui.css','src/character-dialogue.js','src/character-dialogue.css','src/dialogue-cast.js');
 required.push('src/reward-cards.js','src/reward-cards.css','src/reward-card-set.js');
+required.push('src/layout-balance.css');
 const runtime = [...new Set(required)];
 for (const relative of required) if (!await exists(path.join(root,relative))) throw new Error(`Required runtime file missing: ${relative}`);
 const availableAssets = (await filesWithin(path.join(root,'assets'),'assets/')).filter(relative => assetExtension.test(relative));

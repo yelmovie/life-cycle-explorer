@@ -1,0 +1,17 @@
+/* 2026-11-18 놀이 화면 비율·중복 조작 정리 (docs/LAYOUT-BALANCE-20261118.md).
+   game.css를 고치지 않고 덮어쓰는 규칙만 둔다. 학습 문구·판정·저장·진행은 건드리지 않는다. */
+
+/* 1. 위·아래 띠: 버튼 크기(터치 48px 이상)는 그대로 두고 띠 안쪽 여백만 줄인다.
+   field-scenes.js의 hudInsets가 띠의 실제 높이를 읽어 활동 장면을 다시 맞추므로, 줄인 만큼 장면이 커진다.
+   활동·지도 화면의 상태 문구(#status)는 띠 위에 따로 뜨므로 비어 있는 첫 줄의 간격(8px)도 없앤다. */
+#app:not([data-view=title]) .game-header{padding-block:8px 6px;gap:6px}
+#app:not([data-view=title]) #objective{padding-block:6px}
+#app:not([data-view=title]) .game-footer{row-gap:0;padding-bottom:10px}
+
+/* 2. 장면 시계(손잡이 끌기·−/+ 버튼·키보드 초점)와 같은 값을 바꾸는 아래쪽 슬라이더는 숨긴다.
+   시간 바로 이동 버튼(✓ 기록 표시)은 남긴다. 슬라이더가 두 번째 줄로 넘어가 장면을 줄이던 문제도 함께 사라진다. */
+#controls .time-slider,#controls .time-sliders{display:none}
+
+/* 3. 아래쪽 행동 줄에 같은 일을 하는 닫기 버튼(닫기·계속 탐험·숲으로 등)이 있으면 모서리 ✕는 숨긴다.
+   Esc와 아래 버튼으로 그대로 닫힌다. :has를 모르는 브라우저에서는 ✕가 남을 뿐이다. */
+dialog[open]:has(>.dialog-actions [data-action=close])>.close{display:none}
