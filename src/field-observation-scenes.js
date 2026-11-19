@@ -11,8 +11,8 @@ const MAT={w:400,h:270};
 /** Chapter 1 has visible, tappable steps as well as optional magnifier dragging. */
 export function renderObservationRoom(v,ctx,phase){
  const q=ctx.s.field.chapters[0],act=(type,payload={})=>ctx.emit('act',{type,payload});
- const button=(x,y,w,h,label,fn,done=false,z=50)=>{
-  const text=v.text(x,y,(done?'✓ ':'')+label,22,w-14,done?'#356c47':'#244d3d').setDepth(z+1);h=Math.max(h,text.height+12);
+ const button=(x,y,w,h,label,fn,done=false,z=50,shown=(done?'✓ ':'')+label)=>{
+  const text=v.text(x,y,shown,22,w-14,done?'#356c47':'#244d3d').setDepth(z+1);h=Math.max(h,text.height+12);
   const plate=v.add.graphics().fillStyle(done?0xdcebd5:0xfffcf0,.98).fillRoundedRect(x-w/2,y-h/2,w,h,14).setDepth(z);
   return [plate,text,v.click(x,y,w,h,fn,label).setDepth(z+2)];
  };
@@ -21,18 +21,28 @@ export function renderObservationRoom(v,ctx,phase){
   const inObservation=()=>v.renderToken===roomToken&&ctx.mode()==='room'&&ctx.s.field.active===0;
   const next=FORMS.map(form=>({form})).find(({form})=>!q.inspected[form].length);
   const spots=[],specimens=[];
+  // Small screens raise the canvas text to its legible minimum, which folds
+  // "몸마디 보기" onto two lines and pushes the buttons over the next row's title.
+  // Each kind of label falls back to a shorter one-line form the same way on
+  // every card: full name, then body part only. A finished button keeps its ✓
+  // unless even "✓ 몸마디" folds (phones); its card title still shows ✓ there.
+  const fits=(label,size=22,width=156)=>{const t=v.text(0,0,label,size,width),lines=t.getWrappedText().length;t.destroy();return lines<2;};
+  const short=label=>label.replace(' 보기',''),every=f=>FORMS.every(id=>PARTS[id].every(l=>fits(f(l))));
+  const openLabel=every(l=>l)?l=>l:short;
+  const doneLabel=every(l=>'✓ '+l)?l=>'✓ '+l:every(l=>'✓ '+short(l))?l=>'✓ '+short(l):short;
+  const longTitles=FORMS.every((id,i)=>fits(`${i+1}  ${FORM_NAMES[id]} · 기록 완료`,26,320));
   // A quiet specimen mat, number and name separate each organism from the busy forest.
   for(const [i,id] of FORMS.entries()){
    const [x,y,size]=POSITIONS[id];
    v.paper(x-3,y+10,MAT.w,MAT.h);
-   v.text(x,y-96,`${i+1}  ${FORM_NAMES[id]}${q.inspected[id].length?' · 기록 완료':''}`,26,320);
+   v.text(x,y-96,`${i+1}  ${FORM_NAMES[id]}${q.inspected[id].length?(longTitles?' · 기록 완료':' ✓'):''}`,26,320);
    // The egg remains one third its old displayed size; the whole mat is a large touch target.
    const specimenY=y+(id==='egg'?7:id==='adult'?-5:-3);
    specimens.push({id,x,y:specimenY,size});v.pic(id,x,specimenY,size,size);
    v.click(x,y-8,370,120,()=>{const spot=[0,1].find(n=>!q.inspected[id].includes(n))??0;focusSpot(id,spot);},FORM_NAMES[id]+' 확대해서 보기');
    for(const spot of [0,1]){
     const bx=x+(spot?92:-92),by=y+100,done=q.inspected[id].includes(spot);
-    button(bx,by,170,60,PARTS[id][spot],()=>focusSpot(id,spot),done);
+    button(bx,by,170,60,PARTS[id][spot],()=>focusSpot(id,spot),done,50,(done?doneLabel:openLabel)(PARTS[id][spot]));
     const [px,py]=SPOTS[id][spot],sx=x+(px-.5)*size,sy=specimenY+(py-.5)*size;
     spots.push({form:id,spot,x:sx,y:sy});
     if(done)v.add.circle(sx,sy,6,0x4a885c).setStrokeStyle(2,0xfffbed);
