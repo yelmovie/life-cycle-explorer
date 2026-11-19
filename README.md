@@ -135,7 +135,9 @@ node scripts/qa-field-regression.mjs
 node scripts/qa-field-touch.mjs
 ```
 
-서버는 BASE_URL로 지정한다(기본 개발 4202 / touch는 dist 4204). 필요하면 PLAYWRIGHT_MODULE에 설치 경로를 지정한다. play가 만든 격리 QA 저장본을 regression/touch가 레이아웃·재도전용으로 사용한다. 산출물은 .tmp에 있으며 사용자 브라우저를 건드리지 않는다.
+서버는 BASE_URL로 지정한다(기본 개발 4202 / touch는 dist 4204). 필요하면 PLAYWRIGHT_MODULE에 설치 경로를 지정한다.
+
+완주 검사 두 개(`qa-field-play`: 캔버스를 포인터로 누르고 돋보기를 실제로 끌기, `qa-recovery-play`: 키보드 Tab·Enter만)는 같은 흐름 `scripts/qa-play-flow.mjs`를 쓴다. 다섯 구역의 안쪽 단계, 틀린 답이 막히는지, 개념 영상, 지도의 태엽 도깨비 세 번 공격과 성취 카드, 엔딩 영상, 관찰 노트 인쇄, 기록증 PNG, 새로고침 복원까지 확인한다. 화면의 버튼 이름(`#focus-targets`의 aria-label)으로 단계를 찾으므로 이름이 바뀌면 그 자리에서 멈춘다. 구역에 들어갈 때마다 `.tmp/<이름>/checkpoint-<n>.json`을 남기고, `START_CHAPTER=n`으로 그 구역부터 다시 돌릴 수 있다. 추가 발견 미션(선택)은 이 검사에 들어 있지 않다. play가 만든 격리 QA 저장본을 regression/touch가 레이아웃·재도전용으로 사용한다. 산출물은 .tmp에 있으며 사용자 브라우저를 건드리지 않는다.
 
 [최신 인트로·아웃트로 모션 제작 자료](docs/video-production/20261024-motion/README.md) · [최종 점검](docs/reviews/FINAL-CHECK-20261024.md) · [이전 영상·UX 개선](docs/CLASSROOM-MEDIA-20261022.md) · [이전 개선 기록](docs/FIELD-ENHANCEMENT-20261021.md) · [에셋 검토](docs/ASSET-REVIEW-20261020.md) · [라이선스](assets/CREDITS.md) · [이전 제작기](docs/PHASER-IMPLEMENTATION-20261018.md)
 
