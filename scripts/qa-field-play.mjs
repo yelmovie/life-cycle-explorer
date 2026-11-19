@@ -4,7 +4,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import assert from 'node:assert/strict';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),out=path.join(root,'.tmp','field-play');await mkdir(out,{recursive:true});process.env.TEMP=out;process.env.TMP=out;
-const require=createRequire(import.meta.url),{chromium}=require('C:/Users/bongb/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const require=createRequire(import.meta.url),{chromium}=require(process.env.PLAYWRIGHT_MODULE||'C:/Users/bongb/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
 const browser=await chromium.launch({channel:'chrome',headless:true}),context=await browser.newContext({viewport:{width:1280,height:800},acceptDownloads:true}),page=await context.newPage(),errors=[],checks=[];
 page.on('pageerror',e=>{errors.push(e.message);console.log('ERROR',e.message);});page.on('response',r=>{if(r.status()>=400)errors.push(r.status()+' '+r.url());});
 const pause=()=>page.waitForTimeout(120),state=()=>page.evaluate(()=>JSON.parse(localStorage.getItem('life-clock-lab.phaser.4'))),click=async selector=>{await page.locator(selector).click();await pause();},snap=async name=>{await page.screenshot({path:path.join(out,name+'.png')});};
@@ -14,8 +14,10 @@ async function drag(x,y,tx,ty){const a=await point(x,y),b=await point(tx,ty);awa
 async function range(label,value){for(let i=0;i<=value;i++)await page.locator(`input[type=range][aria-label="${label}"]`).evaluate((e,v)=>{if(e.value===String(v))return;e.value=String(v);e.dispatchEvent(new Event('change',{bubbles:true}));},i);await pause();}
 async function enter(c){await click('#next');await page.waitForFunction(c=>document.querySelector('#app').dataset.view==='room'&&JSON.parse(localStorage.getItem('life-clock-lab.phaser.4')).field.active===c,c);await page.waitForTimeout(400);}
 async function complete(c){await click('#next');assert.deepEqual((await state()).field.completed,Array.from({length:c+1},(_,i)=>i));await page.locator('#concept-video').waitFor();await page.waitForFunction(()=>document.querySelector('#concept-video').readyState>=2);assert.equal(await page.locator('#concept-caption').isVisible(),true);await snap('concept-'+c);await click('#concept-finish');checks.push('chapter-'+c,'concept-'+c);console.log('PASS chapter + concept',c);}
+// 0.9.2부터 「시작」이 첫 구역으로 바로 들어간다(enterDirect). 안내 창이 뜨면 닫고, 지도에 서면 「다음」으로 들어간다.
+async function begin(){await click('[data-action=start]');for(let i=0;i<8;i++){if(await page.evaluate(()=>document.querySelector('#app').dataset.view==='room'&&JSON.parse(localStorage.getItem('life-clock-lab.phaser.4')||'{}').field?.active===0))break;if(await page.locator('dialog[open]').count())await page.keyboard.press('Escape');else if(await page.locator('#next').isVisible())await page.locator('#next').click();await page.waitForTimeout(600);}await page.waitForTimeout(400);}
 try{
- await page.goto(process.env.BASE_URL||'http://127.0.0.1:4202');await page.locator('.boot').waitFor({state:'detached'});await click('[data-action=start]');await click('[data-action=begin]');await enter(0);
+ await page.goto(process.env.BASE_URL||'http://127.0.0.1:4202');await page.locator('.boot').waitFor({state:'detached'});await begin();
  const forms=[['egg',325,250,160],['larva',460,445,215],['pupa',970,260,180],['adult',885,505,235]];
  for(const[id,x,y,size]of forms)for(let i=0;i<2;i++){await drag(650,360,x+(i?size*.2:-size*.2),y+(id==='pupa'?i*size*.3-size*.15:(i?size*.1:-size*.1)));assert.equal((await state()).field.chapters[0].inspected[id].includes(i),true,id+' spot '+i);}
  await snap('01-drawing');await drag(720,310,880,440);await drag(880,440,980,290);await click('[data-field-action=note]');await page.locator('#observation-note').fill('애벌레 몸에는 여러 마디와 작은 다리가 보여.');await click('[data-action=save-note]');

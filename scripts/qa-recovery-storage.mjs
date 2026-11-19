@@ -26,7 +26,7 @@ async function open(raw,mode='normal'){
 }
 const read=page=>page.evaluate(()=>window.__qaReadRaw());
 const tap=async(page,selector)=>{await page.locator(selector).tap();await page.waitForTimeout(80);};
-async function settings(page){if(await page.locator('dialog[open]').count())await tap(page,'dialog .close');await tap(page,'#app [data-action=settings]');}
+async function settings(page){if(await page.locator('dialog[open]').count())await tap(page,'dialog[open] :is(.close,.dialog-actions [data-action=close]) >> visible=true >> nth=0');await tap(page,'#app [data-action=settings]');}
 async function teacherTools(page){await tap(page,'summary:text-is("교사용 가이드")');await tap(page,'summary:text-is("교사용 도구")');}
 async function records(page){await settings(page);await tap(page,'summary:text-is("앱 정보 · 배움과 보상")');await tap(page,'[data-action=records]');}
 async function download(page,selector,file){const pending=page.waitForEvent('download');await tap(page,selector);const d=await pending;await d.saveAs(path.join(out,file));return {text:await readFile(path.join(out,file),'utf8'),suggested:d.suggestedFilename()};}
@@ -42,7 +42,7 @@ try{
   const saved=await download(page,'[data-action=original-backup]',name+'-original.txt');
   assert.equal(saved.text,raw);assert.match(saved.suggested,/\.txt$/);
   const current=await download(page,'[data-action=backup]',name+'-temporary.json');assert.equal(JSON.parse(current.text).version,3);
-  await snap(page,name+'-protected-archive');await tap(page,'dialog .close');
+  await snap(page,name+'-protected-archive');await tap(page,'dialog[open] :is(.close,.dialog-actions [data-action=close]) >> visible=true >> nth=0');
   await tap(page,'[data-action=start]');await tap(page,'[data-action=begin]');
   await tap(page,'[data-action=sound]');assert.equal(await read(page),raw);
   await page.reload();await page.locator('canvas').waitFor({state:'visible'});await page.waitForTimeout(200);assert.equal(await page.locator('dialog[open]').count(),0);

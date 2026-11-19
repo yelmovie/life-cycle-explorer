@@ -72,9 +72,15 @@ const totalBytes = entries.reduce((sum,entry) => sum+entry.bytes,0);
 const template=await readFile(path.join(root,'scripts/service-worker-template.js'),'utf8');
 const cacheVersion=createHash('sha256').update(template).update(JSON.stringify(entries)).digest('hex').slice(0,20);
 const worker=template.replace('__CACHE_VERSION__',JSON.stringify(cacheVersion)).replace('__CACHE_FILES__',JSON.stringify(entries));
+// Cloudflare Pages reads dist/_headers. The values come from server.mjs so the
+// deployed site and the local server always send the same security headers.
+const securityBlock=(await readFile(path.join(root,'server.mjs'),'utf8')).match(/const securityHeaders = \{([\s\S]*?)\n\};/);
+const securityPairs=securityBlock?[...securityBlock[1].matchAll(/'([A-Za-z-]+)':(["'])(.*?)\2/g)].map(m=>[m[1],m[3]]):[];
+if(!securityPairs.some(([name])=>name==='Content-Security-Policy'))throw new Error('server.mjs securityHeaders must define Content-Security-Policy.');
+const pagesHeaders='/*\n'+securityPairs.map(([name,value])=>`  ${name}: ${value}\n`).join('');
 
 if (!dryRun) {
-  const allowed = new Set([...selected,'build-manifest.json','service-worker.js']);
+  const allowed = new Set([...selected,'build-manifest.json','service-worker.js','_headers']);
   try {if ((await lstat(destination)).isSymbolicLink()) throw new Error('Refusing linked dist directory.');} catch(error) {if(error.code !== 'ENOENT')throw error;}
   const previous = await filesWithin(destination,'',true);
   const stale = previous.filter(relative => !allowed.has(relative));
@@ -99,6 +105,7 @@ if (!dryRun) {
     else await copyFile(path.join(root,relative),target);
   }
   await writeFile(path.join(destination,'service-worker.js'),worker);
+  await writeFile(path.join(destination,'_headers'),pagesHeaders);
   await writeFile(path.join(destination,'build-manifest.json'),JSON.stringify({version:3,cacheVersion,generatedAt:new Date().toISOString(),files:entries,totalBytes},null,2)+'\n');
 }
 console.log(`${dryRun?'Build check':'Built dist'}: ${runtime.length} runtime files, ${selectedAssets.size} assets, ${(totalBytes/1024/1024).toFixed(2)} MiB. Source originals are excluded.`);

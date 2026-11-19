@@ -89,7 +89,7 @@ try{
   await page.locator('#caption-record').selectOption(ids[1]);
   await page.waitForFunction(previous=>document.querySelector('.story-note-evidence')?.alt!==previous,firstAlt);
   assert.equal(await page.locator('#story-caption').inputValue(),'');
-  await snap(page,tag+'-story-caption');await page.locator('dialog .close').tap();await context.close();
+  await snap(page,tag+'-story-caption');await page.locator('dialog[open] :is(.close,.dialog-actions [data-action=close]) >> visible=true >> nth=0').tap();await context.close();
 
   s=fixture(4);Object.assign(s.field.chapters[4],{records:['field-observation-egg','field-seed-water','field-care-water'],title:'',summary:'',captions:{},matches:{},plan:{subject:'',when:'',what:''}});
   ({context,page}=await open(viewport,s));await snap(page,tag+'-story-edit');

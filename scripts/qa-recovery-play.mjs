@@ -31,9 +31,11 @@ async function discoveries(c){
  if(c===4){for(let i=0;i<3;i++)await key('이 기록에 도장');await key('나만의 궁금증 쓰기');await page.locator('#discovery-question').fill('우리 학교 봉선화는 언제 꽃이 필까?');await click('#discovery-question-save');}
  assert.equal((await state()).field.chapters[c].discovery.length,2);checks.push('two-discoveries-'+c);
 }
+// 0.9.2부터 「시작」이 첫 구역으로 바로 들어간다(enterDirect). 안내 창이 뜨면 닫고, 지도에 서면 「다음」으로 들어간다.
+async function begin(){await click('[data-action=start]');for(let i=0;i<8;i++){if(await page.evaluate(()=>document.querySelector('#app').dataset.view==='room'&&JSON.parse(localStorage.getItem('life-clock-lab.phaser.4')||'{}').field?.active===0))break;if(await page.locator('dialog[open]').count())await page.keyboard.press('Escape');else if(await page.locator('#next').isVisible())await page.locator('#next').click();await page.waitForTimeout(600);}await page.waitForTimeout(400);}
 try{
  if(start){const fixture=JSON.parse(await readFile(path.join(root,'.tmp/recovery-play',`checkpoint-${start}.json`),'utf8'));await page.addInitScript(value=>{if(!sessionStorage.getItem('seeded')){localStorage.setItem('life-clock-lab.phaser.4',JSON.stringify(value));sessionStorage.setItem('seeded','1');}},fixture);}
- await page.goto(process.env.BASE_URL||'http://127.0.0.1:4186');await page.locator('.boot').waitFor({state:'detached'});if(start===0){await click('[data-action=start]');await click('[data-action=begin]');await enter(0);}
+ await page.goto(process.env.BASE_URL||'http://127.0.0.1:4186');await page.locator('.boot').waitFor({state:'detached'});if(start===0){await begin();}
  if(start===0){
  for(const form of ['알','애벌레','번데기','어른벌레'])for(let i=0;i<2;i++){await key(form+' 확대해서 보기');assert.equal(await page.locator('dialog[open]').count(),0);await key('관찰 마치기');}
  await drag(720,310,880,440);await drag(880,440,980,290);await click('[data-field-action=note]');await page.locator('#observation-note').fill('애벌레 몸에는 여러 마디와 작은 다리가 보여.');await click('[data-action=save-note]');
