@@ -27,3 +27,6 @@ assets/models/raw/
 _source/
 
 .claude/settings.local.json
+
+# Scratch work folders from agent sessions (combat drafts etc.)
+.work/
