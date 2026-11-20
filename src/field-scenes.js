@@ -92,6 +92,19 @@ export function createFieldGame(context){
    const text=this.add.text(x,y,message,{fontFamily:theme.font,fontStyle:'700',fontSize:Math.max(size,(size<22?theme.caption:theme.body)/scale),color:color||theme.ink,align:'center',wordWrap:{width,useAdvancedWrap:false},lineSpacing:3}).setOrigin(.5);
    // A thin paper outline keeps the letters readable over detailed forest art.
    if(!color||!/^#fff/i.test(color))text.setStroke(theme.paper,Math.max(2,2/scale));
+   // Word wrap is greedy, so a long line can leave one word alone below (「…돌려 볼 수 / 있어.」).
+   // Keep the same number of lines but use the narrowest wrap width that still fits them, so the lines come out even.
+   const balance=()=>{
+    text.setWordWrapWidth(width);
+    const lines=text.getWrappedText().length;
+    if(lines<=String(text.text).split('\n').length)return;
+    let low=width/2,high=width;
+    for(let i=0;i<8;i++){const mid=(low+high)/2;text.setWordWrapWidth(mid);if(text.getWrappedText().length===lines)high=mid;else low=mid;}
+    text.setWordWrapWidth(high);
+   };
+   const setText=text.setText.bind(text);
+   text.setText=value=>{setText(value);balance();return text;};
+   balance();
    return text;
   }
   label(x,y,message,size=25,width=360){
