@@ -1,2 +1,2 @@
 // Generated from package.json by scripts/sync-info.mjs.
-export const VERSION="0.9.19";
+export const VERSION="0.9.20";
