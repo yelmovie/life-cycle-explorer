@@ -51,7 +51,7 @@ export function roomUI(s,ui){
  if(c===2){const plant=q.cases[q.case];
   if(phase==='measure'){objective=q.case?'흙은 촉촉한데 잎빛이 옅어. 이 화분에는 무엇이 부족할까?':'물기와 빛을 재서 잎이 처진 까닭을 찾아보자.';next='물·빛 기록 확인';}
   if(phase==='symptom'){objective='물·빛을 잰 결과와 모습을 보고 흙이나 잎에 표시해 줘.';next='관찰핀 확인';}
-  if(phase==='care'){objective='확인한 원인에 맞는 돌봄 도구를 놓아 줘.';next='돌봄 확인';}
+  if(phase==='care'){const pour=ui?.carePour?.key===c+':'+q.case?ui.carePour.tool:'';objective=pour==='water'?'물뿌리개를 화분 쪽으로 기울여 흙 물기를 알맞게 채워 줘.':pour==='light'?'화분을 끌어서 빛이 드는 자리로 옮겨 줘.':'확인한 원인에 맞는 돌봄 도구를 놓아 줘.';next='돌봄 확인';}
   if(phase==='care-after'){objective=plant.variable==='light'?'시간이 저절로 흘러가. 새잎이 자란 뒤를 살펴봐.':'시간이 저절로 흘러가. 이틀 뒤 잎을 살펴봐.';}
   if(phase==='care-compare'){objective='돌보기 전과 나중 모습을 비교해 봐. 무엇이 달라졌니?';}
   if(phase==='care-next'){objective='다른 화분도 같은 도움이 필요할까?';next='다른 화분 조사';nextAction='care-next';}

@@ -18,7 +18,7 @@ export async function runPlay({input,output,defaultUrl}){
  const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
  const out=path.join(root,process.env.QA_OUTPUT||output);await mkdir(out,{recursive:true});process.env.TEMP=out;process.env.TMP=out;
  const require=createRequire(import.meta.url),{chromium}=require(process.env.PLAYWRIGHT_MODULE||'C:/Users/bongb/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
- const browser=await chromium.launch({channel:'chrome',headless:true}),context=await browser.newContext({viewport:{width:1280,height:800},acceptDownloads:true}),page=await context.newPage(),errors=[],checks=[];
+ const browser=await chromium.launch({channel:'chrome',headless:true,args:['--mute-audio']}),context=await browser.newContext({viewport:{width:1280,height:800},acceptDownloads:true}),page=await context.newPage(),errors=[],checks=[];
  await page.addInitScript(()=>{let library;Object.defineProperty(window,'Phaser',{configurable:true,get:()=>library,set(value){library=value;const Game=value.Game;value.Game=class extends Game{constructor(...args){super(...args);window.__qaGame=this;}};}});});
  page.setDefaultTimeout(8000);page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400)errors.push(`${r.status()} ${r.url()}`);});
  const start=Number(process.env.START_CHAPTER||0);
@@ -133,7 +133,11 @@ export async function runPlay({input,output,defaultUrl}){
     const [tool,wrongTool,change,wrongChange]=cases[n];
     await press(/물기·빛.*재기$/);await press(/^② 잎/);
     await press(wrongTool);assert.equal((await field(2)).cases[n].tool,'');checks.push('wrong-care-blocked-'+n);
-    await press(tool);await waitObjective('돌보기 전과 나중 모습을 비교해 봐. 무엇이 달라졌니?');await snap('04-care-'+n);
+    // The right tool opens a hands-on step (A17): tilt the can three times, or carry the pot into the light.
+    await press(tool);await page.waitForTimeout(600);assert.equal((await field(2)).cases[n].tool,'');await snap('04-care-action-'+n);checks.push('care-action-step-'+n);
+    if(n===0)for(let i=0;i<3;i++){await press('물뿌리개 기울여 물 붓기');await page.waitForTimeout(1100);}
+    else await press('화분을 빛이 드는 곳으로 옮기기');
+    await waitObjective('돌보기 전과 나중 모습을 비교해 봐. 무엇이 달라졌니?');await snap('04-care-'+n);
     await press(wrongChange);assert.equal((await field(2)).cases[n].comparison,'');checks.push('wrong-comparison-blocked-'+n);
     await press(change);
     // The second pot may open by itself; press 「다른 화분 조사」 only while it is offered.

@@ -177,6 +177,8 @@ export function renderPlantRoom(v,ctx,phase){
   v.text(640,716,'관찰 모형이야. 실제 회복 모습과 걸리는 시간은 식물과 환경에 따라 달라.',20,970);
   return true;
  }
+ const pour=phase==='care'&&ctx.ui.carePour?.key===c+':'+q.case?ctx.ui.carePour:null;
+ if(pour)return renderCareAction(v,ctx,pour,{frame:frames[0],observationMat,label,act,reduced}),true;
  observationMat(655,420,340,370);
  fadeSpecimen(image,655,420,350,`care-${q.case}`,level);
  drop(655,420,325,360,'plant','화분에 선택한 물·빛 도구 놓기');
@@ -205,8 +207,8 @@ export function renderPlantRoom(v,ctx,phase){
  if(phase==='care'){
   tool('watercan',350,460,'care-tool',{tool:'water'},'물로 돌보기',110);
   tool('lamp',970,460,'care-tool',{tool:'light'},'빛으로 돌보기',110);
-  button(350,575,250,'알맞게 물 주기',()=>act('care-tool',{tool:'water'}));
-  button(970,575,250,'빛이 드는 곳으로',()=>act('care-tool',{tool:'light'}));
+  button(350,575,250,'알맞게 물 주기',()=>ctx.emit('drop',{kind:'care-tool',tool:'water',target:'plant'}));
+  button(970,575,250,'빛이 드는 곳으로',()=>ctx.emit('drop',{kind:'care-tool',tool:'light',target:'plant'}));
   label(655,657,q.case?'잰 결과에 맞는 돌봄을 골라 줘.':'시든 모습만 보고 정하지 말고, 물·빛을 잰 결과를 비교해 줘.',23,830);
  }
  if(phase==='care-after'){
@@ -225,4 +227,63 @@ export function renderPlantRoom(v,ctx,phase){
  }
  if(phase==='care-next')label(655,650,'측정 → 관찰 표시 → 사진 → 돌봄 → 시간 뒤 비교\n네가 찾은 기록이 실험일지에 남았어.',24,850);
  return true;
+}
+
+// Hands-on care (A17): after the right tool is chosen, the learner tilts the can until the soil
+// moisture gauge reads "알맞음", or carries the pale pot out of the shade into the light.
+// Only the scene moves; the care record is written by the same 'care-tool' action when it ends.
+// Every drag has a tap path (one pour per tap, one tap to carry the pot) for keyboard and switch users.
+function renderCareAction(v,ctx,pour,{frame,observationMat,label,act,reduced}){
+ const P=globalThis.Phaser,clamp=(n,a,b)=>Math.max(a,Math.min(b,n)),guard=fn=>v.guardRoomAction(fn);
+ const finish=()=>{if(pour.done)return;pour.done=true;v.time.delayedCall(reduced?60:650,()=>{if(ctx.ui.carePour!==pour)return;ctx.ui.carePour=null;act('care-tool',{tool:pour.tool});});};
+ // A scene rebuilt while the finish was waiting (resize, focus) still writes the record once.
+ if(pour.done){pour.done=false;finish();}
+ if(pour.tool==='water'){
+  const px=560,py=420,soilY=py+128;
+  observationMat(px,py,340,370);v.shadow(px,py+140,210);v.pic(frame,px,py,330,330);
+  const soil=v.add.ellipse(px,soilY,150,26,0x4a2f1c,0).setDepth(3);
+  const gx=1100,gy=430,bh=200,card=v.paper(gx,gy,190,320),bar=v.add.graphics().setDepth(3),gText=v.text(gx,gy-132,'흙 물기',22,180).setDepth(3),state=v.text(gx,gy+136,'',21,180).setDepth(3);
+  const drawGauge=()=>{const a=pour.amount;bar.clear().fillStyle(0xf1ead4).fillRoundedRect(gx-24,gy-bh/2,48,bh,14).fillStyle(a>=1?0x3f8f63:0x69aeca).fillRoundedRect(gx-24,gy+bh/2-bh*a,48,Math.max(bh*a,a?12:0),12).lineStyle(2,0x6c7e63).strokeRoundedRect(gx-24,gy-bh/2,48,bh,14).lineStyle(3,0x2e5c41).lineBetween(gx-34,gy-bh/2+6,gx+34,gy-bh/2+6);
+   soil.setFillStyle(0x4a2f1c,.55*a);state.setText(a>=1?'✓ 알맞음':a>0?'조금 더':'부족');};
+  drawGauge();
+  const rest={x:875,y:300},can=v.pic('watercan',rest.x,rest.y,200).setDepth(6).setOrigin(.72,.58);
+  const spout=()=>{const s=can.scaleX,dx=(70-.72*640)*s,dy=(225-.58*585)*s,a=can.rotation;return {x:can.x+dx*Math.cos(a)-dy*Math.sin(a),y:can.y+dx*Math.sin(a)+dy*Math.cos(a)};};
+  const pourDrop=()=>{const o=spout(),d=v.add.ellipse(o.x,o.y,7,13,0x69aeca,.9).setDepth(5);v.tweens.add({targets:d,x:px+P.Math.Between(-40,40),y:soilY,alpha:.2,duration:reduced?1:420,onComplete:()=>d.destroy()});};
+  const add=n=>{if(pour.done)return;pour.amount=clamp(Math.round((pour.amount+n)*1000)/1000,0,1);drawGauge();if(pour.amount>=1)finish();};
+  const tilt=t=>{can.rotation=-t*.95;can.x=rest.x-t*95;can.y=rest.y+t*18;};
+  let pouring=false,busy=false,moved=false,start=null;
+  v.time.addEvent({delay:110,loop:true,callback:()=>{if(!pouring||pour.done)return;pourDrop();add(1/16);}});
+  can.setInteractive({useHandCursor:true});v.input.setDraggable(can);
+  can.on('pointerdown',p=>{moved=false;start=v.pointerWorld?.(p)||p;});
+  can.on('drag',p=>{if(pour.done||busy||!start)return;moved=true;const q=v.pointerWorld?.(p)||p,t=clamp(((start.x-q.x)*.7+(q.y-start.y)*.9)/170,0,1);tilt(t);pouring=t>.55;});
+  const settle=()=>{pouring=false;v.tweens.add({targets:can,rotation:0,x:rest.x,y:rest.y,duration:reduced?1:260});};
+  can.on('dragend',settle);
+  // A tap pours a third of what the soil needs, so three taps (or Enter presses) finish it.
+  const step=guard(()=>{if(pour.done||busy||pouring)return;busy=true;const n={t:0};v.tweens.add({targets:n,t:1,duration:reduced?1:240,onUpdate:()=>tilt(n.t),onComplete:()=>{
+   let k=0;v.time.addEvent({delay:reduced?1:90,repeat:4,callback:()=>{pourDrop();add(1/15);if(++k===5){busy=false;settle();}}});}});});
+  can.on('pointerup',()=>{if(!moved)step();});
+  v.focusTargets.push({x:rest.x-60,y:rest.y,w:200,h:190,label:'물뿌리개 기울여 물 붓기',fn:step});
+  label(640,668,'물뿌리개를 화분 쪽으로 끌어 기울여 봐. 눌러도 조금씩 부어져.\n흙 물기가 알맞음이 되면 돌봄이 끝나.',22,900);
+  return;
+ }
+ const from=430,to=880,py=430,size=280;
+ // Two mats side by side: the shaded one where the pot stands now, and a warm one under light from the glass roof.
+ observationMat(from,py,330,370);v.add.graphics().fillStyle(0x1d3326,.2).fillRoundedRect(from-165,py-185,330,370,18).setDepth(1);
+ observationMat(to,py,330,370);
+ const rays=v.add.graphics().setDepth(1);rays.fillStyle(0xffe9a3,.38).fillRoundedRect(to-165,py-185,330,370,18).fillStyle(0xfff6cf,.5).fillTriangle(to+40,py-185,to-150,py+185,to+165,py+185);
+ v.pic('shade',from-80,py-40,200).setDepth(2);
+ label(from,py-150,'그늘',22,140);label(to,py-150,'☀ 빛이 드는 자리',22,240);
+ const shadow=v.shadow(from,py+size*.42,size*.63),pot=v.pic(frame,from,py,size,size).setDepth(5);
+ const place=x=>{pot.x=x;shadow.x=x;const t=(x-from)/(to-from),g=Math.round(150+105*clamp(t,0,1));pot.setTint(P.Display.Color.GetColor(g,g,g));pour.amount=clamp(t,0,1);};
+ place(from+(to-from)*(pour.amount||0));
+ const arrive=()=>{place(to);finish();};
+ pot.setInteractive({useHandCursor:true});v.input.setDraggable(pot);
+ let moved=false;
+ pot.on('pointerdown',()=>{moved=false;});
+ pot.on('drag',p=>{if(pour.done)return;moved=true;const q=v.pointerWorld?.(p)||p;place(clamp(q.x,from,to));});
+ pot.on('dragend',()=>{if(!pour.done&&pot.x>=to-90)arrive();});
+ const carry=guard(()=>{if(pour.done)return;const n={x:pot.x};v.tweens.add({targets:n,x:to,duration:reduced?1:700,ease:'Sine.easeInOut',onUpdate:()=>place(n.x),onComplete:arrive});});
+ pot.on('pointerup',()=>{if(!moved)carry();});
+ v.focusTargets.push({x:from,y:py,w:size,h:size,label:'화분을 빛이 드는 곳으로 옮기기',fn:carry});
+ label(655,660,'화분을 끌어서 빛이 드는 자리로 옮겨 줘. 눌러도 옮겨져.',22,900);
 }
