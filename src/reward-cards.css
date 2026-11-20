@@ -229,6 +229,13 @@
 .rc-album-row { --mh: min(36vh, 270px, calc((min(94vw, 1060px) - 40px - (var(--n, 5) - 1) * 12px) / var(--n, 5) * 1.5)); }
 .rc-album-item .rc-card.is-mini { --h: var(--mh); }
 .rc-album-row .rc-locked { width: calc(var(--mh) * 2 / 3); height: var(--mh); }
+/* 낮은 화면(폰 가로)에서는 36vh 카드에 「?」·두 줄 장소 이름·세 줄 안내가 다 들어가지 않아 글이 점선 밖으로 나갔다.
+   장식인 「?」와 여백만 줄이고, 그래도 넘치면 카드가 글만큼 길어진다(글자 크기와 문구는 그대로). */
+@media (max-height: 560px) {
+  .rc-album-row .rc-album-item { display: flex; }
+  .rc-album-row .rc-locked { height: auto; min-height: var(--mh); gap: 3px; padding: 10px 4px 8px; }
+  .rc-locked i { font-size: 30px; line-height: 1.2; }
+}
 .rc-card.is-mini .rc-rarity { display: none; }
 
 /* Older Safari without color-mix(): plain fallbacks so the buttons never lose their background. */
