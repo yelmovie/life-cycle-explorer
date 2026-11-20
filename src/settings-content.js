@@ -6,7 +6,7 @@ export const SETTINGS_CONTENT = Object.freeze({
   purposeText: '지훈과 함께 생물을 관찰하고, 조건을 바꾸어 실험하며 근거로 설명하는 힘을 연습해요.',
   rewardText: '탐구 도구와 생명 고리의 빛을 모아 숲의 생명 시계를 깨워요.',
   learningText: '처음의 예상, 관찰한 근거, 다시 확인한 결과와 실제 관찰 약속이 탐구 기록으로 남아요.',
-  signature: '기획·제작: 옐샘 & 아이스크림미디어',
+  signature: '기획·제작: 옐샘 & ⓒ 아이스크림미디어',
   intro: '이 탐험을 하는 이유 다시 보기',
   students: [
     '탐험을 시작하고 지도에서 열린 길을 따라 걸어요.',
@@ -48,7 +48,7 @@ export const SETTINGS_CONTENT = Object.freeze({
     {title:'게임 엔진', text:'Phaser 3.90.0 · Phaser Studio · MIT'},
     {title:'소리', text:'사용자 제공 Suno 메인·엔딩 테마 / Kenney Interface Sounds · Impact Sounds (CC0)'},
   ],
-  copyright: 'ⓒ 2026 옐샘 & 아이스크림미디어. All rights reserved.',
+  copyright: '기획·제작: 옐샘 & ⓒ 아이스크림미디어',
   ownRights: '앱 화면 캡처·자체 제작 일러스트·자체 제작 음원은 무단 복제·재배포·전용·상업적 이용을 금지합니다.',
   externalRights: '외부 공개 자료·폰트의 저작권은 각 원저작자와 소장 기관에 있으며, 각 자료의 공개 라이선스와 이용 조건을 따릅니다.',
   educationalSources: '교육 내용 구성 참고: 교육부(moe.go.kr), 경기도교육청(goe.go.kr).',
