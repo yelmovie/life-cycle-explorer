@@ -5,7 +5,7 @@
 | 갈래 | 장수 |
 |---|---:|
 | (가) 권리 장부에서 출처 미확인인 그림 | 0 (3-2a에서 1 → 0) |
-| (나) 화풍·해상도가 튀거나 임시로 넣은 그림 | 1 |
+| (나) 화풍·해상도가 튀거나 임시로 넣은 그림 | 0 (3-3a에서 1 → 0, 새로 그림 1장) |
 | (다) 할 일 목록의 게임성·화면 보강에 필요한 소품·배경 | 1 |
 
 배경 그림은 `src/field-scenes.js`의 `backdrop()`이 화면을 꽉 덮도록(cover) 키운다. 캔버스는 기기 화소 배율 없이 CSS 크기로 그려진다(`P.Scale.RESIZE`). 그래서 배경의 화면 확대 배율은 `max(화면 너비 / 그림 너비, 화면 높이 / 그림 높이)`다.
@@ -47,3 +47,18 @@ A17은 지금 작업 트리에 손으로 하는 돌봄 단계가 들어왔다(`s
 - `game/bg4.webp`(햇살 온실 배경)도 전자칠판에서 1.5배 확대되지만, 원본 `assets/optimized/scene-05.webp`가 1672×941이라 다시 내보내면 1.15배로 줄어든다. 새 그림은 필요 없다. 다만 장부 L04가 근거 약함이라, 원 제공자 자료가 끝내 없으면 그때 (가)로 옮겨 새로 그릴지 정한다.
 - `game/bg8.webp`, `game/ending-forest.webp`는 화면에서 쓰는 곳을 찾지 못했다(장부 「눈에 띈 점」). 교체보다 빌드에서 빼는 후보다.
 - 장부의 다른 근거 약함 그림(L17 지도 스프라이트, L18 대화 초상, L21 종이 카드·광채·로딩, L23 앱 아이콘, L24 공유 미리보기)은 기록 보강이나 사용자 자료로 풀린다. 크기도 화면에 비해 충분하다.
+
+## 3-3a에서 한 것 (2026-11-21)
+
+| 줄 | 한 것 | 뽑은 횟수 | 결과 |
+|---|---|---:|---|
+| 햇살 온실 배경 `bg4` | 코드로 풂: `src/game-assets.js`가 같은 그림의 큰 원본 `assets/optimized/scene-05.webp`(1672×941)를 바로 씀 | 0 | 1920×1080 확대 1.5 → 1.15배. 구도·색 그대로(전후 스크린숏 `.tmp/score-images-20261121/shots/greenhouse-before|after|prod/`) |
+| 사계절 정원 배경 `gardenSeasons` | 새로 그림: `assets/field/garden-seasons-v2.webp`(1672×941, webp 품질 87). 옛 v1은 저장소에 남김 | 2 (1차는 12분 동안 결과 없어 중단, 2차 성공) | 두 판 위치가 폭 20.8–49.4%·50.5–78.3%, 높이 18.1–62.2%로 v1(20.8–49.4%·50.6–78.4%, 18–62%)과 같아 코드 좌표(월드 x 452·825) 그대로. 1280×800·1024×768·1920×1080 전후 확인, 운영 확인(`.tmp/score-images-20261121/shots/garden-*`). 1920×1080 확대 1.5 → 1.15배 |
+
+생성 도구는 이 모델이 내는 가장 큰 크기 1672×941이라 1920×1080에서 1.0배까지는 못 갔다(1.15배).
+
+사계절 정원 프롬프트(참고 그림: 지금 `garden-seasons-v1.webp`를 PNG로 바꿔 `-i`로 넣음):
+
+> Redraw the attached reference image as a sharper, higher-resolution version of the exact same scene for a Korean elementary science game background. Keep the identical composition and framing: two blank cream paper boards on wooden easels in the same positions and sizes (left board from about 21% to 49% of the width, right board from about 51% to 78%, both from about 18% to 61% of the height), the wide wooden table across the bottom quarter, the green watering can and clay pots with gardening gloves on the left of the table, the wooden seed box with twine on the right, the apple tree with red apples above the boards, sunflowers and a white picket fence on the left, the rose arch on the right, blue sky. Same warm sunny painterly storybook style, same colors, same soft leaf shadows across the boards. The boards must stay completely empty. Landscape 16:9, highest detail. No text, no letters, no labels, no logos, no watermark, no people, no animals.
+
+(다) 햇살 온실 「빛이 드는 자리」 소품 1장은 3-3a 범위(화풍·해상도) 밖이라 그대로 두었다. 지금은 그늘 칸막이(`shade.webp`)와 코드로 그린 빛 매트로 표현한다.

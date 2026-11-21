@@ -16,11 +16,12 @@
 
 | 상태 | 줄 | 배포 파일 |
 |---|---:|---:|
-| 확인됨 | 26 | 264 (+ 라이브러리 2) |
+| 확인됨 | 27 | 265 (+ 라이브러리 2) |
 | 확인됨(사용자 확인) | 5 | 15 |
-| 근거 약함 | 8 | 15 |
+| 근거 약함 | 7 | 14 |
 | 출처 미확인 | 0 | 0 |
-| 합계 | 39 | 294 (+ 라이브러리 2) |
+| 배포에서 빠짐 | 1 | 0 |
+| 합계 | 40 | 294 (+ 라이브러리 2) |
 
 L34·L35는 L26과 같은 영상 파일 2개 안의 소리라서 파일 수를 따로 세지 않았다.
 
@@ -33,8 +34,9 @@ L34·L35는 L26과 같은 영상 파일 2개 안의 소리라서 파일 수를 �
 | L01 | `expedition/forest-world.webp`, `expedition/forest-world-title.webp` (지도·첫 화면 배경, 2개) | 그림/배경 | OpenAI 내장 image_gen. `-title`은 같은 그림을 다시 압축한 복사본 | 2026-10-18, 생성 ID `exec-007e3ef1…`, 프롬프트 원문 | OpenAI 이용약관 Content 항목(CREDITS 2026-10-21 도구표의 링크). 계정·요금제 증빙은 저장소에 없음 | `assets/expedition/generation.json`, `assets/expedition/manifest.json`, `assets/CREDITS.md`(0.5.0 절, 2026-10-25 절) | 확인됨 |
 | L02 | `field/observation-clearing.webp` (나비의 숲 배경) | 그림/배경 | OpenAI 내장 image_gen | 2026-10-21, 생성 ID `exec-2b86d132…`, 프롬프트 `field/prompt.txt` | L01과 같음 | `assets/field/manifest.json`, `assets/field/prompt.txt`, `assets/CREDITS.md`(도구표) | 확인됨 |
 | L03 | `game/seed-lab-greenhouse-v2.jpg` (씨앗 연구소 배경, 1920×819) | 그림/배경 | 내장 image_gen(Codex). 생성 PNG를 JPEG(품질 87)로 바꾼 파일 | 2026-11-15 09:28 KST(00:28 UTC), Codex 세션 `rollout-2026-11-15T01-02-51-01a1dacc…`의 이미지 생성(「environment art only for the Seed Lab chapter …」), 생성 원본 `exec-bb2a6bd7…png` → `cp` `seed-lab-source.png` → `sips -s format jpeg -s formatOptions 87` → 이 파일, 3분 뒤 커밋 `abe872e`. 3-2a단계에서 `_shared/CODEX-IMAGE-RECORDS-20261121.md` 방법으로 찾음 | L01과 같음 | `_shared/codex-image-records-20261121/index.jsonl`(2026-11-15T00:28:31Z 줄), 위 세션 기록(읽기만) | 확인됨 |
-| L04 | `game/bg4.webp` (햇살 온실 배경), `game/bg8.webp` (배포되지만 화면에서 쓰는 곳을 못 찾음, 아래 「눈에 띈 점」) | 그림/배경 | 사용자가 준 「ChatGPT Image 2026년 9월 23일 오후 …」 파일(scene-05, scene-09)을 줄인 사본 | 2026-09-23(원본 파일명), 대응표 `assets/README.md`, 줄인 기록 `game/manifest.json` | CREDITS: 「제공 주체와 권리자 이름·플랫폼 이용 조건은 별도 확정 필요」 | `assets/README.md`, `assets/game/manifest.json`, `assets/CREDITS.md`(2026-10-18 이전 제작 이력) | 확인됨(사용자 확인) — 사용자 확인(2026-11-21 09:25 「전부 맞아」: 그림은 전부 Codex·GPT 이미지, 유료 요금제). 원본 이름 「ChatGPT Image …」와 어긋나지 않음 |
-| L05 | `field/garden-seasons-v1.webp` (사계절 정원 배경) | 그림/배경 | 힉스필드 `gpt_image_2_5` | 2026-10-25, 원본 `field/source/garden-seasons-20261025.png`. 생성 ID·프롬프트 기록 없음 | 요금제·상업 이용 문구 없음 | `assets/CREDITS.md`(2026-10-25 화면 고도화 그림), `docs/HANDOFF-20261026.md` 24행 | 근거 약함 |
+| L04 | `optimized/scene-05.webp` (햇살 온실 배경, 0.9.25부터 `game/bg4.webp` 대신 같은 그림의 큰 원본을 씀), `game/bg8.webp` (배포되지만 화면에서 쓰는 곳을 못 찾음, 아래 「눈에 띈 점」) | 그림/배경 | 사용자가 준 「ChatGPT Image 2026년 9월 23일 오후 …」 파일(scene-05, scene-09)을 줄인 사본 | 2026-09-23(원본 파일명), 대응표 `assets/README.md`, 줄인 기록 `game/manifest.json` | CREDITS: 「제공 주체와 권리자 이름·플랫폼 이용 조건은 별도 확정 필요」 | `assets/README.md`, `assets/game/manifest.json`, `assets/CREDITS.md`(2026-10-18 이전 제작 이력) | 확인됨(사용자 확인) — 사용자 확인(2026-11-21 09:25 「전부 맞아」: 그림은 전부 Codex·GPT 이미지, 유료 요금제). 원본 이름 「ChatGPT Image …」와 어긋나지 않음 |
+| L05 | `field/garden-seasons-v1.webp` (사계절 정원 배경) | 그림/배경 | 힉스필드 `gpt_image_2_5` | 2026-10-25, 원본 `field/source/garden-seasons-20261025.png`. 생성 ID·프롬프트 기록 없음 | 요금제·상업 이용 문구 없음 | `assets/CREDITS.md`(2026-10-25 화면 고도화 그림), `docs/HANDOFF-20261026.md` 24행 | 배포에서 빠짐(0.9.25, `b4cea97`): 화면은 L05b의 새 그림을 쓴다. 파일은 저장소에 남김 |
+| L05b | `field/garden-seasons-v2.webp` (사계절 정원 배경, 1672×941) | 그림/배경 | Codex GPT 이미지(Claude Code `gpt-imagegen` 스킬 → `codex exec`), 지금 그림 `garden-seasons-v1.webp`를 참고 이미지로 넣어 같은 구도로 다시 그림 | 2026-11-21 10:14 KST, 프롬프트·참고 그림·생성 횟수는 [IMAGE-NEEDS-20261121](reviews/IMAGE-NEEDS-20261121.md) 「3-3a에서 한 것」, 원본 `assets/field/source/garden-seasons-20261121.png`, 커밋 `b4cea97` | 사용자 확인(2026-11-21 09:25 「전부 맞아」: Codex·유료 요금제) | 위 문서, 이 세션 기록 | 확인됨 |
 | L06 | `game/tower-room-sleep.webp`, `game/tower-room-awake.webp`, `game/tower-evidence-board.webp`, `game/ending-forest.webp` (시계탑 배경·증거판·엔딩 숲, 4개) | 그림/배경 | 내장 image_gen(Codex, 원본 경로 `.codex/generated_images`) | 2026-10-26, 그림별 생성 ID(`exec-4a332016…` 등), 원본 PNG `_source/original-png/` | L01과 같음 | `docs/image-generation-tower-20261026.json`, `assets/CREDITS.md`(2차 그림 주문 17·18·21·24번) | 확인됨 |
 | L07 | `game/` 생물·도구·화분·계절 그림 38개: apple, appleSpring, appleSummer, balsam, balsamDry, balsamSeeds, balsamSprout, butterfly, camera, caterpillar, chicken, chrysalis, clock, core, dry, egg, frog, lamp, lever, lightSensor, magnifier, moistureSensor, pale, pot0~3, ring, season, seed0~3, shade, soil, vessel, watercan, winter | 그림 | OpenAI image_gen(`generated/`·`adventure/` 원본을 줄인 사본) | 원본 2026-10-15(코드 BIO-·M04~M10·ADV-), 줄인 기록 2026-10-18 | L01과 같음 | `assets/game/manifest.json`, `assets/generated/manifest.json`·`prompts.json`, `assets/adventure/manifest.json`·`prompts.json`·`scene-prompts.json`·`science-prompts.json` | 확인됨 |
 | L08 | `game/pale-recover-1.webp`, `pale-recover-2.webp`, `dry-recover-1.webp`, `thermometer.webp`, `heat-mat.webp`, `watercan-pour.webp`, `field-camera.webp`, `photo-frame.webp` (온실·연구소·기록 소품, 8개) | 그림 | 내장 image_gen(Codex) | 2026-10-26, 그림별 생성 ID(`exec-65857991…` 등), 원본 `_source/original-png/` | L01과 같음 | `docs/image-generation-20261026.json`, `assets/CREDITS.md`(2차 주문 1~8번) | 확인됨 |
@@ -153,3 +155,7 @@ L34·L35는 L26과 같은 영상 파일 2개 안의 소리라서 파일 수를 �
 - L05·L21(힉스필드 `gpt_image_2_5`, 그림 4개): 저장소 기록이 힉스필드를 가리켜 사용자 확인(Codex)과 어긋난다. 규칙대로 덮어쓰지 않고 보고한다. 힉스필드 요금제 화면이나 「이것도 Codex로 다시 만든 것」 같은 확인이 있으면 풀린다.
 - L23(직접 작성 SVG 앱 아이콘): 생성 그림이 아니라 확인 범위 밖. CREDITS 「직접 작성 SVG」 표에 이름만 더하면 풀린다.
 - L27(Suno 음악)·L32·L34·L35(목소리)·L37(Meshy 3D): 이번 확인의 범위(그림·영상) 밖.
+
+### 3-3a 반영 (2026-11-21)
+
+사계절 정원 배경을 같은 구도로 다시 그려(L05b, Codex GPT 이미지) 힉스필드 그림 L05는 배포에서 빠졌다. 힉스필드 기록과 사용자 확인이 어긋나는 줄은 L21(종이 카드·보상 광채·구역 입장 로딩, 3개)만 남는다. 근거 약함 8 → 7줄(파일 15 → 14).
