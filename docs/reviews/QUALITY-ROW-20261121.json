@@ -1,15 +1,15 @@
 {
  "no": "04",
  "name": "생명 시계 연구실",
- "appCommit": "ce8826e",
- "measuredAt": "2026-11-21T07:50+09:00",
+ "appCommit": "fb8a910",
+ "measuredAt": "2026-11-21T09:40+09:00",
  "score": {
-  "total": 93,
-  "noDevice": 97,
+  "total": 94,
+  "noDevice": 98,
   "items": {
    "learning": 10,
    "fun": 9,
-   "function": 8,
+   "function": 9,
    "code": 9,
    "design": 10,
    "a11y": 9,
@@ -60,15 +60,15 @@
   "voiceLines": 120
  },
  "weight": {
-  "firstScreenKB": 2437,
-  "distMB": 42.07
+  "firstScreenKB": 1747,
+  "distMB": 42.81
  },
  "robust": {
   "reloadRestores": true,
   "corruptSaveHandled": true,
   "offlineRevisit": true,
-  "backButtonStaysInApp": false,
+  "backButtonStaysInApp": true,
   "certificatePrintsOnePage": true
  },
- "notes": "운영 0.9.23(d40e5afd). 활동=구역당 탐구 하나(단계 수 4·5·6·6·3, 가운데 5). autoRunSeconds는 운영 키보드 완주 QA 시간(대기 포함). 놀이 영역·글자는 1280×800 나비의 숲·햇살 온실·사계절 정원의 DOM 값(캔버스 글자는 코드의 20px 하한, 따로 못 잼). imagesOnScreenMedian은 그림 대부분이 캔버스에 그려져 DOM으로 셀 수 없어 null. firstScreenKB는 첫 화면 요청 69개 전송량(2.38 MB). 보상 연출 4(완료 창·성취 카드·카드 모음 축하·악당 격퇴), 전환 3(지도 걷기·개념 영상·이야기 영상). 뒤로 가기는 브라우저 뒤로 시 앱을 벗어남(3-2 예정)."
+ "notes": "운영 0.9.24(179f45d3). 활동=구역당 탐구 하나(단계 수 4·5·6·6·3, 가운데 5). autoRunSeconds는 운영 키보드 완주 QA 시간(대기 포함). 놀이 영역·글자는 1280×800 나비의 숲·햇살 온실·사계절 정원의 DOM 값(캔버스 글자는 코드의 20px 하한, 따로 못 잼). imagesOnScreenMedian은 그림 대부분이 캔버스에 그려져 DOM으로 셀 수 없어 null. firstScreenKB는 첫 화면 요청 70개 전송량(1.70 MB, 본문 글꼴 WOFF2). 보상 연출 4(완료 창·성취 카드·카드 모음 축하·악당 격퇴), 전환 3(지도 걷기·개념 영상·이야기 영상). 브라우저 뒤로 가기는 창 닫기 → 구역 → 지도 → 시작 화면 순으로 앱 안에 머묾(3-2a)."
 }

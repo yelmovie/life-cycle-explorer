@@ -16,9 +16,10 @@
 
 | 상태 | 줄 | 배포 파일 |
 |---|---:|---:|
-| 확인됨 | 25 | 263 (+ 라이브러리 2) |
-| 근거 약함 | 13 | 30 |
-| 출처 미확인 | 1 | 1 |
+| 확인됨 | 26 | 264 (+ 라이브러리 2) |
+| 확인됨(사용자 확인) | 5 | 15 |
+| 근거 약함 | 8 | 15 |
+| 출처 미확인 | 0 | 0 |
 | 합계 | 39 | 294 (+ 라이브러리 2) |
 
 L34·L35는 L26과 같은 영상 파일 2개 안의 소리라서 파일 수를 따로 세지 않았다.
@@ -31,8 +32,8 @@ L34·L35는 L26과 같은 영상 파일 2개 안의 소리라서 파일 수를 �
 |---|---|---|---|---|---|---|---|
 | L01 | `expedition/forest-world.webp`, `expedition/forest-world-title.webp` (지도·첫 화면 배경, 2개) | 그림/배경 | OpenAI 내장 image_gen. `-title`은 같은 그림을 다시 압축한 복사본 | 2026-10-18, 생성 ID `exec-007e3ef1…`, 프롬프트 원문 | OpenAI 이용약관 Content 항목(CREDITS 2026-10-21 도구표의 링크). 계정·요금제 증빙은 저장소에 없음 | `assets/expedition/generation.json`, `assets/expedition/manifest.json`, `assets/CREDITS.md`(0.5.0 절, 2026-10-25 절) | 확인됨 |
 | L02 | `field/observation-clearing.webp` (나비의 숲 배경) | 그림/배경 | OpenAI 내장 image_gen | 2026-10-21, 생성 ID `exec-2b86d132…`, 프롬프트 `field/prompt.txt` | L01과 같음 | `assets/field/manifest.json`, `assets/field/prompt.txt`, `assets/CREDITS.md`(도구표) | 확인됨 |
-| L03 | `game/seed-lab-greenhouse-v2.jpg` (씨앗 연구소 배경, 1920×819) | 그림/배경 | 기록 없음 | git 커밋 `abe872e`(2026-11-15, 메시지 「Use one continuous greenhouse backdrop in the Seed Lab」)뿐. CREDITS·manifest·docs·`_shared`·`_scratch` 어디에도 파일 이름이 없다 | 알 수 없음 | (없음) | **출처 미확인** |
-| L04 | `game/bg4.webp` (햇살 온실 배경), `game/bg8.webp` (배포되지만 화면에서 쓰는 곳을 못 찾음, 아래 「눈에 띈 점」) | 그림/배경 | 사용자가 준 「ChatGPT Image 2026년 9월 23일 오후 …」 파일(scene-05, scene-09)을 줄인 사본 | 2026-09-23(원본 파일명), 대응표 `assets/README.md`, 줄인 기록 `game/manifest.json` | CREDITS: 「제공 주체와 권리자 이름·플랫폼 이용 조건은 별도 확정 필요」 | `assets/README.md`, `assets/game/manifest.json`, `assets/CREDITS.md`(2026-10-18 이전 제작 이력) | 근거 약함 |
+| L03 | `game/seed-lab-greenhouse-v2.jpg` (씨앗 연구소 배경, 1920×819) | 그림/배경 | 내장 image_gen(Codex). 생성 PNG를 JPEG(품질 87)로 바꾼 파일 | 2026-11-15 09:28 KST(00:28 UTC), Codex 세션 `rollout-2026-11-15T01-02-51-01a1dacc…`의 이미지 생성(「environment art only for the Seed Lab chapter …」), 생성 원본 `exec-bb2a6bd7…png` → `cp` `seed-lab-source.png` → `sips -s format jpeg -s formatOptions 87` → 이 파일, 3분 뒤 커밋 `abe872e`. 3-2a단계에서 `_shared/CODEX-IMAGE-RECORDS-20261121.md` 방법으로 찾음 | L01과 같음 | `_shared/codex-image-records-20261121/index.jsonl`(2026-11-15T00:28:31Z 줄), 위 세션 기록(읽기만) | 확인됨 |
+| L04 | `game/bg4.webp` (햇살 온실 배경), `game/bg8.webp` (배포되지만 화면에서 쓰는 곳을 못 찾음, 아래 「눈에 띈 점」) | 그림/배경 | 사용자가 준 「ChatGPT Image 2026년 9월 23일 오후 …」 파일(scene-05, scene-09)을 줄인 사본 | 2026-09-23(원본 파일명), 대응표 `assets/README.md`, 줄인 기록 `game/manifest.json` | CREDITS: 「제공 주체와 권리자 이름·플랫폼 이용 조건은 별도 확정 필요」 | `assets/README.md`, `assets/game/manifest.json`, `assets/CREDITS.md`(2026-10-18 이전 제작 이력) | 확인됨(사용자 확인) — 사용자 확인(2026-11-21 09:25 「전부 맞아」: 그림은 전부 Codex·GPT 이미지, 유료 요금제). 원본 이름 「ChatGPT Image …」와 어긋나지 않음 |
 | L05 | `field/garden-seasons-v1.webp` (사계절 정원 배경) | 그림/배경 | 힉스필드 `gpt_image_2_5` | 2026-10-25, 원본 `field/source/garden-seasons-20261025.png`. 생성 ID·프롬프트 기록 없음 | 요금제·상업 이용 문구 없음 | `assets/CREDITS.md`(2026-10-25 화면 고도화 그림), `docs/HANDOFF-20261026.md` 24행 | 근거 약함 |
 | L06 | `game/tower-room-sleep.webp`, `game/tower-room-awake.webp`, `game/tower-evidence-board.webp`, `game/ending-forest.webp` (시계탑 배경·증거판·엔딩 숲, 4개) | 그림/배경 | 내장 image_gen(Codex, 원본 경로 `.codex/generated_images`) | 2026-10-26, 그림별 생성 ID(`exec-4a332016…` 등), 원본 PNG `_source/original-png/` | L01과 같음 | `docs/image-generation-tower-20261026.json`, `assets/CREDITS.md`(2차 그림 주문 17·18·21·24번) | 확인됨 |
 | L07 | `game/` 생물·도구·화분·계절 그림 38개: apple, appleSpring, appleSummer, balsam, balsamDry, balsamSeeds, balsamSprout, butterfly, camera, caterpillar, chicken, chrysalis, clock, core, dry, egg, frog, lamp, lever, lightSensor, magnifier, moistureSensor, pale, pot0~3, ring, season, seed0~3, shade, soil, vessel, watercan, winter | 그림 | OpenAI image_gen(`generated/`·`adventure/` 원본을 줄인 사본) | 원본 2026-10-15(코드 BIO-·M04~M10·ADV-), 줄인 기록 2026-10-18 | L01과 같음 | `assets/game/manifest.json`, `assets/generated/manifest.json`·`prompts.json`, `assets/adventure/manifest.json`·`prompts.json`·`scene-prompts.json`·`science-prompts.json` | 확인됨 |
@@ -50,8 +51,8 @@ L34·L35는 L26과 같은 영상 파일 2개 안의 소리라서 파일 수를 �
 | L14 | `game/jihoon.webp`, `think.webp`, `cheer.webp`, `ipsae.webp`, `ipsaeCheer.webp`, `walk.webp` (지훈·잎새·지도 걷기 시트, 6개) | 캐릭터 | OpenAI image_gen(`adventure/` 원본을 줄인 사본, 코드 CHAR-J-01~03·CHAR-L-01~02·CHAR-MAP) | 원본 2026-10-15, 줄인 기록 2026-10-18 | L01과 같음 | `assets/game/manifest.json`, `assets/adventure/manifest.json`·`prompts.json` | 확인됨 |
 | L15 | `expedition/guideLook/Care/Time/Story.webp` (지훈 동작 4개) | 캐릭터 | OpenAI 내장 image_gen(`jihoon-actions.png`를 4칸으로 자름) | 2026-10-18, 생성 ID | L01과 같음 | `assets/expedition/generation.json`, `assets/expedition/manifest.json` | 확인됨 |
 | L16 | `field/doto.webp` (도토) | 캐릭터 | OpenAI 내장 image_gen | 2026-10-22, 프롬프트·출력 ID·해시, 원본 `field/source/doto-20261022.png` | L01과 같음 | `assets/field/doto-generation.json`, `assets/CREDITS.md`(0.7.0) | 확인됨 |
-| L17 | `field/map-villain-left-v2.webp`, `map-villain-right-v2.webp`, `map-hero-reaction-v2.webp`, `map-ally-reaction-v2.webp` (지도 전투 스프라이트 4개) | 캐릭터 | 「기존 외형을 참고해 새로 그렸다」고만 적혀 있고 도구 이름이 없다 | 2026-11-14, git 커밋 `d9936fd`. 저장소 CREDITS에는 없음 | 적힌 것 없음 | `_scratch/redraw-02-05-20261114/DELIVERY.md`(4번 줄, 「생성 원본과 프롬프트는 이 외장 SSD 작업 폴더에」), `_scratch/map-redraw-20261114/RELEASES.json`, `_shared/MAP-VILLAINS-HANDOFF-20261114.md`(신규 스프라이트 운영 배포 절) | 근거 약함 |
-| L18 | `npc-dialogue/jihoon.webp`, `ipsae.webp`, `doto.webp` (대화 초상 3개) | 캐릭터 | 생성 원본이 `/Users/yel/.codex/generated_images/…`에서 나왔다(Codex 이미지 도구 경로). 한 장을 잘라 3명으로 나눔 | 2026-11-13, git 커밋 `eb13cb1`. 저장소 CREDITS에는 없음 | 적힌 것 없음 | `_scratch/npc-03-04-20261113/image-origin-cleanup.json`(생성 ID 3개), `_scratch/npc-03-04-20261113/portraits.zsh`, `_shared/OBSIDIAN-RULES-AUDIT-PROPOSAL-20261117.md` 199행(「4번 대화 초상 출처가 CREDITS에 없음」) | 근거 약함 |
+| L17 | `field/map-villain-left-v2.webp`, `map-villain-right-v2.webp`, `map-hero-reaction-v2.webp`, `map-ally-reaction-v2.webp` (지도 전투 스프라이트 4개) | 캐릭터 | 「기존 외형을 참고해 새로 그렸다」고만 적혀 있고 도구 이름이 없다 | 2026-11-14, git 커밋 `d9936fd`. 저장소 CREDITS에는 없음 | 적힌 것 없음 | `_scratch/redraw-02-05-20261114/DELIVERY.md`(4번 줄, 「생성 원본과 프롬프트는 이 외장 SSD 작업 폴더에」), `_scratch/map-redraw-20261114/RELEASES.json`, `_shared/MAP-VILLAINS-HANDOFF-20261114.md`(신규 스프라이트 운영 배포 절) | 확인됨(사용자 확인) — 사용자 확인(2026-11-21 09:25 「전부 맞아」). 같은 날 밤 Codex 색인에 지도 악당·스프라이트 편집 기록이 있으나(2026-11-13T15:55~21:08Z, 과학34 루트 세션) 이 4개와 한 장씩 잇지는 못함 |
+| L18 | `npc-dialogue/jihoon.webp`, `ipsae.webp`, `doto.webp` (대화 초상 3개) | 캐릭터 | 생성 원본이 `/Users/yel/.codex/generated_images/…`에서 나왔다(Codex 이미지 도구 경로). 한 장을 잘라 3명으로 나눔 | 2026-11-13, git 커밋 `eb13cb1`. 저장소 CREDITS에는 없음 | 적힌 것 없음 | `_scratch/npc-03-04-20261113/image-origin-cleanup.json`(생성 ID 3개), `_scratch/npc-03-04-20261113/portraits.zsh`, `_shared/OBSIDIAN-RULES-AUDIT-PROPOSAL-20261117.md` 199행(「4번 대화 초상 출처가 CREDITS에 없음」) | 확인됨(사용자 확인) — Codex 생성 경로·생성 ID 3개(위 근거) + 사용자 확인(2026-11-21 09:25 「전부 맞아」, 유료 요금제) |
 
 ### 아이콘·UI
 
@@ -62,14 +63,14 @@ L34·L35는 L26과 같은 영상 파일 2개 안의 소리라서 파일 수를 �
 | L21 | `field/paper-card-v1.webp`, `field/reward-rays-v1.webp`, `field/doto-map-v1.webp` (종이 카드·보상 광채·구역 입장 로딩, 3개) | 아이콘·UI | 힉스필드 `gpt_image_2_5` | 2026-10-25, 원본 `field/source/*-20261025.png`. 생성 ID·프롬프트 기록 없음 | 요금제·상업 이용 문구 없음 | `assets/CREDITS.md`(2026-10-25), `docs/HANDOFF-20261026.md` 24행 | 근거 약함 |
 | L22 | `reward-cards/card-1~5-*.webp`, `thumb-1~5-*.webp` (성취 카드 10개) | 아이콘·UI | ChatGPT 앱의 Codex 내장 이미지 도구(GPT 이미지). 테두리·별·이름은 코드 | 2026-11-18. 생성 ID 기록은 없고 원본 PNG는 저장소에 넣지 않음 | L01과 같음 | `assets/CREDITS.md`(2026-11-18 성취 카드 절). 카드 코드 모듈은 `_shared/reward-cards/INTEGRATION.md` | 확인됨 |
 | L23 | `field/app-icon.svg` (앱 아이콘) | 아이콘·UI | 파일 내용은 도형 2개짜리 직접 작성 SVG 코드. CREDITS의 「직접 작성 SVG」 표에는 홈·이전·소리·설정·활동 아이콘만 있고 앱 아이콘 이름은 없다 | git 커밋 `777e903`(2026-10-25) | 적힌 것 없음 | `assets/field/app-icon.svg`, `assets/CREDITS.md`(도구표 「직접 작성 SVG」 줄) | 근거 약함 |
-| L24 | `og/life-clock-lab-20261027.jpg` (공유 미리보기 1200×600) | 아이콘·UI | 같은 커밋에 내장 image_gen 후보 PNG 5장과 생성 기록이 있다. 최종 JPG가 어느 후보에서 나왔는지는 적혀 있지 않다 | 2026-10-27, git 커밋 `cfe4ee3` | L01과 같음(후보 기준) | `docs/image-generation-og-samples-20261027.json`, `docs/image-generation-og-characters-20261027.json`, `docs/image-generation-og-redesign-20261027.json`, `docs/reviews/og-release-20261027.json` | 근거 약함 |
+| L24 | `og/life-clock-lab-20261027.jpg` (공유 미리보기 1200×600) | 아이콘·UI | 같은 커밋에 내장 image_gen 후보 PNG 5장과 생성 기록이 있다. 최종 JPG가 어느 후보에서 나왔는지는 적혀 있지 않다 | 2026-10-27, git 커밋 `cfe4ee3` | L01과 같음(후보 기준) | `docs/image-generation-og-samples-20261027.json`, `docs/image-generation-og-characters-20261027.json`, `docs/image-generation-og-redesign-20261027.json`, `docs/reviews/og-release-20261027.json` | 확인됨(사용자 확인) — 후보 5장 모두 내장 image_gen 기록, 최종 JPG도 사용자 확인(2026-11-21 09:25 「전부 맞아」)으로 Codex·GPT 이미지 |
 
 ### 영상
 
 | 번호 | 파일(묶음) | 종류 | 만든 곳 | 만든 날·기록 위치 | 이용 조건 | 근거 파일 경로 | 상태 |
 |---|---|---|---|---|---|---|---|
 | L25 | `concepts/*.mp4`, `*.webm`, `*.webp` (개념 영상 5편 × 3, 15개) | 영상 | 자체 제작: 프로젝트 생물·도구 그림 + 직접 쓴 SVG 모션을 sharp·로컬 FFmpeg로 렌더, 자막은 영상에 구움 | 2026-10-22 첫 제작, 2026-10-24 care/seasons 다시 렌더, 2026-11-18 자막 굽기 | 들어간 그림은 L07 등의 조건을 따름. 도구 실행 파일은 배포하지 않음 | `assets/concepts/README.txt`, `scripts/render-concepts.mjs`, `docs/concept-captions-20261118/`, `_shared/caption-motion-20261118/`, `assets/CREDITS.md`(0.7.0) | 확인됨 |
-| L26 | `video/intro.mp4`, `video/final.mp4`, `video/intro-poster.jpg`, `final-poster.jpg`, `final-still.jpg` (5개) | 영상 | 사용자가 제작해 제공한 마스터(1920×1080 HEVC)를 줄인 것. 이미지→영상 생성 도구 이름은 기록에 없다(제작 자료 README: 「생성 툴은 지정하지 않았다」) | 2026-10-27 제공, 원본 `_source/video/*-master-20261027.mp4`. 2026-11-13 소리 트랙 추가(L34), 2026-11-15 파이널 3.60–7.80초 장면 교체(L35) | 영상 그림 부분의 이용 조건 기록 없음 | `assets/CREDITS.md`(인트로·파이널 영상 절), `docs/video-production/20261027-character-storyboards/README.md` | 근거 약함 |
+| L26 | `video/intro.mp4`, `video/final.mp4`, `video/intro-poster.jpg`, `final-poster.jpg`, `final-still.jpg` (5개) | 영상 | 사용자가 제작해 제공한 마스터(1920×1080 HEVC)를 줄인 것. 이미지→영상 생성 도구 이름은 기록에 없다(제작 자료 README: 「생성 툴은 지정하지 않았다」) | 2026-10-27 제공, 원본 `_source/video/*-master-20261027.mp4`. 2026-11-13 소리 트랙 추가(L34), 2026-11-15 파이널 3.60–7.80초 장면 교체(L35) | 영상 그림 부분의 이용 조건 기록 없음 | `assets/CREDITS.md`(인트로·파이널 영상 절), `docs/video-production/20261027-character-storyboards/README.md` | 확인됨(사용자 확인) — 영상 그림 부분: 사용자 확인(2026-11-21 09:25 「전부 맞아」: 영상은 제미나이, 유료 요금제). 내레이션 소리는 L34로 따로 |
 
 ### 배경 음악
 
@@ -126,7 +127,7 @@ L34·L35는 L26과 같은 영상 파일 2개 안의 소리라서 파일 수를 �
 
 | 줄 | 필요한 자료 | 오면 바뀌는 것 |
 |---|---|---|
-| L03 | `game/seed-lab-greenhouse-v2.jpg`를 만든 도구와 날짜를 알 수 있는 것(생성 화면 캡처, 받은 파일이나 메일). 없으면 새로 그려 교체한다(`docs/reviews/IMAGE-NEEDS-20261121.md` 가) | 출처 미확인 → 확인됨 또는 근거 약함 |
+| L03 | (풀림, 2026-11-21) Codex 생성 기록과 변환 명령으로 이어져 확인됨. 더 줄 자료 없음 | — |
 | L04 | 2026-09-23 「ChatGPT Image …」 원본 12장을 누가 만들었는지. 직접 만들었으면 그때 ChatGPT 계정 요금제 화면, 업체(아이스크림미디어 등)가 준 것이면 이용 근거가 되는 계약서나 메일 | 근거 약함 → 확인됨 |
 | L05, L21 | 힉스필드 요금제·상업 이용 조건 화면(2026-10-25 생성 시점), 가능하면 생성 내역 화면(작업 ID) | 근거 약함 → 확인됨 |
 | L37 | Meshy 요금제·상업 이용 조건 화면(2026-10-26 생성 시점). 기본 이미지 몫으로 위 힉스필드 화면도 함께 | 근거 약함 → 확인됨 |
@@ -138,3 +139,17 @@ L34·L35는 L26과 같은 영상 파일 2개 안의 소리라서 파일 수를 �
 | L23 | 앱 아이콘 SVG를 직접(또는 에이전트가) 코드로 그렸는지 한 마디 | 근거 약함 → 확인됨 |
 
 자료 없이 기록 보강으로 풀 수 있는 것(에이전트 일): L24는 후보 PNG 5장과 배포 JPG를 대조해 어느 후보인지 연결하면 된다. L35는 이 대사가 앱에서 음소거되는 구간이라, 생성 기록이 없으면 영상 파일에서 그 구간 소리를 L31 음성으로 바꿔 굽는 방법도 있다.
+
+
+## 3-2a 보강 (2026-11-21)
+
+`_shared/CODEX-IMAGE-RECORDS-20261121.md`의 색인(Codex 208건·Claude Code 68건)과 대조했다. 출처 미확인이던 L03 한 줄이 Codex 생성 기록으로 이어져 확인됨으로 바뀌었다(출처 미확인 1 → 0). 근거 약함 13줄은 대부분 2026-11-05 이전(이 맥의 생성 로그가 시작되기 전) 그림이나 요금제 화면이 필요한 줄이라 이번 대조로 바뀐 것이 없다. 10번 세션의 사용자 말(「이미지는 다 코덱스로 만들었어」, 「다 유료 요금제」)은 조율 세션이 이 프로젝트에 다시 확인받기 전이라 쓰지 않았다.
+
+### 사용자 확인 반영 (2026-11-21 09:25 이후)
+
+조율 세션에서 사용자가 「16곳 그림은 전부 Codex(GPT), 영상은 제미나이, 모두 유료 요금제」에 「전부 맞아」라고 답했다(`_shared/CODEX-IMAGE-RECORDS-20261121.md` 맨 위). 다른 도구 증거가 없는 그림·영상 5줄(L04·L17·L18·L24·L26)을 「확인됨(사용자 확인)」으로 바꿨다. 근거 약함 13 → 8줄.
+
+그대로 둔 줄과 까닭:
+- L05·L21(힉스필드 `gpt_image_2_5`, 그림 4개): 저장소 기록이 힉스필드를 가리켜 사용자 확인(Codex)과 어긋난다. 규칙대로 덮어쓰지 않고 보고한다. 힉스필드 요금제 화면이나 「이것도 Codex로 다시 만든 것」 같은 확인이 있으면 풀린다.
+- L23(직접 작성 SVG 앱 아이콘): 생성 그림이 아니라 확인 범위 밖. CREDITS 「직접 작성 SVG」 표에 이름만 더하면 풀린다.
+- L27(Suno 음악)·L32·L34·L35(목소리)·L37(Meshy 3D): 이번 확인의 범위(그림·영상) 밖.
