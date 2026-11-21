@@ -30,3 +30,18 @@ Naver's `NanumSquareNeo-Variable.woff` (SHA-256 abbc7b2a…62d2e3) is not used: 
 ("OTS parsing error: Unable to instantiate font face"), both from this project and from Naver's own URL, so the page
 fell back to Malgun Gothic. It is kept in `source/` for provenance and is excluded from the build.
 Previously supplied font files are retained for provenance; the runtime no longer uses them.
+
+# NanumSquareNeo WOFF2 (2026-11-21)
+
+The 400 and 700 weights are now served as WOFF2 first, with the WOFF files above kept as the fallback in the same `@font-face`.
+The WOFF2 files are copied unchanged from `7 earthchange/public/assets/fonts/` (its `NanumSquareNeo-SOURCE.json`:
+source https://campaign.naver.com/nanumsquare_neo/download/NaverNanumSquareNeo.zip, SIL OFL 1.1). The 800–900 weight stays WOFF only,
+because no WOFF2 copy with a recorded source was found.
+
+| File | Weight | Bytes | SHA-256 |
+|---|---|---:|---|
+| NanumSquareNeoTTF-bRg.woff2 | 400 | 387104 | d13846b612acc829078aff4f91c272c637c08441b409d46bb1a4c802eb2967c3 |
+| NanumSquareNeoTTF-cBd.woff2 | 700 | 384992 | 97dfe9720fbed813fc988fcedbcf741e97eef9353515b2043717484ec0b90aa1 |
+
+Check before switching (headless Chrome): the advance width of 11,390 characters (ASCII, every Hangul syllable U+AC00–D7A3,
+Hangul jamo and the symbols the game uses) is identical between each WOFF and WOFF2 pair (`.tmp/score-fix-20261121/fontcmp.mjs`).

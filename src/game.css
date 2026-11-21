@@ -1,7 +1,7 @@
 @import url('./field-notebook.css');
 /* Local OFL font. Artwork supplies the world; CSS frames its controls. */
-@font-face{font-family:NanumSquareNeo;font-style:normal;font-weight:400;font-display:swap;src:url('../assets/fonts/NanumSquareNeoTTF-bRg.woff') format('woff')}
-@font-face{font-family:NanumSquareNeo;font-style:normal;font-weight:700;font-display:swap;src:url('../assets/fonts/NanumSquareNeoTTF-cBd.woff') format('woff')}
+@font-face{font-family:NanumSquareNeo;font-style:normal;font-weight:400;font-display:swap;src:url('../assets/fonts/NanumSquareNeoTTF-bRg.woff2') format('woff2'),url('../assets/fonts/NanumSquareNeoTTF-bRg.woff') format('woff')}
+@font-face{font-family:NanumSquareNeo;font-style:normal;font-weight:700;font-display:swap;src:url('../assets/fonts/NanumSquareNeoTTF-cBd.woff2') format('woff2'),url('../assets/fonts/NanumSquareNeoTTF-cBd.woff') format('woff')}
 @font-face{font-family:NanumSquareNeo;font-style:normal;font-weight:800 900;font-display:swap;src:url('../assets/fonts/NanumSquareNeoTTF-dEb.woff') format('woff')}
 :root{
   /* Primitive → semantic → component tokens; palette from forest artwork. */

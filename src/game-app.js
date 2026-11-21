@@ -23,6 +23,7 @@ import {rangeControl,timeStops} from './room-time-controls.js';
 import {createDotoVoice} from './doto-voice.js';
 import {layoutMapDoors} from './map-door-layout.js';
 import {createNoteBox} from './observation-note-box.js';
+import {installBackGuard} from './back-guard.js';
 import {autoPlayable} from './field-autoplay.js';
 import {openConcept} from './field-concepts.js';
 import {openCinema} from './field-cinema.js';
@@ -218,7 +219,7 @@ function render(){rememberTeacherPreview();const m=mode(),room=m==='room';saveBa
  $('next').classList.toggle('map-next-cue',m==='map'&&!reducedMotion(s.settings)&&!!$('next').querySelector('.map-direction-cue'));
  // Rebuilt door buttons take their map positions at once instead of on the next frame.
  autoPlayButton(room);mapHandButton(m==='map');
- const b=app.querySelector('[data-action=sound]'),on=s.audio.bgm||s.audio.sfx||s.audio.voice;b.innerHTML=icon(on?'sound':'mute');b.setAttribute('aria-label',on?'소리 끄기':'소리 켜기');b.setAttribute('aria-pressed',String(on));syncRewardSlots(s.mapEncounters);updateGuide();if(m==='map')ctx.scene?.update?.();armTimeFlow();}
+ const b=app.querySelector('[data-action=sound]'),on=s.audio.bgm||s.audio.sfx||s.audio.voice;b.innerHTML=icon(on?'sound':'mute');b.setAttribute('aria-label',on?'소리 끄기':'소리 켜기');b.setAttribute('aria-pressed',String(on));syncRewardSlots(s.mapEncounters);updateGuide();if(m==='map')ctx.scene?.update?.();armTimeFlow();syncBack();}
 // Time dials turn by themselves one step at a time, so the learner watches instead of tapping each day.
 // The dial can still be turned by hand; the flow carries on from wherever it is.
 function timeTarget(){const c=s.field.active,q=s.field.chapters[c],p=roomPhase(s.field);if(observationHeld(s.field))return null;
@@ -323,14 +324,14 @@ function checkOpenings(){
  if(open===openingsHeard||!openingQuiet())return;
  openingsHeard=open;audio.playSfx('stage-unlock');
 }
-checkOpenings();setInterval(checkOpenings,400);modal.addEventListener('close',()=>checkOpenings());
+checkOpenings();setInterval(()=>{checkOpenings();syncBack();},400);modal.addEventListener('close',()=>checkOpenings());
 // A card or the album stops a walk as it opens, as a dialog does; when it closes the scene gets its input back.
-watchRewardLayer(open=>{if(!open){if(ctx.scene&&!modal.open)ctx.scene.input.enabled=fieldReady;}else if(mode()==='map'){ctx.scene?.cancelTravel();ui.travelChapter=null;render();}});
+watchRewardLayer(open=>{syncBack();if(!open){if(ctx.scene&&!modal.open)ctx.scene.input.enabled=fieldReady;}else if(mode()==='map'){ctx.scene?.cancelTravel();ui.travelChapter=null;render();}});
 function positionDoors(items,companion,hero){
  positionEncounters(items,companion,hero);
  if(mode()!=='map')return;layoutMapDoors({app,stage:$('stage'),doors:$('map-doors'),guide:$('guide'),items,companion,coordinates});
 }
-function dialog({title,body,actions=btn('계속 탐험','close','','primary'),className='',music='main',values={}}){mediaCleanup?.();mediaCleanup=null;modal.dispatchEvent(new Event('modal-dismiss'));audio.setMusicTheme(music);if(!modal.open)dialogFocus=document.activeElement;if(mode()==='map'){ctx.scene?.cancelTravel();ui.travelChapter=null;render();}modal.className=className;const scienceSettings=className==='settings-dialog';modal.toggleAttribute('data-science-settings',scienceSettings);modal.setAttribute('aria-labelledby','dialog-title');modal.innerHTML=`<h2 id="dialog-title">${esc(title)}</h2>${scienceSettings?'':`<button class="close icon-button" data-action="close" aria-label="닫기">${icon('close')}</button>`}<div class="modal-portrait" tabindex="-1" role="status">화면을 가로로 돌리면 작성 중인 내용을 이어 갈 수 있어.</div><div class="modal-body${scienceSettings?' science-settings-body':''}">${body}</div><div class="dialog-actions${scienceSettings?' science-settings-footer':''}">${actions}</div>`;for(const[id,value]of Object.entries(values)){const input=modal.querySelector('#'+id);if(input)input.value=value;}if(!modal.open)modal.showModal();syncOrientationFocus();if(ctx.scene)ctx.scene.input.enabled=false;modal.querySelector('.modal-body').scrollTop=0;modal.querySelector('[autofocus]')?.focus();}
+function dialog({title,body,actions=btn('계속 탐험','close','','primary'),className='',music='main',values={}}){mediaCleanup?.();mediaCleanup=null;modal.dispatchEvent(new Event('modal-dismiss'));audio.setMusicTheme(music);if(!modal.open)dialogFocus=document.activeElement;if(mode()==='map'){ctx.scene?.cancelTravel();ui.travelChapter=null;render();}modal.className=className;const scienceSettings=className==='settings-dialog';modal.toggleAttribute('data-science-settings',scienceSettings);modal.setAttribute('aria-labelledby','dialog-title');modal.innerHTML=`<h2 id="dialog-title">${esc(title)}</h2>${scienceSettings?'':`<button class="close icon-button" data-action="close" aria-label="닫기">${icon('close')}</button>`}<div class="modal-portrait" tabindex="-1" role="status">화면을 가로로 돌리면 작성 중인 내용을 이어 갈 수 있어.</div><div class="modal-body${scienceSettings?' science-settings-body':''}">${body}</div><div class="dialog-actions${scienceSettings?' science-settings-footer':''}">${actions}</div>`;for(const[id,value]of Object.entries(values)){const input=modal.querySelector('#'+id);if(input)input.value=value;}if(!modal.open)modal.showModal();syncBack();syncOrientationFocus();if(ctx.scene)ctx.scene.input.enabled=false;modal.querySelector('.modal-body').scrollTop=0;modal.querySelector('[autofocus]')?.focus();}
 modal.addEventListener('close',()=>{if(modal.open)return;mediaCleanup?.();mediaCleanup=null;if(ctx.scene)ctx.scene.input.enabled=fieldReady;if(!document.querySelector('.map-finale-dialog'))audio.setMusicTheme('main');audio.resumeAudio();if(Number.isInteger(ui.pendingRestoreChapter)&&mode()==='map'){ui.restoreChapter=ui.pendingRestoreChapter;ui.pendingRestoreChapter=null;ctx.scene?.refresh();}if(dialogFocus?.isConnected)dialogFocus.focus({preventScroll:true});else if(mode()==='room')$('next')?.focus({preventScroll:true});});
 function friendsDialogue(initial=0){
  dialog({title:'생명 시계 친구들과 이야기',body:characterDialogueMarkup,actions:'',className:'npc-dialogue-stage'});
@@ -412,6 +413,9 @@ function pickGuide(d){const q=s.field.chapters[s.field.active],tool={water:'물�
  :['사진','옮길 자리를 눌러 줘.'];
  return {picked:objectParticle(name)+' 골랐어. '+goal,refused:objectParticle(name).replace(/을$/,'은').replace(/를$/,'는')+' 그 자리에 놓을 수 없어. '+goal};}
 // The right care tool opens a short hands-on step (tilt the can, carry the pot into the light); the record is written when it ends.
+// Browser back: close an open window, else room → map → title (B13). The in-app back button does the same.
+let backGuard=null;
+function syncBack(){backGuard??=installBackGuard({needed:()=>mode()!=='title'||!!document.querySelector('dialog[open]')||rewardLayerOpen()||ui.guide,back:()=>{if(rewardLayerOpen())return;const open=document.querySelector('dialog[open]');if(open){open.close();return;}if(ui.guide){closeGuide();return;}if(mode()==='room')view('map');else if(mode()==='map')view('title');}});backGuard();}
 function startCare(t,tool){if(!t||tool!==t.variable||t.measured.length<2||!t.symptom||t.tool)return false;ui.selection=null;ui.carePour={key:s.field.active+':'+s.field.chapters[s.field.active].case,tool,amount:0};render();ctx.scene?.refresh();return true;}
 function drop(data){const {kind,target}=data,q=s.field.chapters[s.field.active];let type,p={};
  if(kind==='film'&&target.startsWith('film-')){type='film-move';p={from:data.from,to:Number(target.slice(5))};}
