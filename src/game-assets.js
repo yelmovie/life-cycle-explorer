@@ -103,7 +103,7 @@ export const ART={
   "balsamSprout": "assets/game/balsamSprout.webp",
   "balsamSeeds": "assets/game/balsamSeeds.webp",
   "dogYoung": "assets/field/dog-juvenile-v1.webp",
-  "gardenSeasons": "assets/field/garden-seasons-v1.webp",
+  "gardenSeasons": "assets/field/garden-seasons-v2.webp",
   "paperCard": "assets/field/paper-card-v1.webp",
   "rewardRays": "assets/field/reward-rays-v1.webp",
   "dotoMap": "assets/field/doto-map-v1.webp"
@@ -111,6 +111,6 @@ export const ART={
 // Room backdrops still in use; the other early scene renders moved to _unused/ on 2026-10-25.
 export const SCENES={
   "bg2": "assets/game/seed-lab-greenhouse-v2.jpg",
-  "bg4": "assets/game/bg4.webp",
+  "bg4": "assets/optimized/scene-05.webp",
   "bg8": "assets/game/bg8.webp"
 };
