@@ -37,7 +37,7 @@ export const SETTINGS_CONTENT = Object.freeze({
   ],
   credits: [
     '캐릭터·배경·탐구 도구는 프로젝트 자체 AI 생성 이미지입니다. 생물 그림은 관찰과 비교를 돕는 학습용 재현 이미지입니다.',
-    '메인·엔딩 배경 음악은 사용자가 제공한 Suno 제작 음원입니다. 효과음은 Kenney의 CC0 자료이며, 음원을 읽지 못할 때는 합성 소리로 재생합니다.',
+    '메인·엔딩 배경 음악은 사용자가 제공한 Suno 제작 음원입니다. 효과음은 Kenney·OpenGameArt·freesound의 CC0 자료이며, 음원을 읽지 못할 때는 합성 소리로 재생합니다. 목소리는 ElevenLabs와 Qwen3-TTS로 만들었습니다.',
     '나눔스퀘어네오 글꼴은 SIL Open Font License 1.1, Phaser 엔진은 MIT 라이선스에 따라 사용합니다.',
     '출처와 라이선스 상세 내용은 프로젝트의 assets/CREDITS.md에서 확인할 수 있습니다.',
   ],
@@ -46,7 +46,7 @@ export const SETTINGS_CONTENT = Object.freeze({
     {title:'배경·캐릭터·탐구 그림', text:'프로젝트 자체 AI 생성 이미지 · OpenAI 이미지 생성 도구'},
     {title:'글꼴', text:'나눔스퀘어네오 · 네이버 · SIL Open Font License 1.1'},
     {title:'게임 엔진', text:'Phaser 3.90.0 · Phaser Studio · MIT'},
-    {title:'소리', text:'사용자 제공 Suno 메인·엔딩 테마 / Kenney Interface Sounds · Impact Sounds (CC0)'},
+    {title:'소리', text:'사용자 제공 Suno 메인·엔딩 테마 / 효과음 Kenney Interface Sounds · Impact Sounds · OpenGameArt · freesound (CC0) / 목소리 ElevenLabs · Qwen3-TTS'},
   ],
   copyright: '기획·제작: 옐샘 & ⓒ 아이스크림미디어',
   ownRights: '앱 화면 캡처·자체 제작 일러스트·자체 제작 음원은 무단 복제·재배포·전용·상업적 이용을 금지합니다.',
