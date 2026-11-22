@@ -378,7 +378,7 @@ document.addEventListener('pointerdown',armIdleHint,true);document.addEventListe
 document.addEventListener('pointerdown',e=>{if(ui.guide&&mode()==='room'&&e.target.closest?.('#phaser-root,#focus-targets'))hideGuide();},true);
 // Tapping the card itself (not its buttons) also puts it away to reveal what it covered.
 guideBubble.addEventListener('click',e=>{if(ui.guide&&!e.target.closest('button'))closeGuide();});
-function completeChapter(){const c=s.field.active,first=!s.field.completed.includes(c);if(act('chapter-complete',{chapter:c}).ok){encounterClear=first?c:null;ui.pendingRestoreChapter=c;s.resumeRoom=false;view('map');audio.playSfx('reward');dialogs.reward(c);}}
+function completeChapter(){const c=s.field.active,first=!s.field.completed.includes(c);if(act('chapter-complete',{chapter:c}).ok){encounterClear=first?c:null;ui.pendingRestoreChapter=c;s.resumeRoom=false;view('map');if(c===4){finale();return;}audio.playSfx('reward');dialogs.reward(c);}}
 // Steps that used to wait for a confirming press now move on by themselves, after a beat to see the result.
 // Each timer re-checks that the learner is still on the same page before it acts.
 let flowTimer=null;
