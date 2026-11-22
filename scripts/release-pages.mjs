@@ -70,7 +70,7 @@ try {
   clean();
   // Check the output against the build inventory, including all bundled assets.
   const {files} = JSON.parse(readDist('build-manifest.json'));
-  verifyFiles(new Set([...files.map(file=>file.path),'build-manifest.json','service-worker.js']));
+  verifyFiles(new Set([...files.map(file=>file.path),'build-manifest.json','service-worker.js','_headers']));
   for (const file of files) {
     if (hash(readDist(file.path)) !== file.sha256) throw new Error('Build file mismatch: ' + file.path);
   }
