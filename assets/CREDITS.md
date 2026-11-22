@@ -181,3 +181,7 @@
 2026-11-18: 위 파이널 3.60–7.80초의 Qwen3-TTS 대사는 앱에서 들리지 않게 했다. 재생 중 그 구간만 영상 소리를 끄고, 같은 배경 음악 위에 ElevenLabs "taemin"(eleven_v4, 친구 대화의 지훈과 같은 목소리)으로 다시 읽은 `audio/jihoon-film-seed-mix.mp3`를 재생한다. 영상 파일은 그대로다. 인트로 카드·첫 임무·엔딩·개념 영상 자막 음성(`audio/jihoon-*.mp3`)도 같은 목소리다. 지도 악당 태엽 도깨비 말풍선(`audio/goblin-*.mp3`)은 ElevenLabs "Man Bo"(eleven_v4). 도토의 모든 음성(힌트 `audio/doto-hints-el/*.mp3` 67줄, 친구 대화 `audio/npc-dialogue/el-doto-*.mp3`, 관찰 메모 `audio/doto-memo-el/*.mp3`)은 ElevenLabs "Deok su"(eleven_v4, 피치 편집 없음)로 새로 만들었다. 예전 Higgsfield Jake 세트(`audio/doto-hints/`)와 Jusen 대화(`audio/npc-dialogue/doto-*.mp3`)는 보관만 하고 앱에서 쓰지 않는다. ElevenLabs Creator 유료 요금제 생성물(상업 이용 가능, 2026-11-18 계정 조회로 확인: 같은 날 Starter에서 Creator로 올림). 줄별 출처는 `docs/VOICE-FILL-20261118.json`.
 
 2026-11-19: `video/intro.mp4`, `video/final.mp4`에는 2026-11-13부터 내레이션이 섞인 소리 트랙이 있다(위 2026-10-27 항목의 "소리 트랙 없음"은 그때 기준). 이 내레이션은 ElevenLabs로 생성했다(2026-11-19 사용자 확인). 생성 당시 ElevenLabs 유료 요금제(Starter)를 구독 중이었고 상업 이용이 가능하다. 목소리 이름과 생성 ID는 저장소에 남아 있지 않다.
+
+## 2026-11-22 인증서 테두리
+
+`assets/field/certificate-frame-20261122.webp`는 Codex 기본 이미지 생성 도구로 만든 나비 한살이·새싹·계절 잎 테두리입니다(210668바이트, 1800×1273). 원본과 프롬프트는 `assets/source/certificate-20261122/`에 보관합니다. 권리 장부 IMG-CERT-04.
