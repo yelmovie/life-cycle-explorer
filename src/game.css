@@ -480,3 +480,7 @@ html body dialog[data-science-settings] .science-settings-audio>.science-setting
 /* The card buttons keep their own colours: the default button hover fill would hide their white text. */
 .rc-layer button.rc-take:hover:not(:disabled){background:linear-gradient(180deg,color-mix(in srgb,var(--rc-accent) 85%,#fff),var(--rc-accent))}
 .rc-layer button.rc-album-item,.rc-layer button.rc-album-item:hover:not(:disabled){background:none;box-shadow:none}
+
+/* 인증서 아래 날짜·제작 표기(2026-11-22 16곳 통일). 제작 표기는 작게. */
+.certificate-dialog .certificate-date{margin:12px 0 0;font-size:var(--font-size-md,20px);font-weight:700;color:#244d39}
+.certificate-dialog .certificate-credit{margin:4px 0 0;font-size:13px;color:#64725b}
