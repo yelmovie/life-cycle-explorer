@@ -41,3 +41,7 @@
  #modal.certificate-dialog>:not(.modal-body),#modal.certificate-dialog .cert-note{display:none!important}
  #modal.certificate-dialog .cert-stamp{animation:none!important}
 }
+
+/* Keep the larger wax seal clear of the issuer, note and frame. */
+#modal.certificate-dialog .cert-paper .cert-bottom{top:71.2%;height:14.3%;left:19%;right:19%}
+#modal.certificate-dialog .cert-paper .cert-credit{top:85.8%}

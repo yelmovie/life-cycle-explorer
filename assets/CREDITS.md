@@ -185,3 +185,8 @@
 ## 2026-11-22 인증서 테두리
 
 `assets/field/certificate-frame-20261122.webp`는 Codex 기본 이미지 생성 도구로 만든 나비 한살이·새싹·계절 잎 테두리입니다(210668바이트, 1800×1273). 원본과 프롬프트는 `assets/source/certificate-20261122/`에 보관합니다. 권리 장부 IMG-CERT-04.
+
+
+## 2026-11-23 인증서 촛농 봉인
+
+사용자가 이번 작업에 직접 제공한 투명 PNG 원본을 알파를 유지한 768px WebP로 변환하여 사용. 원본: 공통 작업 폴더 `_scratch/certificate-wax-20261123/assets/user-wax-seal-reference.png`. 배포본: `assets/ui/certificate-wax-seal-20261123.webp`. 프로젝트별 문구는 별도 텍스트로 합성하며 생성 AI 이미지로 기재하지 않음.
