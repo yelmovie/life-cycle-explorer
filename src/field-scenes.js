@@ -202,7 +202,7 @@ export function createFieldGame(context){
   retryAssets(){if(this.loading)return;this.failed.clear();this.assetAttempts.clear();this.assetFailure=null;this.refresh();}
   clearSceneContents(){
    this.clearMapInput?.();this.clearMapInput=null;
-   this.renderToken++;this.travelId=(this.travelId||0)+1;this.walking=false;this.guidedWalk=false;this.autoPlay=null;this.startTower=null;this.focusTargets=[];context.noteBox?.(null);context.focusTargets([]);this.tweens.killAll();this.time.removeAllEvents();this.input.removeAllListeners();this.input.keyboard?.removeAllListeners();
+   this.renderToken++;this.travelId=(this.travelId||0)+1;this.walking=false;this.guidedWalk=false;this.autoPlay=null;this.startTower=null;this.focusTargets=[];context.focusTargets([]);this.tweens.killAll();this.time.removeAllEvents();this.input.removeAllListeners();this.input.keyboard?.removeAllListeners();
    // Phaser DisplayList.removeAll(true) only detaches objects and skips removal callbacks.
    // Destroy the old zones too so Phaser cannot hit them and run callbacks from the last room.
    for(const object of [...this.children.getChildren()])object.destroy();

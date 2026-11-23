@@ -1,8 +1,6 @@
 import {ART,esc} from './game-metadata.js';
-import {FORM_NAMES,FORM_TRAITS} from './field-content.js';
 import {careTimeLabels,seedObservation} from './field-model.js';
 import {lightRecoveryLeaves} from './field-record-art.js';
-import {mountSpecimen3d} from './field-specimen-3d.js';
 
 const FORMS=['egg','larva','pupa','adult'];
 const img=(key,alt='')=>`<img src="${ART[key]}" alt="${esc(alt)}" draggable="false">`;
@@ -37,7 +35,7 @@ export function photoNotebookEntry(s,type,p={}){
 export function createFieldNotebook(ctx){
  let cleanup=()=>{};
  const reduced=()=>!!ctx.s.settings.reducedMotion||globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
- function mount({title,body,actions,specimen}){
+ function mount({title,body,actions}){
   cleanup();ctx.dialog({title,className:'field-notebook-dialog',body,actions});
   const modal=document.getElementById('modal'),controller=new AbortController(),timers=[];
   const stop=()=>{timers.forEach(clearTimeout);controller.abort();};cleanup=stop;
@@ -47,19 +45,11 @@ export function createFieldNotebook(ctx){
   const typeAll=()=>{modal.querySelectorAll('[data-handwriting]').forEach(el=>{el.textContent=el.dataset.handwriting;el.classList.remove('writing');});};
   modal.querySelector('[data-notebook-skip]')?.addEventListener('click',typeAll,{signal:controller.signal});
   modal.querySelectorAll('[data-handwriting]').forEach(el=>{const content=el.dataset.handwriting;el.setAttribute('aria-label',content);el.textContent='';if(reduced()){el.textContent=content;return;}el.classList.add('writing');Array.from(content).forEach((_,i)=>later(()=>{if(el.classList.contains('writing')){el.textContent=Array.from(content).slice(0,i+1).join('');if(i===Array.from(content).length-1)el.classList.remove('writing');}},280+i*34));});
-  if(specimen)mountSpecimen3d(modal.querySelector('[data-specimen-3d]'),specimen,{signal:controller.signal,reduced:reduced(),label:FORM_NAMES[specimen]});
   later(()=>modal.classList.add('notebook-developed'),380);return modal;
- }
- function observe(form,spot){
-  if(!FORMS.includes(form))return;
-  const q=ctx.s.field.chapters[0],seen=q.inspected[form],next=FORMS.map(id=>({id})).find(a=>!q.inspected[a.id].length),total=FORMS.filter(id=>q.inspected[id].length>0).length;
-  const nextText=next?`다음은 ${FORM_NAMES[next.id]}의 특징을 살펴봐.`:'이제 네가 본 특징을 그림을 보며 네 말로 남겨 줘.';
-  const traits=seen.map(n=>`<li><span class="notebook-check">✓</span><span class="notebook-hand" data-handwriting="${esc(FORM_TRAITS[form][n])}">${esc(FORM_TRAITS[form][n])}</span></li>`).join('');
-  return mount({title:FORM_NAMES[form]+' 관찰 노트',body:`<div class="notebook-book"><div class="notebook-specimen"><div class="specimen-3d" data-specimen-3d>${img(form,FORM_NAMES[form]+' 확대 모습')}<span class="specimen-3d-hint" aria-hidden="true">끌어서 돌려 보기</span></div><span class="notebook-photo-caption">돋보기로 자세히 본 모습</span><span class="notebook-scale-note">확대한 모형 · 실제 크기와 달라</span></div><section class="notebook-page"><p class="notebook-kicker">화면에서 확인한 특징 · 자동 정리</p><h3>${FORM_NAMES[form]}의 관찰 단서</h3><ol class="notebook-findings">${traits}</ol><p class="notebook-stamp">모습 관찰! ${total}/4</p><p class="notebook-next">${esc(nextText)}</p></section></div>`,actions:`<button type="button" data-notebook-skip>글 바로 보기</button><button type="button" class="primary" data-notebook-close>${next?'다음 특징 살피기':'내 관찰 글 남기러 가기'}</button>`,specimen:form});
  }
  function capture(type,payload){
   const entry=photoNotebookEntry(ctx.s,type,payload);if(!entry)return;
   return mount({title:entry.title,body:`<div class="notebook-capture-camera" aria-hidden="true">${img('fieldCamera')}<span>찰칵!</span></div><div class="notebook-viewfinder" aria-hidden="true"><b></b><b></b><b></b><b></b></div><div class="notebook-shutter" aria-hidden="true"><i></i><i></i></div><div class="notebook-flash" aria-hidden="true"></div><div class="notebook-book notebook-capture"><div class="notebook-photo-sheet"><div class="notebook-photo-grid ${entry.cards.length===2?'paired':''}">${entry.cards.map(c=>`<figure><div class="notebook-photo-art">${img(c.art,c.label)}</div><figcaption>${esc(c.label)}</figcaption><small>${esc(c.detail)}</small></figure>`).join('')}</div><p class="notebook-photo-caption">지금 관찰한 모습을 붙였다!</p></div><section class="notebook-page"><p class="notebook-kicker">촬영한 모형 · 자동 정리 메모</p><h3>${esc(entry.title)}</h3><p class="notebook-hand notebook-entry" data-handwriting="${esc(entry.note)}">${esc(entry.note)}</p><p class="notebook-stamp">✓ ${esc(entry.stamp)}</p><p class="notebook-next">${esc(entry.next)}</p></section></div>`,actions:'<button type="button" data-notebook-skip>글 바로 보기</button><button type="button" class="primary" data-notebook-close>기록하고 계속 탐구</button>'});
  }
- return {observe,capture,cleanup};
+ return {capture,cleanup};
 }

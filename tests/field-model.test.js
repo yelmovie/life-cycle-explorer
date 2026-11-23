@@ -10,9 +10,8 @@ const act=(field,type,p={}) => {
   return result;
 };
 function finishObservation(field) {
-  for (const form of FIELD_FORMS) for (const spot of [0,1]) act(field,'inspect',{form,spot});
-  act(field,'observation-draw',{stroke:[[.1,.1],[.4,.3],[.6,.2]]});
-  act(field,'observation-note',{text:'애벌레는 다리가 있고 길쭉해요.'});
+  for (const form of FIELD_FORMS) act(field,'observation-look',{form});
+  act(field,'observation-finish',{inspected:Object.fromEntries(FIELD_FORMS.map(form=>[form,[0,1]]))});
   FIELD_FORMS.forEach((form,to) => act(field,'film-move',{from:field.chapters[0].order.indexOf(form),to}));
   act(field,'generation',{target:'next-egg'});
 }
@@ -66,20 +65,24 @@ function composeBook(field) {
   act(field,'book-summary',{text:'생명은 자라며 모습이 달라지고 다음 세대로 이어진다.'});
 }
 
-test('field notebook requires distinct inspections, a written note, order and next generation',() => {
-  const field=initialField();
+test('butterfly observation requires four lens sightings and four close-ups before the film',() => {
+  let field=initialField();
   assert.equal(fieldUnlocked(field,1),false);
   assert.equal(fieldAction(field,'chapter-complete').ok,false);
-  act(field,'inspect',{form:'egg',spot:0});act(field,'inspect',{form:'egg',spot:0});
-  assert.deepEqual(field.chapters[0].inspected.egg,[0]);
+  const inspected=Object.fromEntries(FIELD_FORMS.map(form=>[form,[0]]));
+  for(const form of ['adult','adult','egg','pupa'])act(field,'observation-look',{form});
+  assert.equal(roomPhase(field),'search');
+  assert.equal(fieldAction(field,'observation-finish',{inspected}).ok,false);
   assert.equal(fieldAction(field,'film-move',{from:0,to:1}).ok,false);
-  for (const form of FIELD_FORMS) for (const spot of [0,1]) act(field,'inspect',{form,spot});
-  assert.equal(fieldPhase(field),'draw');
-  assert.equal(fieldAction(field,'observation-draw',{stroke:[[.2,.2],[.2,.2]]}).ok,false);
-  act(field,'observation-note',{text:'긴'});
-  assert.equal(fieldPhase(field),'draw');
-  act(field,'observation-note',{text:'긴 몸과 짧은 다리를 관찰했어.'});
+  field=restoreField(JSON.stringify(field));
+  assert.deepEqual(new Set(field.chapters[0].explored),new Set(['adult','egg','pupa']));
+  act(field,'observation-look',{form:'larva'});
+  assert.equal(roomPhase(restoreField(field)),'closeup');
+  assert.equal(fieldAction(field,'observation-finish',{inspected:{egg:[1]}}).ok,false);
+  assert.equal(fieldRecords(field).length,0);
+  act(field,'observation-finish',{inspected});
   assert.equal(fieldPhase(field),'film');
+  assert.equal(field.chapters[0].note,'');
   FIELD_FORMS.forEach((form,to) => act(field,'film-move',{from:field.chapters[0].order.indexOf(form),to}));
   assert.equal(fieldAction(field,'generation',{target:'same-egg'}).ok,false);
   act(field,'generation',{target:'next-egg'});assert.equal(fieldReady(field),true);
@@ -197,7 +200,7 @@ test('restore keeps usable partial progress and bounds malformed drawing and att
 test('revisiting completed chapters preserves earned evidence and rewards after save and restore',() => {
   const field=completedThrough(1), records=fieldRecords(field);
   act(field,'chapter-replay',{chapter:0});act(field,'film-move',{from:0,to:3});
-  act(field,'observation-note',{text:''});assert.equal(fieldReady(field,0),false);
+  assert.equal(fieldReady(field,0),false);
   assert.equal(fieldCompletedCount(field),2);assert.deepEqual(fieldRecords(field),records);
   const restored=restoreField(JSON.stringify(field));
   assert.equal(fieldCompletedCount(restored),2);assert.equal(fieldUnlocked(restored,2),true);
@@ -230,7 +233,7 @@ test('chapter restart clears only the active challenge and preserves earned reco
   assert.equal(fieldCompletedCount(restored),5);assert.deepEqual(fieldRecords(restored),records);
   assert.deepEqual(restored.snapshots[4],book);
   act(restored,'chapter-enter',{chapter:0});finishObservation(restored);
-  act(restored,'observation-note',{text:'이번에는 어른벌레의 날개를 더 자세히 그렸어.'});act(restored,'chapter-complete');
+  act(restored,'chapter-complete');
   assert.deepEqual(fieldRecords(restored),records);
   assert.deepEqual(restoreField(JSON.stringify(restored)).snapshots[4],book);
   assert.equal(fieldAction(initialField(),'chapter-restart',{chapter:0}).ok,false);
@@ -276,9 +279,9 @@ test('additional discovery can be skipped and resumed without granting completio
 
 test('one observed feature per butterfly form is enough and evidence contains only what was seen',()=>{
  const f=initialField();for(const form of FIELD_FORMS)act(f,'inspect',{form,spot:1});
- assert.equal(roomPhase(f),'draw');
+ assert.equal(roomPhase(f),'film');
  for(const form of FIELD_FORMS){const record=fieldRecords(f).find(r=>r.id==='field-observation-'+form);assert.deepEqual(record.fieldEvidence.spots,[1]);}
- assert.equal(roomPhase(restoreField(f)),'draw');
+ assert.equal(roomPhase(restoreField(f)),'film');
 });
 
 test('older partial garden saves remain completable without photo buttons',()=>{

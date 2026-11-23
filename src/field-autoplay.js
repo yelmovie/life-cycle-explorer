@@ -2,7 +2,7 @@ import {reducedMotion} from './game-motion.js';
 
 // Looking and setting-up pages can play themselves; pages where the learner
 // picks an answer never do. The prediction in 'design' stays the learner's.
-const PHASES={0:['search'],1:['prepare','design']};
+const PHASES={0:['search','closeup'],1:['prepare','design']};
 export function autoPlayable(f,phase){
  const c=f.active,q=f.chapters[c];
  if(!PHASES[c]?.includes(phase))return false;

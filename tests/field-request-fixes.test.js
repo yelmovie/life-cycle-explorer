@@ -1,3 +1,4 @@
+import {roomPhase} from '../src/field-flow.js';
 import {applyQuest} from '../src/field-quests.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -36,11 +37,16 @@ test('seed condition alone no longer finishes the report; a changed prediction c
 });
 test('old completed records restore without losing drawings, photos, or completion, and retry keeps their snapshot',()=>{
  const s=fixture(),f=s.field;f.completed=[0,1,2,3,4];f.snapshots=Object.fromEntries(f.chapters.map((q,i)=>[i,structuredClone(q)]));
- const oldChapter=q=>{delete q.drawingForm;delete q.noteDraft;delete q.drafts;for(const r of q.rounds||[]){delete r.report;delete r.legacyReport;}for(const r of q.cases||[])delete r.observations;};f.chapters.forEach(oldChapter);Object.values(f.snapshots).forEach(oldChapter);
+ const oldChapter=q=>{delete q.explored;delete q.drawingForm;delete q.noteDraft;delete q.drafts;for(const r of q.rounds||[]){delete r.report;delete r.legacyReport;}for(const r of q.cases||[])delete r.observations;};f.chapters.forEach(oldChapter);Object.values(f.snapshots).forEach(oldChapter);
  const original=JSON.stringify(s);const storage={getItem:()=>original,setItem(){throw new Error('reading must not write');}};const r=G.loadGame(storage);assert.equal(G.getSaveStatus(storage).ok,true);assert.deepEqual(r.field.completed,[0,1,2,3,4]);assert.deepEqual(r.field.chapters[0].drawing,f.chapters[0].drawing);assert.deepEqual(r.field.chapters[1].rounds.map(x=>x.photos),f.chapters[1].rounds.map(x=>x.photos));assert.deepEqual(r.field.chapters[2].cases.map(x=>x.photos),f.chapters[2].cases.map(x=>x.photos));
  assert.equal(r.field.chapters[1].rounds.every(x=>x.legacyReport),true);const before=fieldRecords(r.field);act(r.field,'chapter-enter',{chapter:2});act(r.field,'chapter-restart',{chapter:2});assert.deepEqual(r.field.completed,[0,1,2,3,4]);assert.deepEqual(fieldRecords(r.field),before);assert.equal(storage.getItem(),original);
 });
-test('drawing reference and an unsubmitted note draft restore independently of submitted writing',()=>{const f=fixture().field;f.active=0;f.chapters[0].note='';act(f,'observation-reference',{form:'adult'});storeFieldDraft(f,'observation',{text:'  어른벌레의 더듬이를 살펴보는 중\n'});const r=restoreField(f);assert.equal(r.chapters[0].drawingForm,'adult');assert.equal(r.chapters[0].note,'');assert.equal(r.chapters[0].noteDraft,'  어른벌레의 더듬이를 살펴보는 중\n');});
+test('an old unfinished observation note restores and the learner goes straight to the film',()=>{
+ const f=fixture().field,q=f.chapters[0];f.active=0;delete q.explored;
+ q.order=['pupa','egg','adult','larva'];q.generation='';q.note='';q.drawingForm='adult';q.noteDraft='  어른벌레의 더듬이를 살펴보는 중\n';
+ const r=restoreField(f);assert.equal(r.chapters[0].drawingForm,'adult');assert.equal(r.chapters[0].note,'');assert.equal(r.chapters[0].noteDraft,q.noteDraft);
+ assert.equal(roomPhase(r),'film');
+});
 
 test('submitted discovery writing keeps its spaces and line breaks too',()=>{const f=fixture().field;for(const type of ['observation','retry','care']){const record=fieldRecords(f).find(r=>r.fieldEvidence.type===type);assert.equal(applyQuest(f,{step:0,kind:'stamp',recordId:record.id}).ok,true);}const text='\n 학교 콩의 새잎은 언제 어떤 모양으로 자랄까? \n';assert.equal(applyQuest(f,{step:1,kind:'question',text}).ok,true);assert.equal(f.chapters[4].discovery[1].question,text);assert.equal(restoreField(f).chapters[4].discovery[1].question,text);});
 

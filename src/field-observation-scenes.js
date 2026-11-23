@@ -8,137 +8,117 @@ const PARTS={egg:['표면 보기','모양 보기'],larva:['몸마디 보기','�
 const POSITIONS={egg:[300,287,64],larva:[980,287,204],pupa:[300,569,174],adult:[980,569,154]};
 const MAT={w:400,h:270};
 
-/** Chapter 1 has visible, tappable steps as well as optional magnifier dragging. */
 export function renderObservationRoom(v,ctx,phase){
- const q=ctx.s.field.chapters[0],act=(type,payload={})=>ctx.emit('act',{type,payload});
+ const q=ctx.s.field.chapters[0],act=(type,payload)=>ctx.emit('act',{type,payload});
  const button=(x,y,w,h,label,fn,done=false,z=50,shown=(done?'✓ ':'')+label)=>{
   const text=v.text(x,y,shown,22,w-14,done?'#356c47':'#244d3d').setDepth(z+1);h=Math.max(h,text.height+12);
   const plate=v.add.graphics().fillStyle(done?0xdcebd5:0xfffcf0,.98).fillRoundedRect(x-w/2,y-h/2,w,h,14).setDepth(z);
   return [plate,text,v.click(x,y,w,h,fn,label).setDepth(z+2)];
  };
  if(phase==='search'){
-  const roomToken=v.renderToken;
-  const inObservation=()=>v.renderToken===roomToken&&ctx.mode()==='room'&&ctx.s.field.active===0;
-  const next=FORMS.map(form=>({form})).find(({form})=>!q.inspected[form].length);
-  const spots=[],specimens=[];
-  // Small screens raise the canvas text to its legible minimum, which folds
-  // "몸마디 보기" onto two lines and pushes the buttons over the next row's title.
-  // Each kind of label falls back to a shorter one-line form the same way on
-  // every card: full name, then body part only. A finished button keeps its ✓
-  // unless even "✓ 몸마디" folds (phones); its card title still shows ✓ there.
-  const fits=(label,size=22,width=156)=>{const t=v.text(0,0,label,size,width),lines=t.getWrappedText().length;t.destroy();return lines<2;};
-  const short=label=>label.replace(' 보기',''),every=f=>FORMS.every(id=>PARTS[id].every(l=>fits(f(l))));
-  const openLabel=every(l=>l)?l=>l:short;
-  const doneLabel=every(l=>'✓ '+l)?l=>'✓ '+l:every(l=>'✓ '+short(l))?l=>'✓ '+short(l):short;
-  const longTitles=FORMS.every((id,i)=>fits(`${i+1}  ${FORM_NAMES[id]} · 기록 완료`,26,320));
-  // A quiet specimen mat, number and name separate each organism from the busy forest.
-  for(const [i,id] of FORMS.entries()){
-   const [x,y,size]=POSITIONS[id];
+  const specimens=FORMS.map(id=>{
+   const [x,y,size]=POSITIONS[id],specimenY=y+(id==='egg'?7:id==='adult'?-5:-3);
    v.paper(x-3,y+10,MAT.w,MAT.h);
-   v.text(x,y-96,`${i+1}  ${FORM_NAMES[id]}${q.inspected[id].length?(longTitles?' · 기록 완료':' ✓'):''}`,26,320);
-   // The egg remains one third its old displayed size; the whole mat is a large touch target.
-   const specimenY=y+(id==='egg'?7:id==='adult'?-5:-3);
-   specimens.push({id,x,y:specimenY,size});v.pic(id,x,specimenY,size,size);
-   v.click(x,y-8,370,120,()=>{const spot=[0,1].find(n=>!q.inspected[id].includes(n))??0;focusSpot(id,spot);},FORM_NAMES[id]+' 확대해서 보기');
-   for(const spot of [0,1]){
-    const bx=x+(spot?92:-92),by=y+100,done=q.inspected[id].includes(spot);
-    button(bx,by,170,60,PARTS[id][spot],()=>focusSpot(id,spot),done,50,(done?doneLabel:openLabel)(PARTS[id][spot]));
-    const [px,py]=SPOTS[id][spot],sx=x+(px-.5)*size,sy=specimenY+(py-.5)*size;
-    spots.push({form:id,spot,x:sx,y:sy});
-    if(done)v.add.circle(sx,sy,6,0x4a885c).setStrokeStyle(2,0xfffbed);
-   }
-   if(next?.form===id){v.text(x-172,y-96,'▶',23,32,'#337b63');}
-  }
-  // Keep the original live magnifier: moving it reveals a larger view of the
-  // actual body region underneath, and releasing it records that observation.
-  // The image's glass centre is offset from its handle; the container origin
-  // follows the glass so mouse and touch coordinates match what children see.
-  const lensArt=v.pic('observationLens',28,32,220);
-  const lens=v.add.container(640,350,[lensArt]).setSize(220,220).setDepth(40).setInteractive({useHandCursor:true});v.input.setDraggable(lens);
-  const maskShape=v.make.graphics({add:false});maskShape.fillStyle(0xffffff).fillCircle(0,0,43);v.lensMask=maskShape;
-  const mask=maskShape.createGeometryMask();let zoom=null,zoomId=null,nearest=null,viewed=null;
-  // The sentence lives in #objective; the canvas only marks the tool to drag.
-  const LENS_MARK='↑ 돋보기';
-  const feedback=v.label(660,520,LENS_MARK,22,200);
-  const inspect=(x,y)=>{
-   lens.setPosition(x,y);maskShape.setPosition(x,y);
-   nearest=spots.map(a=>({...a,d:Math.hypot(a.x-x,a.y-y)})).sort((a,b)=>a.d-b.d)[0];
-   const base=specimens.find(a=>a.id===nearest.form),inside=Math.hypot(base.x-x,base.y-y)<base.size*.62+40;
-   if(!inside){zoom?.destroy();zoom=null;zoomId=null;viewed=null;feedback.setText(LENS_MARK);return;}
-   viewed={form:nearest.form,spot:nearest.spot};
-   const factor=base.id==='egg'?4:2.8;
-   if(zoomId!==base.id){zoom?.destroy();zoom=v.pic(base.id,x,y,base.size*factor).setDepth(41).setMask(mask);zoomId=base.id;}
-   zoom.setPosition(x+(base.x-x)*factor,y+(base.y-y)*factor);
-   feedback.setText(PARTS[base.id][nearest.spot].replace(' 보기','')+' 확대 관찰\n놓으면 노트에 남아.');
-  };
-  // One view per form, with direct tabs and a second feature on demand.
-  let popup=null,page=[],seen=new Map();
-  const clearPopup=()=>{if(!popup)return;[...popup.items,...page].forEach(o=>o.destroy());page=[];v.focusTargets=popup.targets;ctx.focusTargets?.(v.focusTargets);popup=null;};
-  const progress=()=>new Set([...FORMS.filter(id=>q.inspected[id].length),...seen.keys()]).size;
-  const finish=()=>{
-   clearPopup();
-   const fresh=[...seen].flatMap(([form,spots])=>[...spots].filter(spot=>!q.inspected[form].includes(spot)).map(spot=>({form,spot})));
-   seen=new Map();if(fresh.length)ctx.emit('observe-many',fresh);
-  };
-  const openViewer=()=>{
-   const targets=v.focusTargets,items=[];v.focusTargets=[];
-   items.push(v.add.rectangle(640,400,1280,800,0x0d2a20,.28).setDepth(100).setInteractive());
-   items.push(v.paper(640,437,1090,555).setDepth(101));
-   popup={items,targets};
-  };
-  const focusSpot=(form,spot,compare=false)=>{
-   if(!inObservation())return;
-   if(!popup)openViewer();
-   page.forEach(o=>o.destroy());page=[];v.focusTargets=[];
-   if(!compare){
-    if(!seen.has(form))seen.set(form,new Set());
-    seen.get(form).add(spot);
-   }
-   const items=page;
-   FORMS.forEach((id,i)=>items.push(...button(286+i*236,202,214,52,FORM_NAMES[id]+' 관찰',()=>focusSpot(id,seen.get(id)?.values().next().value??q.inspected[id][0]??0),!compare&&id===form,105)));
-   if(compare){
-    items.push(v.pic('larva',408,385,252).setDepth(102),v.pic('adult',862,385,252).setDepth(102));
-    items.push(v.text(408,519,'애벌레',24,260).setDepth(102),v.text(862,519,'어른벌레',24,260).setDepth(102));
-    items.push(v.text(640,570,'애벌레에 없던 어떤 부분이 어른벌레에게 생겼을까?',25,800,'#356c47').setDepth(102));
-    items.push(...button(936,668,300,54,'확대 관찰로 돌아가기',()=>focusSpot(form,spot),false,105));
-   }else{
-    const [px,py]=SPOTS[form][spot],S=265,lx=425,ly=374,zx=852,zy=374,R=124,factor=2.6;
-    items.push(v.pic(form,lx,ly,S).setDepth(102));
-    items.push(v.add.circle(lx+(px-.5)*S,ly+(py-.5)*S,S/factor/2).setStrokeStyle(4,0xd39b36).setDepth(103));
-    const maskShape=v.make.graphics({add:false});maskShape.fillStyle(0xffffff).fillCircle(zx,zy,R);items.push(maskShape);
-    items.push(v.add.circle(zx,zy,R,0xfffbed).setDepth(102));
-    items.push(v.pic(form,zx-(px-.5)*S*factor,zy-(py-.5)*S*factor,S*factor).setDepth(103).setMask(maskShape.createGeometryMask()));
-    items.push(v.add.circle(zx,zy,R).setStrokeStyle(7,0xb88a3a).setDepth(104));
-    items.push(v.text(640,543,FORM_TRAITS[form][spot],25,935,'#356c47').setDepth(102));
-    items.push(...button(417,605,312,49,PARTS[form][1-spot],()=>focusSpot(form,1-spot),false,105));
-    if((seen.has('larva')||q.inspected.larva.length)&&(seen.has('adult')||q.inspected.adult.length))
-     items.push(...button(852,605,360,49,'애벌레와 어른벌레 비교',()=>focusSpot(form,spot,true),false,105));
-   }
-   const count=progress();
-   items.push(v.text(271,668,`네 모습 중 ${count}/4 관찰`,21,270).setDepth(106));
-   items.push(...button(600,668,300,54,count===4?'관찰 글 쓰기':'본 특징 기록하기',()=>{ctx.ui.autoPlay=false;finish();},false,105));
-   ctx.focusTargets?.(v.focusTargets);
-  };
-  autoPlayRoom(v,ctx,()=>{
-   const tour=()=>{const unseen=FORMS.find(id=>!q.inspected[id].length&&!seen.has(id));if(!unseen){ctx.ui.autoPlay=false;finish();return;}focusSpot(unseen,0);autoStep(v,ctx,3800,tour);};tour();
+   const seen=q.explored.includes(id);
+   const title=v.text(x,y-96,FORM_NAMES[id]+(seen?' ✓':''),26,320);
+   v.pic(id,x,specimenY,size,size);
+   button(x,y+100,240,54,FORM_NAMES[id]+'에 돋보기 대기',()=>peek(id),false,50,'돋보기 대기');
+   return {id,x,y:specimenY,size,title};
   });
-  lens.on('drag',(_,x,y)=>inspect(x,y));
-  lens.on('dragend',()=>{
-   if(nearest&&nearest.d<75){zoom?.destroy();lens.setPosition(640,350);focusSpot(nearest.form,nearest.spot);return;}
-   zoom?.destroy();zoom=null;zoomId=null;viewed=null;
-   feedback.setText('생물 가까이에서 놓아 봐.\n보기 버튼도 눌러 봐.');
+  // The container origin is the centre of the glass, not of the handle.
+  const lensArt=v.pic('observationLens',28,32,220);
+  const lens=v.add.container(640,350,[lensArt]).setSize(220,220).setDepth(40).setInteractive({useHandCursor:true});
+  v.input.setDraggable(lens);
+  const shape=v.make.graphics({add:false});shape.fillStyle(0xffffff).fillCircle(0,0,43);v.lensMask=shape;
+  const mask=shape.createGeometryMask();
+  const progress=v.label(654,510,'돋보기 · '+q.explored.length+'/4',22,205);
+  const target=(x,y)=>specimens.find(base=>Math.abs(base.x-x)<=base.size/2+12&&Math.abs(base.y-y)<=base.size/2+12);
+  let zoom=null,zoomId=null,reveal=null;
+  const hideZoom=()=>{zoom?.destroy();zoom=null;zoomId=null;};
+  const inspect=(x,y)=>{
+   lens.setPosition(x,y);shape.setPosition(x,y);
+   const base=target(x,y);
+   if(!base){hideZoom();return;}
+   const factor=base.id==='egg'?4:2.8;
+   if(zoomId!==base.id){hideZoom();zoom=v.pic(base.id,x,y,base.size*factor).setDepth(41).setMask(mask);zoomId=base.id;}
+   zoom.setPosition(x+(base.x-x)*factor,y+(base.y-y)*factor);
+  };
+  const returnLens=()=>{
+   hideZoom();
    v.tweens.add({targets:lens,x:640,y:350,duration:reducedMotion(ctx.s.settings)?1:180});
+  };
+  const release=base=>{
+   if(!base){returnLens();return;}
+   if(q.explored.includes(base.id))return;
+   // Keep the last specimen under the glass briefly before the close-up opens.
+   if(q.explored.length===3){
+    if(!reveal)reveal=v.time.delayedCall(650,()=>act('observation-look',{form:base.id}));
+    return;
+   }
+   act('observation-look',{form:base.id});
+   base.title.setText(FORM_NAMES[base.id]+' ✓');
+   progress.setText('돋보기 · '+q.explored.length+'/4');
+  };
+  const peek=form=>{
+   v.tweens.killTweensOf(lens);
+   const base=specimens.find(item=>item.id===form),[px,py]=SPOTS[form][0];
+   inspect(base.x+(px-.5)*base.size,base.y+(py-.5)*base.size);
+   release(base);
+  };
+  lens.on('dragstart',()=>v.tweens.killTweensOf(lens));
+  lens.on('drag',(_,x,y)=>inspect(x,y));
+  lens.on('dragend',()=>release(target(lens.x,lens.y)));
+  let tourStep;
+  autoPlayRoom(v,ctx,()=>{
+   tourStep?.remove();
+   const tour=()=>{const form=FORMS.find(id=>!q.explored.includes(id));if(form)peek(form);if(!reveal)tourStep=autoStep(v,ctx,2100,tour);};
+   tour();
   });
   return;
  }
- if(phase==='draw'){
-  const id=q.drawingForm||'larva';v.paper(347,407,355,355);
-  v.pic(id,345,365,id==='egg'?160/3:240);v.label(345,550,'내가 본 '+FORM_NAMES[id],26,300);
-  const x=610,y=230,w=470,h=305;v.paper(x+w/2,y+h/2,w,h);
-  v.text(x+w/2,y-28,'본 특징을 내 말로 적어 줘',26,460);
-  // A real textarea sits over the paper; leaving it saves the note.
-  ctx.noteBox?.({x:x+w/2,y:y+h/2,w:w-36,h:h-36});
-  FORMS.forEach((form,i)=>{const bx=225+i*85;v.pic(form,bx,625,form==='egg'?40:65);v.click(bx,625,76,68,()=>act('observation-reference',{form}),FORM_NAMES[form]+' 그림 보며 쓰기');});return;
+ if(phase==='closeup'){
+  let page=[];const seen={};
+  v.paper(640,437,1090,555);
+  const lookedAt=form=>!!(seen[form]?.length||q.inspected[form].length);
+  const finish=()=>{ctx.ui.autoPlay=false;act('observation-finish',{inspected:seen});};
+  const focusSpot=(form,spot,compare=false)=>{
+   page.forEach(o=>o.destroy());page=[];v.lensMask=null;v.focusTargets=[];
+   if(!compare)seen[form]=[...new Set([...(seen[form]||[]),spot])];
+   FORMS.forEach((id,i)=>{
+    const selected=!compare&&id===form,label=FORM_NAMES[id]+' 관찰';
+    page.push(...button(286+i*236,202,214,52,label,()=>focusSpot(id,seen[id]?.[0]??q.inspected[id][0]??0),selected,105,(lookedAt(id)?'✓ ':'')+label));
+   });
+   if(compare){
+    page.push(v.pic('larva',408,385,252).setDepth(102),v.pic('adult',862,385,252).setDepth(102));
+    page.push(v.text(408,519,'애벌레',24,260).setDepth(102),v.text(862,519,'어른벌레',24,260).setDepth(102));
+    page.push(v.text(640,570,'애벌레에 없던 어떤 부분이 어른벌레에게 생겼을까?',25,800,'#356c47').setDepth(102));
+    page.push(...button(936,668,300,54,'확대 관찰로 돌아가기',()=>focusSpot(form,spot),false,105));
+   }else{
+    const [px,py]=SPOTS[form][spot],S=265,lx=425,ly=374,zx=852,zy=374,R=124,factor=2.6;
+    page.push(v.pic(form,lx,ly,S).setDepth(102));
+    page.push(v.add.circle(lx+(px-.5)*S,ly+(py-.5)*S,S/factor/2).setStrokeStyle(4,0xd39b36).setDepth(103));
+    const shape=v.make.graphics({add:false});shape.fillStyle(0xffffff).fillCircle(zx,zy,R);page.push(shape);v.lensMask=shape;
+    page.push(v.add.circle(zx,zy,R,0xfffbed).setDepth(102));
+    page.push(v.pic(form,zx-(px-.5)*S*factor,zy-(py-.5)*S*factor,S*factor).setDepth(103).setMask(shape.createGeometryMask()));
+    page.push(v.add.circle(zx,zy,R).setStrokeStyle(7,0xb88a3a).setDepth(104));
+    page.push(v.text(640,543,FORM_TRAITS[form][spot],25,935,'#356c47').setDepth(102));
+    page.push(...button(417,605,312,49,PARTS[form][1-spot],()=>focusSpot(form,1-spot),false,105));
+    if(lookedAt('larva')&&lookedAt('adult'))
+     page.push(...button(852,605,360,49,'애벌레와 어른벌레 비교',()=>focusSpot(form,spot,true),false,105));
+   }
+   const count=FORMS.filter(lookedAt).length;
+   page.push(v.text(271,668,`네 모습 중 ${count}/4 관찰`,21,270).setDepth(106));
+   if(count===FORMS.length)page.push(...button(622,668,300,54,'시간 필름으로',finish,false,105));
+   ctx.focusTargets?.(v.focusTargets);
+  };
+  focusSpot(FORMS.find(id=>!lookedAt(id))??FORMS[0],0);
+  let tourStep;
+  autoPlayRoom(v,ctx,()=>{
+   tourStep?.remove();
+   const tour=()=>{const next=FORMS.find(id=>!lookedAt(id));if(!next){finish();return;}focusSpot(next,0);tourStep=autoStep(v,ctx,3000,tour);};
+   tourStep=autoStep(v,ctx,3000,tour);
+  });
+  return;
  }
  if(phase==='film'){
   for(let i=0;i<4;i++){

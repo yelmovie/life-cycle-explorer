@@ -15,7 +15,8 @@ test('말풍선 본문을 누르면 닫히고, 말풍선 버튼은 그대로 동
 });
 
 test('활동 결과가 나오면 말풍선을 닫아 피드백 문구가 보인다',()=>{
- assert.match(app,/function act\([^)]*\)\{[^\n]*if\(mode\(\)==='room'\)hideGuide\(\);countMiss\(result\.ok\)/);
+ const act=app.slice(app.indexOf('function act('),app.indexOf('// What the learner'));
+ assert.match(act,/if\(mode\(\)==='room'\)hideGuide\(\);\s*countMiss\(result\.ok\)/);
 });
 
 test('위치 보기는 말풍선을 닫고 표시할 자리를 보여 준다',()=>{

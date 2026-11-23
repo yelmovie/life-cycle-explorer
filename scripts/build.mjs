@@ -38,7 +38,7 @@ required.push('src/glass-ui.css','src/character-dialogue.js','src/character-dial
 required.push('src/reward-cards.js','src/reward-cards.css','src/reward-card-set.js');
 required.push('src/layout-balance.css');
 required.push('src/korean-linebreak.css','src/certificate.css','src/certificate-png.js','src/certificate-wax.js');
-required.push('src/game-shell.js','src/back-guard.js','src/room-time-controls.js','src/doto-voice.js','src/map-door-layout.js','src/observation-note-box.js');
+required.push('src/game-shell.js','src/back-guard.js','src/room-time-controls.js','src/doto-voice.js','src/map-door-layout.js');
 const runtime = [...new Set(required)];
 for (const relative of required) if (!await exists(path.join(root,relative))) throw new Error(`Required runtime file missing: ${relative}`);
 const availableAssets = (await filesWithin(path.join(root,'assets'),'assets/')).filter(relative => assetExtension.test(relative));

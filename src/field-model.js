@@ -28,7 +28,7 @@ export function initialField() {
   return {
     version:1, active:0, completed:[], attempts:[], snapshots:{},
     chapters:[
-      {inspected:Object.fromEntries(FIELD_FORMS.map(id => [id, []])), drawing:[], drawingForm:'larva',note:'',noteDraft:null, order:['pupa','egg','adult','larva'], generation:'',discovery:[]},
+      {explored:[], inspected:Object.fromEntries(FIELD_FORMS.map(id => [id, []])), drawing:[], drawingForm:'larva',note:'',noteDraft:null, order:['pupa','egg','adult','larva'], generation:'',discovery:[]},
       {round:0, rounds:[seedRound('water'), seedRound('warm')],discovery:[]},
       {case:0, cases:[careCase('water'), careCase('light')],discovery:[]},
       {animals:{butterfly:{step:0, photos:[]}, dog:{step:0, photos:[]}}, generation:'', tags:[], season:0, plantPhotos:[], seasonCompared:false, classifications:{}, transfers:{},discovery:[]},
@@ -39,7 +39,6 @@ export function initialField() {
 
 // Drafts persist writing only. They never update submitted answers or readiness.
 export function storeFieldDraft(field,scope,values={}){
- if(scope==='observation'){field.chapters[0].noteDraft=preserveText(values.text,TEXT_LIMITS.observation);return true;}
  const book=field.chapters[4];book.drafts||={captions:{},story:{},plan:{}};
  if(scope==='caption'){if(!book.records.includes(values.id))return false;book.drafts.captions[values.id]=preserveText(values.text,TEXT_LIMITS.caption);return true;}
  const limits=scope==='story'?{title:TEXT_LIMITS.title,summary:TEXT_LIMITS.summary}:scope==='plan'?PLAN_LIMITS:null;
@@ -62,7 +61,6 @@ const carePhotosDone = task => task.tool === task.variable && task.photos.includ
 const careChange = task => task.variable === 'light' ? 'green-leaves' : 'upright-leaves';
 const careDone = task => task.measured.includes('water') && task.measured.includes('light') && task.symptom === (task.variable === 'water' ? 'dry' : 'pale') && carePhotosDone(task) && [careChange(task),'legacy'].includes(task.comparison);
 const observed = chapter => FIELD_FORMS.every(form => chapter.inspected[form].length > 0);
-const drawingDone = chapter => meaningfulText(chapter.note) >= 4;
 const filmDone = chapter => FIELD_FORMS.every((form,i) => chapter.order[i] === form);
 const animalDone = chapter => chapter.animals.butterfly.photos.includes(0) && chapter.animals.butterfly.photos.includes(3) && chapter.animals.dog.photos.includes(0) && chapter.animals.dog.photos.includes(2) && chapter.generation === 'different';
 const plantsSeen = chapter => ['apple','balsam'].every(plant => chapter.tags.includes(plant) && [0,3,4].every(step => chapter.plantPhotos.includes(`${plant}-${step}`)));
@@ -122,7 +120,7 @@ const PLAN_PROMPT='관찰할 생물과 언제 볼지 각각 두 글자 이상, �
 export function fieldReady(field, chapter=field.active) {
   if (!numberIn(chapter,0,4)) return false;
   const data = field.chapters[chapter];
-  if (chapter === 0) return observed(data) && drawingDone(data) && filmDone(data) && data.generation === 'next-egg';
+  if (chapter === 0) return observed(data) && filmDone(data) && data.generation === 'next-egg';
   if (chapter === 1) return data.rounds.every(seedDone);
   if (chapter === 2) return data.cases.every(careDone);
   if (chapter === 3) return animalDone(data) && plantsSeen(data) && classificationsDone(data) && transfersDone(data);
@@ -133,7 +131,7 @@ export function fieldReady(field, chapter=field.active) {
 export function fieldPhase(field, chapter=field.active) {
   const data = field.chapters[chapter];
   if (!data) return 'observe';
-  if (chapter === 0) return !observed(data) ? 'observe' : !drawingDone(data) ? 'draw' : !filmDone(data) ? 'film' : data.generation !== 'next-egg' ? 'generation' : 'ready';
+  if (chapter === 0) return !observed(data) ? (data.explored.length === FIELD_FORMS.length ? 'closeup' : 'observe') : !filmDone(data) ? 'film' : data.generation !== 'next-egg' ? 'generation' : 'ready';
   if (chapter === 1) {
     const round = data.rounds[data.round];
     return !round.run ? 'prepare' : !seedPhotosDone(round) ? 'time' : !seedDone(round) ? 'report' : data.round === 0 ? 'round-done' : 'ready';
@@ -176,7 +174,7 @@ export function fieldRecords(field) {
   return records;
 }
 
-const actionChapter = type => type.startsWith('seed-') ? 1 : type.startsWith('care-') ? 2 : ['animal-time','animal-photo','animal-generation','plant-tag','season','season-photo','season-compare','plant-classify','transfer'].includes(type) ? 3 : type.startsWith('book-') || ['help-match','observation-plan','tower-run'].includes(type) ? 4 : ['inspect','observation-draw','observation-note','observation-reference','film-move','generation'].includes(type) ? 0 : -1;
+const actionChapter = type => type.startsWith('seed-') ? 1 : type.startsWith('care-') ? 2 : ['animal-time','animal-photo','animal-generation','plant-tag','season','season-photo','season-compare','plant-classify','transfer'].includes(type) ? 3 : type.startsWith('book-') || ['help-match','observation-plan','tower-run'].includes(type) ? 4 : ['inspect','observation-look','observation-finish','film-move','generation'].includes(type) ? 0 : -1;
 
 export function fieldAction(field, type, payload={}) {
   const done = message => ({ok:true,message});
@@ -230,33 +228,32 @@ export function fieldAction(field, type, payload={}) {
   }
   if (actionChapter(type) !== field.active || !fieldUnlocked(field,field.active)) return fail('지금 탐사하는 구역에서 할 수 있는 활동을 골라 줘.');
   const data = field.chapters[field.active];
+  if (type === 'observation-look') {
+    if (!FIELD_FORMS.includes(p.form)) return fail('돋보기로 볼 모습을 골라 줘.');
+    data.explored = unique([...data.explored,p.form]);
+    return done(data.explored.length === FIELD_FORMS.length ? '이제 한 모습씩 더 크게 살펴보자.' : '돋보기로 다른 모습도 살펴봐.');
+  }
+  if (type === 'observation-finish') {
+    if (data.explored.length !== FIELD_FORMS.length) return fail('돋보기로 네 모습을 먼저 살펴봐.');
+    const inspected = Object.fromEntries(FIELD_FORMS.map(form => [form,unique([...data.inspected[form],...integerList(p.inspected?.[form],0,1)])]));
+    if (!FIELD_FORMS.every(form => inspected[form].length)) return fail('네 모습을 한 번씩 확대해 봐.');
+    data.inspected = inspected;
+    return done('네 모습을 모두 살펴봤어. 이제 사진을 자라는 순서로 놓아 봐.');
+  }
   if (type === 'inspect') {
     if (!FIELD_FORMS.includes(p.form) || !numberIn(p.spot,0,1)) return fail('확대경으로 생물의 특징을 찾아보자.');
     data.inspected[p.form] = unique([...data.inspected[p.form],p.spot]);
+    data.explored = unique([...data.explored,p.form]);
     return done(`${{egg:'알',larva:'애벌레',pupa:'번데기',adult:'어른벌레'}[p.form]}의 특징을 발견했어.`);
   }
-  if(type==='observation-reference'){if(!FIELD_FORMS.includes(p.form))return fail('살펴볼 생물의 모습을 골라 줘.');data.drawingForm=p.form;return done(`${{egg:'알',larva:'애벌레',pupa:'번데기',adult:'어른벌레'}[p.form]} 그림을 보며 특징을 써 봐.`);}
-  if (type === 'observation-draw') {
-    if (!observed(data)) return fail('네 모습의 특징을 하나씩 먼저 살펴보자.');
-    const stroke = sanitizeStroke(p.stroke);
-    if (stroke.length < 2 || !stroke.some(point => point[0] !== stroke[0][0] || point[1] !== stroke[0][1])) return fail('관찰한 모양을 선으로 그려 줘.');
-    if (data.drawing.length >= 200) return fail('그림 기록이 가득 찼어. 관찰 글을 마무리해 보자.');
-    data.drawing.push(stroke);
-    return done('관찰 그림에 선을 남겼어.');
-  }
-  if (type === 'observation-note') {
-    if (!observed(data)) return fail('네 모습을 먼저 관찰해 보자.');
-    data.note = textValue(p.text,TEXT_LIMITS.observation);data.noteDraft=null;
-    return done('눈으로 찾은 특징을 글로 남겼어.');
-  }
   if (type === 'film-move') {
-    if (!observed(data) || !drawingDone(data)) return fail('관찰한 특징을 먼저 기록해 보자.');
+    if (!observed(data)) return fail('네 모습을 한 번씩 확대해 봐.');
     if (!numberIn(p.from,0,3) || !numberIn(p.to,0,3)) return fail('필름 네 장을 끌어서 순서대로 놓아 줘.');
     const [form] = data.order.splice(p.from,1); data.order.splice(p.to,0,form);
     return done(filmDone(data) ? '알에서 어른벌레까지 이어졌어!' : '몸의 모습이 어떻게 달라지는지 비교해 보자.');
   }
   if (type === 'generation') {
-    if (!filmDone(data) || !drawingDone(data) || !observed(data)) return fail('관찰 기록과 한살이 필름을 먼저 완성해 보자.');
+    if (!filmDone(data) || !observed(data)) return fail('확대 관찰과 한살이 필름을 먼저 마쳐 줘.');
     if (p.target !== 'next-egg') return fail('어른벌레가 다시 알로 변할까? 알에서 자라는 것은 다음 세대의 새 생명이야.');
     data.generation = p.target; return done('다음 세대의 새로운 알로 한살이가 이어졌어.');
   }
@@ -527,10 +524,11 @@ export function restoreField(raw) {
   const field=initialField(), saved=array(parsed.chapters), [observation,seeds,care,comparison,book]=field.chapters;
   const c0=object(saved[0]);
   for (const form of FIELD_FORMS) observation.inspected[form]=integerList(object(c0.inspected)[form],0,1);
+  observation.explored=FIELD_FORMS.filter(form=>array(c0.explored).includes(form)||observation.inspected[form].length);
   observation.drawing=array(c0.drawing).slice(0,200).map(sanitizeStroke).filter(stroke => stroke.length >= 2);
   observation.note=textValue(c0.note,TEXT_LIMITS.observation);observation.drawingForm=FIELD_FORMS.includes(c0.drawingForm)?c0.drawingForm:'larva';observation.noteDraft=typeof c0.noteDraft==='string'?textValue(c0.noteDraft,TEXT_LIMITS.observation):null;
   if (Array.isArray(c0.order) && c0.order.length === 4 && unique(c0.order).length === 4 && c0.order.every(form => FIELD_FORMS.includes(form))) observation.order=[...c0.order];
-  if (observed(observation) && drawingDone(observation) && filmDone(observation) && c0.generation === 'next-egg') observation.generation='next-egg';
+  if (observed(observation) && filmDone(observation) && c0.generation === 'next-egg') observation.generation='next-egg';
 
   const c1=object(saved[1]);
   seeds.rounds.forEach((round,index) => {

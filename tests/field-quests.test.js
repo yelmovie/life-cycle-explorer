@@ -14,7 +14,6 @@ function readyField(){
   act(f,'chapter-enter',{chapter:c});
   if(c===0){
    for(const form of FIELD_FORMS)for(const spot of [0,1])act(f,'inspect',{form,spot});
-   act(f,'observation-draw',{stroke:[[.1,.1],[.4,.3],[.6,.2]]});act(f,'observation-note',{text:'몸의 마디와 다리를 자세히 관찰했다.'});
    FIELD_FORMS.forEach((form,to)=>act(f,'film-move',{from:f.chapters[0].order.indexOf(form),to}));act(f,'generation',{target:'next-egg'});
   }else if(c===1){
    for(const key of ['water','warm']){

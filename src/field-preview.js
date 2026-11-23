@@ -28,7 +28,7 @@ export function previewFieldForPhase(source,chapter,phase){
  if(phase==='discovery')f.discoveryVisit=chapter;
  if(chapter===0){
   if(phase==='search')f.chapters[0]=initialField().chapters[0];
-  else if(phase==='draw'){a.drawing=[];a.note='';}
+  else if(phase==='closeup'){Object.assign(f.chapters[0],initialField().chapters[0],{explored:[...FIELD_FORMS]});}
   else if(phase==='film')a.order=['pupa','egg','adult','larva'];
   else if(phase==='generation')a.generation='';
  }else if(chapter===1&&phase!=='discovery'){

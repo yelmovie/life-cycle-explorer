@@ -14,6 +14,6 @@ test('도토 음원은 각 탐구 단계와 지도·추가 발견에서 실제�
   companionMapLine(),
   ...DISCOVERY_MISSIONS.flatMap((mission,chapter)=>mission.objectives.map((text,step)=>companionDiscoveryLine(chapter,step,text))),
  ];
- assert.deepEqual(source.lines.map(({key,text})=>({key,text})),lines);
- assert.deepEqual(readdirSync(dir).filter(file=>!file.startsWith('.')&&file.endsWith('.mp3')).sort(),lines.map(({key})=>key+'.mp3').sort());
+ assert.deepEqual(source.lines.filter(({key})=>!/^draw-/.test(key)).map(({key,text})=>({key,text})),lines);
+ assert.deepEqual(readdirSync(dir).filter(file=>!file.startsWith('.')&&file.endsWith('.mp3')).sort(),source.lines.map(({key})=>key+'.mp3').sort());
 });

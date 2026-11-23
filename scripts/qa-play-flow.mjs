@@ -88,20 +88,20 @@ export async function runPlay({input,output,defaultUrl}){
   await page.goto(process.env.BASE_URL||defaultUrl);await page.locator('.boot').waitFor({state:'detached'});
   if(start===0){await begin();await checkpoint(0);}else await inRoom(start);
 
-  if(start===0){ // 나비의 숲: 네 모습 확대 관찰 → 관찰 글 → 순서 → 다음 세대
-   assert.equal(await objective(),'나비 그림의 ‘보기’를 눌러 확대해 봐. 돋보기를 끌어도 돼.');
+  if(start===0){ // 나비의 숲: 돋보기 탐색 → 개별 확대 → 순서 → 다음 세대
+   assert.equal(await objective(),'돋보기로 네 모습을 원하는 순서로 살펴봐.');
    if(input==='pointer'){
-    // The magnifier: drop it on the larva's body segment (POSITIONS.larva + FORM_SPOTS.larva[0]) to open that view.
-    await drag(640,350,980+(.36-.5)*204,284+(.43-.5)*204);await target('본 특징 기록하기');checks.push('magnifier-drop-opens-view');
-    await press('알 관찰');
-   }else await press('알 확대해서 보기');
+    await drag(640,350,980+(.36-.5)*204,284+(.43-.5)*204);
+    assert.deepEqual((await field(0)).explored,['larva']);
+   }else await press('애벌레에 돋보기 대기');
+   for(const form of ['번데기','어른벌레','알'])await press(form+'에 돋보기 대기');
+   await waitObjective('위쪽 이름을 눌러 한 모습씩 더 크게 살펴봐.');
    await press('모양 보기');
    for(const form of ['애벌레','번데기','어른벌레'])await press(form+' 관찰');
    await press('더듬이 보기');await press('애벌레와 어른벌레 비교');await press('확대 관찰로 돌아가기');await snap('01-observation-view');
-   await press('관찰 글 쓰기');const seen=(await field(0)).inspected;
+   await press('시간 필름으로');const seen=(await field(0)).inspected;
    assert.deepEqual([seen.egg,seen.adult].map(a=>[...a].sort()),[[0,1],[0,1]]);assert.ok(['larva','pupa'].every(f=>seen[f].length));checks.push('four-forms-observed');
-   await page.locator('#observation-note').fill('애벌레 몸에는 여러 마디와 작은 다리가 보여.');await page.locator('#observation-note').press('Enter');await pause(600);
-   assert.equal((await field(0)).note,'애벌레 몸에는 여러 마디와 작은 다리가 보여.');checks.push('observation-note');
+   assert.equal(await page.locator('#observation-note').count(),0);
    await waitObjective('흩어진 사진을 자라는 순서로 이어 줘.');
    const forms=['egg','larva','pupa','adult'],names={egg:'알',larva:'애벌레',pupa:'번데기',adult:'어른벌레'},slots=['첫 번째 자리','두 번째 자리','세 번째 자리','네 번째 자리'];
    for(let to=0;to<4;to++){if((await field(0)).order[to]===forms[to])continue;await press(names[forms[to]]+' 사진 옮기기');await press(slots[to]);await pause(400);}

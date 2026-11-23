@@ -1,14 +1,14 @@
 export const COMPANION_ART='assets/field/doto.webp';
 const STEPS=[
- [['search','확대 관찰'],['draw','관찰 기록'],['film','시간 필름'],['generation','다음 세대']],
+ [['search','돋보기 탐색'],['closeup','확대 관찰'],['film','시간 필름'],['generation','다음 세대']],
  [['prepare','같게 준비'],['design','조건 바꾸기'],['grow','시간 관찰'],['reason','결과 살펴보기'],['seed-next','다음 실험']],
  [['measure','물·빛 재기'],['symptom','신호 찾기'],['care','맞춤 돌봄'],['care-after','시간 관찰'],['care-compare','변화 비교'],['care-next','다른 화분']],
  [['animals','동물의 시간'],['animal-birth','다음 세대'],['tags','이름표 달기'],['seasons','계절 따라 보기'],['plant-identity','작년 식물 찾기'],['transfer','새 상황']],
  [['tower-evidence','증거 찾기'],['tower-note','발견과 관찰 약속'],['tower-run','시계 깨우기']],
 ];
+const LENS_HINTS=['돋보기를 그림 위로 끌어 가까이에서 살펴봐.','그림 아래 버튼을 눌러도 돋보기를 옮길 수 있어. 네 모습에 모두 돋보기를 대 봐.'];
 const HINTS={
  search:['보기 버튼을 누르면 크게 확대돼. 위쪽 이름을 눌러 네 모습을 하나씩 살펴봐.','애벌레와 어른벌레를 나란히 보면 없던 부분이 어디에 생겼는지 찾을 수 있어.'],
- draw:['종이 칸을 눌러 본 특징을 바로 적어 봐. 다 쓰고 칸 밖을 누르면 저장돼.','아래 모습을 골라 그림을 보며 써도 돼.'],
  film:['사진을 옆자리로 끌어 순서를 바꿔 봐.','내 순서 재생으로 몸의 변화가 자연스러운지 확인해.'],
  generation:['알을 잡고 새 잎으로 옮겨 봐.','부모와 새로 태어날 생명을 구분해 봐.'],
  prepare:['화분 아래 버튼을 눌러 같은 흙과 콩 세 알을 넣어 봐.','두 화분에 같은 양을 넣어야 나중에 조건 하나만 비교할 수 있어.'],
@@ -34,13 +34,16 @@ const HINTS={
  discovery:['화면에서 새 단서를 찾아 네가 배운 방법을 써 봐.','연결하거나 표시한 다음 발견 기록을 남겨 줘.'],
  ready:['기록을 모두 모았어! 오른쪽에서 보상을 받아.','발견 영상으로 네 탐구 개념을 다시 볼 수 있어.'],
 };
+const recordedHint=(key,index)=>({key:key+'-'+index,text:HINTS[key][index]});
 export function companionLine(phase,level=0){
+ if(phase==='search')return {key:'',text:LENS_HINTS[Math.min(level,LENS_HINTS.length-1)]};
+ if(phase==='closeup')phase='search';
  const key=Object.hasOwn(HINTS,phase)?phase:'ready';
  const index=Math.min(level,HINTS[key].length-1);
- return {key:key+'-'+index,text:HINTS[key][index]};
+ return recordedHint(key,index);
 }
 export function companionHint(phase,level=0){return companionLine(phase,level).text;}
-export const COMPANION_HINT_LINES=Object.keys(HINTS).flatMap(phase=>HINTS[phase].map((_,index)=>companionLine(phase,index)));
+export const COMPANION_HINT_LINES=Object.entries(HINTS).flatMap(([key,hints])=>hints.map((_,index)=>recordedHint(key,index)));
 export function companionMapLine(chapter,title){
  if(!Number.isInteger(chapter))return {key:'map-done',text:'다섯 장소의 시간이 이어졌어. 다시 걸어가 기록을 더 살펴보자.'};
  if(chapter===0)return {key:'map-0',text:'나비의 숲에 가 보자. 장소나 길을 누르면 내가 길을 따라 걸어갈게.'};
@@ -50,4 +53,4 @@ export function companionMapLine(chapter,title){
 }
 export function companionDiscoveryLine(chapter,step,text){return {key:`discovery-${chapter}-${step}`,text};}
 export function stageProgress(chapter,phase,preview=false){const steps=preview||phase==='discovery'?[...STEPS[chapter],['discovery','추가 발견']]:STEPS[chapter],index=phase==='ready'?steps.length:Math.max(0,steps.findIndex(([p])=>p===phase));return {index,total:steps.length,phase:steps[index]?.[0]||'ready',nextPhase:steps[index+1]?.[0],firstPhase:steps[0][0],label:phase==='ready'?'탐사 완료':steps[index][1],html:preview?`<select class="teacher-phase" aria-label="시연할 활동 단계" data-preview-phase>${steps.map(([id,label],i)=>`<option value="${id}" ${id===phase?'selected':''}>활동 바로가기 · ${i+1}. ${label}</option>`).join('')}</select>`:steps.map(([,label],i)=>`<span class="phase-dot ${i<index?'done':i===index?'current':''}" title="${label}">${i<index?'✓':i+1}</span>`).join('')};}
-export function hintTarget(phase){return ({search:/확대|보기/,draw:/보며 쓰기/,film:/사진 옮기기/,grow:/시간/,measure:/재기|재는 도구/,reason:/꼬리표/,seasons:/시간/,'tower-run':/시곗바늘/})[phase]??null;}
+export function hintTarget(phase){return ({search:/돋보기 대기/,closeup:/ 관찰$/,film:/사진 옮기기/,grow:/시간/,measure:/재기|재는 도구/,reason:/꼬리표/,seasons:/시간/,'tower-run':/시곗바늘/})[phase]??null;}

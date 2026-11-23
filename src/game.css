@@ -253,9 +253,6 @@ dialog.concept-dialog:not(.is-fallback)::backdrop{background:#000}
 @media(orientation:portrait){dialog[open] .modal-portrait{display:flex;position:absolute;inset:0;z-index:50;align-items:center;justify-content:center;padding:24px;text-align:center;background:var(--cream-50);font-size:28px;line-height:1.5;border-radius:inherit}dialog[open]>.modal-body,dialog[open]>h2,dialog[open]>.close,dialog[open]>.dialog-actions{visibility:hidden}}
 
 #story-frame p,.ending-dialog .ending-learning p,.certificate-dialog .certificate-columns p,.certificate-dialog h3{white-space:pre-wrap;overflow-wrap:anywhere}
-.field-note-box{position:absolute;transform:translate(-50%,-50%);z-index:5;box-sizing:border-box;padding:14px 16px;border:2px dashed #7aa48c;border-radius:14px;background:rgba(255,253,244,.92);color:#244d3d;font:inherit;font-size:clamp(18px,1.6vw,24px);line-height:1.5;resize:none;word-break:keep-all}
-.field-note-box:focus{outline:3px solid #d39b36;border-style:solid}
-.field-note-done{position:absolute;z-index:6;width:160px;min-height:52px}
 
 .concept-stage .concept-duration{display:none}
 .ending-video{display:block;width:100%;aspect-ratio:16/9;border-radius:16px;margin:0;background:#1e3a2e;object-fit:cover}

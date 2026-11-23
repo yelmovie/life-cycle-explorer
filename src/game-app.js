@@ -1,7 +1,7 @@
 import {bindDirectionPad,MAP_VECTORS} from './map-controls.js';
 import {reducedMotion} from './game-motion.js';
 import * as G from './game-model.js';
-import {TEXT_LIMITS,objectParticle} from './field-writing.js';
+import {objectParticle} from './field-writing.js';
 import {fieldAction,storeFieldDraft,fieldRecords,fieldUnlocked} from './field-model.js';
 import {FIELD_CHAPTERS,FORM_TRAITS,FORM_NAMES,SORT_CARDS} from './field-content.js';
 import {roomPhase,roomUI,holdObservation,releaseObservation,observationHeld} from './field-flow.js';
@@ -22,7 +22,6 @@ import {shellMarkup,GUIDE_BUBBLE_MARKUP} from './game-shell.js';
 import {rangeControl,timeStops} from './room-time-controls.js';
 import {createDotoVoice} from './doto-voice.js';
 import {layoutMapDoors} from './map-door-layout.js';
-import {createNoteBox} from './observation-note-box.js';
 import {installBackGuard} from './back-guard.js';
 import {autoPlayable} from './field-autoplay.js';
 import {openConcept} from './field-concepts.js';
@@ -118,7 +117,7 @@ function view(next){
  Object.assign(ui,{selection:null,guide:false,message:'',play:false,autoPlay:false,mapHand:false,travelChapter:null,hintLevel:0,hintReturn:null,dial:null,carePour:null,crossSection:false,plantFrames:null,waterFx:false,tempFx:false});
  clearTimeout(statusTimer);$('status').classList.remove('visible');
  // Stop the old room's inputs and hide its canvas before exposing the new room label.
- setFieldReady(false);focusTargets([]);placeNoteBox(null);
+ setFieldReady(false);focusTargets([]);
  persist();render();openFieldView();
 }
 function setFieldReady(ready){
@@ -174,7 +173,7 @@ function renderFlatObservation(){
  const panel=$('flat-observation'),q=s.field.chapters[0],forms=Object.keys(FORM_NAMES);
  const count=forms.filter(form=>q.inspected[form].length).length;
  panel.hidden=false;
- panel.innerHTML=`<h2 tabindex="-1">나비의 숲 · 그림으로 관찰하기</h2><p>나비의 모습을 살펴보고 특징을 골라 기록해요.</p><div class="flat-specimens">${forms.map(form=>`<article><h3>${FORM_NAMES[form]}</h3><img src="${ART[form]}" alt="${FORM_NAMES[form]} 확대 모형"><div>${FORM_TRAITS[form].map((trait,spot)=>btn((q.inspected[form].includes(spot)?'✓ ':'')+esc(trait),'flat-inspect',`data-form="${form}" data-spot="${spot}"`)).join('')}</div></article>`).join('')}</div><p role="status">${count}/4 모습 관찰 · 기록은 나비의 숲에서 이어 쓸 수 있어요.</p><div class="row">${btn('탐구 도구 다시 불러오기','field-retry','','primary')}${btn('처음으로','home')}</div>`;
+ panel.innerHTML=`<h2 tabindex="-1">나비의 숲 · 그림으로 관찰하기</h2><p>나비의 모습을 살펴보고 특징을 골라 봐.</p><div class="flat-specimens">${forms.map(form=>`<article><h3>${FORM_NAMES[form]}</h3><img src="${ART[form]}" alt="${FORM_NAMES[form]} 확대 모형"><div>${FORM_TRAITS[form].map((trait,spot)=>btn((q.inspected[form].includes(spot)?'✓ ':'')+esc(trait),'flat-inspect',`data-form="${form}" data-spot="${spot}"`)).join('')}</div></article>`).join('')}</div><p role="status">${count}/4 모습 관찰</p><div class="row">${btn(count===4?'시간 필름으로':'탐구 도구 다시 불러오기','field-retry','','primary')}${btn('처음으로','home')}</div>`;
 }
 let fieldTicket=0;
 function openFieldView({retryAssets=false}={}){
@@ -247,14 +246,24 @@ function mapHandButton(map){
  const label=ui.mapHand?'지도 끌기 끝':'지도 끌어 보기';b.innerHTML=icon('hand');$('map-fit').hidden=!map;$('map-fit').setAttribute('aria-pressed',String(!!ui.mapOverview));b.setAttribute('aria-pressed',String(ui.mapHand));b.setAttribute('aria-label',label);b.title=label;
 }
 function coordinates(item){const canvas=document.querySelector('canvas');if(!canvas)return null;const a=canvas.getBoundingClientRect(),b=$('stage').getBoundingClientRect(),size=ctx.scene?.scale?.gameSize,p=ctx.scene?.projectWorld?.(item)||item,sx=a.width/(size?.width||1280),sy=a.height/(size?.height||800);return {left:a.left-b.left+p.x*sx,top:a.top-b.top+p.y*sy,w:p.w*sx,h:p.h*sy};}
-function focusTargets(items){focusItems=items;$('focus-targets').replaceChildren();items.forEach(item=>{const b=document.createElement('button');b.className='focus-target';if(s.field.active===0&&roomPhase(s.field)==='search'&&(/ 보기$| 관찰$|비교$|확대 관찰로 돌아가기|본 특징 기록하기|관찰 글 쓰기/.test(item.label)&&!item.label.endsWith('확대해서 보기')))b.classList.add('tap-observation');b.setAttribute('aria-label',item.label);b.addEventListener('click',item.fn);$('focus-targets').append(b);});positionFocus();}
-const notes=createNoteBox({stage:()=>$('stage'),coordinates,note:()=>s.field.chapters[0],save:text=>act('observation-note',{text}),limit:TEXT_LIMITS.observation}),placeNoteBox=notes.place,fitNote=notes.fit;
+function focusTargets(items){
+ const layer=$('focus-targets'),previous=layer.contains(document.activeElement)?document.activeElement.getAttribute('aria-label'):null;
+ const observation=s.field.active===0&&['search','closeup'].includes(roomPhase(s.field));
+ focusItems=items;layer.replaceChildren();
+ items.forEach(item=>{
+  const b=document.createElement('button');b.className='focus-target';
+  if(observation)b.classList.add('tap-observation');
+  b.setAttribute('aria-label',item.label);b.addEventListener('click',item.fn);layer.append(b);
+  if(previous===item.label)b.focus({preventScroll:true});
+ });
+ positionFocus();
+}
 // Writing dialogs: keep the field and the action row inside what the keyboard leaves visible.
 function fitDialog(){const vv=window.visualViewport,field=document.activeElement,typing=modal.open&&vv&&modal.contains(field)&&/^(INPUT|TEXTAREA)$/.test(field?.tagName)&&vv.height<innerHeight*.85;
  Object.assign(modal.style,typing?{top:vv.offsetTop+8+'px',bottom:'auto',marginTop:'0',maxHeight:vv.height-16+'px'}:{top:'',bottom:'',marginTop:'',maxHeight:''});if(typing)field.scrollIntoView({block:'nearest'});}
-const fitKeyboard=()=>{fitNote();fitDialog();};document.addEventListener('focusin',()=>setTimeout(fitKeyboard,350));
+const fitKeyboard=fitDialog;document.addEventListener('focusin',()=>setTimeout(fitKeyboard,350));
 window.visualViewport?.addEventListener('resize',fitKeyboard);window.visualViewport?.addEventListener('scroll',fitKeyboard);
-function positionFocus(){notes.refresh();[...$('focus-targets').children].forEach((b,i)=>{const p=coordinates(focusItems[i]);if(p)Object.assign(b.style,{left:p.left+'px',top:p.top+'px',width:Math.max(48,p.w)+'px',height:Math.max(48,p.h)+'px'});});}
+function positionFocus(){[...$('focus-targets').children].forEach((b,i)=>{const p=coordinates(focusItems[i]);if(p)Object.assign(b.style,{left:p.left+'px',top:p.top+'px',width:Math.max(48,p.w)+'px',height:Math.max(48,p.h)+'px'});});}
 let layoutFrame=0;
 function syncLayout(){
  cancelAnimationFrame(layoutFrame);layoutFrame=requestAnimationFrame(()=>{
@@ -394,7 +403,27 @@ function autoFlow(type){
  // Finishing a region's evidence for the first time goes straight to its reward.
  if(phase==='ready'&&c<4&&!f.completed.includes(c)&&!f.discoveryVisit)flowAfter(1400,()=>!s.field.completed.includes(c),completeChapter);
 }
-function act(type,payload={}){const before=roomPhase(s.field),result=type==='quest-answer'?applyQuest(s.field,payload):fieldAction(s.field,type,payload);if(result.ok)holdObservation(s.field,before,type);if(mode()==='room')hideGuide();countMiss(result.ok);ui.selection=null;if(result.ok&&type==='seed-condition'){if(payload.key==='water')ui.waterFx=true;if(payload.key==='warm')ui.tempFx=true;}announce(result.message,!result.ok);if(result.ok)audio.playSfx(type.includes('photo')?'photo':type==='inspect'?'inspect':roomPhase(s.field)!==before?'success':['seed-day','care-day','season','animal-time'].includes(type)?'time':'place');if(result.ok&&type==='inspect')ui.message=FORM_TRAITS[payload.form][payload.spot];if(result.ok&&roomPhase(s.field)!==before)Object.assign(ui,{guide:false,message:'',pending:false,recordPage:0,hintLevel:0});persist();render();ctx.scene?.refresh();if(result.ok&&type==='inspect'&&!payload.quiet)notebook.observe(payload.form,payload.spot);if(result.ok&&/^(seed|animal|season)-photo$/.test(type))notebook.capture(type,payload);if(result.ok&&mode()==='room'&&!previewOriginal)autoFlow(type);return result;}
+function act(type,payload={}){
+ const before=roomPhase(s.field);
+ const result=type==='quest-answer'?applyQuest(s.field,payload):fieldAction(s.field,type,payload);
+ if(result.ok)holdObservation(s.field,before,type);
+ const changed=roomPhase(s.field)!==before;
+ if(mode()==='room')hideGuide();
+ countMiss(result.ok);ui.selection=null;
+ if(result.ok&&type==='seed-condition'){if(payload.key==='water')ui.waterFx=true;if(payload.key==='warm')ui.tempFx=true;}
+ announce(result.message,!result.ok);
+ if(result.ok){
+  audio.playSfx(type.includes('photo')?'photo':changed?'success':['inspect','observation-look'].includes(type)?'inspect':['seed-day','care-day','season','animal-time'].includes(type)?'time':'place');
+  if(type==='inspect')ui.message=FORM_TRAITS[payload.form][payload.spot];
+  if(changed)Object.assign(ui,{guide:false,message:'',pending:false,recordPage:0,hintLevel:0});
+ }
+ persist();render();
+ // Keep the hand-held lens at the last specimen between sightings.
+ if(type!=='observation-look'||changed)ctx.scene?.refresh();
+ if(result.ok&&/^(seed|animal|season)-photo$/.test(type))notebook.capture(type,payload);
+ if(result.ok&&mode()==='room'&&!previewOriginal)autoFlow(type);
+ return result;
+}
 // What the learner just picked and where it goes. Every listed target also accepts a tap after picking.
 function pickGuide(d){const q=s.field.chapters[s.field.active],tool={water:'물뿌리개',warm:'온도계',light:'빛 램프'};
  const [name,goal]=d.kind==='film'?[FORM_NAMES[q.order?.[d.from]]+' 사진','옮길 자리를 눌러 줘.']
@@ -434,10 +463,10 @@ function drop(data){const {kind,target}=data,q=s.field.chapters[s.field.active];
  else if(kind==='claim'&&target.startsWith('evid-')){type='help-match';p={request:data.request,recordId:target.slice(5)};}
  else if(kind==='book'&&target.startsWith('book-')){type='book-move';p={from:data.from,to:Number(target.slice(5))};}
  if(type)act(type,p);else{countMiss(false);announce(kind==='seed-condition'?'A는 그대로 두고 B에서 조건 하나를 바꿔 보자.':pickGuide(data).refused,true);ctx.scene?.refresh();}}
-const ctx={get s(){return s;},saveStatus:()=>G.getSaveStatus(storage),saveDraft(scope,values){if(storeFieldDraft(s.field,scope,values))persist();},ui,mode,dialog,announce,modalOpen:()=>modal.open||rewardLayerOpen(),recordImage,focusTargets,sceneReady:positionFocus,noteBox:placeNoteBox,placeDoors:positionDoors,emit(type,data){
+const ctx={get s(){return s;},saveStatus:()=>G.getSaveStatus(storage),saveDraft(scope,values){if(storeFieldDraft(s.field,scope,values))persist();},ui,mode,dialog,announce,modalOpen:()=>modal.open||rewardLayerOpen(),recordImage,focusTargets,sceneReady:positionFocus,placeDoors:positionDoors,emit(type,data){
  if(type==='assets-loading'){
   if(flatObservation||mode()==='title')return;
-  setFieldReady(false);placeNoteBox(null);fieldRecovery('탐사 그림을 불러오는 중이에요.');return;
+  setFieldReady(false);fieldRecovery('탐사 그림을 불러오는 중이에요.');return;
  }
  if(type==='assets-progress'){
   if(!flatObservation&&!$('field-recovery').hidden)$('field-recovery').querySelector('[role=status]').textContent='탐사 그림을 불러오는 중이에요. '+Math.round(data.progress*100)+'%';
@@ -466,7 +495,7 @@ const ctx={get s(){return s;},saveStatus:()=>G.getSaveStatus(storage),saveDraft(
   if(!previewOriginal&&act('chapter-complete',{chapter:4}).ok){ui.pendingRestoreChapter=4;view('map');finale();}
   return;
  }
- if(type==='observe'){act('inspect',data);return;}if(type==='observe-many'){data.forEach(p=>act('inspect',{...p,quiet:true}));return;}if(type==='dial'){if(ui.dial)act(ui.dial.type,{...ui.dial.payload,...(ui.dial.type==='season'?{step:data}:{day:data})});return;}if(type.startsWith('animal-dial-')){act('animal-time',{animal:type.slice(12),step:data});return;}if(type==='caption'){dialogs.caption(data);return;}if(type==='story-info'){dialogs.storyInfo();return;}if(type==='feedback')announce(data,true);
+ if(type==='dial'){if(ui.dial)act(ui.dial.type,{...ui.dial.payload,...(ui.dial.type==='season'?{step:data}:{day:data})});return;}if(type.startsWith('animal-dial-')){act('animal-time',{animal:type.slice(12),step:data});return;}if(type==='caption'){dialogs.caption(data);return;}if(type==='story-info'){dialogs.storyInfo();return;}if(type==='feedback')announce(data,true);
 }};
 const dialogs=createDialogs(ctx);
 const notebook=createFieldNotebook({get s(){return s;},dialog,close:()=>modal.close()});
@@ -479,7 +508,7 @@ function action(name,b){void audio.initAudio(s.audio);audio.playSfx('click');
  if(name==='field-direct'){if(mode()==='map')enterDirect();return;}
  if(name==='flat-inspect'&&flatObservation&&mode()==='room'&&s.field.active===0){
   const {form,spot}=b.dataset;
-  if(act('inspect',{form,spot:Number(spot),quiet:true}).ok){
+  if(act('inspect',{form,spot:Number(spot)}).ok){
    renderFlatObservation();
    $('flat-observation').querySelectorAll('[data-action=flat-inspect]').forEach(next=>{if(next.dataset.form===form&&next.dataset.spot===spot)next.focus({preventScroll:true});});
   }
@@ -503,8 +532,8 @@ function action(name,b){void audio.initAudio(s.audio);audio.playSfx('click');
  if(name==='next'){if(mode()==='map'){const c=FIELD_CHAPTERS.findIndex((_,i)=>!s.field.completed.includes(i)&&fieldUnlocked(s.field,i));if(c<0)dialogs.story();else requestDoor(c);return;}if(previewOriginal){const chapter=s.field.active,phase=stageProgress(chapter,roomPhase(s.field),true).nextPhase;if(phase){s.field=previewFieldForPhase(s.field,chapter,phase);Object.assign(ui,{selection:null,play:false,autoPlay:false,guide:false,message:''});render();ctx.scene?.refresh();}else if(chapter<4){s.field=previewFieldForPhase(s.field,chapter+1,stageProgress(chapter+1,'',true).firstPhase);view('room');}else view('map');return;}const next=roomUI(s,ui).nextAction;if(next==='complete'){completeChapter();return;}if(next==='hint'){ui.hintReturn=b;ui.message='';ui.guide=true;updateGuide(true);ctx.scene?.showHint?.(hintTarget(roomPhase(s.field)));return;}if(next==='story-info'){dialogs.storyInfo();return;}if(next==='tower-start'){
   const start=ctx.scene?.startTower;if(!start||b.disabled)return;b.disabled=true;start();return;
  }if(next==='observation-done'){releaseObservation(s.field);Object.assign(ui,{guide:false,message:'',pending:false,hintLevel:0});audio.playSfx('success');render();ctx.scene?.refresh();return;}act(next);return;}
- if(name==='clear-drawing'){s.field.chapters[0].drawing=[];persist();ctx.scene?.refresh();return;}if(name==='map-fit'){if(mode()!=='map')return;ui.mapOverview=!ui.mapOverview;ctx.scene?.setMapOverview?.(ui.mapOverview);render();return;}if(name==='map-hand'){if(mode()!=='map')return;if(ui.mapOverview){ui.mapOverview=false;ctx.scene?.setMapOverview?.(false);}ui.mapHand=!ui.mapHand;ctx.scene?.setMapHand?.(ui.mapHand);render();return;}if(name==='autoplay'){ui.autoPlay=!ui.autoPlay;render();if(ui.autoPlay)ctx.scene?.autoPlay?.();return;}if(name==='film-play'){ui.play=!ui.play;render();ctx.scene?.refresh();return;}if(name==='cross-section'){ui.crossSection=!ui.crossSection;ctx.scene?.refresh();return;}
- if(name==='save-note'){act('observation-note',{text:$('observation-note').value});modal.close();return;}if(name==='predict'){act('seed-predict',{choice:b.dataset.choice});modal.close();return;}if(name==='save-story'){
+ if(name==='map-fit'){if(mode()!=='map')return;ui.mapOverview=!ui.mapOverview;ctx.scene?.setMapOverview?.(ui.mapOverview);render();return;}if(name==='map-hand'){if(mode()!=='map')return;if(ui.mapOverview){ui.mapOverview=false;ctx.scene?.setMapOverview?.(false);}ui.mapHand=!ui.mapHand;ctx.scene?.setMapHand?.(ui.mapHand);render();return;}if(name==='autoplay'){ui.autoPlay=!ui.autoPlay;render();if(ui.autoPlay)ctx.scene?.autoPlay?.();return;}if(name==='film-play'){ui.play=!ui.play;render();ctx.scene?.refresh();return;}if(name==='cross-section'){ui.crossSection=!ui.crossSection;ctx.scene?.refresh();return;}
+ if(name==='predict'){act('seed-predict',{choice:b.dataset.choice});modal.close();return;}if(name==='save-story'){
   const values={title:$('story-title').value,summary:$('story-summary').value,subject:$('plan-subject').value,when:$('plan-when').value,what:$('plan-what').value};
   const result=act('book-finish-writing',values);
   if(result.ok)modal.close();
@@ -518,13 +547,12 @@ function action(name,b){void audio.initAudio(s.audio);audio.playSfx('click');
  if(name==='reset'||name==='title-restart'){ui.restartFromTitle=name==='title-restart';ui.resetSnapshot=G.getSaveStatus(storage).expectedRaw;dialog(renderResetConfirm(ui.restartFromTitle?'close':'settings'));return;}if(name==='reset-confirm'){const next=G.fresh();next.audio={...s.audio};if(previewOriginal){next.field.preview=true;s=next;persist();}else if(G.resetGame(storage,next,ui.resetSnapshot)){s=next;}else{announce(saveIssue(),true);dialog({title:'기록을 지우지 않았어',body:'<p>확인하는 동안 저장된 기록이 바뀌었거나 저장소를 사용할 수 없어. 원본을 그대로 두었어. 기록함에서 현재 활동을 먼저 보관해 줘.</p>',actions:btn('기록함 열기','records')+btn('닫기','close','','primary')});return;}ui.resetSnapshot=null;modal.close();view('title');if(ui.restartFromTitle){ui.restartFromTitle=false;intro();}return;}
  if(name==='story-auto'){ui.storyAuto?.();return;}if(name==='story-prev'||name==='story-next'){ui.storyStep?.(name==='story-next'?1:-1);return;}
  if(name==='export'){void dialogs.export(b.dataset.bookSource==='finished');return;}
- const map={note:'note',prediction:'prediction','story-info':'storyInfo','story-caption':'caption',records:'records',bag:'bag',ending:'ending',certificate:'certificate','certificate-png':'certificatePNG','certificate-print':'certificatePrint','story-play':'story'};if(map[name]){void dialogs[map[name]]();return;}act(name,b.dataset.payload?JSON.parse(b.dataset.payload):{});
+ const map={prediction:'prediction','story-info':'storyInfo','story-caption':'caption',records:'records',bag:'bag',ending:'ending',certificate:'certificate','certificate-png':'certificatePNG','certificate-print':'certificatePrint','story-play':'story'};if(map[name]){void dialogs[map[name]]();return;}act(name,b.dataset.payload?JSON.parse(b.dataset.payload):{});
 }
 document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.disabled||b.classList.contains('focus-target'))return;const name=b.dataset.action||b.dataset.fieldAction;if(name)void action(name,b);});
 document.addEventListener('input',e=>{
  const el=e.target;let scope,values;
  if(el.id==='story-caption'){scope='caption';values={id:el.dataset.recordId,text:el.value};}
- else if(el.id==='observation-note'){scope='observation';values={text:el.value};}
  else if(['story-title','story-summary'].includes(el.id)){scope='story';values={[el.id.slice(6)]:el.value};}
  else if(['plan-subject','plan-when','plan-what'].includes(el.id)){scope='plan';values={[el.id.slice(5)]:el.value};}
  if(scope){

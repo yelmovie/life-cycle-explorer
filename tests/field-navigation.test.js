@@ -38,11 +38,10 @@ test('방향판을 누르면 이전 목적지 자동 입장이 취소되고 직�
 test('새 구역 그림을 기다리는 동안 이전 지도 콜백과 조작 대상이 남지 않는다',()=>{
  const n=navigation();n.scene.walkDoor(0);
  const stale=n.pending[0], avatarBefore={...n.s.avatar};
- let previousCanvasObjects=1, oldTargets=['알 관찰'], noteVisible=true, resumed=false;
+ let previousCanvasObjects=1, oldTargets=['알 관찰'], resumed=false;
  let afterLoad;
  n.s.field={active:1};
  n.context.focusTargets=items=>{oldTargets=items;};
- n.context.noteBox=rect=>{noteVisible=!!rect;};
  // Map textures are absent: refresh must tear down the old scene before the loader starts.
  n.scene.textures={exists:()=>false};
  n.scene.paths={forestMap:'map.webp'};
@@ -54,7 +53,6 @@ test('새 구역 그림을 기다리는 동안 이전 지도 콜백과 조작 �
  n.scene.load={once:(_,callback)=>{afterLoad=callback;},image(){},start(){
   assert.equal(previousCanvasObjects,0);
   assert.deepEqual(oldTargets,[]);
-  assert.equal(noteVisible,false);
   assert.equal(n.scene.input.enabled,false);
  }};
  n.scene.refresh();

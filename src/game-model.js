@@ -21,7 +21,7 @@ export function restore(raw){
  // Older saves kept the active chapter even after returning to the title.
  const chapter=s.field.active;
  const legacyRoom=s.fieldView==='room'||(!s.field.completed.includes(chapter)&&
-  (chapter>0||Object.values(s.field.chapters[0].inspected).some(a=>a.length)||s.field.chapters[0].noteDraft!==null||s.field.chapters[0].drawing.length>0));
+  (chapter>0||s.field.chapters[0].explored.length>0||s.field.chapters[0].noteDraft!==null||s.field.chapters[0].drawing.length>0));
  s.resumeRoom=fieldUnlocked(s.field,chapter)&&(typeof parsed.resumeRoom==='boolean'?parsed.resumeRoom:legacyRoom);
  // Saves from before music was on by default stored bgm:false without anyone choosing it; turn it on once.
  // Saves from before the voice switch: the voice followed the effects switch, so it inherits that value; effects volume starts at 100%.
@@ -36,7 +36,7 @@ const coreShape=inquiry.fresh(),fieldShape=initialField();
 // supported older save, while losing a whole chapter/record container is not.
 for(const chapter of fieldShape.chapters)delete chapter.discovery;
 // New draft/observation fields are optional in older student saves.
-for(const key of ['drawingForm','noteDraft'])delete fieldShape.chapters[0][key];
+for(const key of ['drawingForm','noteDraft','explored'])delete fieldShape.chapters[0][key];
 for(const round of fieldShape.chapters[1].rounds){delete round.report;delete round.legacyReport;}
 // 0.8.1–0.8.8 care saves have no comparison; restoreField marks finished ones 'legacy'.
 for(const task of fieldShape.chapters[2].cases){delete task.observations;delete task.comparison;}
