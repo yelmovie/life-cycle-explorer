@@ -36,7 +36,7 @@
  html:has(.cert-paper),html:has(.cert-paper) body{height:210mm!important;width:297mm!important;min-height:0!important;max-height:210mm!important;margin:0!important;padding:0!important;overflow:hidden!important;background:#fff!important}
  body:has(.cert-paper)>:not(#modal){display:none!important}
  #modal.certificate-dialog[open]{position:absolute!important;inset:0!important;display:block!important;width:297mm!important;height:210mm!important;max-width:297mm!important;max-height:210mm!important;padding:0!important;margin:0!important;border:0!important;background:#fff!important;box-shadow:none!important;overflow:hidden!important;backdrop-filter:none!important}
- #modal.certificate-dialog>.modal-body{display:block!important;width:297mm!important;height:210mm!important;padding:0!important;margin:0!important;overflow:hidden!important}
+ #modal.certificate-dialog>.modal-body{display:block!important;visibility:visible!important;width:297mm!important;height:210mm!important;padding:0!important;margin:0!important;overflow:hidden!important}
  #modal.certificate-dialog>.modal-body>.cert-paper{position:relative!important;display:block!important;width:297mm!important;height:210mm!important;aspect-ratio:297/210!important;padding:0!important;margin:0!important;border:0!important;box-shadow:none!important;animation:none!important;transform:none!important;translate:none!important;print-color-adjust:exact;-webkit-print-color-adjust:exact;break-inside:avoid}
  #modal.certificate-dialog>:not(.modal-body),#modal.certificate-dialog .cert-note{display:none!important}
  #modal.certificate-dialog .cert-stamp{animation:none!important}
