@@ -200,8 +200,6 @@ function openFieldView({retryAssets=false}={}){
  });
 }
 function render(){rememberTeacherPreview();const m=mode(),room=m==='room';saveBadge();if(m!=='map')clearEncounters();app.dataset.view=m;$('title-screen').hidden=m!=='title';for(const id of ['objective','guide','next','controls'])$(id).hidden=m==='title';$('scene-title').textContent='';$('map-doors').hidden=m!=='map';$('focus-targets').hidden=!room;
- const nextChapter=FIELD_CHAPTERS.findIndex((_,i)=>!s.field.completed.includes(i)&&fieldUnlocked(s.field,i));
- $('title-screen').querySelector('[data-action=start] span').textContent=nextChapter<0?'숲 다시 둘러보기':nextChapter===0?'나비 관찰 시작':FIELD_CHAPTERS[nextChapter].title+' 탐사 시작';
  $('title-screen').querySelector('[data-action=continue]').hidden=!canResumeRoom()&&!s.field.completed.length;$('title-screen').querySelector('[data-action=title-restart]').hidden=s.field.completed.length<5;
  if(room){const info=roomUI(s,ui),progress=stageProgress(s.field.active,info.phase,!!previewOriginal);$('scene-title').innerHTML=esc((previewOriginal?'교사 시연 · ':'')+FIELD_CHAPTERS[s.field.active].title)+`<span class="progress-rail" aria-label="${progress.label}, ${Math.min(progress.index+1,progress.total)} / ${progress.total}">${progress.html}</span><span>${progress.label}</span>`;$('objective').textContent=info.objective;$('controls').innerHTML=`<div class="field-menu">${info.controls}${info.phase==='ready'?btn('(선택) 개념 영상','concept'):''}</div>`+`<div class="time-tools">${rangeControl(s.field)}${timeStops(s.field)}</div>`;$('next').textContent=previewOriginal?(progress.nextPhase?'다음 활동으로 건너뛰기':s.field.active<4?'다음 구역 시연':'시연 마치고 지도'):info.next;$('next').hidden=!previewOriginal&&['hint','observation-done'].includes(info.nextAction);}
  if(m==='map'){
@@ -517,7 +515,7 @@ function action(name,b){void audio.initAudio(s.audio);audio.playSfx('click');
  if(b?.dataset.sample==='1'&&previewOriginal){const f=sampleField();if(name==='ending')dialogs.ending(f);else if(name==='certificate')dialogs.certificate(f);else if(name==='final-replay')finale(f);else if(name==='export')void dialogs.export(true,f);return;}
  if(name==='retry-assets'||name==='next'&&ctx.scene?.assetFailure){if(modal.open)modal.close();ctx.scene?.retryAssets();return;}
  if(name==='asset-map'){modal.close();view('map');return;}
- if(name==='start'){enterDirect();return;}if(name==='map-start'){modal.close();view('map');return;}if(name==='intro'){intro();return;}if(name==='final-replay'){finale();return;}if(name==='continue'){view(canResumeRoom()?'room':'map');return;}if(name==='begin'){modal.close();view('map');return;}if(name==='home'){view('title');return;}if(name==='back'){if(modal.open)modal.close();else view(mode()==='room'?'map':'title');return;}
+ if(name==='start'||name==='intro'){intro();return;}if(name==='map-start'||name==='begin'){modal.close();view('map');return;}if(name==='final-replay'){finale();return;}if(name==='continue'){view(canResumeRoom()?'room':'map');return;}if(name==='home'){view('title');return;}if(name==='back'){if(modal.open)modal.close();else view(mode()==='room'?'map':'title');return;}
  if(name==='npc-friends'){friendsDialogue();return;}
  if(name==='settings'){settings();return;}if(name==='close'){modal.close();return;}if(name==='concept'){concept(Number(b.dataset.chapter??s.field.active));return;}
  if(name==='concept-list'){dialogs.concepts();return;}

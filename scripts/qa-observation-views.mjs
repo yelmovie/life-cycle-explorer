@@ -54,6 +54,10 @@ try{
   };
   await page.goto(base);
   await page.locator('[data-action=start]').click();
+  await page.locator('[data-cinema-skip]').click();
+  await page.locator('[data-cinema-finish]').click();
+  await page.locator('[data-action=begin]').click();
+  await page.locator('#app[data-view=map][data-field-ready=true] #next').click();
   await waitObjective(objectives[0]);
   await button('알에 돋보기 대기').waitFor();
   await shot('lens');

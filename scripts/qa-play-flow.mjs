@@ -45,8 +45,14 @@ export async function runPlay({input,output,defaultUrl}){
  async function point(x,y){return page.evaluate(({x,y})=>{const scene=window.__qaGame.scene.getScene('field-world'),p=scene.projectWorld({x,y}),b=scene.game.canvas.getBoundingClientRect(),size=scene.viewportSize();return {x:b.x+p.x*b.width/size.width,y:b.y+p.y*b.height/size.height};},{x,y});}
  async function drag(x,y,tx,ty){const a=await point(x,y),b=await point(tx,ty);await page.mouse.move(a.x,a.y);await page.mouse.down();await page.mouse.move(b.x,b.y,{steps:15});await page.mouse.up();await pause();}
  async function inRoom(c){await page.waitForFunction(({k,c})=>document.querySelector('#app').dataset.view==='room'&&JSON.parse(localStorage.getItem(k)||'{}').field?.active===c,{k:KEY,c},{timeout:60000});await pause(600);}
- // 「시작」 goes straight into the first zone; close a guide dialog if one opens first.
- async function begin(){await click('[data-action=start]');for(let i=0;i<10;i++){if(await page.evaluate(k=>document.querySelector('#app').dataset.view==='room'&&JSON.parse(localStorage.getItem(k)||'{}').field?.active===0,KEY))break;if(await page.locator('dialog[open]').count())await page.keyboard.press('Escape');else if(await page.locator('#next').isVisible())await page.locator('#next').click();await pause(600);}await inRoom(0);}
+ async function begin(){
+  await click('[data-action=start]');
+  await click('[data-cinema-skip]');
+  await click('[data-cinema-finish]');
+  await click('[data-action=begin]');
+  await click('#app[data-view=map][data-field-ready=true] #next');
+  await inRoom(0);
+ }
  async function checkpoint(c){await writeFile(path.join(out,`checkpoint-${c}.json`),JSON.stringify(await state()));}
  async function finished(c){
   await page.locator('dialog[open] [data-action=reward-continue]').waitFor({timeout:20000});
